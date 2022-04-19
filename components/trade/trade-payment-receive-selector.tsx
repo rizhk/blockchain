@@ -27,8 +27,9 @@ export const BankAccountSelector = ({
 				label="Receive Payment In"
 				select
 				onChange={handleChange}>
-				<MenuItem value="1">MONZO - ABC - 123</MenuItem>
-				<MenuItem value="2">HSBC - DEF - 456</MenuItem>
+				<MenuItem value="1">
+					HSBC - Anika Visser - 400515 - 12345674
+				</MenuItem>
 			</TextField>
 		</FormControl>
 	);
