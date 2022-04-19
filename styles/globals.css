@@ -1,0 +1,50 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	width: 100%;
+	height: 100%;
+	background-color: #000;
+  opacity: 1;
+}
+.modal-wrapper {
+	position: fixed;
+	z-index: 1050;
+	width: 100%;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	outline: 0;
+}
+.modal {
+	z-index: 100;
+	background: white;
+	position: relative;
+	margin: 1.75rem auto;
+	border-radius: 3px;
+	padding: 2rem;
+  top:25%;
+  max-width: 600px;
+}
+.modal-header {
+	display: flex;
+	justify-content: flex-end;
+}

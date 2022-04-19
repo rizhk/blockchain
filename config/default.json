@@ -1,0 +1,7 @@
+{
+    "web3": {
+        "ethereumProvider": "https://eth-mainnet.gateway.pokt.network/v1/lb/623bdeb46297a1003ae0c183",
+        "polygonProvider": "https://poly-mainnet.gateway.pokt.network/v1/lb/623bdeb46297a1003ae0c183",
+        "testnetProvider": "https://matic-mumbai.chainstacklabs.com"
+      }
+}
