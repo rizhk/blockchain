@@ -1,36 +1,6 @@
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-
-const providerOptions = {
-	walletconnect: {
-		package: WalletConnectProvider,
-		options: {
-			rpc: {
-				// 1: "https://mainnet.infura.io/v3/a7f50ee1a9e94ea3af446d76106ff515", //Eth mainnet
-				// 137: "https://polygon-rpc.com", //polygon mainnet
-				80001: "https://matic-testnet-archive-rpc.bwarelabs.com", //polygon testnet
-			},
-		},
-	},
-};
-
-//  Create WalletConnect Provider
-export const provider = new WalletConnectProvider({
-	rpc: {
-		80001: "https://matic-testnet-archive-rpc.bwarelabs.com", //polygon testnet
-		// ...
-	},
-});
-
-let web3Modal: Web3Modal | null;
-if (typeof window !== "undefined") {
-	web3Modal = new Web3Modal({
-		network: "testnet", // todo: envirment variable
-		cacheProvider: true,
-		providerOptions, // required
-	});
-}
-
+import { useState } from "react";
 import { useEffect, useReducer, useCallback } from "react";
 import { ethers } from "ethers";
 
@@ -40,6 +10,41 @@ import {
 	web3InitialState,
 	web3Reducer,
 } from "../reducers";
+
+export const useWalletConnectModal = () => {
+	const [isWalletConnectShowing, setIsWalletConnectShowing] = useState(false);
+
+	function toggleWalletConnect() {
+		setIsWalletConnectShowing(!isWalletConnectShowing);
+	}
+
+	return {
+		isWalletConnectShowing,
+		toggleWalletConnect,
+	};
+};
+
+const providerOptions = {
+	walletconnect: {
+		package: WalletConnectProvider,
+		options: {
+			rpc: {
+				// 1: "https://mainnet.infura.io/v3/a7f50ee1a9e94ea3af446d76106ff515", //Eth mainnet
+				// 137: "https://polygon-rpc.com", //polygon mainnet
+				80001: "https://polygon-mumbai.g.alchemy.com/v2/fGbYalS_1B5-0e6gvY2LuGJGSlHirZ3y", //polygon testnet
+			},
+		},
+	},
+};
+
+let web3Modal: Web3Modal | null;
+if (typeof window !== "undefined") {
+	web3Modal = new Web3Modal({
+		network: "testnet", // todo: envirment variable
+		cacheProvider: true,
+		providerOptions, // required
+	});
+}
 
 // Web3Modal code goes here
 
@@ -70,6 +75,8 @@ export const useWeb3 = () => {
 					address,
 					network,
 				} as Web3Action);
+
+				return web3Provider;
 			} catch (e) {
 				console.log("connect error", e);
 			}

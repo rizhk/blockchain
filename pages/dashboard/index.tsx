@@ -22,7 +22,7 @@ import { OverviewInbox } from "../../components/dashboard/overview/overview-inbo
 import { OverviewLatestTransactions } from "../../components/dashboard/overview/overview-latest-transactions";
 import { OverviewPrivateWallet } from "../../components/dashboard/overview/overview-private-wallet";
 import { OverviewTotalBalance } from "../../components/dashboard/overview/overview-total-balance";
-import { TradeWidget } from "../../components/trade/trade-widget";
+import { TradeWidget } from "../../components/dashboard/trade/trade-widget";
 import { OverviewTotalTransactions } from "../../components/dashboard/overview/overview-total-transactions";
 import { ArrowRight as ArrowRightIcon } from "../../icons/arrow-right";
 import { Briefcase as BriefcaseIcon } from "../../icons/briefcase";

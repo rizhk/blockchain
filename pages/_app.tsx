@@ -28,7 +28,7 @@ import { store } from "../store";
 import { createTheme } from "../theme";
 import { createEmotionCache } from "../utils/create-emotion-cache";
 import "../i18n";
-import "styles/globals.css";
+import "styles/globals.scss";
 
 type EnhancedAppProps = AppProps & {
 	Component: NextPage;

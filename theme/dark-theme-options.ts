@@ -2,7 +2,7 @@ import { ThemeOptions } from "@mui/material";
 
 // Colors
 
-const neutral = {
+export const neutral = {
 	100: "#F3F4F6",
 	200: "#E5E7EB",
 	300: "#D1D5DB",
@@ -22,7 +22,7 @@ const background = {
 const divider = "#2D3748";
 
 const primary = {
-	main: "#7582EB",
+	main: "#BC043D",
 	light: "#909BEF",
 	dark: "#515BA4",
 	contrastText: neutral[900],
