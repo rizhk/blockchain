@@ -1,5 +1,5 @@
 import { useLottie } from "lottie-react";
-import sendTokenAnimation from "./send-token.json";
+import sendTokenAnimation from "./send-token-to-buyer.json";
 
 const SendTokenLottie = () => {
 	const options = {
