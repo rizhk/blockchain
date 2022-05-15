@@ -35,8 +35,8 @@ import { ethers } from "ethers";
 import { FormatTypes, Interface } from "ethers/lib/utils";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
-var tokenAddr = process.env.NEXT_PUBLIC_TOKEN_CONTRACT_ADDRESS!;
-var DexContractAddr = process.env.NEXT_PUBLIC_DEX_CONTRACT_ADDRESS!;
+const tokenAddr = process.env.NEXT_PUBLIC_TOKEN_CONTRACT_ADDRESS!;
+const DexContractAddr = process.env.NEXT_PUBLIC_DEX_CONTRACT_ADDRESS!;
 
 export const SellPanel: FC = (props) => {
 	const theme = useTheme();

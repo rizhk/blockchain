@@ -14,7 +14,7 @@ import {
 	Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { transactionApi } from "../../../__fake-api__/transaction-api";
+import { transactionApi } from "../../../api/transaction-api";
 import { AuthGuard } from "../../../components/authentication/auth-guard";
 import { DashboardLayout } from "../../../components/dashboard/dashboard-layout";
 import { TransactionDrawer } from "../../../components/dashboard/transaction/transaction-drawer";

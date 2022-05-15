@@ -3,26 +3,32 @@ import { createResourceId } from "../utils/create-resource-id";
 import { sign, decode, JWT_SECRET, JWT_EXPIRES_IN } from "../utils/jwt";
 import { wait } from "../utils/wait";
 
+const PicanteAPI = process.env.NEXT_PUBLIC_PICANTE_API_END_POINT;
+
 const users: User[] = [
 	{
 		id: "5e86809283e28b96d2d38537",
 		//avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
 		email: "demo@picante.io",
-		name: "Picante Demo",
-		password: "Password123!",
-		wallets: ["0xB77F68Af0B76C825073F89C03b8323E7290C641D"],
-		bankAccounts: [
-			{
-				id: "string",
-				accountNum: "string",
-				createdAt: "string",
-				updatedAt: "string",
-			},
-		],
-		plan: "Premium",
+		// name: "Picante Demo",
+		// password: "Password123!",
+		// wallets: ["0xB77F68Af0B76C825073F89C03b8323E7290C641D"],
+		// bankAccounts: [
+		// 	{
+		// 		id: "string",
+		// 		accountNum: "string",
+		// 		createdAt: "string",
+		// 		updatedAt: "string",
+		// 	},
+		// ],
+		// plan: "Premium",
 	},
 ];
 
+type LoginRequest = {
+	email: string;
+	password: string;
+};
 class AuthApi {
 	async login({
 		email,
@@ -31,24 +37,35 @@ class AuthApi {
 		email: string;
 		password: string;
 	}): Promise<string> {
-		await wait(500);
-
 		return new Promise((resolve, reject) => {
 			try {
 				// Find the user
-				const user = users.find((_user) => _user.email === email);
+				let l: LoginRequest = {
+					email: email,
+					password: password,
+				};
 
-				if (!user || user.password !== password) {
-					reject(new Error("Please check your email and password"));
-					return;
-				}
+				const path = PicanteAPI + "/v1/auth";
 
-				// Create the access token
-				const accessToken = sign({ userId: user.id }, JWT_SECRET, {
-					expiresIn: JWT_EXPIRES_IN,
-				});
-
-				resolve(accessToken);
+				fetch(path, {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(l),
+				})
+					.then((response) => response.json())
+					.then(
+						(data) => {
+							console.log(data);
+							if (!data.error) {
+								resolve(data.token);
+							} else {
+								reject(new Error("error"));
+							}
+						},
+						(error) => {
+							reject(new Error(error.message));
+						}
+					);
 			} catch (err) {
 				console.error("[Auth Api]: ", err);
 				reject(new Error("Internal server error"));
@@ -112,27 +129,30 @@ class AuthApi {
 	me(accessToken: string): Promise<User> {
 		return new Promise((resolve, reject) => {
 			try {
-				// Decode access token
-				const { userId } = decode(accessToken) as any;
+				const path = PicanteAPI + "/v1/auth/me";
 
-				// Find the user
-				const user = users.find((_user) => _user.id === userId);
-
-				if (!user) {
-					reject(new Error("Invalid authorization token"));
-					return;
-				}
-
-				resolve({
-					id: user.id,
-					avatar: user.avatar,
-					email: user.email,
-					name: user.name,
-					password: user.password,
-					wallets: user.wallets,
-					bankAccounts: user.bankAccounts,
-					plan: user.plan,
-				});
+				fetch(path, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authentication: accessToken,
+					},
+				})
+					.then((response) => response.json())
+					.then(
+						(data) => {
+							if (data.fake_me) {
+								resolve(data.fake_me);
+							} else {
+								reject(
+									new Error("Invalid authorization token")
+								);
+							}
+						},
+						(error) => {
+							reject(new Error(error.message));
+						}
+					);
 			} catch (err) {
 				console.error("[Auth Api]: ", err);
 				reject(new Error("Internal server error"));

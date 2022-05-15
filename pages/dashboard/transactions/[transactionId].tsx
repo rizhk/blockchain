@@ -5,7 +5,7 @@ import Head from "next/head";
 import { format } from "date-fns";
 import { Box, Button, Container, Grid, Link, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { transactionApi } from "../../../__fake-api__/transaction-api";
+import { transactionApi } from "../../../api/transaction-api";
 import { AuthGuard } from "../../../components/authentication/auth-guard";
 import { DashboardLayout } from "../../../components/dashboard/dashboard-layout";
 import { TransactionItems } from "../../../components/dashboard/transaction/transaction-items";
