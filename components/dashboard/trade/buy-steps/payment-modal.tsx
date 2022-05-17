@@ -25,8 +25,8 @@ import { useWeb3 } from "hooks/Web3Client";
 import { default as DexContractAbi } from "contracts/PicanteDexAbi.json";
 import { FormatTypes, Interface } from "ethers/lib/utils";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { PicanteApi } from "api/end-point";
 
-var PicanteAPI = process.env.NEXT_PUBLIC_PICANTE_API_END_POINT;
 var DexContractAddr = process.env.NEXT_PUBLIC_DEX_CONTRACT_ADDRESS;
 
 const TradePaymentModal = (
@@ -85,12 +85,14 @@ const TradePaymentModal = (
 		};
 
 		try {
-			const path = PicanteAPI + "/v1/plaid/payment/link/token/create";
-			const response = await fetch(path, {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(p),
-			});
+			const response = await fetch(
+				PicanteApi.PlaidCreatePaymentLinkToken,
+				{
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(p),
+				}
+			);
 			if (!response.ok) {
 				return;
 			}
@@ -145,24 +147,29 @@ const TradePaymentModal = (
 						}}
 						className="modal-overlay">
 						<Container
-							maxWidth="xl"
+							maxWidth="sm"
 							sx={{
-								p: 9,
+								mt: 12,
 							}}>
-							<Paper
-								elevation={12}
-								sx={{
-									pt: 9,
-									pb: 6,
+							<div
+								style={{
 									display: "flex",
 									flexDirection: "column",
 									alignItems: "center",
-								}}
-								className="modal">
+								}}>
 								<Typography
 									variant="h5"
 									className="modal-header">
-									We found you an offer!
+									It’s a match!
+								</Typography>
+								<Typography
+									align="center"
+									color="textSecondary"
+									sx={{ mt: 3, mb: 3 }}
+									variant="body2">
+									We have found a seller of USDC to complete
+									your order. Click on the button below to pay
+									for your USDC.
 								</Typography>
 								<Box sx={{ m: 4 }}>
 									<LazyLoadImage
@@ -175,29 +182,19 @@ const TradePaymentModal = (
 										alt="Your sell order has been submitted."
 									/>
 								</Box>
-								<Typography
+								{/* <Typography
 									align="center"
 									color="textSecondary"
 									sx={{ mt: 1 }}
 									variant="h6">
 									Seller: {accHolder}
-								</Typography>
-								<Typography
-									align="center"
-									color="textSecondary"
-									sx={{ mt: 3 }}
-									variant="body2">
-									We have found a seller of USDC to complete
-									your order. <br />
-									Please make a payment to fill the order
-									successfully.
-								</Typography>
+								</Typography> */}
 								<Button
 									size="large"
 									sx={{
 										background:
 											"linear-gradient(90deg, #BC043D 0%, #FF5A04 100%)",
-										mt: 4,
+										mt: 3,
 									}}
 									variant="contained"
 									onClick={() => open()}
@@ -209,7 +206,7 @@ const TradePaymentModal = (
 									color="neutral.500"
 									sx={{ mt: 3 }}
 									variant="body2">
-									payment secured by&nbsp;
+									<span>payment secured by&nbsp;</span>
 									<LazyLoadImage
 										src={
 											process.env.NEXT_PUBLIC_URL +
@@ -218,7 +215,7 @@ const TradePaymentModal = (
 										alt="Plaid"
 									/>
 								</Typography>
-							</Paper>
+							</div>
 						</Container>
 					</Box>
 				</React.Fragment>,

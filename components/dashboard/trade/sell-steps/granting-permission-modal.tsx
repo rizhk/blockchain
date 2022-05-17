@@ -20,8 +20,7 @@ const GrantingPermissionModal = (
 						<Container
 							maxWidth="sm"
 							sx={{
-								p: 5,
-								mt: 12,
+								mt: 9,
 							}}>
 							<div
 								style={{
@@ -36,14 +35,14 @@ const GrantingPermissionModal = (
 									}}>
 									Granting permission, please wait...
 								</Typography>
-								<GrantPermissionLottie />
 								<Typography
 									align="center"
 									color="textSecondary"
-									sx={{ mt: 1 }}
+									sx={{ mt: 3, mb: 3 }}
 									variant="body2">
 									You are giving permission to Picante.
 								</Typography>
+								<GrantPermissionLottie />
 							</div>
 						</Container>
 					</Box>

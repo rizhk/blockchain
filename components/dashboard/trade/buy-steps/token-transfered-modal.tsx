@@ -38,10 +38,12 @@ const TokenTransferedModal = (
 									style={{
 										textAlign: "center",
 									}}>
-									We had transfered USDC to your wallet.
+									Your USDC has been deposited to your wallet
 								</Typography>
 								<Box sx={{ m: 6 }}>
 									<img
+										width="75"
+										height="75"
 										src={
 											process.env.NEXT_PUBLIC_URL +
 											"static/trade/Success-Tick.gif"

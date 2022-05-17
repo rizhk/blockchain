@@ -27,7 +27,6 @@ export const TradeMatchingOfferModal = (props: {
 						<Container
 							maxWidth="sm"
 							sx={{
-								p: 5,
 								mt: 12,
 							}}>
 							<div
@@ -43,15 +42,15 @@ export const TradeMatchingOfferModal = (props: {
 									}}>
 									Matching you with a seller.
 								</Typography>
-								<MatchingOfferLottie />
 								<Typography
 									align="center"
 									color="textSecondary"
-									sx={{ mt: 1 }}
+									sx={{ mt: 2, mb: 2 }}
 									variant="body2">
 									Picante is now matching you with a seller to
-									fill your order.
+									fill your order
 								</Typography>
+								<MatchingOfferLottie />
 							</div>
 						</Container>
 					</Box>

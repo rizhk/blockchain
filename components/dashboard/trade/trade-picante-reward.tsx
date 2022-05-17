@@ -15,9 +15,11 @@ export const PicanteReward: FC = (props) => {
 
 	return (
 		<FormControl fullWidth>
+			<InputLabel id="rewards-select-label">Crypto</InputLabel>
 			<Select
-				id="crypto-select"
+				id="rewards-select"
 				value="PIC"
+				label="Crypto"
 				onChange={handleChange}
 				disabled>
 				<MenuItem value={"PIC"}>

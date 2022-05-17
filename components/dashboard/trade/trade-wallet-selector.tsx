@@ -26,7 +26,7 @@ export const WalletSelector = ({ onWalletChange, error, helperText }) => {
 				id="wallet-select"
 				value={value}
 				select
-				label="Receiving Wallet"
+				label="Select receiving payee"
 				onChange={handleChange}>
 				<MenuItem value="0x295B61866dAA53a76CE4b3a927EFAF0059b4a90A">
 					Wallet Name PRM - 0x295B61866dAA53a76CE4b3a927EFAF0059b4a90A

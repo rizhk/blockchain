@@ -20,8 +20,7 @@ const PermissionGrantedModal = (
 						<Container
 							maxWidth="sm"
 							sx={{
-								p: 5,
-								mt: 12,
+								mt: 9,
 							}}>
 							<div
 								style={{
@@ -37,15 +36,15 @@ const PermissionGrantedModal = (
 									Permission granted, click confirm to send
 									USDC
 								</Typography>
-								<PermissionGrantedLottie />
 								<Typography
 									align="center"
 									color="textSecondary"
-									sx={{ mt: 1 }}
+									sx={{ mt: 3, mb: 3 }}
 									variant="body2">
 									Click Confirm to send your USDC to Picante
 									to complete this sell order.
 								</Typography>
+								<PermissionGrantedLottie />
 							</div>
 						</Container>
 					</Box>

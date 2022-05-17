@@ -39,7 +39,6 @@ const ConfirmPurchaseModal = (
 						<Container
 							maxWidth="sm"
 							sx={{
-								p: 5,
 								mt: 12,
 							}}>
 							<div
@@ -53,17 +52,16 @@ const ConfirmPurchaseModal = (
 									style={{
 										textAlign: "center",
 									}}>
-									Confirm your purchase
+									Confirm this transaction
 								</Typography>
-								<WalletConnectLottie />
 								<Typography
 									align="center"
 									color="textSecondary"
-									sx={{ mt: 1 }}
+									sx={{ mt: 2, mb: 2 }}
 									variant="body2">
-									Confirm your purchase when your wallets
-									prompts you.
+									Please confirm this transaction to continue.
 								</Typography>
+								<WalletConnectLottie />
 							</div>
 						</Container>
 					</Box>

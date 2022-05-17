@@ -34,11 +34,10 @@ import { default as DexContractAbi } from "contracts/PicanteDexAbi.json";
 import { ethers } from "ethers";
 import { FormatTypes, Interface } from "ethers/lib/utils";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { PicanteApi } from "api/end-point";
 
 const tokenAddr = process.env.NEXT_PUBLIC_TOKEN_CONTRACT_ADDRESS!;
 const DexContractAddr = process.env.NEXT_PUBLIC_DEX_CONTRACT_ADDRESS!;
-
-const PicanteAPI = process.env.NEXT_PUBLIC_PICANTE_API_END_POINT;
 
 export const BuyPanel: FC = (props) => {
 	const theme = useTheme();
@@ -112,8 +111,7 @@ export const BuyPanel: FC = (props) => {
 
 	const requestTransfer = async (t: any) => {
 		try {
-			const path = PicanteAPI + "/v1/contract/exchange/transfer/request";
-			const response = await fetch(path, {
+			const response = await fetch(PicanteApi.RequestTransfer, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(t),
@@ -201,7 +199,9 @@ export const BuyPanel: FC = (props) => {
 				console.log("waiting transaction complete in blockchain");
 				toggleConfirmPurchase();
 				toggleMatchingOffer();
+				//Record this receipt to backend
 				const receipt = await findOffer.wait();
+
 				console.log("transaction is completed");
 
 				// console.log(receipt);
@@ -271,7 +271,7 @@ export const BuyPanel: FC = (props) => {
 						}
 						fullWidth
 						id="buy-form-pay"
-						label="You Pay"
+						label="Buy"
 						variant="outlined"
 						value={formik.values.amountPay}
 						type="number"
@@ -290,7 +290,7 @@ export const BuyPanel: FC = (props) => {
 					<FiatSelector />
 				</Grid>
 			</Grid>
-			<Grid container spacing={4}>
+			<Grid container spacing={4} mb={3}>
 				<Grid item md={12} xs={12}>
 					<BankAccountSelector
 						error={Boolean(
@@ -311,6 +311,8 @@ export const BuyPanel: FC = (props) => {
 				/>
 				<Typography variant="body2" color="neutral.500" mt={3} mb={3}>
 					<LazyLoadImage
+						width="11.2"
+						height="12.8"
 						src={
 							process.env.NEXT_PUBLIC_URL +
 							"static/icons/percentage.svg"
@@ -321,10 +323,8 @@ export const BuyPanel: FC = (props) => {
 						Fees
 						<br />
 						<Typography variant="caption" color="neutral.400">
-							<span>
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#163;1
-								GBP = $1.25 USD
-							</span>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#163;1
+							GBP = 1.25 USDC
 						</Typography>
 					</span>
 				</Typography>
@@ -334,7 +334,7 @@ export const BuyPanel: FC = (props) => {
 					<TextField
 						fullWidth
 						id="buy-form-amount-receive"
-						label="You Receive (estimated)"
+						label="You receive (estimated)"
 						disabled={true}
 						type="number"
 						inputProps={{
@@ -353,7 +353,7 @@ export const BuyPanel: FC = (props) => {
 					<TextField
 						fullWidth
 						id="buy-form-amount-reward"
-						label="Reward (Picante Token)"
+						label="Rewards (Picante tokens)"
 						variant="outlined"
 						disabled={true}
 						value={formik.values.amountReward}

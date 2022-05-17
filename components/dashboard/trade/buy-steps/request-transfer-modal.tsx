@@ -36,7 +36,6 @@ const RequestTransferModal = (
 									}}>
 									Your USDC is being sent to your wallet
 								</Typography>
-								<SendTokenLottie />
 								<Typography
 									align="center"
 									color="textSecondary"
@@ -47,6 +46,7 @@ const RequestTransferModal = (
 									may take anywhere from a few seconds to a
 									few minutes.
 								</Typography>
+								<SendTokenLottie />
 							</div>
 						</Container>
 					</Box>

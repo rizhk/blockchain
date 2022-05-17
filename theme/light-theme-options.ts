@@ -64,9 +64,9 @@ const error = {
 };
 
 const text = {
-	primary: "#121828",
+	primary: "#111827",
 	secondary: "#65748B",
-	disabled: "rgba(55, 65, 81, 0.48)",
+	disabled: "#111827",
 };
 
 export const lightThemeOptions: ThemeOptions = {
@@ -96,13 +96,35 @@ export const lightThemeOptions: ThemeOptions = {
 				},
 			},
 		},
+		MuiTextField: {
+			styleOverrides: {
+				root: {
+					"& label": {
+						color: text.primary,
+					},
+				},
+			},
+		},
 		MuiInputBase: {
 			styleOverrides: {
 				input: {
+					"& label": {
+						color: text.primary,
+					},
 					"&::placeholder": {
 						opacity: 1,
 						color: text.secondary,
 					},
+				},
+				root: {
+					color: text.primary,
+				},
+			},
+		},
+		MuiInputLabel: {
+			styleOverrides: {
+				root: {
+					color: text.primary,
 				},
 			},
 		},

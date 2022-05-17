@@ -51,7 +51,7 @@ TabPanel.propTypes = {
 	value: PropTypes.number.isRequired,
 };
 
-function a11yProps(index) {
+function a11yProps(index: number) {
 	return {
 		id: `simple-tab-${index}`,
 		"aria-controls": `simple-tabpanel-${index}`,
@@ -83,8 +83,8 @@ export const TradeWidget: FC = (props) => {
 						onChange={handleChange}
 						variant="fullWidth"
 						aria-label="trade widget tabs">
-						<Tab label="Buy" {...a11yProps(0)} />
-						<Tab label="Sell" {...a11yProps(1)} />
+						<Tab label="Buy crypto" {...a11yProps(0)} />
+						<Tab label="Sell crypto" {...a11yProps(1)} />
 					</Tabs>
 					<SwipeableViews
 						axis={theme.direction === "rtl" ? "x-reverse" : "x"}

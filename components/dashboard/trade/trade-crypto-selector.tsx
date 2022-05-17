@@ -15,9 +15,11 @@ export const CryptoSelector: FC = (props) => {
 
 	return (
 		<FormControl fullWidth>
+			<InputLabel id="crypto-select-label">Crypto</InputLabel>
 			<Select
 				id="crypto-select"
 				value="USDC"
+				label="Crypto"
 				onChange={handleChange}
 				disabled>
 				<MenuItem

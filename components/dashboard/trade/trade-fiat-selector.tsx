@@ -16,9 +16,11 @@ export const FiatSelector: FC = (props) => {
 
 	return (
 		<FormControl fullWidth>
+			<InputLabel id="curreny-select-label">Curreny</InputLabel>
 			<Select
 				id="currency-select"
 				value="GBP"
+				label="Currency"
 				onChange={handleChange}
 				disabled>
 				<MenuItem value={"GBP"}>

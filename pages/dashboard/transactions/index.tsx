@@ -1,119 +1,72 @@
-import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
-import type { ChangeEvent, MouseEvent } from "react";
+import {
+	useState,
+	useEffect,
+	useCallback,
+	MouseEvent,
+	ChangeEvent,
+} from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import {
-	Box,
-	Button,
-	Divider,
-	Grid,
-	InputAdornment,
-	Tab,
-	Tabs,
-	TextField,
-	Typography,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
+import NextLink from "next/link";
+import { Box, Button, Card, Container, Grid, Typography } from "@mui/material";
 import { transactionApi } from "../../../api/transaction-api";
 import { AuthGuard } from "../../../components/authentication/auth-guard";
 import { DashboardLayout } from "../../../components/dashboard/dashboard-layout";
-import { TransactionDrawer } from "../../../components/dashboard/transaction/transaction-drawer";
+import { ProjectListFilters } from "../../../components/dashboard/transaction/transaction-list-filters";
+import type { Filters } from "../../../components/dashboard/transaction/transaction-list-filters";
 import { TransactionListTable } from "../../../components/dashboard/transaction/transaction-list-table";
 import { useMounted } from "../../../hooks/use-mounted";
+import { Download as DownloadIcon } from "../../../icons/download";
+import { Upload as UploadIcon } from "../../../icons/upload";
 import { Plus as PlusIcon } from "../../../icons/plus";
-import { Search as SearchIcon } from "../../../icons/search";
 import { gtm } from "../../../lib/gtm";
-import type {
-	Transaction,
-	TransactionStatus,
-} from "../../../types/transaction";
+import type { Transaction } from "../../../types/transaction";
 
-interface Filters {
-	query?: string;
-	status?: TransactionStatus;
-}
-
-type SortDir = "asc" | "desc";
-
-interface SortOption {
-	label: string;
-	value: SortDir;
-}
-
-type TabValue = "all" | "canceled" | "complete" | "pending" | "rejected";
-
-interface Tab {
-	label: string;
-	value: TabValue;
-}
-
-const tabs: Tab[] = [
-	{
-		label: "All",
-		value: "all",
-	},
-	{
-		label: "Canceled",
-		value: "canceled",
-	},
-	{
-		label: "Completed",
-		value: "complete",
-	},
-	{
-		label: "Pending",
-		value: "pending",
-	},
-	{
-		label: "Rejected",
-		value: "rejected",
-	},
-];
-
-const sortOptions: SortOption[] = [
-	{
-		label: "Newest",
-		value: "desc",
-	},
-	{
-		label: "Oldest",
-		value: "asc",
-	},
-];
-
-const applyFilters = (transactions: Transaction[], filters: Filters) =>
+const applyFilters = (
+	transactions: Transaction[],
+	filters: Filters
+): Transaction[] =>
 	transactions.filter((transaction) => {
-		if (filters.query) {
-			// Checks only the transaction number, but can be extended to support other fields, such as customer
-			// name, email, etc.
-			const containsQuery = (transaction.number || "")
+		if (filters.name) {
+			const nameMatched = transaction.name
 				.toLowerCase()
-				.includes(filters.query.toLowerCase());
+				.includes(filters.name.toLowerCase());
 
-			if (!containsQuery) {
+			if (!nameMatched) {
 				return false;
 			}
 		}
 
-		if (typeof filters.status !== "undefined") {
-			const statusMatched = transaction.status === filters.status;
+		// It is possible to select multiple transactionType options
+		if (filters.transactionType?.length > 0) {
+			const transactionTypeMatched = filters.transactionType.includes(
+				transaction.transactionType
+			);
+
+			if (!transactionTypeMatched) {
+				return false;
+			}
+		}
+
+		// It is possible to select multiple status options
+		if (filters.status?.length > 0) {
+			const statusMatched = filters.status.includes(transaction.status);
 
 			if (!statusMatched) {
 				return false;
 			}
 		}
 
+		// Present only if filter required
+		if (typeof filters.inStock !== "undefined") {
+			const stockMatched = transaction.inStock === filters.inStock;
+
+			if (!stockMatched) {
+				return false;
+			}
+		}
+
 		return true;
-	});
-
-const applySort = (
-	transactions: Transaction[],
-	sortDir: SortDir
-): Transaction[] =>
-	transactions.sort((a, b) => {
-		const comparator = a.createdAt > b.createdAt ? -1 : 1;
-
-		return sortDir === "desc" ? comparator : -comparator;
 	});
 
 const applyPagination = (
@@ -123,51 +76,16 @@ const applyPagination = (
 ): Transaction[] =>
 	transactions.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
-const TransactionListInner = styled("div", {
-	shouldForwardProp: (prop) => prop !== "open",
-})<{ open?: boolean }>(({ theme, open }) => ({
-	flexGrow: 1,
-	overflow: "hidden",
-	paddingBottom: theme.spacing(8),
-	paddingTop: theme.spacing(8),
-	zIndex: 1,
-	[theme.breakpoints.up("lg")]: {
-		marginRight: -500,
-	},
-	transition: theme.transitions.create("margin", {
-		easing: theme.transitions.easing.sharp,
-		duration: theme.transitions.duration.leavingScreen,
-	}),
-	...(open && {
-		[theme.breakpoints.up("lg")]: {
-			marginRight: 0,
-		},
-		transition: theme.transitions.create("margin", {
-			easing: theme.transitions.easing.easeOut,
-			duration: theme.transitions.duration.enteringScreen,
-		}),
-	}),
-}));
-
 const TransactionList: NextPage = () => {
 	const isMounted = useMounted();
-	const rootRef = useRef<HTMLDivElement | null>(null);
-	const queryRef = useRef<HTMLInputElement | null>(null);
-	const [currentTab, setCurrentTab] = useState<TabValue>("all");
-	const [sort, setSort] = useState<SortDir>("desc");
+	const [transactions, setTransactions] = useState<Transaction[]>([]);
 	const [page, setPage] = useState<number>(0);
 	const [rowsPerPage, setRowsPerPage] = useState<number>(5);
-	const [transactions, setTransactions] = useState<Transaction[]>([]);
 	const [filters, setFilters] = useState<Filters>({
-		query: "",
-		status: undefined,
-	});
-	const [drawer, setDrawer] = useState<{
-		isOpen: boolean;
-		transactionId?: string;
-	}>({
-		isOpen: false,
-		transactionId: undefined,
+		name: undefined,
+		transactionType: [],
+		status: [],
+		inStock: undefined,
 	});
 
 	useEffect(() => {
@@ -194,28 +112,8 @@ const TransactionList: NextPage = () => {
 		[]
 	);
 
-	const handleTabsChange = (
-		event: ChangeEvent<{}>,
-		value: TabValue
-	): void => {
-		setCurrentTab(value);
-		setFilters((prevState) => ({
-			...prevState,
-			status: value === "all" ? undefined : value,
-		}));
-	};
-
-	const handleQueryChange = (event: FormEvent<HTMLFormElement>): void => {
-		event.preventDefault();
-		setFilters((prevState) => ({
-			...prevState,
-			query: queryRef.current?.value,
-		}));
-	};
-
-	const handleSortChange = (event: ChangeEvent<HTMLInputElement>): void => {
-		const value = event.target.value as "asc" | "desc";
-		setSort(value);
+	const handleFiltersChange = (filters: Filters): void => {
+		setFilters(filters);
 	};
 
 	const handlePageChange = (
@@ -231,25 +129,10 @@ const TransactionList: NextPage = () => {
 		setRowsPerPage(parseInt(event.target.value, 10));
 	};
 
-	const handleOpenDrawer = (transactionId: string): void => {
-		setDrawer({
-			isOpen: true,
-			transactionId,
-		});
-	};
-
-	const handleCloseDrawer = () => {
-		setDrawer({
-			isOpen: false,
-			transactionId: undefined,
-		});
-	};
-
 	// Usually query is done on backend with indexing solutions
 	const filteredTransactions = applyFilters(transactions, filters);
-	const sortedTransactions = applySort(filteredTransactions, sort);
 	const paginatedTransactions = applyPagination(
-		sortedTransactions,
+		filteredTransactions,
 		page,
 		rowsPerPage
 	);
@@ -264,15 +147,12 @@ const TransactionList: NextPage = () => {
 			</Head>
 			<Box
 				component="main"
-				ref={rootRef}
 				sx={{
-					backgroundColor: "background.paper",
-					display: "flex",
 					flexGrow: 1,
-					overflow: "hidden",
+					py: 8,
 				}}>
-				<TransactionListInner open={drawer.isOpen}>
-					<Box sx={{ px: 3 }}>
+				<Container maxWidth="xl">
+					{/* <Box sx={{ mb: 4 }}>
 						<Grid
 							container
 							justifyContent="space-between"
@@ -283,94 +163,49 @@ const TransactionList: NextPage = () => {
 								</Typography>
 							</Grid>
 							<Grid item>
-								<Button
-									startIcon={<PlusIcon fontSize="small" />}
-									variant="contained">
-									Add
-								</Button>
+								<NextLink
+									href="/dashboard/transactions/new"
+									passHref>
+									<Button
+										component="a"
+										startIcon={
+											<PlusIcon fontSize="small" />
+										}
+										variant="contained">
+										Add
+									</Button>
+								</NextLink>
 							</Grid>
 						</Grid>
-						<Tabs
-							indicatorColor="primary"
-							onChange={handleTabsChange}
-							scrollButtons="auto"
-							textColor="primary"
-							value={currentTab}
-							sx={{ mt: 3 }}
-							variant="scrollable">
-							{tabs.map((tab) => (
-								<Tab
-									key={tab.value}
-									label={tab.label}
-									value={tab.value}
-								/>
-							))}
-						</Tabs>
-					</Box>
-					<Divider />
-					<Box
-						sx={{
-							alignItems: "center",
-							display: "flex",
-							flexWrap: "wrap",
-							m: -1.5,
-							p: 3,
-						}}>
 						<Box
-							component="form"
-							onSubmit={handleQueryChange}
 							sx={{
-								flexGrow: 1,
-								m: 1.5,
+								m: -1,
+								mt: 3,
 							}}>
-							<TextField
-								defaultValue=""
-								fullWidth
-								inputProps={{ ref: queryRef }}
-								InputProps={{
-									startAdornment: (
-										<InputAdornment position="start">
-											<SearchIcon fontSize="small" />
-										</InputAdornment>
-									),
-								}}
-								placeholder="Search by transaction number"
-							/>
+							<Button
+								startIcon={<UploadIcon fontSize="small" />}
+								sx={{ m: 1 }}>
+								Import
+							</Button>
+							<Button
+								startIcon={<DownloadIcon fontSize="small" />}
+								sx={{ m: 1 }}>
+								Export
+							</Button>
 						</Box>
-						<TextField
-							label="Sort By"
-							name="transaction"
-							onChange={handleSortChange}
-							select
-							SelectProps={{ native: true }}
-							sx={{ m: 1.5 }}
-							value={sort}>
-							{sortOptions.map((option) => (
-								<option key={option.value} value={option.value}>
-									{option.label}
-								</option>
-							))}
-						</TextField>
-					</Box>
-					<Divider />
-					<TransactionListTable
-						onOpenDrawer={handleOpenDrawer}
-						onPageChange={handlePageChange}
-						onRowsPerPageChange={handleRowsPerPageChange}
-						transactions={paginatedTransactions}
-						transactionsCount={filteredTransactions.length}
-						page={page}
-						rowsPerPage={rowsPerPage}
-					/>
-				</TransactionListInner>
-				<TransactionDrawer
-					containerRef={rootRef}
-					onClose={handleCloseDrawer}
-					open={drawer.isOpen}
-					transaction={transactions.find(
-						(transaction) => transaction.id === drawer.transactionId
-					)}
-				/>
+					</Box> */}
+					<Card>
+						<ProjectListFilters onChange={handleFiltersChange} />
+						<TransactionListTable
+							onPageChange={handlePageChange}
+							onRowsPerPageChange={handleRowsPerPageChange}
+							page={page}
+							transactions={paginatedTransactions}
+							transactionsCount={filteredTransactions.length}
+							rowsPerPage={rowsPerPage}
+						/>
+					</Card>
+				</Container>
 			</Box>
 		</>
 	);

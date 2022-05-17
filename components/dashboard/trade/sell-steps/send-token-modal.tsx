@@ -20,8 +20,7 @@ const SendTokenModal = (
 						<Container
 							maxWidth="sm"
 							sx={{
-								p: 5,
-								mt: 12,
+								mt: 9,
 							}}>
 							<div
 								style={{
@@ -36,11 +35,10 @@ const SendTokenModal = (
 									}}>
 									Your USDC is being sent to Picante
 								</Typography>
-								<SendTokenLottie />
 								<Typography
 									align="center"
 									color="textSecondary"
-									sx={{ mt: 1 }}
+									sx={{ mt: 3, mb: 3 }}
 									variant="body2">
 									You are now transfering your crypto from
 									your wallet to Picante in order to sell them
@@ -48,6 +46,7 @@ const SendTokenModal = (
 									may take anywhere from a few seconds to a
 									few minutes.
 								</Typography>
+								<SendTokenLottie />
 							</div>
 						</Container>
 					</Box>

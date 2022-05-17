@@ -1,38 +1,34 @@
-interface TransactionCustomer {
-	address1?: string;
-	address2?: string;
-	avatar?: string;
-	city?: string;
-	country?: string;
-	email: string;
-	name: string;
-}
-
-export interface TransactionItem {
-	id: string;
-	billingCycle: "daily" | "weekly" | "monthly" | "yearly";
-	currency: string;
-	name: string;
-	quantity: number;
-	unitAmount: number;
-}
-
-export type TransactionStatus =
-	| "canceled"
-	| "complete"
-	| "pending"
-	| "rejected";
-
 export interface Transaction {
 	id: string;
-	coupon?: string | null;
-	createdAt: number;
-	currency?: string;
-	customer: TransactionCustomer;
-	items?: TransactionItem[];
-	number?: string;
-	paymentMethod: string;
-	promotionCode?: string;
-	status: TransactionStatus;
-	totalAmount?: number;
+	walletId: string;
+	hash_initial: string;
+	hash_transfer: string;
+	txn_type: string;
+	token: string;
+	tokenAmt: float64;
+	fiat: string;
+	fiatAmt: float64;
+	status: string;
 }
+
+export const transactionTypeOptions = [
+	{
+		label: "Buy",
+		value: "buy",
+	},
+	{
+		label: "Sell",
+		value: "sell",
+	},
+];
+
+export const transactionStatusOptions = [
+	{
+		label: "In progress",
+		value: "in_progress",
+	},
+	{
+		label: "Completed",
+		value: "completed",
+	},
+];

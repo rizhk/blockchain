@@ -225,7 +225,7 @@ export const SellPanel: FC = (props) => {
 						}
 						fullWidth
 						id="sell-form-amount-receive"
-						label="You Sell"
+						label="Sell"
 						type="number"
 						inputProps={{
 							maxLength: 13,
@@ -247,6 +247,8 @@ export const SellPanel: FC = (props) => {
 				/>
 				<Typography variant="body2" color="neutral.500" mt={3} mb={3}>
 					<LazyLoadImage
+						width="11.2"
+						height="12.8"
 						src={
 							process.env.NEXT_PUBLIC_URL +
 							"static/icons/percentage.svg"
@@ -258,7 +260,7 @@ export const SellPanel: FC = (props) => {
 						<br />
 						<Typography variant="caption" color="neutral.400">
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#163;1
-							GBP = $1.25 USD
+							GBP = 1.25 USDC
 						</Typography>
 					</span>
 				</Typography>
@@ -268,7 +270,7 @@ export const SellPanel: FC = (props) => {
 					<TextField
 						fullWidth
 						id="sell-form-pay"
-						label="You Received (estimated)"
+						label="You receive (estimated)"
 						variant="outlined"
 						value={formik.values.amountReceive}
 						type="number"
@@ -288,7 +290,7 @@ export const SellPanel: FC = (props) => {
 					<TextField
 						fullWidth
 						id="sell-form-amount-reward"
-						label="Reward (Picante Token)"
+						label="Rewards (Picante tokens)"
 						variant="outlined"
 						disabled={true}
 						value={formik.values.amountReward}

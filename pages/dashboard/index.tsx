@@ -126,16 +126,21 @@ const Overview: NextPage = () => {
               </Grid>
             )} */}
 						<Grid item md={7} xs={12}>
+							<Grid item>
+								<Typography sx={{ mb: 2 }} variant="h6">
+									Easy buy and sell crypto
+								</Typography>
+							</Grid>
 							<TradeWidget />
 						</Grid>
-						<Grid item md={4} xs={12}>
+						{/* <Grid item md={4} xs={12}>
 							<Grid item xs={12}>
 								<OverviewCryptoWallet />
 							</Grid>
 							<Grid item xs={12}>
 								<OverviewPrivateWallet />
 							</Grid>
-						</Grid>
+						</Grid> */}
 						{/* <Grid
               item
               md={8}

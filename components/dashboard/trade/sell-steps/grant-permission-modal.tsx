@@ -20,8 +20,7 @@ const GrantPermissionModal = (
 						<Container
 							maxWidth="sm"
 							sx={{
-								p: 5,
-								mt: 12,
+								mt: 9,
 							}}>
 							<div
 								style={{
@@ -36,15 +35,15 @@ const GrantPermissionModal = (
 									}}>
 									Give Picante Permission
 								</Typography>
-								<GrantPermissionLottie />
 								<Typography
 									align="center"
 									color="textSecondary"
-									sx={{ mt: 1 }}
+									sx={{ mt: 3, mb: 3 }}
 									variant="body2">
 									To complete this transaction, click confirm
 									to give Picante access to your tokens.
 								</Typography>
+								<GrantPermissionLottie />
 							</div>
 						</Container>
 					</Box>

@@ -484,7 +484,7 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 						borderRightWidth: (theme) =>
 							theme.palette.mode === "dark" ? 1 : 0,
 						color: "#FFFFFF",
-						width: 280,
+						width: 240,
 					},
 				}}
 				variant="permanent">
@@ -502,7 +502,7 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 				sx: {
 					backgroundColor: "neutral.900",
 					color: "#FFFFFF",
-					width: 280,
+					width: 240,
 				},
 			}}
 			sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}

@@ -66,7 +66,7 @@ const error = {
 const text = {
 	primary: "#EDF2F7",
 	secondary: "#A0AEC0",
-	disabled: "rgba(255, 255, 255, 0.48)",
+	disabled: "#EDF2F7",
 };
 
 export const darkThemeOptions: ThemeOptions = {
@@ -97,13 +97,32 @@ export const darkThemeOptions: ThemeOptions = {
 				},
 			},
 		},
+		MuiTextField: {
+			styleOverrides: {
+				root: {
+					"& label": {
+						color: text.primary,
+					},
+				},
+			},
+		},
 		MuiInputBase: {
 			styleOverrides: {
 				input: {
+					"& label": {
+						color: text.primary,
+					},
 					"&::placeholder": {
 						opacity: 1,
 						color: text.secondary,
 					},
+				},
+			},
+		},
+		MuiInputLabel: {
+			styleOverrides: {
+				root: {
+					color: text.primary,
 				},
 			},
 		},

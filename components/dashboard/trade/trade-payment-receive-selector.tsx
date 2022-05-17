@@ -26,7 +26,7 @@ export const BankAccountSelector = ({
 				helperText={helperText}
 				id="payment-receive-select"
 				value={value}
-				label="Receive Payment In"
+				label="Receiving bank"
 				select
 				onChange={handleChange}>
 				<MenuItem value="1">

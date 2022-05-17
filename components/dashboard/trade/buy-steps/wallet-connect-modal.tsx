@@ -39,7 +39,6 @@ const WalletConnectModal = (
 						<Container
 							maxWidth="sm"
 							sx={{
-								p: 5,
 								mt: 12,
 							}}>
 							<div
@@ -53,16 +52,16 @@ const WalletConnectModal = (
 									style={{
 										textAlign: "center",
 									}}>
-									Select a wallet to connect
+									Connect to your wallet
 								</Typography>
-								<WalletConnectLottie />
 								<Typography
 									align="center"
 									color="textSecondary"
-									sx={{ mt: 1 }}
+									sx={{ mt: 2, mb: 2 }}
 									variant="body2">
 									Please connect your wallet to continue.
 								</Typography>
+								<WalletConnectLottie />
 							</div>
 						</Container>
 					</Box>

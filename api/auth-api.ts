@@ -1,6 +1,7 @@
 import type { User } from "../types/user";
 import { createResourceId } from "../utils/create-resource-id";
 import { sign, decode, JWT_SECRET, JWT_EXPIRES_IN } from "../utils/jwt";
+import { PicanteApi } from "./end-point";
 import { wait } from "../utils/wait";
 
 const PicanteAPI = process.env.NEXT_PUBLIC_PICANTE_API_END_POINT;
@@ -45,9 +46,7 @@ class AuthApi {
 					password: password,
 				};
 
-				const path = PicanteAPI + "/v1/auth";
-
-				fetch(path, {
+				fetch(PicanteApi.Auth, {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify(l),
@@ -129,9 +128,7 @@ class AuthApi {
 	me(accessToken: string): Promise<User> {
 		return new Promise((resolve, reject) => {
 			try {
-				const path = PicanteAPI + "/v1/auth/me";
-
-				fetch(path, {
+				fetch(PicanteApi.AuthMe, {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
