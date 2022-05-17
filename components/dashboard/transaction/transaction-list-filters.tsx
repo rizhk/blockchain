@@ -12,9 +12,8 @@ import {
 
 export interface Filters {
 	name?: string;
-	transactionType: string[];
+	txn_type: string[];
 	status: string[];
-	inStock?: boolean;
 }
 
 interface ProjectListFiltersProps {
@@ -23,7 +22,7 @@ interface ProjectListFiltersProps {
 
 interface FilterItem {
 	label: string;
-	field: "name" | "transactionType" | "status" | "inStock";
+	field: "name" | "txn_type" | "status";
 	value: unknown;
 	displayValue?: unknown;
 }
@@ -37,9 +36,8 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
 		() => {
 			const filters: Filters = {
 				name: undefined,
-				transactionType: [],
+				txn_type: [],
 				status: [],
-				inStock: undefined,
 			};
 
 			// Transform the filter items in an object that can be used by the parent component to call the
@@ -51,10 +49,8 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
 						// so we can set up it directly
 						filters.name = filterItem.value as string;
 						break;
-					case "transactionType":
-						filters.transactionType.push(
-							filterItem.value as string
-						);
+					case "txn_type":
+						filters.txn_type.push(filterItem.value as string);
 						break;
 					case "status":
 						filters.status.push(filterItem.value as string);
@@ -121,13 +117,13 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
 		}
 	};
 
-	const handleCategoryChange = (values: string[]): void => {
+	const handleTxnTypeChange = (values: string[]): void => {
 		setFilterItems((prevState) => {
 			const valuesFound: string[] = [];
 
 			// First cleanup the previous filter items
 			const newFilterItems = prevState.filter((filterItem) => {
-				if (filterItem.field !== "transactionType") {
+				if (filterItem.field !== "txn_type") {
 					return true;
 				}
 
@@ -152,8 +148,8 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
 					);
 
 					newFilterItems.push({
-						label: "Category",
-						field: "transactionType",
+						label: "Type",
+						field: "txn_type",
 						value,
 						displayValue: option!.label,
 					});
@@ -207,51 +203,11 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
 		});
 	};
 
-	const handleStockChange = (values: string[]): void => {
-		// Stock can only have one value, even if displayed as multi-select, so we select the first one.
-		// This example allows you to select one value or "All", which is not included in the
-		// rest of multi-selects.
-
-		setFilterItems((prevState) => {
-			// First cleanup the previous filter items
-			const newFilterItems = prevState.filter(
-				(filterItem) => filterItem.field !== "inStock"
-			);
-			const latestValue = values[values.length - 1];
-
-			switch (latestValue) {
-				case "available":
-					newFilterItems.push({
-						label: "Stock",
-						field: "inStock",
-						value: "available",
-						displayValue: "Available",
-					});
-					break;
-				case "outOfStock":
-					newFilterItems.push({
-						label: "Stock",
-						field: "inStock",
-						value: "outOfStock",
-						displayValue: "Out of Stock",
-					});
-					break;
-				default:
-					// Should be "all", so we do not add this filter
-					break;
-			}
-
-			return newFilterItems;
-		});
-	};
-
 	// We memoize this part to prevent re-render issues
 	const transactionTypeValues = useMemo(
 		() =>
 			filterItems
-				.filter(
-					(filterItems) => filterItems.field === "transactionType"
-				)
+				.filter((filterItems) => filterItems.field === "txn_type")
 				.map((filterItems) => filterItems.value) as string[],
 		[filterItems]
 	);
@@ -337,7 +293,7 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
 				}}>
 				<MultiSelect
 					label="Type"
-					onChange={handleCategoryChange}
+					onChange={handleTxnTypeChange}
 					options={transactionTypeOptions}
 					value={transactionTypeValues}
 				/>
