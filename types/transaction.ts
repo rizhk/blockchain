@@ -5,9 +5,9 @@ export interface Transaction {
 	hash_transfer: string;
 	txn_type: string;
 	token: string;
-	tokenAmt: float64;
+	tokenAmt: number;
 	fiat: string;
-	fiatAmt: float64;
+	fiatAmt: number;
 	status: string;
 }
 

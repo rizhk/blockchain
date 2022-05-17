@@ -168,17 +168,18 @@ export const TransactionListTable: FC<TransactionListTableProps> = (props) => {
 														cursor: "pointer",
 														ml: 2,
 													}}>
-													<Typography variant="subtitle2">
-														{transaction.name}
+													<Typography
+														variant="subtitle2"
+														sx={{
+															textTransform:
+																"capitalize",
+														}}>
+														{transaction.txn_type}{" "}
+														{transaction.token}
 													</Typography>
 													<Typography
 														color="textSecondary"
-														variant="body2">
-														in{" "}
-														{
-															transaction.transactionType
-														}
-													</Typography>
+														variant="body2"></Typography>
 												</Box>
 											</Box>
 										</TableCell>
@@ -186,24 +187,26 @@ export const TransactionListTable: FC<TransactionListTableProps> = (props) => {
 											<Typography
 												color="textSecondary"
 												variant="body2">
-												Wallet
+												{transaction.walletId}
 											</Typography>
 										</TableCell>
 										<TableCell>01-01-22</TableCell>
 										<TableCell>
-											{numeral(transaction.price).format(
-												`${transaction.currency}0,0.00`
-											)}
+											{numeral(
+												transaction.tokenAmt
+											).format(`0,0.00`)}{" "}
+											{transaction.token}
 											<br />
-											{numeral(transaction.price).format(
-												`${transaction.currency}0,0.00`
-											)}
+											{numeral(
+												transaction.fiatAmt
+											).format(`0,0.00`)}{" "}
+											{transaction.fiat}
 										</TableCell>
 										<TableCell>
 											<SeverityPill
 												color={
 													transaction.status ===
-													"published"
+													"complete"
 														? "success"
 														: "info"
 												}>

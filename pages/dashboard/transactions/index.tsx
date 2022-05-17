@@ -28,7 +28,7 @@ const applyFilters = (
 ): Transaction[] =>
 	transactions.filter((transaction) => {
 		if (filters.name) {
-			const nameMatched = transaction.name
+			const nameMatched = transaction.walletId
 				.toLowerCase()
 				.includes(filters.name.toLowerCase());
 
@@ -38,9 +38,9 @@ const applyFilters = (
 		}
 
 		// It is possible to select multiple transactionType options
-		if (filters.transactionType?.length > 0) {
-			const transactionTypeMatched = filters.transactionType.includes(
-				transaction.transactionType
+		if (filters.txn_type?.length > 0) {
+			const transactionTypeMatched = filters.txn_type.includes(
+				transaction.txn_type
 			);
 
 			if (!transactionTypeMatched) {
@@ -53,15 +53,6 @@ const applyFilters = (
 			const statusMatched = filters.status.includes(transaction.status);
 
 			if (!statusMatched) {
-				return false;
-			}
-		}
-
-		// Present only if filter required
-		if (typeof filters.inStock !== "undefined") {
-			const stockMatched = transaction.inStock === filters.inStock;
-
-			if (!stockMatched) {
 				return false;
 			}
 		}
@@ -83,9 +74,8 @@ const TransactionList: NextPage = () => {
 	const [rowsPerPage, setRowsPerPage] = useState<number>(5);
 	const [filters, setFilters] = useState<Filters>({
 		name: undefined,
-		transactionType: [],
+		txn_type: [],
 		status: [],
-		inStock: undefined,
 	});
 
 	useEffect(() => {
