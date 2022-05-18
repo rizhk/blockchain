@@ -187,18 +187,18 @@ export const TransactionListTable: FC<TransactionListTableProps> = (props) => {
 											<Typography
 												color="textSecondary"
 												variant="body2">
-												{transaction.walletId}
+												{transaction.wallet_id}
 											</Typography>
 										</TableCell>
 										<TableCell>01-01-22</TableCell>
 										<TableCell>
 											{numeral(
-												transaction.tokenAmt
+												transaction.token_amt
 											).format(`0,0.00`)}{" "}
 											{transaction.token}
 											<br />
 											{numeral(
-												transaction.fiatAmt
+												transaction.fiat_amt
 											).format(`0,0.00`)}{" "}
 											{transaction.fiat}
 										</TableCell>
