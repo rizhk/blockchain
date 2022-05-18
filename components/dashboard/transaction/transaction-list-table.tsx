@@ -70,7 +70,7 @@ export const TransactionListTable: FC<TransactionListTableProps> = (props) => {
 							<TableCell />
 							<TableCell width="25%">TYPE</TableCell>
 							<TableCell width="25%">WALLET USED</TableCell>
-							<TableCell>DATE (DD-MM-YY)</TableCell>
+							<TableCell>DATE</TableCell>
 							<TableCell>AMOUNT</TableCell>
 							<TableCell>STATUS</TableCell>
 							<TableCell align="right"></TableCell>
@@ -190,7 +190,11 @@ export const TransactionListTable: FC<TransactionListTableProps> = (props) => {
 												{transaction.wallet_id}
 											</Typography>
 										</TableCell>
-										<TableCell>01-01-22</TableCell>
+										<TableCell>
+											{new Date(
+												transaction.created_at
+											).toLocaleDateString()}
+										</TableCell>
 										<TableCell>
 											{numeral(
 												transaction.token_amt

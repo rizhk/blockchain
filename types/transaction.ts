@@ -9,6 +9,8 @@ export interface Transaction {
 	fiat: string;
 	fiat_amt: number;
 	status: string;
+	created_at: string;
+	updated_at: string;
 }
 
 export const transactionTypeOptions = [

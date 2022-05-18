@@ -4,6 +4,6 @@ export const PicanteApi = {
 	AuthMe: PicanteApiHost + "/v1/auth/me",
 	PlaidCreatePaymentLinkToken:
 		PicanteApiHost + "/v1/plaid/payment/link/token/create",
-	Transaction: PicanteApiHost + "/v1/transaction/",
+	Transaction: PicanteApiHost + "/v1/transaction",
 	RequestTransfer: PicanteApiHost + "/v1/contract/exchange/transfer/request",
 };
