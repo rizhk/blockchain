@@ -6,7 +6,10 @@ import { DashboardLayout } from "../../components/dashboard/dashboard-layout";
 import { gtm } from "../../lib/gtm";
 import { useMounted } from "hooks/use-mounted";
 import { walletApi } from "api/wallet-api";
+import { Wallet } from "types/wallet";
 import { WalletList } from "components/dashboard/wallets/wallet-list";
+import { Box, Button, Container, Grid, Modal, Typography } from "@mui/material";
+import { CreateWalletDialogs } from "components/dashboard/wallets/create-wallet-modal";
 
 const Wallets: NextPage = () => {
 	const isMounted = useMounted();
@@ -37,7 +40,19 @@ const Wallets: NextPage = () => {
 					{process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
 				</title>
 			</Head>
-			<WalletList wallets={wallets} walletsCount={wallets.length} />
+			<Box
+				component="main"
+				sx={{
+					flexGrow: 1,
+					py: 8,
+				}}>
+				<WalletList wallets={wallets} walletsCount={wallets.length} />
+				<Container>
+					<Grid container>
+						<CreateWalletDialogs />
+					</Grid>
+				</Container>
+			</Box>
 		</>
 	);
 };

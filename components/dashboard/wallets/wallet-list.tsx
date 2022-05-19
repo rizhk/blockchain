@@ -27,6 +27,7 @@ import {
 	Typography,
 } from "@mui/material";
 import type { Wallet } from "types/wallet";
+import { walletApi } from "api/wallet-api";
 
 interface WalletListProps {
 	wallets: Wallet[];
@@ -35,27 +36,64 @@ interface WalletListProps {
 
 export const WalletList: FC<WalletListProps> = (props) => {
 	const { wallets, walletsCount } = props;
+
+	const handleDelete = async (address: string) => {
+		const success = await walletApi.remove(address);
+	};
+
 	return (
-		<Box
-			component="main"
-			sx={{
-				flexGrow: 1,
-				py: 8,
-			}}>
-			<Container maxWidth="xl">
-				<Grid container spacing={4}>
-					<Grid item>
-						<Typography sx={{ mb: 2 }} variant="h6">
-							Wallets list ({walletsCount})
-						</Typography>
-					</Grid>
+		<Container maxWidth="xl">
+			<Grid container spacing={4}>
+				<Grid item>
+					<Typography sx={{ mb: 2 }} variant="h6">
+						Wallets list ({walletsCount})
+					</Typography>
 				</Grid>
-				<Grid container spacing={4}>
-					{wallets.map((wallet) => {
-						<Grid item>{wallet.name}</Grid>;
-					})}
-				</Grid>
-			</Container>
-		</Box>
+			</Grid>
+			<Grid container spacing={4}>
+				{wallets.map((wallet) => {
+					return (
+						<Grid item>
+							<Card
+								sx={{
+									p: 4,
+									minWidth: "500px",
+									maxWidth: "500px",
+								}}>
+								<Grid md={7} xs={12}></Grid>
+								{wallet.name}
+								<br />
+								{wallet.address}
+								<Grid md={5} xs={12}></Grid>
+								<Grid
+									container
+									justifyContent="flex-end"
+									alignItems="flex-end">
+									<CardActions>
+										<Button
+											variant="outlined"
+											sx={{
+												borderColor: "neutral.400",
+												color: "neutral.400",
+												"&:hover": {
+													borderColor: "neutral.400",
+													backgroundColor:
+														"background.paper",
+													color: "neutral.400",
+												},
+											}}
+											onClick={() => {
+												handleDelete(wallet.address);
+											}}>
+											Remove
+										</Button>
+									</CardActions>
+								</Grid>
+							</Card>
+						</Grid>
+					);
+				})}
+			</Grid>
+		</Container>
 	);
 };
