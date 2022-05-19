@@ -28,7 +28,7 @@ const applyFilters = (
 ): Transaction[] =>
 	transactions.filter((transaction) => {
 		if (filters.name) {
-			const nameMatched = transaction.walletId
+			const nameMatched = transaction.wallet_id
 				.toLowerCase()
 				.includes(filters.name.toLowerCase());
 
