@@ -32,6 +32,7 @@ import { walletApi } from "api/wallet-api";
 interface WalletListProps {
 	wallets: Wallet[];
 	walletsCount: number;
+	parentCallback: Wallet[];
 }
 
 export const WalletList: FC<WalletListProps> = (props) => {
@@ -39,6 +40,13 @@ export const WalletList: FC<WalletListProps> = (props) => {
 
 	const handleDelete = async (address: string) => {
 		const success = await walletApi.remove(address);
+
+		if (success) {
+			const NewWallets = wallets.filter(
+				(item) => item.address !== address
+			);
+			props.parentCallback(NewWallets);
+		}
 	};
 
 	return (
