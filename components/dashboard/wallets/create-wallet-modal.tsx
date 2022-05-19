@@ -27,6 +27,7 @@ export interface DialogTitleProps {
 	id: string;
 	children?: React.ReactNode;
 	onClose: () => void;
+	parentCallback: Wallet[];
 }
 
 const BootstrapDialogTitle = (props: DialogTitleProps) => {
@@ -90,14 +91,12 @@ export const CreateWalletDialogs: FC = (
 			name: Yup.string().required("Wallet name is required"),
 		}),
 		onSubmit: async (values, helpers): Promise<void> => {
-			// setErrorMessage("");
-
-			console.log("submit");
-			console.log(values);
 			try {
 				const success = await walletApi.create(values);
 
 				if (success) {
+					const data = await walletApi.getWallets();
+					props.parentCallback(data);
 					handleClose();
 				}
 			} catch (err) {

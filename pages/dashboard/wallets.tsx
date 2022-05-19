@@ -32,7 +32,7 @@ const Wallets: NextPage = () => {
 		}
 	}, [isMounted]);
 
-	const callback = (updateWallets: any): void => {
+	const updateWallets = (updateWallets: any): void => {
 		setWallets(updateWallets);
 	};
 
@@ -53,11 +53,11 @@ const Wallets: NextPage = () => {
 				<WalletList
 					wallets={wallets}
 					walletsCount={wallets.length}
-					parentCallback={callback}
+					parentCallback={updateWallets}
 				/>
 				<Container>
 					<Grid container>
-						<CreateWalletDialogs />
+						<CreateWalletDialogs parentCallback={updateWallets} />
 					</Grid>
 				</Container>
 			</Box>
