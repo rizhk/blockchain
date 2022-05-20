@@ -286,7 +286,7 @@ export const BuyPanel: FC = (props) => {
 				isConfirmPurchaseShowing={isConfirmPurchaseShowing}
 				hide={toggleConfirmPurchase}
 			/>
-			<Grid container spacing={0.5} mb={3}>
+			<Grid container spacing={3} mb={3}>
 				<Grid item md={8} xs={8}>
 					<TextField
 						error={Boolean(
@@ -316,7 +316,7 @@ export const BuyPanel: FC = (props) => {
 					<FiatSelector />
 				</Grid>
 			</Grid>
-			<Grid container spacing={4} mb={3}>
+			<Grid container spacing={3} mb={3}>
 				<Grid item md={12} xs={12}>
 					<BankAccountSelector
 						error={Boolean(
@@ -331,7 +331,7 @@ export const BuyPanel: FC = (props) => {
 					/>
 				</Grid>
 			</Grid>
-			<Grid container spacing={0.5} mb={3}>
+			<Grid container spacing={3} mb={3}>
 				<LazyLoadImage
 					src={process.env.NEXT_PUBLIC_URL + "static/Connector.svg"} // use normal <img> attributes as props
 				/>
@@ -355,7 +355,7 @@ export const BuyPanel: FC = (props) => {
 					</span>
 				</Typography>
 			</Grid>
-			<Grid container spacing={0.5} mb={3}>
+			<Grid container spacing={3} mb={3}>
 				<Grid item md={8} xs={8}>
 					<TextField
 						fullWidth
@@ -374,7 +374,7 @@ export const BuyPanel: FC = (props) => {
 					<CryptoSelector />
 				</Grid>
 			</Grid>
-			<Grid container spacing={0.5} mb={3}>
+			<Grid container spacing={3} mb={3}>
 				<Grid item md={8} xs={8}>
 					<TextField
 						fullWidth
