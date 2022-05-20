@@ -75,7 +75,7 @@ export const DashboardSidebarItem: FC<DashboardSidebarItemProps> = (props) => {
             textTransform: 'none',
             width: '100%',
             '&:hover': {
-              backgroundColor: 'rgba(255,255,255, 0.08)'
+              backgroundColor: 'secondary.main'
             },
             '& .MuiButton-startIcon': {
               color: active ? 'secondary.main' : 'neutral.400'

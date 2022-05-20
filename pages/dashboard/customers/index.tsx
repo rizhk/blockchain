@@ -330,6 +330,7 @@ const CustomerList: NextPage = () => {
 							sx={{ px: 3 }}
 							textColor="primary"
 							value={currentTab}
+							
 							variant="scrollable">
 							{tabs.map((tab) => (
 								<Tab

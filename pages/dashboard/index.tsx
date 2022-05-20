@@ -133,21 +133,27 @@ const Overview: NextPage = () => {
 							</Grid>
 							<TradeWidget />
 						</Grid>
-						{/* <Grid item md={4} xs={12}>
+						 <Grid item md={5} xs={12}>
+             <Grid item>
+								<Typography sx={{ mb: 2 }} variant="h6">
+								My balances
+								</Typography>
+							</Grid>
 							<Grid item xs={12}>
 								<OverviewCryptoWallet />
 							</Grid>
+              <br/>
 							<Grid item xs={12}>
 								<OverviewPrivateWallet />
 							</Grid>
-						</Grid> */}
-						{/* <Grid
+						</Grid> 
+						 {/* <Grid
               item
               md={8}
               xs={12}
             >
               <OverviewTotalTransactions />
-            </Grid> */}
+            </Grid>  */}
 						<Grid item md={7} xs={12}>
 							<OverviewLatestTransactions />
 						</Grid>

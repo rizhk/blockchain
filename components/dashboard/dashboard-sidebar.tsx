@@ -360,7 +360,7 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
               my: 3
             }}
           /> */}
-					<Box sx={{ flexGrow: 1 }}>
+					<Box sx={{ flexGrow: 1 }}> 
 						{sections.map((section) => (
 							<DashboardSidebarSection
 								key={section.title}

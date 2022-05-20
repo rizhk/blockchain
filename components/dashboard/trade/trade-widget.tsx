@@ -72,19 +72,20 @@ export const TradeWidget: FC = (props) => {
 	};
 
 	return (
-		<Card {...props}>
+		<Card {...props} elevation={16}>
 			<CardContent>
 				<Box
 					sx={{
 						width: "100%",
 					}}>
 					<Tabs
+					className="trade-tab"
 						value={value}
 						onChange={handleChange}
 						variant="fullWidth"
 						aria-label="trade widget tabs">
-						<Tab label="Buy crypto" {...a11yProps(0)} />
-						<Tab label="Sell crypto" {...a11yProps(1)} />
+						<Tab className='tab-label' label="Buy crypto" {...a11yProps(0)} />
+						<Tab className='tab-label' label="Sell crypto" {...a11yProps(1)} />
 					</Tabs>
 					<SwipeableViews
 						axis={theme.direction === "rtl" ? "x-reverse" : "x"}
