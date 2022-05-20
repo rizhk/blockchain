@@ -51,7 +51,7 @@ class WalletApi {
 		});
 	}
 
-	getWallets(): Promise<Wallet[]> {
+	getItems(): Promise<Wallet[]> {
 		return new Promise((resolve, reject) => {
 			const accessToken =
 				globalThis.localStorage.getItem("accessToken") || "";
@@ -79,7 +79,7 @@ class WalletApi {
 		});
 	}
 
-	getWallet(walletId: string): Promise<Wallet> {
+	getItem(walletId: string): Promise<Wallet> {
 		return new Promise((resolve, reject) => {
 			const accessToken =
 				globalThis.localStorage.getItem("accessToken") || "";

@@ -22,7 +22,7 @@ const Wallets: NextPage = () => {
 
 	const getWallets = useCallback(async () => {
 		try {
-			const data = await walletApi.getWallets();
+			const data = await walletApi.getItems();
 
 			if (isMounted()) {
 				setWallets(data);
