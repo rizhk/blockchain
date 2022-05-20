@@ -82,6 +82,11 @@ const getSections = (t: TFunction): Section[] => [
 				icon: <WalletIcon fontSize="small" />,
 				path: "/dashboard/wallets",
 			},
+			{
+				title: t("Bank accounts"),
+				icon: <WalletIcon fontSize="small" />,
+				path: "/dashboard/bank-accounts",
+			},
 			// {
 			//   title: t('Logistics'),
 			//   path: '/dashboard/logistics',
@@ -360,7 +365,7 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
               my: 3
             }}
           /> */}
-					<Box sx={{ flexGrow: 1 }}> 
+					<Box sx={{ flexGrow: 1 }}>
 						{sections.map((section) => (
 							<DashboardSidebarSection
 								key={section.title}
