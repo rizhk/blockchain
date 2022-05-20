@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import React, { useRef } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -35,6 +35,8 @@ import { ethers } from "ethers";
 import { FormatTypes, Interface } from "ethers/lib/utils";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { PicanteApi } from "api/end-point";
+import { walletApi } from "api/wallet-api";
+import { useMounted } from "hooks/use-mounted";
 
 const tokenAddr = process.env.NEXT_PUBLIC_TOKEN_CONTRACT_ADDRESS!;
 const DexContractAddr = process.env.NEXT_PUBLIC_DEX_CONTRACT_ADDRESS!;
@@ -42,6 +44,7 @@ const DexContractAddr = process.env.NEXT_PUBLIC_DEX_CONTRACT_ADDRESS!;
 export const BuyPanel: FC = (props) => {
 	const theme = useTheme();
 	const cref = useRef()!;
+	const isMounted = useMounted();
 
 	var picanteChargePercentage = 1;
 
@@ -57,6 +60,28 @@ export const BuyPanel: FC = (props) => {
 		toggleRequestTransfer();
 		requestTransfer(transaction);
 	};
+
+	const [wallets, setWallets] = useState<Wallet[]>([]);
+
+	const getWallets = useCallback(async () => {
+		try {
+			const data = await walletApi.getItems();
+
+			if (isMounted()) {
+				setWallets(data);
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	}, [isMounted]);
+
+	useEffect(
+		() => {
+			getWallets();
+		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[]
+	);
 
 	const { isWalletConnectShowing, toggleWalletConnect } =
 		useWalletConnectModal();
@@ -366,6 +391,7 @@ export const BuyPanel: FC = (props) => {
 			<Grid container spacing={4}>
 				<Grid item md={12} xs={12}>
 					<WalletSelector
+						wallets={wallets}
 						error={Boolean(
 							formik.touched.receiveWallet &&
 								formik.errors.receiveWallet
@@ -408,3 +434,6 @@ export const BuyPanel: FC = (props) => {
 		</form>
 	);
 };
+function isMounted() {
+	throw new Error("Function not implemented.");
+}

@@ -36,40 +36,61 @@ class TransactionApi {
 			}
 		});
 	}
-	getTransactions(): Promise<Transaction[]> {
-		const transactions: Transaction[] = [
-			{
-				id: "5ecb8a6879877087d4aa2690",
-				walletId: "fake wallet",
-				hash_initial: "fake hash",
-				hash_transfer: "hash_transfer",
-				txn_type: "buy",
-				token: "USDC",
-				tokenAmt: 123.23,
-				fiat: "GBP",
-				fiatAmt: 123.45,
-				status: "in_progress",
-			},
-		];
 
-		return Promise.resolve(transactions);
+	getTransactions(): Promise<Transaction[]> {
+		return new Promise((resolve, reject) => {
+			const accessToken =
+				globalThis.localStorage.getItem("accessToken") || "";
+
+			fetch(PicanteApi.Transaction, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authentication: accessToken,
+				},
+			})
+				.then((response) => response.json())
+				.then(
+					(data) => {
+						if (!data.error) {
+							const transactions = <Transaction[]>data.items;
+
+							return resolve(transactions);
+						}
+					},
+					(error) => {
+						return reject(new Error(error.message));
+					}
+				);
+		});
 	}
 
-	getTransaction(): Promise<Transaction> {
-		const transaction: Transaction = {
-			id: "5ecb8a6879877087d4aa2690",
-			walletId: "fake wallet",
-			hash_initial: "fake hash",
-			hash_transfer: "hash_transfer",
-			txn_type: "buy",
-			token: "USDC",
-			tokenAmt: 123.23,
-			fiat: "GBP",
-			fiatAmt: 123.45,
-			status: "in_progress",
-		};
+	getTransaction(txnId: string): Promise<Transaction> {
+		return new Promise((resolve, reject) => {
+			const accessToken =
+				globalThis.localStorage.getItem("accessToken") || "";
 
-		return Promise.resolve(transaction);
+			fetch(PicanteApi.Transaction + "/" + txnId, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authentication: accessToken,
+				},
+			})
+				.then((response) => response.json())
+				.then(
+					(data) => {
+						if (!data.error) {
+							const transactions = <Transaction>data.item;
+
+							return resolve(transactions);
+						}
+					},
+					(error) => {
+						return reject(new Error(error.message));
+					}
+				);
+		});
 	}
 }
 

@@ -4,16 +4,22 @@ import { FormControl, InputLabel, TextField, MenuItem } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 type WalletProps = {
-	wallet: string;
+	onWalletChange: any;
+	error: boolean;
+	helperText: string;
+	wallets: Wallet[];
 };
 
 // export const WalletSelector: FC<{ wallet: string }> = (props) =>
-export const WalletSelector = ({ onWalletChange, error, helperText }) => {
+export const WalletSelector: FC<WalletProps> = (props) => {
+	const { onWalletChange, error, helperText, wallets, ...other } = props;
 	const theme = useTheme();
 
 	const [value, setValue] = React.useState(null);
 
-	const handleChange = (event) => {
+	const handleChange = (event: {
+		target: { value: React.SetStateAction<null> };
+	}) => {
 		setValue(event.target.value);
 		onWalletChange(event);
 	};
@@ -28,15 +34,13 @@ export const WalletSelector = ({ onWalletChange, error, helperText }) => {
 				select
 				label="Select receiving payee"
 				onChange={handleChange}>
-				<MenuItem value="0x295B61866dAA53a76CE4b3a927EFAF0059b4a90A">
-					Wallet Name PRM - 0x295B61866dAA53a76CE4b3a927EFAF0059b4a90A
-				</MenuItem>
-				<MenuItem value="0xB77F68Af0B76C825073F89C03b8323E7290C641D">
-					Wallet Name DT - 0xB77F68Af0B76C825073F89C03b8323E7290C641D
-				</MenuItem>
-				<MenuItem value="0xA9545eFe87Ffbb484cc5B101770D1f5F02fC3CA8">
-					Wallet Name SM - 0xA9545eFe87Ffbb484cc5B101770D1f5F02fC3CA8
-				</MenuItem>
+				{wallets.map((wallet) => {
+					return (
+						<MenuItem value={wallet.address}>
+							{wallet.name} - {wallet.address}
+						</MenuItem>
+					);
+				})}
 			</TextField>
 		</FormControl>
 	);

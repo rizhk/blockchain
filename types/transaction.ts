@@ -1,14 +1,16 @@
 export interface Transaction {
 	id: string;
-	walletId: string;
+	wallet_id: string;
 	hash_initial: string;
 	hash_transfer: string;
 	txn_type: string;
 	token: string;
-	tokenAmt: number;
+	token_amt: number;
 	fiat: string;
-	fiatAmt: number;
+	fiat_amt: number;
 	status: string;
+	created_at: string;
+	updated_at: string;
 }
 
 export const transactionTypeOptions = [
@@ -25,10 +27,10 @@ export const transactionTypeOptions = [
 export const transactionStatusOptions = [
 	{
 		label: "In progress",
-		value: "in_progress",
+		value: "In Processing",
 	},
 	{
-		label: "Completed",
-		value: "completed",
+		label: "Complete",
+		value: "Complete",
 	},
 ];

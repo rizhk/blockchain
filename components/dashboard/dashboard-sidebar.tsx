@@ -34,6 +34,7 @@ import { Share as ShareIcon } from "../../icons/share";
 import { ShoppingBag as ShoppingBagIcon } from "../../icons/shopping-bag";
 import { ShoppingCart as ShoppingCartIcon } from "../../icons/shopping-cart";
 import { Transaction as TransactionIcon } from "../../icons/transaction";
+import { Wallet as WalletIcon } from "../../icons/wallet";
 import { Truck as TruckIcon } from "../../icons/truck";
 import { UserCircle as UserCircleIcon } from "../../icons/user-circle";
 import { Users as UsersIcon } from "../../icons/users";
@@ -71,16 +72,16 @@ const getSections = (t: TFunction): Section[] => [
 				path: "/dashboard",
 				icon: <HomeIcon fontSize="small" />,
 			},
-			// {
-			//   title: t('Analytics'),
-			//   path: '/dashboard/analytics',
-			//   icon: <ChartBarIcon fontSize="small" />
-			// },
-			// {
-			//   title: t('Finance'),
-			//   path: '/dashboard/finance',
-			//   icon: <ChartPieIcon fontSize="small" />
-			// },
+			{
+				title: t("Transactions"),
+				icon: <TransactionIcon fontSize="small" />,
+				path: "/dashboard/transactions",
+			},
+			{
+				title: t("Wallets"),
+				icon: <WalletIcon fontSize="small" />,
+				path: "/dashboard/wallets",
+			},
 			// {
 			//   title: t('Logistics'),
 			//   path: '/dashboard/logistics',
@@ -100,74 +101,10 @@ const getSections = (t: TFunction): Section[] => [
 			//     size="small"
 			//   />
 			// },
-			{
-				title: t("Account"),
-				path: "/dashboard/account",
-				icon: <UserCircleIcon fontSize="small" />,
-			},
-		],
-	},
-	{
-		title: t("Management"),
-		items: [
 			// {
-			// 	title: t("Customers"),
-			// 	path: "/dashboard/customers",
-			// 	icon: <UsersIcon fontSize="small" />,
-			// 	children: [
-			// 		{
-			// 			title: t("List"),
-			// 			path: "/dashboard/customers",
-			// 		},
-			// 		{
-			// 			title: t("Details"),
-			// 			path: "/dashboard/customers/1",
-			// 		},
-			// 		{
-			// 			title: t("Edit"),
-			// 			path: "/dashboard/customers/1/edit",
-			// 		},
-			// 	],
-			// },
-			// {
-			// 	title: t("Products"),
-			// 	path: "/dashboard/products",
-			// 	icon: <ShoppingBagIcon fontSize="small" />,
-			// 	children: [
-			// 		{
-			// 			title: t("List"),
-			// 			path: "/dashboard/products",
-			// 		},
-			// 		{
-			// 			title: t("Create"),
-			// 			path: "/dashboard/products/new",
-			// 		},
-			// 	],
-			// },
-			// {
-			// 	title: t("Orders"),
-			// 	icon: <ShoppingCartIcon fontSize="small" />,
-			// 	path: "/dashboard/orders",
-			// },
-			{
-				title: t("Transaction"),
-				icon: <TransactionIcon fontSize="small" />,
-				path: "/dashboard/transactions",
-			},
-			// {
-			// 	title: t("Invoices"),
-			// 	path: "/dashboard/invoices",
-			// 	icon: <ReceiptTaxIcon fontSize="small" />,
-			// 	children: [
-			// 		{
-			// 			title: t("List"),
-			// 			path: "/dashboard/invoices",
-			// 		},
-			// 		{
-			// 			title: t("Details"),
-			// 			path: "/dashboard/invoices/1",
-			// 		},
-			// 	],
+			// 	title: t("Account"),
+			// 	path: "/dashboard/account",
+			// 	icon: <UserCircleIcon fontSize="small" />,
 			// },
 		],
 	},
@@ -443,7 +380,7 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 							borderColor: "#2D3748", // dark divider
 						}}
 					/>
-					<Box sx={{ p: 2 }}>
+					{/* <Box sx={{ p: 2 }}>
 						<Typography color="neutral.100" variant="subtitle2">
 							{t("Need Help?")}
 						</Typography>
@@ -460,7 +397,7 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 								{t("Documentation")}
 							</Button>
 						</NextLink>
-					</Box>
+					</Box> */}
 				</Box>
 			</Scrollbar>
 			<OrganizationPopover
