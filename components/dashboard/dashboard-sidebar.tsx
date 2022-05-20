@@ -35,6 +35,7 @@ import { ShoppingBag as ShoppingBagIcon } from "../../icons/shopping-bag";
 import { ShoppingCart as ShoppingCartIcon } from "../../icons/shopping-cart";
 import { Transaction as TransactionIcon } from "../../icons/transaction";
 import { Wallet as WalletIcon } from "../../icons/wallet";
+import { Bank as BankIcon } from "icons/bank";
 import { Truck as TruckIcon } from "../../icons/truck";
 import { UserCircle as UserCircleIcon } from "../../icons/user-circle";
 import { Users as UsersIcon } from "../../icons/users";
@@ -84,7 +85,7 @@ const getSections = (t: TFunction): Section[] => [
 			},
 			{
 				title: t("Bank accounts"),
-				icon: <WalletIcon fontSize="small" />,
+				icon: <BankIcon fontSize="small" />,
 				path: "/dashboard/bank-accounts",
 			},
 			// {
