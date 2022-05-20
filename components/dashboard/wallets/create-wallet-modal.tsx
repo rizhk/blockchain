@@ -95,7 +95,7 @@ export const CreateWalletDialogs: FC = (
 				const success = await walletApi.create(values);
 
 				if (success) {
-					const data = await walletApi.getWallets();
+					const data = await walletApi.getItems();
 					props.parentCallback(data);
 					handleClose();
 				}
