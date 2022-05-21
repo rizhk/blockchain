@@ -15,37 +15,25 @@ import {
 	useMediaQuery,
 } from "@mui/material";
 import type { Theme } from "@mui/material";
-import { Calendar as CalendarIcon } from "../../icons/calendar";
-import { Cash as CashIcon } from "../../icons/cash";
-import { ChartBar as ChartBarIcon } from "../../icons/chart-bar";
-import { ChartPie as ChartPieIcon } from "../../icons/chart-pie";
-import { ChatAlt2 as ChatAlt2Icon } from "../../icons/chat-alt2";
-import { ClipboardList as ClipboardListIcon } from "../../icons/clipboard-list";
-import { CreditCard as CreditCardIcon } from "../../icons/credit-card";
-import { Home as HomeIcon } from "../../icons/home";
-import { LockClosed as LockClosedIcon } from "../../icons/lock-closed";
-import { Mail as MailIcon } from "../../icons/mail";
-import { MailOpen as MailOpenIcon } from "../../icons/mail-open";
-import { Newspaper as NewspaperIcon } from "../../icons/newspaper";
-import { OfficeBuilding as OfficeBuildingIcon } from "../../icons/office-building";
-import { ReceiptTax as ReceiptTaxIcon } from "../../icons/receipt-tax";
-import { Selector as SelectorIcon } from "../../icons/selector";
-import { Share as ShareIcon } from "../../icons/share";
-import { ShoppingBag as ShoppingBagIcon } from "../../icons/shopping-bag";
-import { ShoppingCart as ShoppingCartIcon } from "../../icons/shopping-cart";
-import { Transaction as TransactionIcon } from "../../icons/transaction";
-import { Wallet as WalletIcon } from "../../icons/wallet";
-import { Bank as BankIcon } from "icons/bank";
-import { Truck as TruckIcon } from "../../icons/truck";
-import { UserCircle as UserCircleIcon } from "../../icons/user-circle";
-import { Users as UsersIcon } from "../../icons/users";
-import { XCircle as XCircleIcon } from "../../icons/x-circle";
 import { Logo } from "../logo";
 import { Scrollbar } from "../scrollbar";
 import { DashboardSidebarSection } from "./dashboard-sidebar-section";
 import { OrganizationPopover } from "./organization-popover";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
+//Icon Imports
+import { Home as HomeIcon } from "../../icons/home";
+import { Transaction as TransactionIcon } from "../../icons/transaction";
+import { Wallet as WalletIcon } from "../../icons/wallet";
+import { Bank as BankIcon } from "icons/bank";
+import { Settings as SettingsIcon } from "../../icons/settings";
+import { UserCircle as UserCircleIcon } from "../../icons/user-circle";
+import { Invite as InviteIcon } from "../../icons/invite";
+import { Reports as ReportsIcon } from "../../icons/reports";
+import { ForDevelopers as ForDevelopersIcon } from "../../icons/for-developers";
+import { Help as HelpIcon } from "../../icons/help";
+import { Knowledgebase as KnowledgebaseIcon } from "../../icons/knowledgebase";
+import { News as NewsIcon } from "../../icons/news";
 interface DashboardSidebarProps {
 	onClose?: () => void;
 	open?: boolean;
@@ -66,7 +54,7 @@ interface Section {
 
 const getSections = (t: TFunction): Section[] => [
 	{
-		title: t("General"),
+		title: t(""),
 		items: [
 			{
 				title: t("Overview"),
@@ -88,169 +76,45 @@ const getSections = (t: TFunction): Section[] => [
 				icon: <BankIcon fontSize="small" />,
 				path: "/dashboard/bank-accounts",
 			},
-			// {
-			//   title: t('Logistics'),
-			//   path: '/dashboard/logistics',
-			//   icon: <TruckIcon fontSize="small" />,
-			//   chip: <Chip
-			//     color="secondary"
-			//     label={(
-			//       <Typography
-			//         sx={{
-			//           fontSize: '10px',
-			//           fontWeight: '600'
-			//         }}
-			//       >
-			//         NEW
-			//       </Typography>
-			//     )}
-			//     size="small"
-			//   />
-			// },
-			// {
-			// 	title: t("Account"),
-			// 	path: "/dashboard/account",
-			// 	icon: <UserCircleIcon fontSize="small" />,
-			// },
+			{
+			  title: t('Settings'),
+			  path: '/dashboard/logistics',
+			  icon: <SettingsIcon fontSize="small" />,
+
+			},
+			{
+				title: t("Invite and earn"),
+				path: "/",
+				icon: <InviteIcon fontSize="small" />,
+			},
+			{
+				title: t("Reports"),
+				path: "/t",
+				icon: <ReportsIcon fontSize="small" />,
+			},
+			{
+				title: t("For developers"),
+				path: "/dashboard/account",
+				icon: <ForDevelopersIcon fontSize="small" />,
+			},
+			{
+				title: t("Help"),
+				path: "/dashboard/account",
+				icon: <HelpIcon fontSize="small" />,
+			},
+			{
+				title: t("Knowledgbase"),
+				path: "/dashboard/account",
+				icon: <KnowledgebaseIcon fontSize="small" />,
+			},
+			{
+				title: t("News"),
+				path: "/dashboard/account",
+				icon: <NewsIcon fontSize="small" />,
+			},
 		],
 	},
-	// {
-	//   title: t('Platforms'),
-	//   items: [
-	//     {
-	//       title: t('Job Listings'),
-	//       path: '/dashboard/jobs',
-	//       icon: <OfficeBuildingIcon fontSize="small" />,
-	//       children: [
-	//         {
-	//           title: t('Browse'),
-	//           path: '/dashboard/jobs'
-	//         },
-	//         {
-	//           title: t('Details'),
-	//           path: '/dashboard/jobs/companies/1'
-	//         },
-	//         {
-	//           title: t('Create'),
-	//           path: '/dashboard/jobs/new'
-	//         }
-	//       ]
-	//     },
-	//     {
-	//       title: t('Social Media'),
-	//       path: '/dashboard/social',
-	//       icon: <ShareIcon fontSize="small" />,
-	//       children: [
-	//         {
-	//           title: t('Profile'),
-	//           path: '/dashboard/social/profile'
-	//         },
-	//         {
-	//           title: t('Feed'),
-	//           path: '/dashboard/social/feed'
-	//         }
-	//       ]
-	//     },
-	//     {
-	//       title: t('Blog'),
-	//       path: '/blog',
-	//       icon: <NewspaperIcon fontSize="small" />,
-	//       children: [
-	//         {
-	//           title: t('Post List'),
-	//           path: '/blog'
-	//         },
-	//         {
-	//           title: t('Post Details'),
-	//           path: '/blog/1'
-	//         },
-	//         {
-	//           title: t('Post Create'),
-	//           path: '/blog/new'
-	//         }
-	//       ]
-	//     }
-	//   ]
-	// },
-	// {
-	//   title: t('Apps'),
-	//   items: [
-	//     {
-	//       title: t('Kanban'),
-	//       path: '/dashboard/kanban',
-	//       icon: <ClipboardListIcon fontSize="small" />
-	//     },
-	//     {
-	//       title: t('Mail'),
-	//       path: '/dashboard/mail',
-	//       icon: <MailIcon fontSize="small" />
-	//     },
-	//     {
-	//       title: t('Chat'),
-	//       path: '/dashboard/chat',
-	//       icon: <ChatAlt2Icon fontSize="small" />
-	//     },
-	//     {
-	//       title: t('Calendar'),
-	//       path: '/dashboard/calendar',
-	//       icon: <CalendarIcon fontSize="small" />
-	//     }
-	//   ]
-	// },
-	// {
-	//   title: t('Pages'),
-	//   items: [
-	//     {
-	//       title: t('Auth'),
-	//       path: '/authentication',
-	//       icon: <LockClosedIcon fontSize="small" />,
-	//       children: [
-	//         {
-	//           title: t('Register'),
-	//           path: '/authentication/register?disableGuard=true'
-	//         },
-	//         {
-	//           title: t('Login'),
-	//           path: '/authentication/login?disableGuard=true'
-	//         }
-	//       ]
-	//     },
-	//     {
-	//       title: t('Pricing'),
-	//       path: '/dashboard/pricing',
-	//       icon: <CreditCardIcon fontSize="small" />
-	//     },
-	//     {
-	//       title: t('Checkout'),
-	//       path: '/checkout',
-	//       icon: <CashIcon fontSize="small" />
-	//     },
-	//     {
-	//       title: t('Contact'),
-	//       path: '/contact',
-	//       icon: <MailOpenIcon fontSize="small" />
-	//     },
-	//     {
-	//       title: t('Error'),
-	//       path: '/error',
-	//       icon: <XCircleIcon fontSize="small" />,
-	//       children: [
-	//         {
-	//           title: '401',
-	//           path: '/401'
-	//         },
-	//         {
-	//           title: '404',
-	//           path: '/404'
-	//         },
-	//         {
-	//           title: '500',
-	//           path: '/500'
-	//         }
-	//       ]
-	//     }
-	//   ]
-	// }
+	
 ];
 
 export const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
