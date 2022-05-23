@@ -2,11 +2,12 @@ import type { FC } from "react";
 import React, { forwardRef, useImperativeHandle, useState } from "react";
 import { FormControl, InputLabel, TextField, MenuItem } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { Wallet } from "types/wallet";
 
 type WalletProps = {
 	onWalletChange: any;
 	error: boolean;
-	helperText: string;
+	helperText: string | false | undefined;
 	wallets: Wallet[];
 };
 

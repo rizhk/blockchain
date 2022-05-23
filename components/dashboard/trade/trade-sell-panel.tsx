@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import * as React from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -34,12 +34,38 @@ import { default as DexContractAbi } from "contracts/PicanteDexAbi.json";
 import { ethers } from "ethers";
 import { FormatTypes, Interface } from "ethers/lib/utils";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { bankAccountApi } from "api/bank-account-api";
+import { useMounted } from "hooks/use-mounted";
+import { BankAccount } from "types/bank-account";
 
 const tokenAddr = process.env.NEXT_PUBLIC_TOKEN_CONTRACT_ADDRESS!;
 const DexContractAddr = process.env.NEXT_PUBLIC_DEX_CONTRACT_ADDRESS!;
 
 export const SellPanel: FC = (props) => {
 	const theme = useTheme();
+	const isMounted = useMounted();
+
+	const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
+
+	const getBankAccounts = useCallback(async () => {
+		try {
+			const data = await bankAccountApi.getItems();
+
+			if (isMounted()) {
+				setBankAccounts(data);
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	}, [isMounted]);
+
+	useEffect(
+		() => {
+			getBankAccounts();
+		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[]
+	);
 
 	const { isWalletConnectShowing, toggleWalletConnect } =
 		useWalletConnectModal();
@@ -303,6 +329,7 @@ export const SellPanel: FC = (props) => {
 			<Grid container spacing={4}>
 				<Grid item md={12} xs={12}>
 					<BankAccountSelector
+						bankAccounts={bankAccounts}
 						error={Boolean(
 							formik.touched.paymentMethod &&
 								formik.errors.paymentMethod

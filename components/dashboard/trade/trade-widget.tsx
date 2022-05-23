@@ -26,7 +26,12 @@ import { string } from "prop-types";
 import { BuyPanel } from "./trade-buy-panel";
 import { SellPanel } from "./trade-sell-panel";
 
-function TabPanel(props) {
+function TabPanel(props: {
+	[x: string]: any;
+	children: any;
+	value: any;
+	index: any;
+}) {
 	const { children, value, index, ...other } = props;
 
 	return (
@@ -63,11 +68,14 @@ export const TradeWidget: FC = (props) => {
 
 	const [value, setValue] = React.useState(0);
 
-	const handleChange = (event, newValue) => {
+	const handleChange = (
+		_event: any,
+		newValue: React.SetStateAction<number>
+	) => {
 		setValue(newValue);
 	};
 
-	const handleChangeIndex = (index) => {
+	const handleChangeIndex = (index: React.SetStateAction<number>) => {
 		setValue(index);
 	};
 
@@ -79,13 +87,21 @@ export const TradeWidget: FC = (props) => {
 						width: "100%",
 					}}>
 					<Tabs
-					className="trade-tab"
+						className="trade-tab"
 						value={value}
 						onChange={handleChange}
 						variant="fullWidth"
 						aria-label="trade widget tabs">
-						<Tab className='tab-label' label="Buy crypto" {...a11yProps(0)} />
-						<Tab className='tab-label' label="Sell crypto" {...a11yProps(1)} />
+						<Tab
+							className="tab-label"
+							label="Buy crypto"
+							{...a11yProps(0)}
+						/>
+						<Tab
+							className="tab-label"
+							label="Sell crypto"
+							{...a11yProps(1)}
+						/>
 					</Tabs>
 					<SwipeableViews
 						axis={theme.direction === "rtl" ? "x-reverse" : "x"}
