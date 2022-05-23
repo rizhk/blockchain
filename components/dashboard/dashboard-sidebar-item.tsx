@@ -124,7 +124,7 @@ export const DashboardSidebarItem: FC<DashboardSidebarItemProps> = (props) => {
           disableRipple
           sx={{
             borderRadius: 1,
-            color: 'neutral.300',
+            color: '#D1D5DB',
             justifyContent: 'flex-start',
             pl: `${paddingLeft}px`,
             pr: 3,
@@ -140,7 +140,7 @@ export const DashboardSidebarItem: FC<DashboardSidebarItemProps> = (props) => {
               color: active ? 'secondary.main' : 'neutral.400',
             },
             '&:hover':  {
-              backgroundColor: 'rgba(255,255,255, 0.08)',
+              backgroundColor: '#202A44',
               color:'secondary.main'
             },
 

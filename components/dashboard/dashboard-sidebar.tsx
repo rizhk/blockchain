@@ -167,19 +167,21 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 						display: "flex",
 						flexDirection: "column",
 						height: "100%",
+						
 					}}>
 					<div>
-						<Box sx={{ p: 3 }}>
+		<Box sx={{ display:'flex', p: 3, direction:"row", alignItems:"center" }}>
 							<NextLink href="/dashboard" passHref>
 								<a>
 									<LazyLoadImage
-										width="42"
-										height="42"
+										width="30"
+										height="30"
 										src={
 											process.env.NEXT_PUBLIC_URL +
 											"picante-logo.svg"
 										} // use normal <img> attributes as props
 									/>
+									<Typography sx={{display:"inline", marginLeft:'10px'}} >Jennie Kim</Typography>
 								</a>
 							</NextLink>
 						</Box>
