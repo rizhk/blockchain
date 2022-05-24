@@ -238,7 +238,7 @@ export const SellPanel: FC = (props) => {
 				isTokenTransferedShowing={isTokenTransferedShowing}
 				hide={isTokenTransferedShowing}
 			/>
-			<Grid container spacing={3} mb={3}>
+			<Grid container spacing={2.5} mb={2.5}>
 				<Grid item md={8} xs={8}>
 					<TextField
 						error={Boolean(

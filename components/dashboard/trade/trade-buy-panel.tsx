@@ -316,7 +316,7 @@ export const BuyPanel: FC = (props) => {
 					<FiatSelector />
 				</Grid>
 			</Grid>
-			<Grid container spacing={3} mb={3}>
+			<Grid container spacing={2.5} mb={2.5}>
 				<Grid item md={12} xs={12}>
 					<BankAccountSelector
 						error={Boolean(
