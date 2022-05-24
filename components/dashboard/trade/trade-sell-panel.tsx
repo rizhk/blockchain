@@ -267,7 +267,7 @@ export const SellPanel: FC = (props) => {
 					<CryptoSelector />
 				</Grid>
 			</Grid>
-			<Grid container spacing={3} mb={3}>
+			<Grid container spacing={2.5} mb={2.5} sx={{marginLeft:'0px',marginTop:'5px'}}>
 				<LazyLoadImage
 					src={process.env.NEXT_PUBLIC_URL + "static/Connector.svg"} // use normal <img> attributes as props
 				/>
@@ -291,7 +291,7 @@ export const SellPanel: FC = (props) => {
 					</span>
 				</Typography>
 			</Grid>
-			<Grid container spacing={3} mb={3}>
+			<Grid container spacing={2.5} mb={2.5}>
 				<Grid item md={8} xs={8}>
 					<TextField
 						fullWidth
@@ -311,7 +311,7 @@ export const SellPanel: FC = (props) => {
 					<FiatSelector />
 				</Grid>
 			</Grid>
-			<Grid container spacing={3} mb={3}>
+			<Grid container spacing={2.5} mb={2.5}>
 				<Grid item md={8} xs={8}>
 					<TextField
 						fullWidth
@@ -326,7 +326,7 @@ export const SellPanel: FC = (props) => {
 					<PicanteReward />
 				</Grid>
 			</Grid>
-			<Grid container spacing={3}>
+			<Grid container spacing={2.5}>
 				<Grid item md={12} xs={12}>
 					<BankAccountSelector
 						bankAccounts={bankAccounts}

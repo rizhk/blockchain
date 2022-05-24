@@ -258,7 +258,7 @@ export const BuyPanel: FC = (props) => {
 	});
 
 	return (
-		<form noValidate onSubmit={formik.handleSubmit} {...props}>
+		<form noValidate onSubmit={formik.handleSubmit} {...props} >
 			<WalletConnectModal
 				isWalletConnectShowing={isWalletConnectShowing}
 				hide={isWalletConnectShowing}
@@ -286,7 +286,7 @@ export const BuyPanel: FC = (props) => {
 				isConfirmPurchaseShowing={isConfirmPurchaseShowing}
 				hide={toggleConfirmPurchase}
 			/>
-			<Grid container spacing={3} mb={3}>
+			<Grid container spacing={2.5} mb={2.5}>
 				<Grid item md={8} xs={8}>
 					<TextField
 						error={Boolean(
@@ -312,7 +312,7 @@ export const BuyPanel: FC = (props) => {
 						}}
 					/>
 				</Grid>
-				<Grid item md={4} xs={4}>
+				<Grid item md={4} xs={4} >
 					<FiatSelector />
 				</Grid>
 			</Grid>
@@ -331,7 +331,7 @@ export const BuyPanel: FC = (props) => {
 					/>
 				</Grid>
 			</Grid>
-			<Grid container spacing={3} mb={3}>
+			<Grid container spacing={2.5} mb={2.5} sx={{marginLeft:'0px',marginTop:'5px'}}>
 				<LazyLoadImage
 					src={process.env.NEXT_PUBLIC_URL + "static/Connector.svg"} // use normal <img> attributes as props
 				/>
@@ -355,7 +355,7 @@ export const BuyPanel: FC = (props) => {
 					</span>
 				</Typography>
 			</Grid>
-			<Grid container spacing={3} mb={3}>
+			<Grid container spacing={2.5} mb={2.5}>
 				<Grid item md={8} xs={8}>
 					<TextField
 						fullWidth
@@ -374,7 +374,7 @@ export const BuyPanel: FC = (props) => {
 					<CryptoSelector />
 				</Grid>
 			</Grid>
-			<Grid container spacing={3} mb={3}>
+			<Grid container spacing={2.5} mb={2.5}>
 				<Grid item md={8} xs={8}>
 					<TextField
 						fullWidth

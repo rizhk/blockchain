@@ -81,10 +81,7 @@ export const TradeWidget: FC = (props) => {
 	return (
 		<Card {...props} elevation={16}>
 			<CardContent>
-				<Box
-					sx={{
-						width: "100%",
-					}}>
+
 					<Tabs
 						className="trade-tab"
 						value={value}
@@ -103,14 +100,15 @@ export const TradeWidget: FC = (props) => {
 						/>
 					</Tabs>
 					
-						<TabPanel value={value} index={0}>
+						<TabPanel className='trade-tab-panel' value={value} index={0} >
+	
 							<BuyPanel />
 						</TabPanel>
-						<TabPanel value={value} index={1}>
+						<TabPanel className='trade-tab-panel' value={value} index={1}>
 							<SellPanel />
 						</TabPanel>
 			
-				</Box>
+			
 			</CardContent>
 		</Card>
 	);
