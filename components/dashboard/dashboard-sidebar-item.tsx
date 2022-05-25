@@ -53,8 +53,10 @@ export const DashboardSidebarItem: FC<DashboardSidebarItemProps> = (props) => {
           display: 'block',
           mb: 0.5,
           py: 0,
-          px: 2
+          px: 2,
+          color: active ? 'secondary.main' : 'neutral.300',
         }}
+    
         {...other}
       >
         <Button
@@ -71,11 +73,11 @@ export const DashboardSidebarItem: FC<DashboardSidebarItemProps> = (props) => {
             justifyContent: 'flex-start',
             pl: `${paddingLeft}px`,
             pr: 3,
-            textAlign: 'left',
-            textTransform: 'none',
+            textAlign: 'right',
+            textTransform: 'uppercase',
             width: '100%',
             '&:hover': {
-              backgroundColor: 'rgba(255,255,255, 0.08)'
+              backgroundColor: 'secondary.main'
             },
             '& .MuiButton-startIcon': {
               color: active ? 'secondary.main' : 'neutral.400'
@@ -122,7 +124,7 @@ export const DashboardSidebarItem: FC<DashboardSidebarItemProps> = (props) => {
           disableRipple
           sx={{
             borderRadius: 1,
-            color: 'neutral.300',
+            color: '#D1D5DB',
             justifyContent: 'flex-start',
             pl: `${paddingLeft}px`,
             pr: 3,
@@ -134,12 +136,14 @@ export const DashboardSidebarItem: FC<DashboardSidebarItemProps> = (props) => {
               color: 'secondary.main',
               fontWeight: 'fontWeightBold'
             }),
-            '& .MuiButton-startIcon': {
-              color: active ? 'secondary.main' : 'neutral.400'
+            '& startIcon': {
+              color: active ? 'secondary.main' : 'neutral.400',
             },
-            '&:hover': {
-              backgroundColor: 'rgba(255,255,255, 0.08)'
-            }
+            '&:hover':  {
+              backgroundColor: '#202A44',
+              color:'secondary.main'
+            },
+
           }}
         >
           <Box sx={{ flexGrow: 1 }}>

@@ -37,6 +37,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { PicanteApi } from "api/end-point";
 import { walletApi } from "api/wallet-api";
 import { useMounted } from "hooks/use-mounted";
+import { Wallet } from "types/wallet";
 
 const tokenAddr = process.env.NEXT_PUBLIC_TOKEN_CONTRACT_ADDRESS!;
 const DexContractAddr = process.env.NEXT_PUBLIC_DEX_CONTRACT_ADDRESS!;

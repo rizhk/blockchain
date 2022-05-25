@@ -15,14 +15,14 @@ const neutral = {
 };
 
 const background = {
-	default: "#F9FAFC",
+	default: "#F8F8F8",
 	paper: "#FFFFFF",
 };
 
 const divider = "#E6E8F0";
 
 const primary = {
-	main: "#BC043D",
+	main: "#5048E5",
 	light: "#FF5A04",
 	dark: "#3832A0",
 	contrastText: "#FFFFFF",
