@@ -141,6 +141,10 @@ export const SellPanel: FC = (props) => {
 		}
 	};
 
+	const placeSellOffer = async (hash: string) => {
+		console.log("placeSellOffer" + hash);
+	};
+
 	const formik = useFormik({
 		initialValues: {
 			amountToSell: undefined!,
@@ -195,11 +199,13 @@ export const SellPanel: FC = (props) => {
 					console.log("waiting approve complete");
 					toggleGrantPermission();
 					toggleGrantingPermission();
+					// submit offer to backend
+					placeSellOffer(approve.hash);
+
 					let txn = await provider.waitForTransaction(approve.hash);
 					console.log("approve is completed");
 					if (txn) {
 						if (txn.blockNumber) {
-							console.log(txn);
 							toggleGrantingPermission();
 							togglePermissionGranted();
 							placeOfferToDex();
@@ -267,7 +273,11 @@ export const SellPanel: FC = (props) => {
 					<CryptoSelector />
 				</Grid>
 			</Grid>
-			<Grid container spacing={2.5} mb={2.5} sx={{marginLeft:'0px',marginTop:'5px'}}>
+			<Grid
+				container
+				spacing={2.5}
+				mb={2.5}
+				sx={{ marginLeft: "0px", marginTop: "5px" }}>
 				<LazyLoadImage
 					src={process.env.NEXT_PUBLIC_URL + "static/Connector.svg"} // use normal <img> attributes as props
 				/>
