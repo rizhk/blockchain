@@ -122,7 +122,7 @@ export const CreateBankAccountDialogs: FC = (
 				}}
 				variant="contained"
 				onClick={handleClickOpen}>
-				Add a new wallet
+				Add a new account
 			</Button>
 			<BootstrapDialog
 				onClose={handleClose}
@@ -137,7 +137,7 @@ export const CreateBankAccountDialogs: FC = (
 						sx={{
 							mb: 2,
 						}}>
-						Add a wallet
+						Add an account
 					</Typography>
 					<TextField
 						sx={{
@@ -223,7 +223,7 @@ export const CreateBankAccountDialogs: FC = (
 						variant="contained"
 						type="submit"
 						onClick={formik.handleSubmit}>
-						Add wallet
+						Add account
 					</Button>
 				</DialogActions>
 			</BootstrapDialog>
