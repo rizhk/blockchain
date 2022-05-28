@@ -37,6 +37,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { bankAccountApi } from "api/bank-account-api";
 import { useMounted } from "hooks/use-mounted";
 import { BankAccount } from "types/bank-account";
+import { PicanteApi } from "api/end-point";
 
 const tokenAddr = process.env.NEXT_PUBLIC_TOKEN_CONTRACT_ADDRESS!;
 const DexContractAddr = process.env.NEXT_PUBLIC_DEX_CONTRACT_ADDRESS!;
@@ -106,43 +107,74 @@ export const SellPanel: FC = (props) => {
 		formik.setFieldValue("amountReceive", receiveValue);
 	};
 
-	const placeOfferToDex = async () => {
-		let provider = await connect();
+	// const placeOfferToDex = async () => {
+	// 	let provider = await connect();
 
-		const signer = provider.getSigner();
+	// 	const signer = provider.getSigner();
 
-		const iface = new Interface(DexContractAbi);
-		var abi = iface.format(FormatTypes.full);
+	// 	const iface = new Interface(DexContractAbi);
+	// 	var abi = iface.format(FormatTypes.full);
 
-		const myDexContract = new ethers.Contract(DexContractAddr, abi, signer);
+	// 	const myDexContract = new ethers.Contract(DexContractAddr, abi, signer);
 
-		var result = await myDexContract.placeOffer(
-			tokenAddr,
-			ethers.utils.parseUnits(formik.values.amountToSell, "ether"),
-			"Anika Visser",
-			400515,
-			12345674,
-			"GB24BKEN10000031510604"
-		);
+	// 	var result = await myDexContract.placeOffer(
+	// 		tokenAddr,
+	// 		ethers.utils.parseUnits(formik.values.amountToSell, "ether"),
+	// 		"Anika Visser",
+	// 		400515,
+	// 		12345674,
+	// 		"GB24BKEN10000031510604"
+	// 	);
 
-		if (result.hash) {
-			console.log("waiting placeOffer complete on blockchain");
-			togglePermissionGranted();
-			toggleSendToken();
-			let txn = await provider.waitForTransaction(result.hash);
+	// 	if (result.hash) {
+	// 		console.log("waiting placeOffer complete on blockchain");
+	// 		togglePermissionGranted();
+	// 		toggleSendToken();
+	// 		let txn = await provider.waitForTransaction(result.hash);
 
-			if (txn) {
-				if (txn.blockNumber) {
-					toggleSendToken();
-					toggleTokenTransfered();
-					console.log("Transfer success");
-				}
+	// 		if (txn) {
+	// 			if (txn.blockNumber) {
+	// 				toggleSendToken();
+	// 				toggleTokenTransfered();
+	// 				console.log("Transfer success");
+	// 			}
+	// 		}
+	// 	}
+	// };
+
+	const placeSellOffer = async (hash: string): Promise<string> => {
+		return new Promise((resolve, reject) => {
+			console.log("placeSellOffer" + hash);
+			try {
+				// Find the user
+				let req: CreateSellOfferRequest = {
+					txn_hash: hash,
+				};
+
+				fetch(PicanteApi.Auth, {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(req),
+				})
+					.then((response) => response.json())
+					.then(
+						(data) => {
+							console.log(data);
+							if (!data.error) {
+								resolve(data.token);
+							} else {
+								reject(new Error("error"));
+							}
+						},
+						(error) => {
+							reject(new Error(error.message));
+						}
+					);
+			} catch (err) {
+				console.error("[Auth Api]: ", err);
+				reject(new Error("Internal server error"));
 			}
-		}
-	};
-
-	const placeSellOffer = async (hash: string) => {
-		console.log("placeSellOffer" + hash);
+		});
 	};
 
 	const formik = useFormik({
@@ -204,7 +236,7 @@ export const SellPanel: FC = (props) => {
 					toggleGrantPermission();
 					toggleSendToken();
 					// submit offer to backend
-					placeSellOffer(transfer.hash);
+					await placeSellOffer(transfer.hash);
 
 					let txn = await provider.waitForTransaction(transfer.hash);
 					console.log("transfer is completed");
