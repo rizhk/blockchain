@@ -1,4 +1,3 @@
-
 html,
 body {
   padding: 0;
@@ -15,70 +14,80 @@ a {
 }
 
 .modal-overlay {
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 1000;
-	width: 100%;
-	height: 100%;
-	background-color: #000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
   opacity: 1;
 }
 .modal-wrapper {
-	position: fixed;
-	z-index: 1050;
-	width: 100%;
-	height: 100%;
-	overflow-x: hidden;
-	overflow-y: auto;
-	outline: 0;
+  position: fixed;
+  z-index: 1050;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0;
 }
 .modal {
-	z-index: 100;
-	background: white;
-	position: relative;
-	margin: 1.75rem auto;
-	border-radius: 3px;
-	padding: 2rem;
-  top:25%;
+  z-index: 100;
+  background: white;
+  position: relative;
+  margin: 1.75rem auto;
+  border-radius: 3px;
+  padding: 2rem;
+  top: 25%;
   max-width: 600px;
 }
 .modal-header {
-	display: flex;
-	justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
-.trade-tab{
-	background-color:#fafafa;
-	border:  thin solid #E0E0E0;
-	border-radius: 10px;
-	padding:5px;
+.trade-tab {
+  background-color: #fafafa;
+  border: thin solid #e0e0e0;
+  border-radius: 10px;
+  padding: 5px;
 
-	.Mui-selected{
-		background-color: #FFE2D9 !important;
-		border-radius: 10px !important;
-		border-bottom: none !important;
-		color: #F34F1D !important;
-	}
-	
-	.MuiTabs-indicator{
-		display: none !important;
-	}
+  .Mui-selected {
+    background-color: #ffe2d9 !important;
+    border-radius: 10px !important;
+    border-bottom: none !important;
+    color: #f34f1d !important;
+  }
+
+  .MuiTabs-indicator {
+    display: none !important;
+  }
 }
-.tab-label{
-	font-weight: 600!important;
-	font-size: 1rem!important;
+.tab-label {
+  font-weight: 600 !important;
+  font-size: 1rem !important;
 }
-
-
 
 .trade-tab-panel {
-	.MuiBox-root{
-	padding-left: 0!important;
-	padding-right: 0!important;
-}
+  .MuiBox-root {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
 }
 
-.MuiGrid-container{
-	margin-top: 0!important;
+.MuiGrid-container {
+  margin-top: 0 !important;
+}
+
+//-------- Vertical connector custom css-----
+// .vertical {
+//   border-left: thin solid #ccc !important;
+//   height: 3em !important;
+//   margin-left: 2.1em !important;
+// }
+
+// using it to debug layouts
+.debug {
+  border: thin solid #f00;
 }

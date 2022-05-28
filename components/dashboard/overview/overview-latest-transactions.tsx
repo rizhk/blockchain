@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
+
 import Card from '@mui/material/Card'
 import InputBase from '@mui/material/InputBase'
 import Button from '@mui/material/Button'
@@ -19,6 +19,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import { format, subDays } from 'date-fns'
 import { SeverityPill } from '../../severity-pill'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { OverviewTransactionsDetails } from './overview-transactions-details'
 interface Transaction {
   id: string
   amount: number
@@ -73,24 +74,6 @@ const transactions: Transaction[] = [
   },
 ]
 
-const TransactionStatus: FC = (props) => (
-  <Box sx={{ margin: 1 }}>
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell colSpan={10}>Status </TableCell>
-          <TableCell>Date /Time(GMT+8) </TableCell>
-        </TableRow>
-      </TableHead>
-      <TableRow>
-        {' '}
-        <TableCell colSpan={10}>Complete </TableCell>
-        <TableCell>17-02-22 21:03 </TableCell>
-      </TableRow>
-    </Table>
-  </Box>
-)
-
 function Row(props: { transaction: ReturnType<typeof Transactions> }) {
   const { transaction } = props
   const [open, setOpen] = React.useState(false)
@@ -131,7 +114,7 @@ function Row(props: { transaction: ReturnType<typeof Transactions> }) {
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <TransactionStatus />
+            <OverviewTransactionsDetails />
             {/* {transaction.history.map((historyRow) => (
                     <TableRow key={historyRow.date}>
                       <TableCell component="th" scope="row">
