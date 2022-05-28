@@ -21,6 +21,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import { Scrollbar } from '../../scrollbar'
 import { SeverityPill } from '../../severity-pill'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { neutral } from 'theme/dark-theme-options'
 
 interface Transaction {
   id: string
@@ -105,8 +106,11 @@ export const OverviewLatestTransactions: FC = (props) => {
 
               <TableRow>
                 <TableCell colSpan={2}>
-                  <Button endIcon={<ArrowDownIcon fontSize="small" />}>
-                    Tyoe
+                  <Button
+                    color="secondary"
+                    endIcon={<ArrowDownIcon fontSize="small" />}
+                  >
+                    xx Tyoe
                   </Button>
                 </TableCell>
                 <TableCell colSpan={2}>
@@ -115,7 +119,9 @@ export const OverviewLatestTransactions: FC = (props) => {
                   </Button>
                 </TableCell>
                 <TableCell colSpan={2}>
-                  <Button>Most recent</Button>
+                  <Button endIcon={<ArrowDownIcon fontSize="small" />}>
+                    Most recent
+                  </Button>
                 </TableCell>
               </TableRow>
               <TableRow>

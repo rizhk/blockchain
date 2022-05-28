@@ -221,10 +221,10 @@ export const baseThemeOptions: ThemeOptions = {
       styleOverrides: {
         root: {
           padding: '15px 16px',
-          border: 'thin solid #f00',
         },
       },
     },
+
     MuiTableHead: {
       styleOverrides: {
         root: {

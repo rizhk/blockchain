@@ -109,7 +109,6 @@ function Row(props: { transaction: ReturnType<typeof Transactions> }) {
         </TableCell>
 
         <TableCell align="left">{transaction.sender}</TableCell>
-        <TableCell align="left">{transaction.sender}</TableCell>
         <TableCell align="left">{transaction.wallet}</TableCell>
         <TableCell align="left">02-06-20022</TableCell>
         <TableCell align="left">{transaction.amount}</TableCell>
@@ -181,17 +180,28 @@ export const OverviewLatestTransactions: FC = (props) => {
 
               <TableRow>
                 <TableCell colSpan={1}>
-                  <Button endIcon={<KeyboardArrowDownIcon fontSize="small" />}>
-                    Tyoe
+                  <Button
+                    color="inherit"
+                    endIcon={<KeyboardArrowDownIcon fontSize="small" />}
+                  >
+                    Type
                   </Button>
                 </TableCell>
                 <TableCell colSpan={1}>
-                  <Button endIcon={<KeyboardArrowDownIcon fontSize="small" />}>
+                  <Button
+                    color="inherit"
+                    endIcon={<KeyboardArrowDownIcon fontSize="small" />}
+                  >
                     Status
                   </Button>
                 </TableCell>
                 <TableCell colSpan={1}>
-                  <Button>Most recent</Button>
+                  <Button
+                    color="inherit"
+                    endIcon={<KeyboardArrowDownIcon fontSize="small" />}
+                  >
+                    Most recent
+                  </Button>
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -201,7 +211,6 @@ export const OverviewLatestTransactions: FC = (props) => {
                 <TableCell colSpan={1}>Date (dd-mm-yy)</TableCell>
                 <TableCell colSpan={1}>amount</TableCell>
                 <TableCell colSpan={1}>status</TableCell>
-                <TableCell colSpan={1}></TableCell>
                 <TableCell colSpan={1}></TableCell>
               </TableRow>
             </TableHead>
