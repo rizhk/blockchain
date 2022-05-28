@@ -1,10 +1,15 @@
 import type { FC } from 'react';
 import type { ApexOptions } from 'apexcharts';
-import { Avatar, Box, Button, Card, CardActions, Divider, Typography, CardContent } from '@mui/material';
+import { Avatar, Box, Button, Card, CardActions, Divider, Typography, CardContent, Grid } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 import { ArrowRight as ArrowRightIcon } from '../../../icons/arrow-right';
 import { ChevronUp as ChevronUpIcon } from '../../../icons/chevron-up';
 import { Chart } from '../../chart';
+import { Metamask as MetamaskIcon } from "../../../icons/metamask";
+
+const walletIcons = {
+  metamask: '/static/icons/metamask.png',
+};
 
 export const OverviewCryptoWallet: FC = (props) => {
   const theme = useTheme();
@@ -52,21 +57,20 @@ export const OverviewCryptoWallet: FC = (props) => {
             >
              Total wallet balance
             </Typography>
-            <Typography
-              color="textPrimary"
-              variant="h5"
-            >
-              0.299 BTC
-            </Typography>
+        <Grid container  direction="row" justify="flex-end" spacing={3}>
+<Grid item alignItems="center"><img src={walletIcons.metamask}/></Grid>
+<Grid item md xs><Typography variant="h6">Metamask Wallet</Typography><Typography variant="body1">1BvBM….NVN2</Typography></Grid>
+<Grid item md xs><Typography textAlign='right' variant="h6">USD 343.33</Typography></Grid>
+
+        </Grid>
 
 <br/>
          
-      <Divider />
-      <CardActions>
-        <Button endIcon={<ArrowRightIcon fontSize="small" />}>
-          See all activity
+<Box  display="flex" justifyContent="flex-end" alignItems="flex-end"> 
+        <Button color="secondary">
+          Connect to a different wallet
         </Button>
-      </CardActions>
+        </Box>
       </CardContent>
     </Card>
   );

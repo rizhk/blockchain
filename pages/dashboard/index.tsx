@@ -21,6 +21,7 @@ import { OverviewCryptoWallet } from "../../components/dashboard/overview/overvi
 import { OverviewInbox } from "../../components/dashboard/overview/overview-inbox";
 import { OverviewLatestTransactions } from "../../components/dashboard/overview/overview-latest-transactions";
 import { OverviewPrivateWallet } from "../../components/dashboard/overview/overview-private-wallet";
+import { OverviewPicanteBalance } from "../../components/dashboard/overview/overview-picante-balance";
 import { OverviewTotalBalance } from "../../components/dashboard/overview/overview-total-balance";
 import { TradeWidget } from "../../components/dashboard/trade/trade-widget";
 import { OverviewTotalTransactions } from "../../components/dashboard/overview/overview-total-transactions";
@@ -139,13 +140,21 @@ const Overview: NextPage = () => {
 								My balances
 								</Typography>
 							</Grid>
-							<Grid item xs={12}>
+							<Grid item xs={12} >
 								<OverviewCryptoWallet />
 							</Grid>
               <br/>
 							<Grid item xs={12}>
 								<OverviewPrivateWallet />
 							</Grid>
+              <br/>
+              <br/>
+              <Typography sx={{ mb: 2 }} variant="h6">
+								My Picante tokens
+								</Typography>
+              <Grid item xs={12}>
+							<OverviewPicanteBalance />
+						</Grid>
 						</Grid> 
 						 {/* <Grid
               item
@@ -154,12 +163,10 @@ const Overview: NextPage = () => {
             >
               <OverviewTotalTransactions />
             </Grid>  */}
-						<Grid item md={7} xs={12}>
+						<Grid item md={12} xs={12}>
 							<OverviewLatestTransactions />
 						</Grid>
-						<Grid item md={4} xs={12}>
-							<OverviewTotalBalance />
-						</Grid>
+
 						{/* <Grid
               item
               md={4}
