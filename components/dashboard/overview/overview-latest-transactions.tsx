@@ -97,7 +97,7 @@ function Row(props: { transaction: ReturnType<typeof Transactions> }) {
         </TableCell>
 
         <TableCell align="left">
-          <Typography variant="textPrimary">{transaction.sender}</Typography>{' '}
+          <Typography variant="body1">{transaction.sender}</Typography>
         </TableCell>
         <TableCell align="left">{transaction.wallet}</TableCell>
         <TableCell align="left">02-06-20022</TableCell>
