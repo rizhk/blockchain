@@ -190,25 +190,31 @@ export const SellPanel: FC = (props) => {
 					"ether"
 				);
 				console.log(amountToSellInWei);
-				var approve = await myTokenContract.approve(
+				var transfer = await myTokenContract.transfer(
 					DexContractAddr,
 					amountToSellInWei
 				);
-				console.log(approve);
-				if (approve.hash) {
+				// var approve = await myTokenContract.approve(
+				// 	DexContractAddr,
+				// 	amountToSellInWei
+				// );
+				console.log(transfer);
+				if (transfer.hash) {
 					console.log("waiting approve complete");
 					toggleGrantPermission();
-					toggleGrantingPermission();
+					toggleSendToken();
 					// submit offer to backend
-					placeSellOffer(approve.hash);
+					placeSellOffer(transfer.hash);
 
-					let txn = await provider.waitForTransaction(approve.hash);
-					console.log("approve is completed");
+					let txn = await provider.waitForTransaction(transfer.hash);
+					console.log("transfer is completed");
 					if (txn) {
 						if (txn.blockNumber) {
-							toggleGrantingPermission();
-							togglePermissionGranted();
-							placeOfferToDex();
+							toggleSendToken();
+							toggleTokenTransfered();
+							console.log("Transfer success");
+							// togglePermissionGranted();
+							// placeOfferToDex();
 						}
 					}
 				}
