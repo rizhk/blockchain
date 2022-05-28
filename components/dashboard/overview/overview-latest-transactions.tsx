@@ -74,6 +74,10 @@ const transactions: Transaction[] = [
   },
 ]
 
+const tokenIcons = {
+  usdc: '/static/icons/usdc.png',
+}
+
 function Row(props: { transaction: ReturnType<typeof Transactions> }) {
   const { transaction } = props
   const [open, setOpen] = React.useState(false)
@@ -89,9 +93,12 @@ function Row(props: { transaction: ReturnType<typeof Transactions> }) {
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
+          <img align="right" src={tokenIcons.usdc} />
         </TableCell>
 
-        <TableCell align="left">{transaction.sender}</TableCell>
+        <TableCell align="left">
+          <Typography variant="textPrimary">{transaction.sender}</Typography>{' '}
+        </TableCell>
         <TableCell align="left">{transaction.wallet}</TableCell>
         <TableCell align="left">02-06-20022</TableCell>
         <TableCell align="left">{transaction.amount}</TableCell>
@@ -188,13 +195,13 @@ export const OverviewLatestTransactions: FC = (props) => {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell colSpan={1}></TableCell>
-                <TableCell colSpan={1}> Type</TableCell>
-                <TableCell colSpan={1}>Wallet used</TableCell>
-                <TableCell colSpan={1}>Date (dd-mm-yy)</TableCell>
-                <TableCell colSpan={1}>amount</TableCell>
-                <TableCell colSpan={1}>status</TableCell>
-                <TableCell colSpan={1}></TableCell>
+                <TableCell></TableCell>
+                <TableCell> Type</TableCell>
+                <TableCell>Wallet used</TableCell>
+                <TableCell>Date (dd-mm-yy)</TableCell>
+                <TableCell>amount</TableCell>
+                <TableCell>status</TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
