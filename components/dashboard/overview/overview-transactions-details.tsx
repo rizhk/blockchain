@@ -11,6 +11,7 @@ import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import SearchIcon from '@mui/icons-material/Search'
 import CircleIcon from '@mui/icons-material/Circle'
+import { borderColor } from '@mui/system'
 
 const steps = [
   {
@@ -44,27 +45,39 @@ const CircleIconRed: FC = (props) => (
 
 export const OverviewTransactionsDetails: FC = (props) => {
   return (
-    <Box sx={{ marginLeft: '100px' }}>
-      <Grid container sx={{ paddingTop: '30px' }}>
-        <Grid item md={8} xs={10} sx={{ borderBottom: 'neutral[400]' }}>
-          <Typography display="inline-block" variant="body1">
+    <Box sx={{ marginLeft: '100px', marginBottom: '25px' }}>
+      <Grid container spacing={2} sx={{ paddingTop: '30px', mb: 2 }}>
+        <Grid
+          item
+          md={8}
+          xs={10}
+          sx={{ borderBottom: 'thin solid #ccc', paddingBottom: '10px' }}
+        >
+          <Typography display="inline-block" variant="body2">
             Status
           </Typography>
         </Grid>
-        <Grid item>
-          <Typography className="flex" display="inline-block" variant="body1">
+        <Grid
+          item
+          sx={{
+            borderBottom: 'thin solid #ccc',
+            paddingRight: '10px',
+            marginLeft: '10px',
+          }}
+        >
+          <Typography className="flex" display="inline-block" variant="body2">
             Date/Time (GMT+8)
           </Typography>
         </Grid>
       </Grid>
-      <Stepper orientation="vertical">
+      <Stepper orientation="vertical" sx={{ marginBottom: '10px' }}>
         {steps.map((step, index) => (
           <Step key={step.label}>
             <StepLabel StepIconComponent={CircleIconGreen}>
               <Grid container>
                 <Grid item md={8} xs={10}>
-                  <Typography variant="body1">{step.label}</Typography>
-                  <Typography variant="body2"> {step.description}</Typography>
+                  <Typography variant="body2">{step.label}</Typography>
+                  <Typography variant="body3"> {step.description}</Typography>
                 </Grid>
                 <Grid>25-07-2022</Grid>
               </Grid>
@@ -72,6 +85,9 @@ export const OverviewTransactionsDetails: FC = (props) => {
           </Step>
         ))}
       </Stepper>
+      <Button variant="outlined" color="error">
+        Cancel Transaction
+      </Button>
     </Box>
   )
 }
