@@ -46,7 +46,7 @@ const CircleIconRed: FC = (props) => (
 export const OverviewTransactionsDetails: FC = (props) => {
   return (
     <Box sx={{ marginLeft: '100px', marginBottom: '25px' }}>
-      <Grid container spacing={2} sx={{ paddingTop: '30px', mb: 2 }}>
+      <Grid container sx={{ paddingTop: '30px', mb: 2 }}>
         <Grid
           item
           md={8}
