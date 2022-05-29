@@ -77,7 +77,10 @@ export const OverviewTransactionsDetails: FC = (props) => {
               <Grid container>
                 <Grid item md={8} xs={10}>
                   <Typography variant="body2">{step.label}</Typography>
-                  <Typography variant="body3"> {step.description}</Typography>
+                  <Typography variant="subtitle2">
+                    {' '}
+                    {step.description}
+                  </Typography>
                 </Grid>
                 <Grid item md={3} xs={2}>
                   <Typography

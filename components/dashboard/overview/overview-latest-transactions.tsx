@@ -20,6 +20,8 @@ import { format, subDays } from 'date-fns'
 import { SeverityPill } from '../../severity-pill'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { OverviewTransactionsDetails } from './overview-transactions-details'
+import { ProjectListFilters } from '../../../components/dashboard/transaction/transaction-list-filters'
+
 interface Transaction {
   id: string
   amount: number
@@ -152,45 +154,7 @@ export const OverviewLatestTransactions: FC = (props) => {
             <TableHead sx={{ backgroundColor: 'none' }}>
               <TableRow>
                 <TableCell colSpan={12}>
-                  <IconButton
-                    type="submit"
-                    sx={{ p: '10px' }}
-                    aria-label="search"
-                  >
-                    <SearchIcon />
-                  </IconButton>
-                  <InputBase
-                    sx={{ ml: 1, flex: 1 }}
-                    placeholder="Enter a keyword"
-                    inputProps={{ 'aria-label': 'search google maps' }}
-                  />
-                </TableCell>
-              </TableRow>
-
-              <TableRow>
-                <TableCell colSpan={1}>
-                  <Button
-                    color="inherit"
-                    endIcon={<KeyboardArrowDownIcon fontSize="small" />}
-                  >
-                    Type
-                  </Button>
-                </TableCell>
-                <TableCell colSpan={1}>
-                  <Button
-                    color="inherit"
-                    endIcon={<KeyboardArrowDownIcon fontSize="small" />}
-                  >
-                    Status
-                  </Button>
-                </TableCell>
-                <TableCell colSpan={1}>
-                  <Button
-                    color="inherit"
-                    endIcon={<KeyboardArrowDownIcon fontSize="small" />}
-                  >
-                    Most recent
-                  </Button>
+                  <ProjectListFilters />
                 </TableCell>
               </TableRow>
               <TableRow>
