@@ -38,6 +38,7 @@ import { bankAccountApi } from "api/bank-account-api";
 import { useMounted } from "hooks/use-mounted";
 import { BankAccount } from "types/bank-account";
 import { sellOfferApi } from "api/market-sell-offer-api";
+import { transactionApi } from "api/transaction-api";
 
 const tokenAddr = process.env.NEXT_PUBLIC_TOKEN_CONTRACT_ADDRESS!;
 const DexContractAddr = process.env.NEXT_PUBLIC_DEX_CONTRACT_ADDRESS!;
@@ -107,41 +108,6 @@ export const SellPanel: FC = (props) => {
 		formik.setFieldValue("amountReceive", receiveValue);
 	};
 
-	// const placeOfferToDex = async () => {
-	// 	let provider = await connect();
-
-	// 	const signer = provider.getSigner();
-
-	// 	const iface = new Interface(DexContractAbi);
-	// 	var abi = iface.format(FormatTypes.full);
-
-	// 	const myDexContract = new ethers.Contract(DexContractAddr, abi, signer);
-
-	// 	var result = await myDexContract.placeOffer(
-	// 		tokenAddr,
-	// 		ethers.utils.parseUnits(formik.values.amountToSell, "ether"),
-	// 		"Anika Visser",
-	// 		400515,
-	// 		12345674,
-	// 		"GB24BKEN10000031510604"
-	// 	);
-
-	// 	if (result.hash) {
-	// 		console.log("waiting placeOffer complete on blockchain");
-	// 		togglePermissionGranted();
-	// 		toggleSendToken();
-	// 		let txn = await provider.waitForTransaction(result.hash);
-
-	// 		if (txn) {
-	// 			if (txn.blockNumber) {
-	// 				toggleSendToken();
-	// 				toggleTokenTransfered();
-	// 				console.log("Transfer success");
-	// 			}
-	// 		}
-	// 	}
-	// };
-
 	const formik = useFormik({
 		initialValues: {
 			amountToSell: undefined!,
@@ -206,6 +172,11 @@ export const SellPanel: FC = (props) => {
 				console.log(transfer);
 				if (transfer.hash) {
 					//pass has to backend
+					let txnId = await transactionApi.createSellTxn({
+						offer_id: offerId,
+						txn_hash: transfer.hash,
+					});
+					console.log(txnId);
 					console.log("waiting transfer complete");
 					toggleGrantPermission();
 					toggleSendToken();
