@@ -37,7 +37,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { bankAccountApi } from "api/bank-account-api";
 import { useMounted } from "hooks/use-mounted";
 import { BankAccount } from "types/bank-account";
-import { PicanteApi } from "api/end-point";
+import { sellOfferApi } from "api/market-sell-offer-api";
 
 const tokenAddr = process.env.NEXT_PUBLIC_TOKEN_CONTRACT_ADDRESS!;
 const DexContractAddr = process.env.NEXT_PUBLIC_DEX_CONTRACT_ADDRESS!;
@@ -142,48 +142,13 @@ export const SellPanel: FC = (props) => {
 	// 	}
 	// };
 
-	const placeSellOffer = async (hash: string): Promise<string> => {
-		return new Promise((resolve, reject) => {
-			console.log("placeSellOffer" + hash);
-			try {
-				// Find the user
-				let req: CreateSellOfferRequest = {
-					txn_hash: hash,
-				};
-
-				fetch(PicanteApi.Auth, {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify(req),
-				})
-					.then((response) => response.json())
-					.then(
-						(data) => {
-							console.log(data);
-							if (!data.error) {
-								resolve(data.token);
-							} else {
-								reject(new Error("error"));
-							}
-						},
-						(error) => {
-							reject(new Error(error.message));
-						}
-					);
-			} catch (err) {
-				console.error("[Auth Api]: ", err);
-				reject(new Error("Internal server error"));
-			}
-		});
-	};
-
 	const formik = useFormik({
 		initialValues: {
 			amountToSell: undefined!,
 			amountReceive: 0,
 			amountReward: 0,
 			amountApprove: 0,
-			paymentMethod: 1,
+			paymentMethod: "",
 			submit: null,
 		},
 		validationSchema: Yup.object({
@@ -204,13 +169,23 @@ export const SellPanel: FC = (props) => {
 					provider = web3Provider;
 				}
 
-				console.log(provider);
-
 				toggleGrantPermission();
 				const signer = await provider.getSigner();
 				const iface = new Interface(tokenContractAbi);
 				var abi = iface.format(FormatTypes.full);
 
+				//Create offer before initial polygon transaction
+				// submit offer to backend
+				let offerId = await sellOfferApi.create({
+					wallet_addr: await signer.getAddress(),
+					buy_gem: "GBP",
+					pay_gem: tokenAddr,
+					pay_gem_total: formik.values.amountToSell,
+					receiving_bank_id: formik.values.paymentMethod,
+					network_id: "80001",
+				});
+
+				console.log(offerId);
 				const myTokenContract = new ethers.Contract(
 					tokenAddr,
 					abi,
@@ -222,21 +197,18 @@ export const SellPanel: FC = (props) => {
 					"ether"
 				);
 				console.log(amountToSellInWei);
+
 				var transfer = await myTokenContract.transfer(
 					DexContractAddr,
 					amountToSellInWei
 				);
-				// var approve = await myTokenContract.approve(
-				// 	DexContractAddr,
-				// 	amountToSellInWei
-				// );
+
 				console.log(transfer);
 				if (transfer.hash) {
-					console.log("waiting approve complete");
+					//pass has to backend
+					console.log("waiting transfer complete");
 					toggleGrantPermission();
 					toggleSendToken();
-					// submit offer to backend
-					await placeSellOffer(transfer.hash);
 
 					let txn = await provider.waitForTransaction(transfer.hash);
 					console.log("transfer is completed");
