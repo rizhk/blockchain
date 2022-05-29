@@ -65,7 +65,7 @@ const error = {
 
 const text = {
   primary: '#111827',
-  secondary: '#65748B',
+  secondary: '#6B7280',
   disabled: '#111827',
 }
 

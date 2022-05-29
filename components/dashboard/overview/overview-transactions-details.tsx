@@ -45,8 +45,8 @@ const CircleIconRed: FC = (props) => (
 
 export const OverviewTransactionsDetails: FC = (props) => {
   return (
-    <Box sx={{ marginLeft: '100px', marginBottom: '25px' }}>
-      <Grid container sx={{ paddingTop: '30px', mb: 2 }}>
+    <Box sx={{ ml: '100px', mb: '25px' }}>
+      <Grid container sx={{ pt: '30px', mb: 2 }}>
         <Grid
           item
           md={8}
@@ -79,7 +79,24 @@ export const OverviewTransactionsDetails: FC = (props) => {
                   <Typography variant="body2">{step.label}</Typography>
                   <Typography variant="body3"> {step.description}</Typography>
                 </Grid>
-                <Grid>25-07-2022</Grid>
+                <Grid item md={3} xs={2}>
+                  <Typography
+                    display="inline"
+                    color="text.primary"
+                    variant="body2"
+                  >
+                    {' '}
+                    25-07-2022
+                  </Typography>
+                  <Typography
+                    display="inline"
+                    color="text.secondary"
+                    variant="body2"
+                  >
+                    {' '}
+                    21:09
+                  </Typography>
+                </Grid>
               </Grid>
             </StepLabel>
           </Step>

@@ -23,6 +23,7 @@ import { OverviewTransactionsDetails } from './overview-transactions-details'
 interface Transaction {
   id: string
   amount: number
+  usdAmount: number
   currency: string
   date: Date
   sender: string
@@ -35,7 +36,8 @@ const transactions: Transaction[] = [
   {
     id: 'd46800328cd510a668253b45',
     amount: 25000,
-    currency: 'usd',
+    usdAmount: 4560,
+    currency: 'USDC',
     date: new Date(),
     sender: 'Buy USDC',
     type: 'buy',
@@ -45,7 +47,8 @@ const transactions: Transaction[] = [
   {
     id: 'b4b19b21656e44b487441c50',
     amount: 6843,
-    currency: 'usd',
+    usdAmount: 3455,
+    currency: 'USDC',
     date: subDays(new Date(), 1),
     sender: 'Sell USDC',
     type: 'send',
@@ -55,7 +58,8 @@ const transactions: Transaction[] = [
   {
     id: '56c09ad91f6d44cb313397db',
     amount: 91823,
-    currency: 'usd',
+    usdAmount: 3455,
+    currency: 'USDC',
     date: subDays(new Date(), 1),
     sender: 'Transfer Out',
     type: 'send',
@@ -65,7 +69,8 @@ const transactions: Transaction[] = [
   {
     id: 'aaeb96c5a131a55d9623f44d',
     amount: 49550,
-    currency: 'usd',
+    usdAmount: 3455,
+    currency: 'USDC',
     date: subDays(new Date(), 3),
     sender: 'Transfer In',
     type: 'receive',
@@ -100,10 +105,16 @@ function Row(props: { transaction: ReturnType<typeof Transactions> }) {
           <Typography variant="body2">{transaction.sender}</Typography>
         </TableCell>
         <TableCell align="left">{transaction.wallet}</TableCell>
-        <TableCell align="left">02-06-20022</TableCell>
-        <TableCell align="left">{transaction.amount}</TableCell>
+        <TableCell align="left">02-06-22</TableCell>
         <TableCell align="left">
-          {' '}
+          <Typography variant="body2" color="text.primart">
+            {transaction.amount} {transaction.currency}{' '}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {transaction.usdAmount} USD
+          </Typography>
+        </TableCell>
+        <TableCell align="left">
           <SeverityPill
             color={
               (transaction.status === 'confirmed' && 'success') ||
@@ -122,18 +133,6 @@ function Row(props: { transaction: ReturnType<typeof Transactions> }) {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <OverviewTransactionsDetails />
-            {/* {transaction.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.date}
-                      </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell align="right">{historyRow.amount}</TableCell>
-                      <TableCell align="right">
-                        {Math.round(historyRow.amount * row.price * 100) / 100}
-                      </TableCell>
-                    </TableRow>
-                  ))} */}
           </Collapse>
         </TableCell>
       </TableRow>
