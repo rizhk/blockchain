@@ -109,7 +109,7 @@ function Row(props: { transaction: ReturnType<typeof Transactions> }) {
         <TableCell align="left">{transaction.wallet}</TableCell>
         <TableCell align="left">02-06-22</TableCell>
         <TableCell align="left">
-          <Typography variant="body2" color="text.primart">
+          <Typography variant="body2" color="text.primary">
             {transaction.amount} {transaction.currency}{' '}
           </Typography>
           <Typography variant="body2" color="text.secondary">

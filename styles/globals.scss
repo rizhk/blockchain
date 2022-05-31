@@ -91,3 +91,10 @@ a {
 .debug {
   border: thin solid #f00;
 }
+
+.truncate{
+  width: 200px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

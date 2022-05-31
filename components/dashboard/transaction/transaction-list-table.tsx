@@ -30,6 +30,8 @@ import { Image as ImageIcon } from "../../../icons/image";
 import type { Transaction } from "../../../types/transaction";
 import { Scrollbar } from "../../scrollbar";
 import { SeverityPill } from "../../severity-pill";
+import { TransactionsListDetails } from "./transactions-list-details"
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 interface TransactionListTableProps {
 	onPageChange: (
@@ -68,7 +70,8 @@ export const TransactionListTable: FC<TransactionListTableProps> = (props) => {
 					<TableHead>
 						<TableRow>
 							<TableCell />
-							<TableCell width="25%">TYPE</TableCell>
+						
+							<TableCell width="25%" colSpan={2}>TYPE</TableCell>
 							<TableCell width="25%">WALLET USED</TableCell>
 							<TableCell>DATE</TableCell>
 							<TableCell>AMOUNT</TableCell>
@@ -114,55 +117,55 @@ export const TransactionListTable: FC<TransactionListTableProps> = (props) => {
 												)}
 											</IconButton>
 										</TableCell>
-										<TableCell width="25%">
-											<Box
+										<TableCell>
+											<img src="/static/icons/usdc.png" />
+
+											 {/* <Box
 												sx={{
 													alignItems: "center",
 													display: "flex",
 												}}>
-												{process.env.NEXT_PUBLIC_URL +
-												"static/icons/cryptocurrency/svg/color/usdc.svg" ? (
-													<Box
-														sx={{
-															alignItems:
-																"center",
-															backgroundColor:
-																"background.default",
-															backgroundImage: `url(${
-																process.env
-																	.NEXT_PUBLIC_URL +
-																"static/icons/cryptocurrency/svg/color/usdc.svg"
-															})`,
-															backgroundPosition:
-																"center",
-															backgroundSize:
-																"cover",
-															borderRadius: 1,
-															display: "flex",
-															height: 32,
-															justifyContent:
-																"center",
-															overflow: "hidden",
-															width: 32,
-														}}
-													/>
-												) : (
-													<Box
-														sx={{
-															alignItems:
-																"center",
-															backgroundColor:
-																"background.default",
-															borderRadius: 1,
-															display: "flex",
-															height: 80,
-															justifyContent:
-																"center",
-															width: 80,
-														}}>
-														<ImageIcon fontSize="small" />
-													</Box>
-												)}
+												{
+													"static/icons/cryptocurrency/svg/color/usdc.svg" ? (
+														<Box
+															sx={{
+																alignItems:
+																	"center",
+																backgroundColor:
+																	"background.default",
+																backgroundImage:
+																	"static/icons/cryptocurrency/svg/color/usdc.svg"
+																,
+																backgroundPosition:
+																	"center",
+																backgroundSize:
+																	"cover",
+																borderRadius: 1,
+																display: "flex",
+																height: 32,
+																justifyContent:
+																	"center",
+																overflow: "hidden",
+																width: 32,
+															}}
+														/>
+													) : (
+														<Box
+															sx={{
+																alignItems:
+																	"center",
+																backgroundColor:
+																	"background.default",
+																borderRadius: 1,
+																display: "flex",
+																height: 80,
+																justifyContent:
+																	"center",
+																width: 80,
+															}}>
+															<ImageIcon fontSize="small" />
+														</Box>
+													)}
 												<Box
 													sx={{
 														cursor: "pointer",
@@ -181,11 +184,21 @@ export const TransactionListTable: FC<TransactionListTableProps> = (props) => {
 														color="textSecondary"
 														variant="body2"></Typography>
 												</Box>
-											</Box>
+											</Box> */}
 										</TableCell>
+										<TableCell>											<Typography display="inline"
+														variant="subtitle2"
+														sx={{
+															textTransform:
+																"capitalize",
+														}}>
+														{transaction.txn_type}{" "}
+														{transaction.token}
+													</Typography>
+													</TableCell>
 										<TableCell width="25%">
-											<Typography
-												color="textSecondary"
+											<Typography className="truncate"
+												color="textPrimary"
 												variant="body2">
 												{transaction.wallet_id}
 											</Typography>
@@ -195,22 +208,23 @@ export const TransactionListTable: FC<TransactionListTableProps> = (props) => {
 												transaction.created_at
 											).toLocaleDateString()}
 										</TableCell>
-										<TableCell>
+										<TableCell width="25%">
 											{numeral(
 												transaction.token_amt
 											).format(`0,0.00`)}{" "}
 											{transaction.token}
 											<br />
-											{numeral(
+										<Typography color="textSecondary"
+														variant="body2">	{numeral(
 												transaction.fiat_amt
 											).format(`0,0.00`)}{" "}
-											{transaction.fiat}
+											{transaction.fiat}</Typography>
 										</TableCell>
 										<TableCell>
 											<SeverityPill
 												color={
 													transaction.status ===
-													"complete"
+														"complete"
 														? "success"
 														: "info"
 												}>
@@ -219,48 +233,16 @@ export const TransactionListTable: FC<TransactionListTableProps> = (props) => {
 										</TableCell>
 										<TableCell align="right">
 											<IconButton>
-												<DotsHorizontalIcon fontSize="small" />
+											<MoreVertIcon />
 											</IconButton>
 										</TableCell>
 									</TableRow>
 									{open && (
-										<TableRow>
-											<TableCell
-												colSpan={7}
-												sx={{
-													pl: 7,
-													pr: 7,
-													position: "relative",
-												}}>
-												<CardContent>
-													<Grid container spacing={3}>
-														<Grid
-															item
-															md={8}
-															xs={12}>
-															<Typography variant="h6">
-																Status
-															</Typography>
-															<Divider
-																sx={{ my: 2 }}
-															/>
-														</Grid>
-														<Grid
-															item
-															md={4}
-															xs={12}>
-															<Typography variant="h6">
-																Date/Time
-															</Typography>
-															<Divider
-																sx={{ my: 2 }}
-															/>
-														</Grid>
-													</Grid>
-												</CardContent>
-												<Divider />
-											</TableCell>
-										</TableRow>
+		
+		<TableRow>
+					<TableCell colSpan={12}>					<TransactionsListDetails />
+										</TableCell>
+		</TableRow>
 									)}
 								</Fragment>
 							);
@@ -277,7 +259,7 @@ export const TransactionListTable: FC<TransactionListTableProps> = (props) => {
 				rowsPerPage={rowsPerPage}
 				rowsPerPageOptions={[5, 10, 25]}
 			/>
-		</div>
+		</div >
 	);
 };
 
