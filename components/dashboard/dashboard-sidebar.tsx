@@ -25,16 +25,26 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Home as HomeIcon } from "../../icons/home";
 import { HomeFilled as HomeIconFilled } from "../../icons/home-filled";
 import { Transaction as TransactionIcon } from "../../icons/transaction";
+import { TransactionFilled as TransactionIconFilled } from "../../icons/transaction-filled";
 import { Wallet as WalletIcon } from "../../icons/wallet";
+import { WalletFilled as WalletIconFilled } from "../../icons/wallet-filled";
 import { Bank as BankIcon } from "icons/bank";
+import { BankFilled as BankIconFilled } from "icons/bank-filled";
 import { Settings as SettingsIcon } from "../../icons/settings";
+import { SettingsFilled as SettingsIconFilled } from "../../icons/settings-filled";
 import { UserCircle as UserCircleIcon } from "../../icons/user-circle";
 import { Invite as InviteIcon } from "../../icons/invite";
+import { InviteFilled as InviteIconFilled } from "../../icons/invite-filled";
 import { Reports as ReportsIcon } from "../../icons/reports";
+import { ReportsFilled as ReportsIconFilled } from "../../icons/reports-filled";
 import { ForDevelopers as ForDevelopersIcon } from "../../icons/for-developers";
+import { ForDevelopersFilled as ForDevelopersIconFilled } from "../../icons/for-developers-filled";
 import { Help as HelpIcon } from "../../icons/help";
+import { HelpFilled as HelpIconFilled } from "../../icons/help-filled";
 import { Knowledgebase as KnowledgebaseIcon } from "../../icons/knowledgebase";
+import { KnowledgebaseFilled as KnowledgebaseIconFilled } from "../../icons/knowledgebase-filled";
 import { News as NewsIcon } from "../../icons/news";
+import { NewsFilled as NewsIconFilled } from "../../icons/news-filled";
 interface DashboardSidebarProps {
 	onClose?: () => void;
 	open?: boolean;
@@ -68,64 +78,64 @@ const getSections = (t: TFunction): Section[] => [
 				title: t("Transactions"),
 				icon: <TransactionIcon fontSize="small" />,
 				path: "/dashboard/transactions",
-				iconFilled: <HomeIconFilled fontSize="small" />,
+				iconFilled: <TransactionIconFilled fontSize="small" />,
 			},
 	
 			{
 				title: t("Wallets"),
 				icon: <WalletIcon fontSize="small" />,
 				path: "/dashboard/wallets",
-				iconFilled: <HomeIconFilled fontSize="small" />,
+				iconFilled: <WalletIconFilled fontSize="small" />,
 			},
 		
 			{
 				title: t("Bank accounts"),
 				icon: <BankIcon fontSize="small" />,
 				path: "/dashboard/bank-accounts",
-				iconFilled: <HomeIconFilled fontSize="small" />,
+				iconFilled: <BankIconFilled fontSize="small" />,
 			},
 		
 			{
 			  title: t('Settings'),
 			  path: '/dashboard/logistics',
 			  icon: <SettingsIcon fontSize="small" />,
-			  iconFilled: <HomeIconFilled fontSize="small" />,
+			  iconFilled: <SettingsIconFilled fontSize="small" />,
 			},
 			{
 				title: t("Invite and earn"),
-				path: "/",
+				path: "/invite",
 				icon: <InviteIcon fontSize="small" />,
-				iconFilled: <HomeIconFilled fontSize="small" />,
+				iconFilled: <InviteIconFilled fontSize="small" />,
 			},
 			{
 				title: t("Reports"),
-				path: "/t",
+				path: "/reports",
 				icon: <ReportsIcon fontSize="small" />,
-				iconFilled: <HomeIconFilled fontSize="small" />,
+				iconFilled: <ReportsIconFilled fontSize="small" />,
 			},
 			{
 				title: t("For developers"),
-				path: "/dashboard/account",
+				path: "/for-developers",
 				icon: <ForDevelopersIcon fontSize="small" />,
-				iconFilled: <HomeIconFilled fontSize="small" />,
+				iconFilled: <ForDevelopersIconFilled fontSize="small" />,
 			},
 			{
 				title: t("Help"),
 				path: "/dashboard/account",
 				icon: <HelpIcon fontSize="small" />,
-				iconFilled: <HomeIconFilled fontSize="small" />,
+				iconFilled: <HelpIconFilled fontSize="small" />,
 			},
 			{
 				title: t("Knowledgbase"),
-				path: "/dashboard/account",
+				path: "/knowledgebase",
 				icon: <KnowledgebaseIcon fontSize="small" />,
-				iconFilled: <HomeIconFilled fontSize="small" />,
+				iconFilled: <KnowledgebaseIconFilled fontSize="small" />,
 			},
 			{
 				title: t("News"),
-				path: "/dashboard/account",
+				path: "/news",
 				icon: <NewsIcon fontSize="small" />,
-				iconFilled: <HomeIconFilled fontSize="small" />,
+				iconFilled: <NewsIconFilled fontSize="small" />,
 			},
 		],
 	},

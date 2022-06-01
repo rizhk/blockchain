@@ -34,6 +34,8 @@ export const DashboardSidebarItem: FC<DashboardSidebarItemProps> = (props) => {
     title,
     ...other
   } = props;
+
+   console.log (`props`,props)
   const [open, setOpen] = useState<boolean>(!!openProp);
   const router = useRouter();
 
@@ -110,6 +112,7 @@ export const DashboardSidebarItem: FC<DashboardSidebarItemProps> = (props) => {
 
   // Leaf
   console.log('icon',icon)
+  console.log('iconFilled',iconFilled)
   return (
   
     <ListItem
@@ -127,7 +130,7 @@ export const DashboardSidebarItem: FC<DashboardSidebarItemProps> = (props) => {
       >
         <Button
           component="a"
-          startIcon={icon}
+          startIcon={router.pathname == path ? iconFilled : icon}
           endIcon={chip}
           disableRipple
           // className={router.pathname == path ? "active" : ""}

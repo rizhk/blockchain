@@ -7,6 +7,7 @@ import { DashboardSidebarItem } from './dashboard-sidebar-item';
 interface Item {
   path?: string;
   icon?: ReactNode;
+  iconFilled?: ReactNode;
   chip?: ReactNode;
   info?: ReactNode;
   children?: Item[];
@@ -58,6 +59,7 @@ const reduceChildRoutes = ({
         chip={item.chip}
         depth={depth}
         icon={item.icon}
+        iconFilled={item.iconFilled}
         info={item.info}
         key={key}
         open={partialMatch}
@@ -78,6 +80,7 @@ const reduceChildRoutes = ({
         chip={item.chip}
         depth={depth}
         icon={item.icon}
+        iconFilled={item.iconFilled}
         info={item.info}
         key={key}
         path={item.path}
