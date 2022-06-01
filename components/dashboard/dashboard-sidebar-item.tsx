@@ -35,7 +35,7 @@ export const DashboardSidebarItem: FC<DashboardSidebarItemProps> = (props) => {
     ...other
   } = props;
 
-   console.log (`props`,props)
+
   const [open, setOpen] = useState<boolean>(!!openProp);
   const router = useRouter();
 
@@ -49,70 +49,6 @@ export const DashboardSidebarItem: FC<DashboardSidebarItemProps> = (props) => {
     paddingLeft = 32 + 8 * depth;
   }
 
-  // // Branch
-  // if (children) {
-  //   return (
-  //     <ListItem
-  //       disableGutters
-  //       sx={{
-  //         display: 'block',
-  //         mb: 0.5,
-  //         py: 0,
-  //         px: 2,
-  //         color: active ? 'secondary.main' : 'neutral.300',
-  //       }}
-    
-  //       {...other}
-  //     >
-  //       <Button
-  //         endIcon={
-  //           !open
-  //             ? <ChevronRightIcon fontSize="small" />
-  //             : <ChevronDownIcon fontSize="small" />
-  //         }
-  //         disableRipple
-  //         onClick={handleToggle}
-  //         startIcon={icon}
-  //         sx={{
-  //           color: active ? 'secondary.main' : 'neutral.300',
-  //           justifyContent: 'flex-start',
-  //           pl: `${paddingLeft}px`,
-  //           pr: 3,
-  //           textAlign: 'right',
-  //           textTransform: 'uppercase',
-  //           width: '100%',
-  //           '&:hover': {
-  //             backgroundColor: 'secondary.main'
-  //           },
-  //           '&:active': {
-  //             backgroundColor: 'secondary.main'
-  //           },
-  //           '& .MuiButton-startIcon': {
-  //             color: active ? 'secondary.main' : 'neutral.400'
-  //           },
-  //           '& .MuiButton-endIcon': {
-  //             color: 'neutral.400'
-  //           }
-  //         }}
-  //       >
-  //         <Box sx={{ flexGrow: 1 }}>
-  //           {title}
-  //         </Box>
-  //         {info}
-  //       </Button>
-  //       <Collapse
-  //         in={open}
-  //         sx={{ mt: 0.5 }}
-  //       >
-  //         {children}
-  //       </Collapse>
-  //     </ListItem>
-  //   );
-  // }
-
-  // Leaf
-  console.log('icon',icon)
-  console.log('iconFilled',iconFilled)
   return (
   
     <ListItem
