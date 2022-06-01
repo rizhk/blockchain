@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { FC, ReactNode } from 'react';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { Box, Button, Collapse, ListItem } from '@mui/material';
 import type { ListItemProps } from '@mui/material';
@@ -13,6 +14,7 @@ interface DashboardSidebarItemProps extends ListItemProps {
   chip?: ReactNode;
   depth: number;
   icon?: ReactNode;
+  iconFilled?: ReactNode;
   info?: ReactNode;
   open?: boolean;
   path?: string;
@@ -21,11 +23,11 @@ interface DashboardSidebarItemProps extends ListItemProps {
 
 export const DashboardSidebarItem: FC<DashboardSidebarItemProps> = (props) => {
   const {
-    active,
     children,
     chip,
     depth,
     icon,
+    iconFilled,
     info,
     open: openProp,
     path,
@@ -33,6 +35,7 @@ export const DashboardSidebarItem: FC<DashboardSidebarItemProps> = (props) => {
     ...other
   } = props;
   const [open, setOpen] = useState<boolean>(!!openProp);
+  const router = useRouter();
 
   const handleToggle = (): void => {
     setOpen((prevOpen) => !prevOpen);
@@ -44,66 +47,71 @@ export const DashboardSidebarItem: FC<DashboardSidebarItemProps> = (props) => {
     paddingLeft = 32 + 8 * depth;
   }
 
-  // Branch
-  if (children) {
-    return (
-      <ListItem
-        disableGutters
-        sx={{
-          display: 'block',
-          mb: 0.5,
-          py: 0,
-          px: 2,
-          color: active ? 'secondary.main' : 'neutral.300',
-        }}
+  // // Branch
+  // if (children) {
+  //   return (
+  //     <ListItem
+  //       disableGutters
+  //       sx={{
+  //         display: 'block',
+  //         mb: 0.5,
+  //         py: 0,
+  //         px: 2,
+  //         color: active ? 'secondary.main' : 'neutral.300',
+  //       }}
     
-        {...other}
-      >
-        <Button
-          endIcon={
-            !open
-              ? <ChevronRightIcon fontSize="small" />
-              : <ChevronDownIcon fontSize="small" />
-          }
-          disableRipple
-          onClick={handleToggle}
-          startIcon={icon}
-          sx={{
-            color: active ? 'secondary.main' : 'neutral.300',
-            justifyContent: 'flex-start',
-            pl: `${paddingLeft}px`,
-            pr: 3,
-            textAlign: 'right',
-            textTransform: 'uppercase',
-            width: '100%',
-            '&:hover': {
-              backgroundColor: 'secondary.main'
-            },
-            '& .MuiButton-startIcon': {
-              color: active ? 'secondary.main' : 'neutral.400'
-            },
-            '& .MuiButton-endIcon': {
-              color: 'neutral.400'
-            }
-          }}
-        >
-          <Box sx={{ flexGrow: 1 }}>
-            {title}
-          </Box>
-          {info}
-        </Button>
-        <Collapse
-          in={open}
-          sx={{ mt: 0.5 }}
-        >
-          {children}
-        </Collapse>
-      </ListItem>
-    );
-  }
+  //       {...other}
+  //     >
+  //       <Button
+  //         endIcon={
+  //           !open
+  //             ? <ChevronRightIcon fontSize="small" />
+  //             : <ChevronDownIcon fontSize="small" />
+  //         }
+  //         disableRipple
+  //         onClick={handleToggle}
+  //         startIcon={icon}
+  //         sx={{
+  //           color: active ? 'secondary.main' : 'neutral.300',
+  //           justifyContent: 'flex-start',
+  //           pl: `${paddingLeft}px`,
+  //           pr: 3,
+  //           textAlign: 'right',
+  //           textTransform: 'uppercase',
+  //           width: '100%',
+  //           '&:hover': {
+  //             backgroundColor: 'secondary.main'
+  //           },
+  //           '&:active': {
+  //             backgroundColor: 'secondary.main'
+  //           },
+  //           '& .MuiButton-startIcon': {
+  //             color: active ? 'secondary.main' : 'neutral.400'
+  //           },
+  //           '& .MuiButton-endIcon': {
+  //             color: 'neutral.400'
+  //           }
+  //         }}
+  //       >
+  //         <Box sx={{ flexGrow: 1 }}>
+  //           {title}
+  //         </Box>
+  //         {info}
+  //       </Button>
+  //       <Collapse
+  //         in={open}
+  //         sx={{ mt: 0.5 }}
+  //       >
+  //         {children}
+  //       </Collapse>
+  //     </ListItem>
+  //   );
+  // }
 
   // Leaf
+  console.log('icon',icon)
   return (
+  
     <ListItem
       disableGutters
       sx={{
@@ -122,6 +130,7 @@ export const DashboardSidebarItem: FC<DashboardSidebarItemProps> = (props) => {
           startIcon={icon}
           endIcon={chip}
           disableRipple
+          // className={router.pathname == path ? "active" : ""}
           sx={{
             borderRadius: 1,
             color: '#D1D5DB',
@@ -131,13 +140,13 @@ export const DashboardSidebarItem: FC<DashboardSidebarItemProps> = (props) => {
             textAlign: 'left',
             textTransform: 'none',
             width: '100%',
-            ...(active && {
+            ...(router.pathname == path && {
               backgroundColor: 'rgba(255,255,255, 0.08)',
               color: 'secondary.main',
               fontWeight: 'fontWeightBold'
             }),
             '& startIcon': {
-              color: active ? 'secondary.main' : 'neutral.400',
+              color: router.pathname == path ? 'secondary.main' : 'neutral.400',
             },
             '&:hover':  {
               backgroundColor: '#202A44',
