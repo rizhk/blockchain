@@ -30,7 +30,11 @@ import { PicanteApi } from "api/end-point";
 var DexContractAddr = process.env.NEXT_PUBLIC_DEX_CONTRACT_ADDRESS;
 
 const TradePaymentModal = (
-	props: { isPaymentShowing: any; sendPaymentMetaToParent: any; hide: any },
+	props: {
+		isPaymentShowing: any;
+		sendPaymentMetaToParent: any;
+		hide: any;
+	},
 	ref: React.Ref<unknown> | undefined
 ) => {
 	const [linkToken, setLinkToken] = useState("");
@@ -38,6 +42,7 @@ const TradePaymentModal = (
 	let _txn = useRef(PaymentRequest);
 	const [accHolder, setAccHolder] = useState("");
 	const [paymentId, setPaymentId] = useState("");
+
 	useEffect(function persistPaymentId() {
 		localStorage.setItem("paymentId", paymentId);
 	});
@@ -54,76 +59,90 @@ const TradePaymentModal = (
 	};
 
 	type TransferRequest = {
-		transactionId: string;
-		paymentId: string;
+		txn_id: string;
+		payment_id: string;
 	};
 
 	useImperativeHandle(
 		ref,
 		() => ({
-			callCreatePaymentToken(txn: any) {
-				setAccHolder(txn.sellerAcc.accHolder);
+			callCreatePaymentToken(data: any) {
+				// setAccHolder(txn.sellerAcc.accHolder);
 				// setAmount(ethers.utils.formatEther(txn.amount)); //To be fixed
-				_txn.current = txn;
-				createPaymentToken();
+				console.log("callCreatePaymentToken");
+				console.log(data);
+
+				_txn.current = data;
+				// createPaymentToken();
+				if (data.link_token) {
+					//
+					console.log("setToken: " + data.link_token);
+					setLinkToken(data.link_token);
+					console.log("setPaymentId: " + data.payment_id);
+					setPaymentId(data.payment_id);
+
+					if (ready) {
+						console.log("Ready");
+					}
+				} else {
+					console.log("Link Token cannot be created");
+				}
 			},
 		}),
 		[]
 	);
 
-	const createPaymentToken = async () => {
-		console.log("Initial payment with plaid");
-		let p: PaymentRequest = {
-			amount: Number(ethers.utils.formatEther(_txn.current.amount)), //TODO use buyGemAmount in contract, for now it's hardcord 1:1.25
-			sellerAcc: {
-				id: _txn.current.sellerAcc.id,
-				accHolder: _txn.current.sellerAcc.accHolder,
-				accountNum: _txn.current.sellerAcc.accountNum.toString(),
-				sortCode: _txn.current.sellerAcc.sortCode.toString(),
-				iban: _txn.current.sellerAcc.iban,
-			},
-		};
+	// const createPaymentToken = async () => {
+	// 	console.log("Initial payment with plaid");
+	// 	let p: PaymentRequest = {
+	// 		amount: Number(ethers.utils.formatEther(_txn.current.amount)), //TODO use buyGemAmount in contract, for now it's hardcord 1:1.25
+	// 		sellerAcc: {
+	// 			id: _txn.current.sellerAcc.id,
+	// 			accHolder: _txn.current.sellerAcc.accHolder,
+	// 			accountNum: _txn.current.sellerAcc.accountNum.toString(),
+	// 			sortCode: _txn.current.sellerAcc.sortCode.toString(),
+	// 			iban: _txn.current.sellerAcc.iban,
+	// 		},
+	// 	};
 
-		try {
-			const response = await fetch(
-				PicanteApi.PlaidCreatePaymentLinkToken,
-				{
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify(p),
-				}
-			);
-			if (!response.ok) {
-				return;
-			}
-			const data = await response.json();
+	// 	try {
+	// 		const response = await fetch(
+	// 			PicanteApi.PlaidCreatePaymentLinkToken,
+	// 			{
+	// 				method: "POST",
+	// 				headers: { "Content-Type": "application/json" },
+	// 				body: JSON.stringify(p),
+	// 			}
+	// 		);
+	// 		if (!response.ok) {
+	// 			return;
+	// 		}
+	// 		const data = await response.json();
 
-			if (data.link_token) {
-				//
-				console.log("setToken: " + data.link_token);
-				setLinkToken(data.link_token);
-				console.log("setPaymentId: " + data.payment_id);
-				setPaymentId(data.payment_id);
+	// 		if (data.link_token) {
+	// 			//
+	// 			console.log("setToken: " + data.link_token);
+	// 			setLinkToken(data.link_token);
+	// 			console.log("setPaymentId: " + data.payment_id);
+	// 			setPaymentId(data.payment_id);
 
-				if (ready) {
-					console.log("Ready");
-				}
-			} else {
-				console.log("Link Token cannot be created");
-			}
-		} catch (err) {
-			console.error(err);
-		}
-	};
+	// 			if (ready) {
+	// 				console.log("Ready");
+	// 			}
+	// 		} else {
+	// 			console.log("Link Token cannot be created");
+	// 		}
+	// 	} catch (err) {
+	// 		console.error(err);
+	// 	}
+	// };
 
 	const { open, ready } = usePlaidLink({
 		token: linkToken,
 		onSuccess: (public_token, metadata) => {
-			console.log(public_token, metadata);
-
 			let t: TransferRequest = {
-				txn_id: _txn.current.id.toString(),
-				payment_id: localStorage.getItem("paymentId"),
+				txn_id: String(_txn.current.txn_id),
+				payment_id: String(localStorage.getItem("paymentId")),
 			};
 
 			props.sendPaymentMetaToParent(t);

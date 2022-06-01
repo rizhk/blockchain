@@ -38,18 +38,21 @@ import { PicanteApi } from "api/end-point";
 import { walletApi } from "api/wallet-api";
 import { useMounted } from "hooks/use-mounted";
 import { Wallet } from "types/wallet";
+import { buyOfferApi } from "api/market-buy-offer-api";
+import { CreateBuyOfferRequest } from "types/buy-offer";
 
 const tokenAddr = process.env.NEXT_PUBLIC_TOKEN_CONTRACT_ADDRESS!;
 const DexContractAddr = process.env.NEXT_PUBLIC_DEX_CONTRACT_ADDRESS!;
 
 export const BuyPanel: FC = (props) => {
 	const theme = useTheme();
-	const cref = useRef()!;
+	const cref = useRef(Object)!;
 	const isMounted = useMounted();
 
 	var picanteChargePercentage = 1;
 
 	//payment modal
+	const [paymentObject, setPaymentObject] = React.useState(null);
 	const { isPaymentShowing, togglePayment } = usePaymentModal();
 
 	const [txnHash, setTxnHash] = React.useState("");
@@ -76,16 +79,9 @@ export const BuyPanel: FC = (props) => {
 		}
 	}, [isMounted]);
 
-	useEffect(
-		() => {
-			getWallets();
-		},
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[]
-	);
-
-	const { isWalletConnectShowing, toggleWalletConnect } =
-		useWalletConnectModal();
+	useEffect(() => {
+		getWallets();
+	}, []);
 
 	//find offer modal
 	const { isMatchingOfferShowing, toggleMatchingOffer } =
@@ -129,14 +125,16 @@ export const BuyPanel: FC = (props) => {
 	};
 
 	const callCreatePaymentToken = (
-		cref: React.MutableRefObject<undefined>,
-		txn: any
+		cref: React.MutableRefObject<Object>,
+		payment: Object
 	) => {
-		cref?.current?.callCreatePaymentToken(txn);
+		cref?.current?.callCreatePaymentToken(payment);
 	};
 
 	const requestTransfer = async (t: any) => {
 		try {
+			console.log(t);
+			return;
 			const response = await fetch(PicanteApi.RequestTransfer, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
@@ -173,7 +171,7 @@ export const BuyPanel: FC = (props) => {
 			amountPay: undefined,
 			amountReceive: 0,
 			amountReward: 0,
-			paymentMethod: 1,
+			paymentMethod: "plaid",
 			receiveWallet: undefined,
 			submit: null,
 		},
@@ -188,61 +186,80 @@ export const BuyPanel: FC = (props) => {
 		onSubmit: async (values, helpers): Promise<void> => {
 			setErrorMessage("");
 			try {
-				let provider = null;
-				// Step 1. connect wallet
-				if (!web3Provider) {
-					toggleWalletConnect();
-
-					provider = await connect();
-
-					toggleWalletConnect();
-				} else {
-					provider = web3Provider;
-				}
-
-				toggleConfirmPurchase();
-
-				const signer = provider.getSigner();
-
-				const iface = new Interface(DexContractAbi);
-				var abi = iface.format(FormatTypes.full);
-
-				const myDexContract = new ethers.Contract(
-					DexContractAddr,
-					abi,
-					signer
-				);
-				console.log(
-					"ether: " +
-						ethers.utils.parseEther(values.amountReceive.toString())
-				);
-				var findOffer = null;
-				findOffer = await myDexContract.findOffer(
-					tokenAddr,
-					ethers.utils.parseEther(values.amountReceive.toString())
-				);
-
-				console.log("waiting transaction complete in blockchain");
-				toggleConfirmPurchase();
 				toggleMatchingOffer();
-				//Record this receipt to backend
-				const receipt = await findOffer.wait();
 
-				console.log("transaction is completed");
+				//TODO: use selected option instead of hard code
+				const req: CreateBuyOfferRequest = {
+					wallet_addr: String(values.receiveWallet),
+					buy_gem: String(tokenAddr),
+					pay_gem: "GBP",
+					pay_gem_total: Number(values.amountPay),
+					payment_method: String(values.paymentMethod),
+					network_id: "80001",
+				};
+
+				let result = await buyOfferApi.create(req);
+				toggleMatchingOffer();
+				callCreatePaymentToken(cref, result);
+				togglePayment();
+
+				console.log(result);
+				return;
+				// let provider = null;
+				// Step 1. connect wallet
+				// if (!web3Provider) {
+				// 	toggleWalletConnect();
+
+				// 	provider = await connect();
+
+				// 	toggleWalletConnect();
+				// } else {
+				// 	provider = web3Provider;
+				// }
+
+				// toggleConfirmPurchase();
+
+				// const signer = provider.getSigner();
+
+				// const iface = new Interface(DexContractAbi);
+				// var abi = iface.format(FormatTypes.full);
+
+				// const myDexContract = new ethers.Contract(
+				// 	DexContractAddr,
+				// 	abi,
+				// 	signer
+				// );
+				// console.log(
+				// 	"ether: " +
+				// 		ethers.utils.parseEther(values.amountReceive.toString())
+				// );
+				// var findOffer = null;
+				// findOffer = await myDexContract.findOffer(
+				// 	tokenAddr,
+				// 	ethers.utils.parseEther(values.amountReceive.toString())
+				// );
+
+				// console.log("waiting transaction complete in blockchain");
+				// toggleConfirmPurchase();
+				// toggleMatchingOffer();
+				//Record this receipt to backend
+				// const receipt = await findOffer.wait();
+
+				// console.log("transaction is completed");
 
 				// console.log(receipt);
 
-				const decode = myDexContract.interface.decodeEventLog(
-					"CreateTransaction",
-					receipt.logs[0].data
-				);
+				// const decode = myDexContract.interface.decodeEventLog(
+				// 	"CreateTransaction",
+				// 	receipt.logs[0].data
+				// );
 
 				// console.log(decode.txn);
 
-				callCreatePaymentToken(cref, decode.txn);
-				toggleMatchingOffer();
-				togglePayment();
-				console.log("switch to payment screen");
+				// callCreatePaymentToken(cref, decode.txn);
+				// toggleMatchingOffer();
+				// togglePayment();
+				// console.log("switch to payment screen");
 
 				return;
 			} catch (err) {
@@ -259,10 +276,10 @@ export const BuyPanel: FC = (props) => {
 
 	return (
 		<form noValidate onSubmit={formik.handleSubmit} {...props}>
-			<WalletConnectModal
+			{/* <WalletConnectModal
 				isWalletConnectShowing={isWalletConnectShowing}
 				hide={isWalletConnectShowing}
-			/>
+			/> */}
 			<TradeMatchingOfferModal
 				isMatchingOfferShowing={isMatchingOfferShowing}
 				hide={toggleMatchingOffer}

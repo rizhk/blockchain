@@ -5,6 +5,7 @@ export const PicanteApi = {
 	BankAccount: PicanteApiHost + "/v1/bank-account",
 	PlaidCreatePaymentLinkToken:
 		PicanteApiHost + "/v1/plaid/payment/link/token/create",
+	BuyOffer: PicanteApiHost + "/v1/market/offer/buy",
 	SellOffer: PicanteApiHost + "/v1/market/offer/sell",
 	SellTxn: PicanteApiHost + "/v1/market/transaction/sell",
 	Transaction: PicanteApiHost + "/v1/transaction",

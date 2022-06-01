@@ -1,8 +1,4 @@
-import { subDays, subHours } from "date-fns";
-import type { SellOffer } from "../types/offer";
 import { PicanteApi } from "./end-point";
-
-const now = new Date();
 
 type CreateSellOfferRequest = {
 	wallet_addr: string; ////TODO: https://picante.atlassian.net/jira/software/projects/PP/boards/2?selectedIssue=PP-160
