@@ -345,10 +345,6 @@ export const SellPanel: FC = (props) => {
 					fullWidth
 					size="large"
 					variant="contained"
-					sx={{
-						background:
-							"linear-gradient(90deg, #BC043D 0%, #FF5A04 100%)",
-					}}
 					type="submit">
 					Sell now
 				</Button>

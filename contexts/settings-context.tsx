@@ -35,9 +35,7 @@ export const restoreSettings = (): Settings | null => {
       settings = {
         direction: 'ltr',
         responsiveFontSizes: true,
-        theme: globalThis.matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'dark'
-          : 'light'
+        theme: 'light'
       };
     }
   } catch (err) {

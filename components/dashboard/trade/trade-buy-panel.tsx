@@ -258,7 +258,7 @@ export const BuyPanel: FC = (props) => {
 	});
 
 	return (
-		<form noValidate onSubmit={formik.handleSubmit} {...props} >
+		<form noValidate onSubmit={formik.handleSubmit} {...props}>
 			<WalletConnectModal
 				isWalletConnectShowing={isWalletConnectShowing}
 				hide={isWalletConnectShowing}
@@ -312,7 +312,7 @@ export const BuyPanel: FC = (props) => {
 						}}
 					/>
 				</Grid>
-				<Grid item md={4} xs={4} >
+				<Grid item md={4} xs={4}>
 					<FiatSelector />
 				</Grid>
 			</Grid>
@@ -331,7 +331,11 @@ export const BuyPanel: FC = (props) => {
 					/>
 				</Grid>
 			</Grid>
-			<Grid container spacing={2.5} mb={2.5} sx={{marginLeft:'0px',marginTop:'5px'}}>
+			<Grid
+				container
+				spacing={2.5}
+				mb={2.5}
+				sx={{ marginLeft: "0px", marginTop: "5px" }}>
 				<LazyLoadImage
 					src={process.env.NEXT_PUBLIC_URL + "static/Connector.svg"} // use normal <img> attributes as props
 				/>
@@ -424,10 +428,6 @@ export const BuyPanel: FC = (props) => {
 					fullWidth
 					size="large"
 					variant="contained"
-					sx={{
-						background:
-							"linear-gradient(90deg, #BC043D 0%, #FF5A04 100%)",
-					}}
 					type="submit">
 					Buy now
 				</Button>

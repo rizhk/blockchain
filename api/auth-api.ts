@@ -3,6 +3,7 @@ import { createResourceId } from "../utils/create-resource-id";
 import { sign, decode, JWT_SECRET, JWT_EXPIRES_IN } from "../utils/jwt";
 import { PicanteApi } from "./end-point";
 import { wait } from "../utils/wait";
+import { constrainPoint } from "@fullcalendar/common";
 
 const PicanteAPI = process.env.NEXT_PUBLIC_PICANTE_API_END_POINT;
 
@@ -76,13 +77,13 @@ class AuthApi {
 		email,
 		name,
 		password,
-	}: {
+	}: // phone,
+	{
 		email: string;
 		name: string;
 		password: string;
+		// phone: string;
 	}): Promise<string> {
-		await wait(1000);
-
 		return new Promise((resolve, reject) => {
 			try {
 				// Check if a user already exists
@@ -93,31 +94,60 @@ class AuthApi {
 					return;
 				}
 
-				user = {
-					id: createResourceId(),
-					avatar: undefined,
+				let body = {
 					email,
-					name,
+					full_name: name,
 					password,
-					wallets: ["0xB77F68Af0B76C825073F89C03b8323E7290C641D"],
-					bankAccounts: [
-						{
-							id: "string",
-							accountNum: "string",
-							createdAt: "string",
-							updatedAt: "string",
-						},
-					],
-					plan: "Standard",
+					// phone,
 				};
 
-				users.push(user);
-
-				const accessToken = sign({ userId: user.id }, JWT_SECRET, {
-					expiresIn: JWT_EXPIRES_IN,
-				});
-
-				resolve(accessToken);
+				fetch(PicanteApi.Register, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(body),
+				})
+					.then((response) => response.json())
+					.then(
+						(data) => {
+							if (!data.error) {
+								fetch(PicanteApi.Auth, {
+									method: "POST",
+									headers: {
+										"Content-Type": "application/json",
+									},
+									body: JSON.stringify({
+										email,
+										password,
+									}),
+								})
+									.then((response) => response.json())
+									.then(
+										(data) => {
+											console.log(data);
+											if (!data.error) {
+												resolve(data.token);
+											} else {
+												reject(new Error("error"));
+											}
+										},
+										(error) => {
+											reject(new Error(error.message));
+										}
+									);
+							} else {
+								if (data.message != "") {
+									reject(new Error(data.message));
+								} else {
+									reject(new Error("error"));
+								}
+							}
+						},
+						(error) => {
+							reject(new Error(error.message));
+						}
+					);
 			} catch (err) {
 				console.error("[Auth Api]: ", err);
 				reject(new Error("Internal server error"));

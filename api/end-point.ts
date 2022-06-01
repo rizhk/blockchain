@@ -10,4 +10,5 @@ export const PicanteApi = {
 	Transaction: PicanteApiHost + "/v1/transaction",
 	Wallet: PicanteApiHost + "/v1/wallet",
 	RequestTransfer: PicanteApiHost + "/v1/contract/exchange/transfer/request",
+	Register: PicanteApiHost + "/v1/user",
 };

@@ -62,10 +62,6 @@ const TokenTransferedModal = (
 									{/* <Button
 										size="large"
 										variant="contained"
-										sx={{
-											background:
-												"linear-gradient(90deg, #BC043D 0%, #FF5A04 100%)",
-										}}
 										onClick={() =>
 											Router.push(
 												"/dashboard/transactions"
@@ -77,10 +73,6 @@ const TokenTransferedModal = (
 										<Button
 											size="large"
 											variant="contained"
-											sx={{
-												background:
-													"linear-gradient(90deg, #BC043D 0%, #FF5A04 100%)",
-											}}
 											onClick={() =>
 												window.open(
 													"https://mumbai.polygonscan.com/tx/" +

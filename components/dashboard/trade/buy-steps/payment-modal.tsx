@@ -191,11 +191,6 @@ const TradePaymentModal = (
 								</Typography> */}
 								<Button
 									size="large"
-									sx={{
-										background:
-											"linear-gradient(90deg, #BC043D 0%, #FF5A04 100%)",
-										mt: 3,
-									}}
 									variant="contained"
 									onClick={() => open()}
 									disabled={!ready}>
