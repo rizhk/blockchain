@@ -59,16 +59,6 @@ const TokenTransferedModal = (
 									Thank you for using Picante.
 								</Typography>
 								<Box sx={{ mt: 3 }}>
-									{/* <Button
-										size="large"
-										variant="contained"
-										onClick={() =>
-											Router.push(
-												"/dashboard/transactions"
-											)
-										}>
-										Close
-									</Button> */}
 									{props.txnHash && (
 										<Button
 											size="large"
@@ -83,6 +73,18 @@ const TokenTransferedModal = (
 											View Transaction
 										</Button>
 									)}
+									{
+										<Button
+											size="large"
+											variant="outlined"
+											onClick={() =>
+												Router.push(
+													"/dashboard/transactions"
+												)
+											}>
+											Close
+										</Button>
+									}
 								</Box>
 							</Paper>
 						</Container>

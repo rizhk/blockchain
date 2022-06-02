@@ -23,6 +23,11 @@ export interface CreateSellTxnRequest {
 	txn_hash: string;
 }
 
+export interface VeriftyTokenTransferRequest {
+	txn_id: string;
+	txn_hash: string;
+}
+
 export const transactionTypeOptions = [
 	{
 		label: "Buy",

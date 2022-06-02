@@ -13,5 +13,7 @@ export const PicanteApi = {
 	// RequestTransfer: PicanteApiHost + "/v1/contract/exchange/transfer/request",
 	RequestTransfer:
 		PicanteApiHost + "/v1/market/transaction/buy/request/transfer",
+	VerfiyTokenTransfer:
+		PicanteApiHost + "/v1/market/transaction/buy/verify/token-transfer",
 	Register: PicanteApiHost + "/v1/user",
 };

@@ -41,7 +41,10 @@ import { Wallet } from "types/wallet";
 import { buyOfferApi } from "api/market-buy-offer-api";
 import { CreateBuyOfferRequest } from "types/buy-offer";
 import { transactionApi } from "api/transaction-api";
-import { TransferRequest } from "types/transaction";
+import {
+	TransferRequest,
+	VeriftyTokenTransferRequest,
+} from "types/transaction";
 
 const tokenAddr = process.env.NEXT_PUBLIC_TOKEN_CONTRACT_ADDRESS!;
 const DexContractAddr = process.env.NEXT_PUBLIC_DEX_CONTRACT_ADDRESS!;
@@ -134,21 +137,7 @@ export const BuyPanel: FC = (props) => {
 
 	const requestTransfer = async (req: TransferRequest) => {
 		try {
-			// const response = await fetch(PicanteApi.RequestTransfer, {
-			// 	method: "POST",
-			// 	headers: { "Content-Type": "application/json" },
-			// 	body: JSON.stringify(t),
-			// });
-			// if (!response.ok) {
-			// 	return;
-			// }
-			// const data = await response.json();
-
-			// if (!data.TransactionHashHex) {
-			// 	throw new Error("transfer request error");
-			// }
-
-			let hex = await transactionApi.requestTransfer(req);
+			const hex = await transactionApi.requestTransfer(req);
 			if (!hex) {
 				throw new Error("transfer request error");
 			}
@@ -156,10 +145,18 @@ export const BuyPanel: FC = (props) => {
 			let txn = await web3Provider.waitForTransaction(hex);
 
 			if (txn) {
+				let txnHash = hex;
 				if (txn.blockNumber) {
 					toggleRequestTransfer();
-					setTxnHash(hex);
+					setTxnHash(txnHash);
 					toggleTokenTransfered();
+
+					let vReq: VeriftyTokenTransferRequest = {
+						txn_id: String(req.txn_id),
+						txn_hash: String(txnHash),
+					};
+
+					await transactionApi.verifyTokenTransfer(vReq);
 					console.log("Transfer success");
 				}
 			}
@@ -204,65 +201,6 @@ export const BuyPanel: FC = (props) => {
 				toggleMatchingOffer();
 				callCreatePaymentToken(cref, result);
 				togglePayment();
-
-				console.log(result);
-				return;
-				// let provider = null;
-				// Step 1. connect wallet
-				// if (!web3Provider) {
-				// 	toggleWalletConnect();
-
-				// 	provider = await connect();
-
-				// 	toggleWalletConnect();
-				// } else {
-				// 	provider = web3Provider;
-				// }
-
-				// toggleConfirmPurchase();
-
-				// const signer = provider.getSigner();
-
-				// const iface = new Interface(DexContractAbi);
-				// var abi = iface.format(FormatTypes.full);
-
-				// const myDexContract = new ethers.Contract(
-				// 	DexContractAddr,
-				// 	abi,
-				// 	signer
-				// );
-				// console.log(
-				// 	"ether: " +
-				// 		ethers.utils.parseEther(values.amountReceive.toString())
-				// );
-				// var findOffer = null;
-				// findOffer = await myDexContract.findOffer(
-				// 	tokenAddr,
-				// 	ethers.utils.parseEther(values.amountReceive.toString())
-				// );
-
-				// console.log("waiting transaction complete in blockchain");
-				// toggleConfirmPurchase();
-				// toggleMatchingOffer();
-				//Record this receipt to backend
-				// const receipt = await findOffer.wait();
-
-				// console.log("transaction is completed");
-
-				// console.log(receipt);
-
-				// const decode = myDexContract.interface.decodeEventLog(
-				// 	"CreateTransaction",
-				// 	receipt.logs[0].data
-				// );
-
-				// console.log(decode.txn);
-
-				// callCreatePaymentToken(cref, decode.txn);
-				// toggleMatchingOffer();
-				// togglePayment();
-				// console.log("switch to payment screen");
-
 				return;
 			} catch (err) {
 				console.error(err);
