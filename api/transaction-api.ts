@@ -1,13 +1,7 @@
 import { subDays, subHours } from "date-fns";
 import type { Transaction } from "../types/transaction";
 import { PicanteApi } from "./end-point";
-
-const now = new Date();
-
-type CreateSellTxnRequest = {
-	offer_id: string;
-	txn_hash: string;
-};
+import { TransferRequest, CreateSellTxnRequest } from "types/transaction";
 class TransactionApi {
 	async createSellTxn({
 		offer_id,
@@ -96,6 +90,35 @@ class TransactionApi {
 							const transactions = <Transaction>data.item;
 
 							return resolve(transactions);
+						}
+					},
+					(error) => {
+						return reject(new Error(error.message));
+					}
+				);
+		});
+	}
+
+	requestTransfer(req: TransferRequest): Promise<string> {
+		return new Promise((resolve, reject) => {
+			const accessToken =
+				globalThis.localStorage.getItem("accessToken") || "";
+
+			fetch(PicanteApi.RequestTransfer, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authentication: accessToken,
+				},
+				body: JSON.stringify(req),
+			})
+				.then((response) => response.json())
+				.then(
+					(data) => {
+						if (!data.TransactionHashHex) {
+							return reject(new Error("transfer request error"));
+						} else {
+							return resolve(data.TransactionHashHex);
 						}
 					},
 					(error) => {

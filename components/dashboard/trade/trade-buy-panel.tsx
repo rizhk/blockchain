@@ -40,6 +40,8 @@ import { useMounted } from "hooks/use-mounted";
 import { Wallet } from "types/wallet";
 import { buyOfferApi } from "api/market-buy-offer-api";
 import { CreateBuyOfferRequest } from "types/buy-offer";
+import { transactionApi } from "api/transaction-api";
+import { TransferRequest } from "types/transaction";
 
 const tokenAddr = process.env.NEXT_PUBLIC_TOKEN_CONTRACT_ADDRESS!;
 const DexContractAddr = process.env.NEXT_PUBLIC_DEX_CONTRACT_ADDRESS!;
@@ -57,12 +59,11 @@ export const BuyPanel: FC = (props) => {
 
 	const [txnHash, setTxnHash] = React.useState("");
 
-	const sendPaymentMetaToParent = (transaction: any) => {
+	const sendPaymentMetaToParent = (req: TransferRequest) => {
 		// the callback. Use a better name
-		console.log(transaction);
 		togglePayment(); //close payment modal
 		toggleRequestTransfer();
-		requestTransfer(transaction);
+		requestTransfer(req);
 	};
 
 	const [wallets, setWallets] = useState<Wallet[]>([]);
@@ -131,32 +132,33 @@ export const BuyPanel: FC = (props) => {
 		cref?.current?.callCreatePaymentToken(payment);
 	};
 
-	const requestTransfer = async (t: any) => {
+	const requestTransfer = async (req: TransferRequest) => {
 		try {
-			console.log(t);
-			return;
-			const response = await fetch(PicanteApi.RequestTransfer, {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(t),
-			});
-			if (!response.ok) {
-				return;
-			}
-			const data = await response.json();
+			// const response = await fetch(PicanteApi.RequestTransfer, {
+			// 	method: "POST",
+			// 	headers: { "Content-Type": "application/json" },
+			// 	body: JSON.stringify(t),
+			// });
+			// if (!response.ok) {
+			// 	return;
+			// }
+			// const data = await response.json();
 
-			if (!data.TransactionHashHex) {
+			// if (!data.TransactionHashHex) {
+			// 	throw new Error("transfer request error");
+			// }
+
+			let hex = await transactionApi.requestTransfer(req);
+			if (!hex) {
 				throw new Error("transfer request error");
 			}
 
-			let txn = await web3Provider.waitForTransaction(
-				data.TransactionHashHex
-			);
+			let txn = await web3Provider.waitForTransaction(hex);
 
 			if (txn) {
 				if (txn.blockNumber) {
 					toggleRequestTransfer();
-					setTxnHash(data.TransactionHashHex);
+					setTxnHash(hex);
 					toggleTokenTransfered();
 					console.log("Transfer success");
 				}
