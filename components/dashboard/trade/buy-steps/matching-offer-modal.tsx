@@ -9,6 +9,33 @@ import {
 import React from "react";
 import ReactDOM from "react-dom";
 import MatchingOfferLottie from "hooks/lottie/matching-offer/";
+import { ProgressSteps } from "components/common/progress-steps";
+
+// steps for the progress bar
+const progressStages = [
+	{
+	  label: 'Select a wallet',
+	  status: 'complete',
+	},
+	{
+	  label: 'Connect to you wallet',
+	   status: 'complete',
+	},
+	{
+	  label: 'Match with seller',
+	  status: 'pending',
+	},
+	{
+	  label: 'Payment',
+	   status: 'pending',
+	},
+	{
+	  label: 'Receive your Crypto',
+	   status: 'pending',
+	},
+  ]
+	   
+
 
 export const TradeMatchingOfferModal = (props: {
 	isMatchingOfferShowing: any;
@@ -50,7 +77,8 @@ export const TradeMatchingOfferModal = (props: {
 									Picante is now matching you with a seller to
 									fill your order
 								</Typography>
-								<MatchingOfferLottie />
+								<MatchingOfferLottie  width="25px"/>
+								<ProgressSteps progressTitle="Progress" progressStages={progressStages}/>
 							</div>
 						</Container>
 					</Box>
