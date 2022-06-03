@@ -168,8 +168,8 @@ class AuthApi {
 					.then((response) => response.json())
 					.then(
 						(data) => {
-							if (data.fake_me) {
-								resolve(data.fake_me);
+							if (data.me) {
+								resolve(data.me);
 							} else {
 								reject(
 									new Error("Invalid authorization token")
