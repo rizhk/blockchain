@@ -16,22 +16,17 @@ import { BankAccountSelector } from "./trade-payment-receive-selector";
 import { CryptoSelector } from "./trade-crypto-selector";
 import { PicanteReward } from "./trade-picante-reward";
 import { useWeb3, useWalletConnectModal } from "hooks/Web3Client";
+import { ethers } from "ethers";
 import WalletConnectModal from "./trade-wallet-connect-modal";
 import GrantPermissionModal from "./sell-steps/grant-permission-modal";
-import GrantingPermissionModal from "./sell-steps/granting-permission-modal";
-import PermissionGrantedModal from "./sell-steps/permission-granted-modal";
 import SendTokenModal from "./sell-steps/send-token-modal";
 import TokenTransferedModal from "./sell-steps/token-transfered-modal";
 import {
 	useSendTokenModal,
-	usePermissionGrantedModal,
-	useGrantingPermissionModal,
 	useGrantPermissionModal,
 	useTokenTransferedModal,
 } from "hooks/use-sell-modal";
 import { default as tokenContractAbi } from "contracts/PicanteTokenAbi.json";
-import { default as DexContractAbi } from "contracts/PicanteDexAbi.json";
-import { ethers } from "ethers";
 import { FormatTypes, Interface } from "ethers/lib/utils";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { bankAccountApi } from "api/bank-account-api";
@@ -39,6 +34,7 @@ import { useMounted } from "hooks/use-mounted";
 import { BankAccount } from "types/bank-account";
 import { sellOfferApi } from "api/market-sell-offer-api";
 import { transactionApi } from "api/transaction-api";
+import { ConsoleLogger } from "@aws-amplify/core";
 
 const tokenAddr = process.env.NEXT_PUBLIC_TOKEN_CONTRACT_ADDRESS!;
 const DexContractAddr = process.env.NEXT_PUBLIC_DEX_CONTRACT_ADDRESS!;
@@ -75,18 +71,12 @@ export const SellPanel: FC = (props) => {
 	const { isGrantPermissionShowing, toggleGrantPermission } =
 		useGrantPermissionModal();
 
-	const { isGrantingPermissionShowing, toggleGrantingPermission } =
-		useGrantingPermissionModal();
-
-	const { isPermissionGrantedShowing, togglePermissionGranted } =
-		usePermissionGrantedModal();
-
 	const { isSendTokenShowing, toggleSendToken } = useSendTokenModal();
 
 	const { isTokenTransferedShowing, toggleTokenTransfered } =
 		useTokenTransferedModal();
 
-	const { web3Provider, connect, disconnect } = useWeb3();
+	const { web3Provider, connect } = useWeb3();
 
 	const [picanteCharge, setPicanteCharge] = React.useState(0);
 
@@ -124,15 +114,11 @@ export const SellPanel: FC = (props) => {
 		onSubmit: async (values, helpers): Promise<void> => {
 			try {
 				let provider = null;
-				// Step 1. connect wallet
-				if (web3Provider) {
+				provider = web3Provider;
+				if (provider == null) {
 					toggleWalletConnect();
-
 					provider = await connect();
-
 					toggleWalletConnect();
-				} else {
-					provider = web3Provider;
 				}
 
 				toggleGrantPermission();
@@ -188,8 +174,6 @@ export const SellPanel: FC = (props) => {
 							toggleSendToken();
 							toggleTokenTransfered();
 							console.log("Transfer success");
-							// togglePermissionGranted();
-							// placeOfferToDex();
 						}
 					}
 				}
@@ -208,14 +192,6 @@ export const SellPanel: FC = (props) => {
 			<GrantPermissionModal
 				isGrantPermissionShowing={isGrantPermissionShowing}
 				hide={isGrantPermissionShowing}
-			/>
-			<GrantingPermissionModal
-				isGrantingPermissionShowing={isGrantingPermissionShowing}
-				hide={isGrantingPermissionShowing}
-			/>
-			<PermissionGrantedModal
-				isPermissionGrantedShowing={isPermissionGrantedShowing}
-				hide={isPermissionGrantedShowing}
 			/>
 			<SendTokenModal
 				isSendTokenShowing={isSendTokenShowing}

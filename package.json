@@ -64,7 +64,6 @@
     "formik": "^2.2.9",
     "gray-matter": "^4.0.3",
     "i18next": "^21.6.14",
-    "iconv-lite": "^0.6.3",
     "lodash.debounce": "^4.0.8",
     "lottie-react": "^2.2.1",
     "next": "^12.0.10",
@@ -86,7 +85,6 @@
     "react-plaid-link": "^3.3.0",
     "react-quill": "^2.0.0-beta.4",
     "react-redux": "^7.2.6",
-    "react-swipeable-views": "^0.14.0",
     "react-syntax-highlighter": "^15.4.5",
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
@@ -96,8 +94,8 @@
     "stylis": "^4.0.13",
     "stylis-plugin-rtl": "^2.1.1",
     "typescript": "^4.5.5",
-    "web3": "^1.7.1",
-    "web3modal": "^1.9.5",
+    "web3": "^1.7.3",
+    "web3modal": "^1.9.7",
     "yup": "^0.32.11"
   },
   "devDependencies": {
