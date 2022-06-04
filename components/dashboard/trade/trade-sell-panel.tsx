@@ -113,8 +113,7 @@ export const SellPanel: FC = (props) => {
 		}),
 		onSubmit: async (values, helpers): Promise<void> => {
 			try {
-				let provider = null;
-				provider = web3Provider;
+				let provider = web3Provider;
 				if (provider == null) {
 					toggleWalletConnect();
 					provider = await connect();
