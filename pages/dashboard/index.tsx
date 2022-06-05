@@ -33,9 +33,11 @@ import { InformationCircleOutlined as InformationCircleOutlinedIcon } from "../.
 import { Reports as ReportsIcon } from "../../icons/reports";
 import { Users as UsersIcon } from "../../icons/users";
 import { gtm } from "../../lib/gtm";
+import { TutorialDialog } from "components/dashboard/tutorial-dialog";
 
 const Overview: NextPage = () => {
 	const [displayBanner, setDisplayBanner] = useState<boolean>(true);
+  const [displayTutorial, setDisplayTutorial] = useState<boolean>(true);
 
 	useEffect(() => {
 		gtm.push({ event: "page_view" });
@@ -48,6 +50,8 @@ const Overview: NextPage = () => {
 		if (value === "true") {
 			// setDisplayBanner(false);
 		}
+
+    
 	}, []);
 
 	const handleDismissBanner = () => {
@@ -370,6 +374,7 @@ const Overview: NextPage = () => {
             </Grid> */}
 					</Grid>
 				</Container>
+        <TutorialDialog open={displayTutorial} />
 			</Box>
 		</>
 	);

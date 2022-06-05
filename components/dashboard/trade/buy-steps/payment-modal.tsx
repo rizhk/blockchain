@@ -58,7 +58,7 @@ const TradePaymentModal = (
 ) => {
 	const [linkToken, setLinkToken] = useState("");
 
-	let _txn = useRef(PaymentRequest);
+	let _txn = useRef(null);
 	const [paymentId, setPaymentId] = useState("");
 
 	useEffect(function persistPaymentId() {
