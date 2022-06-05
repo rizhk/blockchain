@@ -374,7 +374,7 @@ const Overview: NextPage = () => {
             </Grid> */}
 					</Grid>
 				</Container>
-        <TutorialDialog open={displayTutorial} />
+        <TutorialDialog open={displayTutorial} onClose={(value) => value ? setDisplayTutorial(false) : {}} />
 			</Box>
 		</>
 	);
