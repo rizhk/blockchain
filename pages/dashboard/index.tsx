@@ -34,10 +34,14 @@ import { Reports as ReportsIcon } from "../../icons/reports";
 import { Users as UsersIcon } from "../../icons/users";
 import { gtm } from "../../lib/gtm";
 import { TutorialDialog } from "components/dashboard/tutorial-dialog";
+import { useAuth } from "hooks/use-auth";
+import { useMounted } from "hooks/use-mounted";
 
 const Overview: NextPage = () => {
 	const [displayBanner, setDisplayBanner] = useState<boolean>(true);
   const [displayTutorial, setDisplayTutorial] = useState<boolean>(true);
+  const { user, updateUser } = useAuth();
+  const isMounted = useMounted();
 
 	useEffect(() => {
 		gtm.push({ event: "page_view" });
@@ -51,14 +55,20 @@ const Overview: NextPage = () => {
 			// setDisplayBanner(false);
 		}
 
-    
-	}, []);
+    if (isMounted()) {
+      setDisplayTutorial(!user.skip_tutorial)
+    }
+	}, [user]);
 
 	const handleDismissBanner = () => {
 		// Update the persistent state
 		// globalThis.sessionStorage.setItem('dismiss-banner', 'true');
 		setDisplayBanner(false);
 	};
+
+  const saveSetting = async () => {
+    await updateUser({})
+  }
 
 	return (
 		<>
@@ -374,7 +384,7 @@ const Overview: NextPage = () => {
             </Grid> */}
 					</Grid>
 				</Container>
-        <TutorialDialog open={displayTutorial} onClose={(value) => value ? setDisplayTutorial(false) : {}} />
+        <TutorialDialog open={displayTutorial} onClose={(value) => value ? saveSetting() : {}} />
 			</Box>
 		</>
 	);

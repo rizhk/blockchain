@@ -1,7 +1,9 @@
 export interface User {
-	id: string;
-	avatar?: string;
+	// id: string;
+	// avatar?: string;
 	email: string;
+	full_name: string;
+	skip_tutorial: boolean;
 	// name: string;
 	// wallets: string[];
 	// bankAccounts: BankAccount[];

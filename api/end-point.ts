@@ -16,4 +16,5 @@ export const PicanteApi = {
 	VerfiyTokenTransfer:
 		PicanteApiHost + "/v1/market/transaction/buy/verify/token-transfer",
 	Register: PicanteApiHost + "/v1/user",
+	TutorialSkip: PicanteApiHost + "/v1/user/tutorial/skip",
 };

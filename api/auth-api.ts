@@ -186,6 +186,40 @@ class AuthApi {
 			}
 		});
 	}
+
+	tutorialSkip(accessToken: string): Promise<void> {
+		return new Promise((resolve, reject) => {
+			try {
+				fetch(PicanteApi.TutorialSkip, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authentication: accessToken,
+					},
+					body: JSON.stringify({ skip_tutorial: true })
+				})
+					.then((response) => response.json())
+					.then(
+						(data) => {
+							console.log(data)
+							if (!data.error) {
+								resolve();
+							} else {
+								reject(
+									new Error("Invalid authorization token")
+								);
+							}
+						},
+						(error) => {
+							reject(new Error(error.message));
+						}
+					);
+			} catch (err) {
+				console.error("[Auth Api]: ", err);
+				reject(new Error("Internal server error"));
+			}
+		})
+	}
 }
 
 export const authApi = new AuthApi();

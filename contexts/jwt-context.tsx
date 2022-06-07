@@ -15,6 +15,7 @@ export interface AuthContextValue extends State {
 	login: (email: string, password: string) => Promise<void>;
 	logout: () => Promise<void>;
 	register: (email: string, name: string, password: string) => Promise<void>;
+	updateUser: (data: Partial<User>) => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -26,6 +27,7 @@ enum ActionType {
 	LOGIN = "LOGIN",
 	LOGOUT = "LOGOUT",
 	REGISTER = "REGISTER",
+	UPDATE_USER = "UPDATE_USER",
 }
 
 type InitializeAction = {
@@ -54,7 +56,14 @@ type RegisterAction = {
 	};
 };
 
-type Action = InitializeAction | LoginAction | LogoutAction | RegisterAction;
+type UpdateAction = {
+	type: ActionType.UPDATE_USER;
+	payload: {
+		user: User;
+	};
+};
+
+type Action = InitializeAction | LoginAction | LogoutAction | RegisterAction | UpdateAction;
 
 type Handler = (state: State, action: any) => State;
 
@@ -98,6 +107,14 @@ const handlers: Record<ActionType, Handler> = {
 			user,
 		};
 	},
+	UPDATE_USER: (state: State, action: RegisterAction): State => {
+		const { user } = action.payload;
+
+		return {
+			...state,
+			user,
+		};
+	},
 };
 
 const reducer = (state: State, action: Action): State =>
@@ -109,6 +126,7 @@ export const AuthContext = createContext<AuthContextValue>({
 	login: () => Promise.resolve(),
 	logout: () => Promise.resolve(),
 	register: () => Promise.resolve(),
+	updateUser: () => Promise.resolve(),
 });
 
 export const AuthProvider: FC<AuthProviderProps> = (props) => {
@@ -192,6 +210,21 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
 		});
 	};
 
+	const updateUser = async (data: Partial<User>): Promise<void> => {
+		const accessToken = localStorage.getItem("accessToken") || ''
+		await authApi.tutorialSkip(accessToken!);
+		const user = await authApi.me(accessToken);
+
+		console.log('update user', user)
+
+		dispatch({
+			type: ActionType.UPDATE_USER,
+			payload: {
+				user,
+			},
+		});
+	}
+
 	return (
 		<AuthContext.Provider
 			value={{
@@ -200,6 +233,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
 				login,
 				logout,
 				register,
+				updateUser,
 			}}>
 			{children}
 		</AuthContext.Provider>
