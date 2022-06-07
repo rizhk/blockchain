@@ -2,6 +2,31 @@ import { Box, Container, Typography } from "@mui/material";
 import React, { forwardRef } from "react";
 import ReactDOM from "react-dom";
 import SendTokenLottie from "hooks/lottie/send-token-to-buyer";
+import { ProgressSteps } from "components/common/progress-steps";
+
+// steps for the progress bar
+const progressStages = [
+	{
+	  label: 'Select a wallet',
+	  status: 'complete',
+	},
+	{
+	  label: 'Connect to you wallet',
+	   status: 'complete',
+	},
+	{
+	  label: 'Match with seller',
+	  status: 'complete',
+	},
+	{
+	  label: 'Payment',
+	   status: 'complete',
+	},
+	{
+	  label: 'Receive your Crypto',
+	   status: 'complete',
+	},
+  ]
 
 const RequestTransferModal = (
 	props: { isRequestTransferShowing: any; hide: any },
@@ -20,8 +45,7 @@ const RequestTransferModal = (
 						<Container
 							maxWidth="sm"
 							sx={{
-								p: 5,
-								mt: 12,
+								mt: 8,
 							}}>
 							<div
 								style={{
@@ -47,6 +71,8 @@ const RequestTransferModal = (
 									few minutes.
 								</Typography>
 								<SendTokenLottie />
+								<ProgressSteps progressTitle="Progress" progressStages={progressStages} activeStep={5}/>
+					
 							</div>
 						</Container>
 					</Box>

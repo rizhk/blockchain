@@ -22,7 +22,7 @@ const CircleIconGray = () => (
 
 
 export const ProgressSteps:FC=(props)=>{
-  const { progressTitle, progressStages } = props;
+  const { progressTitle, progressStages,activeStep } = props;
       return(
         <>
           <Box sx={{ ml: '100px', mb: '25px', mt: '25px'  }}>
@@ -36,7 +36,7 @@ export const ProgressSteps:FC=(props)=>{
             {progressTitle}
           </Typography>
           </Box>
-     <Stepper orientation="vertical" sx={{ marginBottom: '10px' }}>
+     <Stepper orientation="vertical" sx={{ marginBottom: '10px' }} activeStep={activeStep} >
         {progressStages.map((step, index) => (
           <Step key={step.label}>
             <StepLabel StepIconComponent={step.status==='complete'? CircleIconGreen: CircleIconGray}>

@@ -8,7 +8,7 @@ import { ProgressSteps } from "components/common/progress-steps";
 // steps for the progress bar
 const progressStages = [
 	{
-	  label: 'Grant Permission',
+	  label: 'Select a wallet',
 	  status: 'complete',
 	},
 	{
@@ -16,15 +16,15 @@ const progressStages = [
 	   status: 'complete',
 	},
 	{
-	  label: 'Match with seller',
+	  label: 'Grant permission',
 	  status: 'pending',
 	},
 	{
-	  label: 'Payment',
+	  label: 'Confirm transaction',
 	   status: 'pending',
 	},
 	{
-	  label: 'Receive your Crypto',
+	  label: 'Send Crypto',
 	   status: 'pending',
 	},
   ]
@@ -70,7 +70,7 @@ const GrantPermissionModal = (
 									to give Picante access to your tokens.
 								</Typography>
 								<GrantPermissionLottie />
-								<ProgressSteps progressTitle="Progress" progressStages={progressStages}/>
+								<ProgressSteps progressTitle="Progress" progressStages={progressStages} activeStep={2}/>
 
 							</div>
 						</Container>

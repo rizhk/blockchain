@@ -3,6 +3,29 @@ import React, { forwardRef } from "react";
 import ReactDOM from "react-dom";
 import Router from "next/router";
 
+const progressStages = [
+	{
+	  label: 'Select a wallet',
+	  status: 'complete',
+	},
+	{
+	  label: 'Connect to you wallet',
+	   status: 'complete',
+	},
+	{
+	  label: 'Grant permission',
+	  status: 'complete',
+	},
+	{
+	  label: 'Confirm transaction',
+	   status: 'complete',
+	},
+	{
+	  label: 'Send Crypto',
+	   status: 'complete',
+	},
+  ]
+
 const TokenTransferedModal = (
 	props: { isTokenTransferedShowing: any; hide: any },
 	ref: React.Ref<unknown> | undefined

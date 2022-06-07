@@ -54,7 +54,7 @@ export const TradeMatchingOfferModal = (props: {
 						<Container
 							maxWidth="sm"
 							sx={{
-								mt: 12,
+								mt: 8,
 							}}>
 							<div
 								style={{
@@ -78,7 +78,7 @@ export const TradeMatchingOfferModal = (props: {
 									fill your order
 								</Typography>
 								<MatchingOfferLottie  width="25px"/>
-								<ProgressSteps progressTitle="Progress" progressStages={progressStages}/>
+								<ProgressSteps progressTitle="Progress" progressStages={progressStages} activeStep={2}/>
 							</div>
 						</Container>
 					</Box>
