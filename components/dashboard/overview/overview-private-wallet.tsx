@@ -64,7 +64,7 @@ export const OverviewPrivateWallet: FC = (props) => {
               color="textPrimary"
               variant="h5"
             >
-              $21,500.00
+              total bank account balance
             </Typography>
             <Divider sx={{margin:'10px 0 10px'}} />
             <Typography
