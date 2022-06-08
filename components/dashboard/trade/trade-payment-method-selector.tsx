@@ -10,7 +10,7 @@ export const BankAccountSelector = ({
 }) => {
 	const theme = useTheme();
 
-	const [value, setValue] = React.useState(1);
+	const [value, setValue] = React.useState("plaid");
 
 	const handleChange = (event) => {
 		setValue(event.target.value);
@@ -27,7 +27,7 @@ export const BankAccountSelector = ({
 				label="Payment Method"
 				select
 				onChange={handleChange}>
-				<MenuItem value="1" selected={true}>
+				<MenuItem value="plaid" selected={true}>
 					Bank Transfer with Plaid
 				</MenuItem>
 			</TextField>

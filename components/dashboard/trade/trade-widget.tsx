@@ -1,6 +1,5 @@
 import type { FC } from "react";
 import * as React from "react";
-import SwipeableViews from "react-swipeable-views";
 import type { ApexOptions } from "apexcharts";
 import PropTypes from "prop-types";
 import {
@@ -82,10 +81,7 @@ export const TradeWidget: FC = (props) => {
 	return (
 		<Card {...props} elevation={16}>
 			<CardContent>
-				<Box
-					sx={{
-						width: "100%",
-					}}>
+
 					<Tabs
 						className="trade-tab"
 						value={value}
@@ -103,18 +99,16 @@ export const TradeWidget: FC = (props) => {
 							{...a11yProps(1)}
 						/>
 					</Tabs>
-					<SwipeableViews
-						axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-						index={value}
-						onChangeIndex={handleChangeIndex}>
-						<TabPanel value={value} index={0}>
+					
+						<TabPanel className='trade-tab-panel' value={value} index={0} >
+	
 							<BuyPanel />
 						</TabPanel>
-						<TabPanel value={value} index={1}>
+						<TabPanel className='trade-tab-panel' value={value} index={1}>
 							<SellPanel />
 						</TabPanel>
-					</SwipeableViews>
-				</Box>
+			
+			
 			</CardContent>
 		</Card>
 	);

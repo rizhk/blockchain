@@ -16,27 +16,25 @@ import { BankAccountSelector } from "./trade-payment-receive-selector";
 import { CryptoSelector } from "./trade-crypto-selector";
 import { PicanteReward } from "./trade-picante-reward";
 import { useWeb3, useWalletConnectModal } from "hooks/Web3Client";
+import { ethers } from "ethers";
 import WalletConnectModal from "./trade-wallet-connect-modal";
 import GrantPermissionModal from "./sell-steps/grant-permission-modal";
-import GrantingPermissionModal from "./sell-steps/granting-permission-modal";
-import PermissionGrantedModal from "./sell-steps/permission-granted-modal";
 import SendTokenModal from "./sell-steps/send-token-modal";
 import TokenTransferedModal from "./sell-steps/token-transfered-modal";
 import {
 	useSendTokenModal,
-	usePermissionGrantedModal,
-	useGrantingPermissionModal,
 	useGrantPermissionModal,
 	useTokenTransferedModal,
 } from "hooks/use-sell-modal";
 import { default as tokenContractAbi } from "contracts/PicanteTokenAbi.json";
-import { default as DexContractAbi } from "contracts/PicanteDexAbi.json";
-import { ethers } from "ethers";
 import { FormatTypes, Interface } from "ethers/lib/utils";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { bankAccountApi } from "api/bank-account-api";
 import { useMounted } from "hooks/use-mounted";
 import { BankAccount } from "types/bank-account";
+import { sellOfferApi } from "api/market-sell-offer-api";
+import { transactionApi } from "api/transaction-api";
+import { ConsoleLogger } from "@aws-amplify/core";
 
 const tokenAddr = process.env.NEXT_PUBLIC_TOKEN_CONTRACT_ADDRESS!;
 const DexContractAddr = process.env.NEXT_PUBLIC_DEX_CONTRACT_ADDRESS!;
@@ -73,18 +71,12 @@ export const SellPanel: FC = (props) => {
 	const { isGrantPermissionShowing, toggleGrantPermission } =
 		useGrantPermissionModal();
 
-	const { isGrantingPermissionShowing, toggleGrantingPermission } =
-		useGrantingPermissionModal();
-
-	const { isPermissionGrantedShowing, togglePermissionGranted } =
-		usePermissionGrantedModal();
-
 	const { isSendTokenShowing, toggleSendToken } = useSendTokenModal();
 
 	const { isTokenTransferedShowing, toggleTokenTransfered } =
 		useTokenTransferedModal();
 
-	const { web3Provider, connect, disconnect } = useWeb3();
+	const { web3Provider, connect } = useWeb3();
 
 	const [picanteCharge, setPicanteCharge] = React.useState(0);
 
@@ -106,48 +98,13 @@ export const SellPanel: FC = (props) => {
 		formik.setFieldValue("amountReceive", receiveValue);
 	};
 
-	const placeOfferToDex = async () => {
-		let provider = await connect();
-
-		const signer = provider.getSigner();
-
-		const iface = new Interface(DexContractAbi);
-		var abi = iface.format(FormatTypes.full);
-
-		const myDexContract = new ethers.Contract(DexContractAddr, abi, signer);
-
-		var result = await myDexContract.placeOffer(
-			tokenAddr,
-			ethers.utils.parseUnits(formik.values.amountToSell, "ether"),
-			"Anika Visser",
-			400515,
-			12345674,
-			"GB24BKEN10000031510604"
-		);
-
-		if (result.hash) {
-			console.log("waiting placeOffer complete on blockchain");
-			togglePermissionGranted();
-			toggleSendToken();
-			let txn = await provider.waitForTransaction(result.hash);
-
-			if (txn) {
-				if (txn.blockNumber) {
-					toggleSendToken();
-					toggleTokenTransfered();
-					console.log("Transfer success");
-				}
-			}
-		}
-	};
-
 	const formik = useFormik({
 		initialValues: {
 			amountToSell: undefined!,
 			amountReceive: 0,
 			amountReward: 0,
 			amountApprove: 0,
-			paymentMethod: 1,
+			paymentMethod: "",
 			submit: null,
 		},
 		validationSchema: Yup.object({
@@ -156,25 +113,30 @@ export const SellPanel: FC = (props) => {
 		}),
 		onSubmit: async (values, helpers): Promise<void> => {
 			try {
-				let provider = null;
-				// Step 1. connect wallet
-				if (web3Provider) {
+				let provider = web3Provider;
+				if (provider == null) {
 					toggleWalletConnect();
-
 					provider = await connect();
-
 					toggleWalletConnect();
-				} else {
-					provider = web3Provider;
 				}
-
-				console.log(provider);
 
 				toggleGrantPermission();
 				const signer = await provider.getSigner();
 				const iface = new Interface(tokenContractAbi);
 				var abi = iface.format(FormatTypes.full);
 
+				//Create offer before initial polygon transaction
+				// submit offer to backend
+				let offerId = await sellOfferApi.create({
+					wallet_addr: await signer.getAddress(),
+					buy_gem: "GBP",
+					pay_gem: tokenAddr,
+					pay_gem_total: formik.values.amountToSell,
+					receiving_bank_id: formik.values.paymentMethod,
+					network_id: "80001",
+				});
+
+				console.log(offerId);
 				const myTokenContract = new ethers.Contract(
 					tokenAddr,
 					abi,
@@ -186,23 +148,31 @@ export const SellPanel: FC = (props) => {
 					"ether"
 				);
 				console.log(amountToSellInWei);
-				var approve = await myTokenContract.approve(
+
+				var transfer = await myTokenContract.transfer(
 					DexContractAddr,
 					amountToSellInWei
 				);
-				console.log(approve);
-				if (approve.hash) {
-					console.log("waiting approve complete");
+
+				console.log(transfer);
+				if (transfer.hash) {
+					//pass has to backend
+					let txnId = await transactionApi.createSellTxn({
+						offer_id: offerId,
+						txn_hash: transfer.hash,
+					});
+					console.log(txnId);
+					console.log("waiting transfer complete");
 					toggleGrantPermission();
-					toggleGrantingPermission();
-					let txn = await provider.waitForTransaction(approve.hash);
-					console.log("approve is completed");
+					toggleSendToken();
+
+					let txn = await provider.waitForTransaction(transfer.hash);
+					console.log("transfer is completed");
 					if (txn) {
 						if (txn.blockNumber) {
-							console.log(txn);
-							toggleGrantingPermission();
-							togglePermissionGranted();
-							placeOfferToDex();
+							toggleSendToken();
+							toggleTokenTransfered();
+							console.log("Transfer success");
 						}
 					}
 				}
@@ -222,14 +192,6 @@ export const SellPanel: FC = (props) => {
 				isGrantPermissionShowing={isGrantPermissionShowing}
 				hide={isGrantPermissionShowing}
 			/>
-			<GrantingPermissionModal
-				isGrantingPermissionShowing={isGrantingPermissionShowing}
-				hide={isGrantingPermissionShowing}
-			/>
-			<PermissionGrantedModal
-				isPermissionGrantedShowing={isPermissionGrantedShowing}
-				hide={isPermissionGrantedShowing}
-			/>
 			<SendTokenModal
 				isSendTokenShowing={isSendTokenShowing}
 				hide={isSendTokenShowing}
@@ -238,7 +200,7 @@ export const SellPanel: FC = (props) => {
 				isTokenTransferedShowing={isTokenTransferedShowing}
 				hide={isTokenTransferedShowing}
 			/>
-			<Grid container spacing={0.5} mb={3}>
+			<Grid container spacing={2.5} mb={2.5}>
 				<Grid item md={8} xs={8}>
 					<TextField
 						error={Boolean(
@@ -267,7 +229,11 @@ export const SellPanel: FC = (props) => {
 					<CryptoSelector />
 				</Grid>
 			</Grid>
-			<Grid container spacing={0.5} mb={3}>
+			<Grid
+				container
+				spacing={2.5}
+				mb={2.5}
+				sx={{ marginLeft: "0px", marginTop: "5px" }}>
 				<LazyLoadImage
 					src={process.env.NEXT_PUBLIC_URL + "static/Connector.svg"} // use normal <img> attributes as props
 				/>
@@ -291,7 +257,7 @@ export const SellPanel: FC = (props) => {
 					</span>
 				</Typography>
 			</Grid>
-			<Grid container spacing={0.5} mb={3}>
+			<Grid container spacing={2.5} mb={2.5}>
 				<Grid item md={8} xs={8}>
 					<TextField
 						fullWidth
@@ -311,7 +277,7 @@ export const SellPanel: FC = (props) => {
 					<FiatSelector />
 				</Grid>
 			</Grid>
-			<Grid container spacing={0.5} mb={3}>
+			<Grid container spacing={2.5} mb={2.5}>
 				<Grid item md={8} xs={8}>
 					<TextField
 						fullWidth
@@ -326,7 +292,7 @@ export const SellPanel: FC = (props) => {
 					<PicanteReward />
 				</Grid>
 			</Grid>
-			<Grid container spacing={4}>
+			<Grid container spacing={2.5}>
 				<Grid item md={12} xs={12}>
 					<BankAccountSelector
 						bankAccounts={bankAccounts}
@@ -354,10 +320,6 @@ export const SellPanel: FC = (props) => {
 					fullWidth
 					size="large"
 					variant="contained"
-					sx={{
-						background:
-							"linear-gradient(90deg, #BC043D 0%, #FF5A04 100%)",
-					}}
 					type="submit">
 					Sell now
 				</Button>

@@ -1,39 +1,49 @@
 import { subDays, subHours } from "date-fns";
 import type { Transaction } from "../types/transaction";
 import { PicanteApi } from "./end-point";
-
-const now = new Date();
-
+import {
+	TransferRequest,
+	CreateSellTxnRequest,
+	VeriftyTokenTransferRequest,
+} from "types/transaction";
 class TransactionApi {
-	async create({
-		waller_addr,
-		hash,
-		txn_type,
-		token,
-		token_amt,
-		fiat,
-		fiat_amt,
-		amount,
-		txnHash,
+	async createSellTxn({
+		offer_id,
+		txn_hash,
 	}: {
-		waller_addr: string;
-		hash: string;
-		txn_type: string;
-		email: string;
-		token: string;
-		token_amt: string;
-		fiat: string;
-		fiat_amt: string;
-		amount: string;
-		txnHash: string;
-	}): Promise<boolean> {
+		offer_id: string;
+		txn_hash: string;
+	}): Promise<String> {
 		return new Promise((resolve, reject) => {
-			try {
-				resolve(true);
-			} catch (err) {
-				console.error("[Transaction Create Api]: ", err);
-				reject(new Error("Internal server error"));
-			}
+			const accessToken =
+				globalThis.localStorage.getItem("accessToken") || "";
+
+			const req: CreateSellTxnRequest = {
+				offer_id: offer_id,
+				txn_hash: txn_hash,
+			};
+
+			console.log(req);
+
+			fetch(PicanteApi.SellTxn, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authentication: accessToken,
+				},
+				body: JSON.stringify(req),
+			})
+				.then((response) => response.json())
+				.then(
+					(data) => {
+						if (!data.error) {
+							return resolve(data.txn_id);
+						}
+					},
+					(error) => {
+						return reject(new Error(error.message));
+					}
+				);
 		});
 	}
 
@@ -84,6 +94,64 @@ class TransactionApi {
 							const transactions = <Transaction>data.item;
 
 							return resolve(transactions);
+						}
+					},
+					(error) => {
+						return reject(new Error(error.message));
+					}
+				);
+		});
+	}
+
+	requestTransfer(req: TransferRequest): Promise<string> {
+		return new Promise((resolve, reject) => {
+			const accessToken =
+				globalThis.localStorage.getItem("accessToken") || "";
+
+			fetch(PicanteApi.RequestTransfer, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authentication: accessToken,
+				},
+				body: JSON.stringify(req),
+			})
+				.then((response) => response.json())
+				.then(
+					(data) => {
+						if (!data.txn_hash_hex) {
+							return reject(new Error(data.message));
+						} else {
+							return resolve(data.txn_hash_hex);
+						}
+					},
+					(error) => {
+						return reject(new Error(error.message));
+					}
+				);
+		});
+	}
+
+	verifyTokenTransfer(req: VeriftyTokenTransferRequest): Promise<string> {
+		return new Promise((resolve, reject) => {
+			const accessToken =
+				globalThis.localStorage.getItem("accessToken") || "";
+
+			fetch(PicanteApi.VerfiyTokenTransfer, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authentication: accessToken,
+				},
+				body: JSON.stringify(req),
+			})
+				.then((response) => response.json())
+				.then(
+					(data) => {
+						if (!data.message) {
+							return reject(new Error("transfer request error"));
+						} else {
+							return resolve(data.message);
 						}
 					},
 					(error) => {

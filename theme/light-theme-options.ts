@@ -22,7 +22,7 @@ const background = {
 const divider = "#E6E8F0";
 
 const primary = {
-	main: "#5048E5",
+	main: "#9CA3AF",
 	light: "#FF5A04",
 	dark: "#3832A0",
 	contrastText: "#FFFFFF",
@@ -65,8 +65,12 @@ const error = {
 
 const text = {
 	primary: "#111827",
-	secondary: "#65748B",
+	secondary: "#6B7280",
 	disabled: "#111827",
+};
+
+const gradient = {
+	primary: "linear-gradient(90deg, #BC043D 0%, #FF5A04 100%)",
 };
 
 export const lightThemeOptions: ThemeOptions = {
@@ -76,6 +80,15 @@ export const lightThemeOptions: ThemeOptions = {
 				root: {
 					backgroundColor: neutral[500],
 					color: "#FFFFFF",
+				},
+			},
+		},
+		MuiButton: {
+			styleOverrides: {
+				root: {
+					"&.MuiButton-containedPrimary": {
+						background: gradient.primary,
+					},
 				},
 			},
 		},

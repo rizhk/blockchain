@@ -6,8 +6,6 @@ import {
 	Paper,
 	Typography,
 } from "@mui/material";
-import { alpha } from "@mui/material/styles";
-import { Check as CheckIcon } from "icons/check";
 import React, {
 	useState,
 	forwardRef,
@@ -16,16 +14,12 @@ import React, {
 	useEffect,
 } from "react";
 import ReactDOM from "react-dom";
-import { ethers } from "ethers";
-import { useWeb3 } from "hooks/Web3Client";
 import WalletConnectLottie from "hooks/lottie/buy-select-wallet/";
 
 const ConfirmPurchaseModal = (
 	props: { isConfirmPurchaseShowing: any; hide: any },
 	ref: React.Ref<unknown> | undefined
 ) => {
-	const { web3Provider, connect, disconnect } = useWeb3();
-
 	return props.isConfirmPurchaseShowing
 		? ReactDOM.createPortal(
 				<React.Fragment>

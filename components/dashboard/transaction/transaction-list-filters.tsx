@@ -8,6 +8,7 @@ import { MultiSelect } from "../../multi-select";
 import {
 	transactionTypeOptions,
 	transactionStatusOptions,
+	transactionRecentOptions,
 } from "types/transaction";
 
 export interface Filters {
@@ -220,6 +221,14 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
 		[filterItems]
 	);
 
+	// const RecentOptionsValues = useMemo(
+	//   () =>
+	//     filterItems
+	//       .filter((filterItems) => filterItems.field === 'Most recent')
+	//       .map((filterItems) => filterItems.value) as string[],
+	//   [filterItems],
+	// )
+
 	return (
 		<div {...other}>
 			<Box
@@ -303,6 +312,12 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
 					options={transactionStatusOptions}
 					value={statusValues}
 				/>
+				{/* <MultiSelect
+          label="Most recent"
+          onChange={handleStatusChange}
+          options={transactionRecentOptions}
+          value={RecentOptionsValues}
+        /> */}
 			</Box>
 		</div>
 	);

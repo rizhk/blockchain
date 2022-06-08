@@ -59,28 +59,10 @@ const TokenTransferedModal = (
 									Thank you for using Picante.
 								</Typography>
 								<Box sx={{ mt: 3 }}>
-									{/* <Button
-										size="large"
-										variant="contained"
-										sx={{
-											background:
-												"linear-gradient(90deg, #BC043D 0%, #FF5A04 100%)",
-										}}
-										onClick={() =>
-											Router.push(
-												"/dashboard/transactions"
-											)
-										}>
-										Close
-									</Button> */}
 									{props.txnHash && (
 										<Button
 											size="large"
 											variant="contained"
-											sx={{
-												background:
-													"linear-gradient(90deg, #BC043D 0%, #FF5A04 100%)",
-											}}
 											onClick={() =>
 												window.open(
 													"https://mumbai.polygonscan.com/tx/" +
@@ -91,6 +73,18 @@ const TokenTransferedModal = (
 											View Transaction
 										</Button>
 									)}
+									{
+										<Button
+											size="large"
+											variant="outlined"
+											onClick={() =>
+												Router.push(
+													"/dashboard/transactions"
+												)
+											}>
+											Close
+										</Button>
+									}
 								</Box>
 							</Paper>
 						</Container>

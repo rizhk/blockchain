@@ -13,6 +13,21 @@ export interface Transaction {
 	updated_at: string;
 }
 
+export interface TransferRequest {
+	txn_id: string;
+	payment_id: string;
+}
+
+export interface CreateSellTxnRequest {
+	offer_id: string;
+	txn_hash: string;
+}
+
+export interface VeriftyTokenTransferRequest {
+	txn_id: string;
+	txn_hash: string;
+}
+
 export const transactionTypeOptions = [
 	{
 		label: "Buy",
@@ -32,5 +47,16 @@ export const transactionStatusOptions = [
 	{
 		label: "Complete",
 		value: "Complete",
+	},
+];
+
+export const transactionRecentOptions = [
+	{
+		label: "Most recent",
+		value: "Most recent",
+	},
+	{
+		label: "Oldest",
+		value: "Oldest",
 	},
 ];

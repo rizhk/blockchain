@@ -7,7 +7,7 @@ export const baseThemeOptions: ThemeOptions = {
 			sm: 600,
 			md: 1000,
 			lg: 1200,
-			xl: 1920,
+			xl: 1440,
 		},
 	},
 	components: {
