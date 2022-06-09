@@ -63,7 +63,12 @@ type UpdateAction = {
 	};
 };
 
-type Action = InitializeAction | LoginAction | LogoutAction | RegisterAction | UpdateAction;
+type Action =
+	| InitializeAction
+	| LoginAction
+	| LogoutAction
+	| RegisterAction
+	| UpdateAction;
 
 type Handler = (state: State, action: any) => State;
 
@@ -211,11 +216,11 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
 	};
 
 	const updateUser = async (data: Partial<User>): Promise<void> => {
-		const accessToken = localStorage.getItem("accessToken") || ''
-		await authApi.tutorialSkip(accessToken!);
+		const accessToken = localStorage.getItem("accessToken") || "";
+		await authApi.skipTutorial(true);
 		const user = await authApi.me(accessToken);
 
-		console.log('update user', user)
+		console.log("update user", user);
 
 		dispatch({
 			type: ActionType.UPDATE_USER,
@@ -223,7 +228,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
 				user,
 			},
 		});
-	}
+	};
 
 	return (
 		<AuthContext.Provider

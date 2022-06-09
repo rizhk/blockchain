@@ -7,25 +7,25 @@ import { constrainPoint } from "@fullcalendar/common";
 
 const PicanteAPI = process.env.NEXT_PUBLIC_PICANTE_API_END_POINT;
 
-const users: User[] = [
-	{
-		id: "5e86809283e28b96d2d38537",
-		//avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
-		email: "demo@picante.io",
-		// name: "Picante Demo",
-		// password: "Password123!",
-		// wallets: ["0xB77F68Af0B76C825073F89C03b8323E7290C641D"],
-		// bankAccounts: [
-		// 	{
-		// 		id: "string",
-		// 		accountNum: "string",
-		// 		createdAt: "string",
-		// 		updatedAt: "string",
-		// 	},
-		// ],
-		// plan: "Premium",
-	},
-];
+// const users: User[] = [
+// 	{
+// 		id: "5e86809283e28b96d2d38537",
+// 		//avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
+// 		email: "demo@picante.io",
+// 		// name: "Picante Demo",
+// 		// password: "Password123!",
+// 		// wallets: ["0xB77F68Af0B76C825073F89C03b8323E7290C641D"],
+// 		// bankAccounts: [
+// 		// 	{
+// 		// 		id: "string",
+// 		// 		accountNum: "string",
+// 		// 		createdAt: "string",
+// 		// 		updatedAt: "string",
+// 		// 	},
+// 		// ],
+// 		// plan: "Premium",
+// 	},
+// ];
 
 type LoginRequest = {
 	email: string;
@@ -87,12 +87,12 @@ class AuthApi {
 		return new Promise((resolve, reject) => {
 			try {
 				// Check if a user already exists
-				let user = users.find((_user) => _user.email === email);
+				// let user = users.find((_user) => _user.email === email);
 
-				if (user) {
-					reject(new Error("User already exists"));
-					return;
-				}
+				// if (user) {
+				// 	reject(new Error("User already exists"));
+				// 	return;
+				// }
 
 				let body = {
 					email,
@@ -187,7 +187,8 @@ class AuthApi {
 		});
 	}
 
-	tutorialSkip(accessToken: string): Promise<void> {
+	skipTutorial(isSkip: boolean): Promise<String> {
+		const accessToken = localStorage.getItem("accessToken") || "";
 		return new Promise((resolve, reject) => {
 			try {
 				fetch(PicanteApi.TutorialSkip, {
@@ -196,14 +197,14 @@ class AuthApi {
 						"Content-Type": "application/json",
 						Authentication: accessToken,
 					},
-					body: JSON.stringify({ skip_tutorial: true })
+					body: JSON.stringify({ skip_tutorial: isSkip }),
 				})
 					.then((response) => response.json())
 					.then(
 						(data) => {
-							console.log(data)
+							console.log(data);
 							if (!data.error) {
-								resolve();
+								resolve(data.msg);
 							} else {
 								reject(
 									new Error("Invalid authorization token")
@@ -218,7 +219,7 @@ class AuthApi {
 				console.error("[Auth Api]: ", err);
 				reject(new Error("Internal server error"));
 			}
-		})
+		});
 	}
 }
 
