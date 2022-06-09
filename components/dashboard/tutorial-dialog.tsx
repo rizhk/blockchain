@@ -1,32 +1,19 @@
-import { Fragment, useState } from "react";
-import type { FC, SyntheticEvent } from "react";
+import { useState } from "react";
+import type { FC } from "react";
 import PropTypes from "prop-types";
 import {
 	Badge,
 	Box,
 	Button,
-	CircularProgress,
 	Dialog,
 	DialogContent,
-	Divider,
-	IconButton,
-	InputAdornment,
-	Pagination,
-	TextField,
 	Typography,
 	Fade,
-	Grid,
 } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import { TransitionGroup } from "react-transition-group";
-import { Search as SearchIcon } from "../../icons/search";
-import { wait } from "../../utils/wait";
-import { X as XIcon } from "../../icons/x";
-import { Tip } from "../tip";
-import { useAuth } from "../../hooks/use-auth";
 import { DotPagination } from "components/dot-pagination";
 
 interface ContentSearchProps {
