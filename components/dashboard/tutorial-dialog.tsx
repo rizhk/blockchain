@@ -15,6 +15,7 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import { DotPagination } from "components/dot-pagination";
+import { authApi } from "api/auth-api";
 
 interface ContentSearchProps {
 	onClose: (value?: number) => void;
@@ -35,6 +36,11 @@ const CircleIconGrey: FC = (props) => (
 export const TutorialDialog: FC<ContentSearchProps> = (props) => {
 	const { onClose, open, ...other } = props;
 	const [step, setStep] = useState(1);
+
+	const onClickFinish = async (event: { target: { value: any } }) => {
+		await authApi.skipTutorial(true);
+		onClose(step);
+	};
 
 	return (
 		<Dialog
@@ -259,7 +265,7 @@ export const TutorialDialog: FC<ContentSearchProps> = (props) => {
 									sx={{ marginTop: 3, marginLeft: 1 }}
 									variant="contained"
 									color="info"
-									onClick={() => onClose(step)}>
+									onClick={onClickFinish}>
 									Finish
 								</Button>
 							</Box>

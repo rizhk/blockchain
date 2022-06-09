@@ -217,7 +217,6 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
 
 	const updateUser = async (data: Partial<User>): Promise<void> => {
 		const accessToken = localStorage.getItem("accessToken") || "";
-		await authApi.skipTutorial(true);
 		const user = await authApi.me(accessToken);
 
 		console.log("update user", user);
