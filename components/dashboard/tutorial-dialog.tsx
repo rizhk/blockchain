@@ -37,7 +37,7 @@ export const TutorialDialog: FC<ContentSearchProps> = (props) => {
 	const { onClose, open, ...other } = props;
 	const [step, setStep] = useState(1);
 
-	const onClickFinish = async (event: { target: { value: any } }) => {
+	const onClickFinish = async (props: any) => {
 		await authApi.skipTutorial(true);
 		onClose(step);
 	};

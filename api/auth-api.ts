@@ -1,31 +1,5 @@
 import type { User } from "../types/user";
-import { createResourceId } from "../utils/create-resource-id";
-import { sign, decode, JWT_SECRET, JWT_EXPIRES_IN } from "../utils/jwt";
 import { PicanteApi } from "./end-point";
-import { wait } from "../utils/wait";
-import { constrainPoint } from "@fullcalendar/common";
-
-const PicanteAPI = process.env.NEXT_PUBLIC_PICANTE_API_END_POINT;
-
-// const users: User[] = [
-// 	{
-// 		id: "5e86809283e28b96d2d38537",
-// 		//avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
-// 		email: "demo@picante.io",
-// 		// name: "Picante Demo",
-// 		// password: "Password123!",
-// 		// wallets: ["0xB77F68Af0B76C825073F89C03b8323E7290C641D"],
-// 		// bankAccounts: [
-// 		// 	{
-// 		// 		id: "string",
-// 		// 		accountNum: "string",
-// 		// 		createdAt: "string",
-// 		// 		updatedAt: "string",
-// 		// 	},
-// 		// ],
-// 		// plan: "Premium",
-// 	},
-// ];
 
 type LoginRequest = {
 	email: string;
@@ -86,14 +60,6 @@ class AuthApi {
 	}): Promise<string> {
 		return new Promise((resolve, reject) => {
 			try {
-				// Check if a user already exists
-				// let user = users.find((_user) => _user.email === email);
-
-				// if (user) {
-				// 	reject(new Error("User already exists"));
-				// 	return;
-				// }
-
 				let body = {
 					email,
 					full_name: name,
