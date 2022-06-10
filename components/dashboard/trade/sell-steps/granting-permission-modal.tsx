@@ -2,6 +2,30 @@ import { Box, Container, Typography } from "@mui/material";
 import React, { forwardRef } from "react";
 import ReactDOM from "react-dom";
 import GrantPermissionLottie from "hooks/lottie/grant-permission/";
+import { ProgressSteps } from "components/common/progress-steps";
+
+const progressStages = [
+	{
+	  label: 'Select a wallet',
+	  status: 'complete',
+	},
+	{
+	  label: 'Connect to you wallet',
+	   status: 'complete',
+	},
+	{
+	  label: 'Grant permission',
+	  status: 'complete',
+	},
+	{
+	  label: 'Confirm transaction',
+	   status: 'pending',
+	},
+	{
+	  label: 'Send Crypto',
+	   status: 'pending',
+	},
+  ]
 
 const GrantingPermissionModal = (
 	props: { isGrantingPermissionShowing: any; hide: any },
@@ -20,7 +44,7 @@ const GrantingPermissionModal = (
 						<Container
 							maxWidth="sm"
 							sx={{
-								mt: 9,
+								mt: 8,
 							}}>
 							<div
 								style={{
@@ -43,6 +67,8 @@ const GrantingPermissionModal = (
 									You are giving permission to Picante.
 								</Typography>
 								<GrantPermissionLottie />
+								<ProgressSteps progressTitle="Progress" progressStages={progressStages} activeStep={2}/>
+
 							</div>
 						</Container>
 					</Box>

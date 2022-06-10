@@ -22,7 +22,7 @@ const background = {
 const divider = "#E6E8F0";
 
 const primary = {
-	main: "#9CA3AF",
+	main: "#5048E5",
 	light: "#FF5A04",
 	dark: "#3832A0",
 	contrastText: "#FFFFFF",
@@ -43,9 +43,9 @@ const success = {
 };
 
 const info = {
-	main: "#2196F3",
-	light: "#64B6F7",
-	dark: "#0B79D0",
+	main: "#5048E5",
+	light: "#828DF8",
+	dark: "#3832A0",
 	contrastText: "#FFFFFF",
 };
 
@@ -71,6 +71,7 @@ const text = {
 
 const gradient = {
 	primary: "linear-gradient(90deg, #BC043D 0%, #FF5A04 100%)",
+	paper: "linear-gradient(180deg, rgba(13, 0, 255, 0.062) 0%, rgba(0, 0, 0, 0) 100%)",
 };
 
 export const lightThemeOptions: ThemeOptions = {
@@ -89,6 +90,11 @@ export const lightThemeOptions: ThemeOptions = {
 					"&.MuiButton-containedPrimary": {
 						background: gradient.primary,
 					},
+					"&.MuiButton-containedInfo": {
+						"&:hover": {
+							background: info.dark,
+						}
+					},
 				},
 			},
 		},
@@ -99,11 +105,6 @@ export const lightThemeOptions: ThemeOptions = {
 						backgroundColor: neutral[200],
 						"& .MuiChip-deleteIcon": {
 							color: neutral[400],
-						},
-					},
-					"&.MuiChip-outlinedDefault": {
-						"& .MuiChip-deleteIcon": {
-							color: neutral[300],
 						},
 					},
 				},

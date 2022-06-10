@@ -33,9 +33,15 @@ import { InformationCircleOutlined as InformationCircleOutlinedIcon } from "../.
 import { Reports as ReportsIcon } from "../../icons/reports";
 import { Users as UsersIcon } from "../../icons/users";
 import { gtm } from "../../lib/gtm";
+import { TutorialDialog } from "components/dashboard/tutorial-dialog";
+import { useAuth } from "hooks/use-auth";
+import { useMounted } from "hooks/use-mounted";
 
 const Overview: NextPage = () => {
 	const [displayBanner, setDisplayBanner] = useState<boolean>(true);
+	const [displayTutorial, setDisplayTutorial] = useState<boolean>(true);
+	const { user, updateUser } = useAuth();
+	const isMounted = useMounted();
 
 	useEffect(() => {
 		gtm.push({ event: "page_view" });
@@ -48,12 +54,20 @@ const Overview: NextPage = () => {
 		if (value === "true") {
 			// setDisplayBanner(false);
 		}
-	}, []);
+
+		if (isMounted() && user != null) {
+			setDisplayTutorial(!user.skip_tutorial);
+		}
+	}, [user]);
 
 	const handleDismissBanner = () => {
 		// Update the persistent state
 		// globalThis.sessionStorage.setItem('dismiss-banner', 'true');
 		setDisplayBanner(false);
+	};
+
+	const saveSetting = async () => {
+		await updateUser({});
 	};
 
 	return (
@@ -134,29 +148,29 @@ const Overview: NextPage = () => {
 							</Grid>
 							<TradeWidget />
 						</Grid>
-						 <Grid item md={5} xs={12}>
-             <Grid item>
+						<Grid item md={5} xs={12}>
+							<Grid item>
 								<Typography sx={{ mb: 2 }} variant="h6">
-								My balances
+									My balances
 								</Typography>
 							</Grid>
-							<Grid item xs={12} >
+							<Grid item xs={12}>
 								<OverviewCryptoWallet />
 							</Grid>
-              <br/>
+							<br />
 							<Grid item xs={12}>
 								<OverviewPrivateWallet />
 							</Grid>
-              <br/>
-              <br/>
-              <Typography sx={{ mb: 2 }} variant="h6">
+							<br />
+							<br />
+							<Typography sx={{ mb: 2 }} variant="h6">
 								My Picante tokens
-								</Typography>
-              <Grid item xs={12}>
-							<OverviewPicanteBalance />
+							</Typography>
+							<Grid item xs={12}>
+								<OverviewPicanteBalance />
+							</Grid>
 						</Grid>
-						</Grid> 
-						 {/* <Grid
+						{/* <Grid
               item
               md={8}
               xs={12}
@@ -370,6 +384,10 @@ const Overview: NextPage = () => {
             </Grid> */}
 					</Grid>
 				</Container>
+				<TutorialDialog
+					open={displayTutorial}
+					onClose={(value) => (value ? saveSetting() : {})}
+				/>
 			</Box>
 		</>
 	);

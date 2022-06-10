@@ -22,6 +22,31 @@ import {
 } from "react-plaid-link";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { TransferRequest } from "types/transaction";
+import { ProgressSteps } from "components/common/progress-steps";
+
+
+const progressStages = [
+	{
+	  label: 'Select a wallet',
+	  status: 'complete',
+	},
+	{
+	  label: 'Connect to you wallet',
+	   status: 'complete',
+	},
+	{
+	  label: 'Match with seller',
+	  status: 'complete',
+	},
+	{
+	  label: 'Payment',
+	   status: 'pending',
+	},
+	{
+	  label: 'Receive your Crypto',
+	   status: 'pending',
+	},
+  ]
 
 const TradePaymentModal = (
 	props: {
@@ -33,7 +58,7 @@ const TradePaymentModal = (
 ) => {
 	const [linkToken, setLinkToken] = useState("");
 
-	let _txn = useRef(PaymentRequest);
+	let _txn = useRef(null);
 	const [paymentId, setPaymentId] = useState("");
 
 	useEffect(function persistPaymentId() {
@@ -88,14 +113,14 @@ const TradePaymentModal = (
 					<Box
 						sx={{
 							backgroundColor: "background.default",
-							minHeight: "100%",
+							minHeight: "110%",
 							p: 3,
 						}}
 						className="modal-overlay">
 						<Container
 							maxWidth="sm"
 							sx={{
-								mt: 12,
+								mt: 8,
 							}}>
 							<div
 								style={{
@@ -111,13 +136,13 @@ const TradePaymentModal = (
 								<Typography
 									align="center"
 									color="textSecondary"
-									sx={{ mt: 3, mb: 3 }}
+									sx={{ mt: 2, mb: 2 }}
 									variant="body2">
 									We have found a seller of USDC to complete
 									your order. Click on the button below to pay
 									for your USDC.
 								</Typography>
-								<Box sx={{ m: 4 }}>
+								<Box sx={{ m:3 }}>
 									<LazyLoadImage
 										width="70"
 										height="70"
@@ -149,6 +174,8 @@ const TradePaymentModal = (
 										alt="Plaid"
 									/>
 								</Typography>
+								<ProgressSteps progressTitle="Progress" progressStages={progressStages} activeStep={2}/>
+					
 							</div>
 						</Container>
 					</Box>
