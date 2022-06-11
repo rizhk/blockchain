@@ -250,7 +250,7 @@ const Register: NextPage = () => {
 									height: "100%",
 								}}>
 								<img
-									style={{ marginLeft: 20, marginRight: 20 }}
+									style={{ marginLeft: 20, marginRight: 20, objectFit: 'contain', maxHeight: '50vh' }}
 									src={"/static/auth/register-banner.png"}
 								/>
 								<Typography
