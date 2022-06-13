@@ -45,6 +45,7 @@ import { Knowledgebase as KnowledgebaseIcon } from "../../icons/knowledgebase";
 import { KnowledgebaseFilled as KnowledgebaseIconFilled } from "../../icons/knowledgebase-filled";
 import { News as NewsIcon } from "../../icons/news";
 import { NewsFilled as NewsIconFilled } from "../../icons/news-filled";
+import { useAuth } from "hooks/use-auth";
 interface DashboardSidebarProps {
 	onClose?: () => void;
 	open?: boolean;
@@ -154,6 +155,8 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 	const [openOrganizationsPopover, setOpenOrganizationsPopover] =
 		useState<boolean>(false);
 
+	const { user } = useAuth();
+
 	const handlePathChange = () => {
 		if (!router.isReady) {
 			return;
@@ -197,7 +200,7 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 					<div>
 		<Box sx={{ display:'flex', p: 3, direction:"row", alignItems:"center" }}>
 							<NextLink href="/dashboard" passHref>
-								<a>
+								<a style={{ display:'flex', alignItems:"center" }}>
 									<LazyLoadImage
 										width="30"
 										height="30"
@@ -206,7 +209,7 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 											"picante-logo.svg"
 										} // use normal <img> attributes as props
 									/>
-									<Typography sx={{display:"inline", marginLeft:'10px'}} >Jennie Kim</Typography>
+									<Typography sx={{display:"inline", marginLeft:'10px'}} >{ user.full_name }</Typography>
 								</a>
 							</NextLink>
 						</Box>
