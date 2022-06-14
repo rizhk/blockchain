@@ -9,8 +9,15 @@ export interface Transaction {
 	fiat: string;
 	fiat_amt: number;
 	status: string;
+	details: TxnStep[];
 	created_at: string;
 	updated_at: string;
+}
+
+export interface TxnStep {
+	label: string;
+	description: string;
+	icon_status: string;
 }
 
 export interface TransferRequest {
