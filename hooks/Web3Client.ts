@@ -41,7 +41,7 @@ let web3Modal: Web3Modal | null;
 if (typeof window !== "undefined") {
 	web3Modal = new Web3Modal({
 		network: "testnet", // todo: envirment variable
-		cacheProvider: false,
+		cacheProvider: true,
 		providerOptions, // required
 	});
 }
