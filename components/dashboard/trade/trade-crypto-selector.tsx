@@ -7,9 +7,12 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 export const CryptoSelector: FC = (props) => {
 	const theme = useTheme();
 
-	const [value, setValue] = React.useState(0);
+	const [value, setValue] = React.useState("USDC");
 
-	const handleChange = (_event, newValue) => {
+	const handleChange = (
+		_event: any,
+		newValue: React.SetStateAction<string>
+	) => {
 		setValue(newValue);
 	};
 

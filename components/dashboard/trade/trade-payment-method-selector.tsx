@@ -28,7 +28,8 @@ export const BankAccountSelector = ({
 				value={value}
 				label="Payment Method"
 				select
-				onChange={handleChange}>
+				onChange={handleChange}
+				SelectProps={{ MenuProps: { disableScrollLock: true } }}>
 				<MenuItem value="plaid" key="plaid" selected={true}>
 					Bank Transfer with Plaid
 				</MenuItem>

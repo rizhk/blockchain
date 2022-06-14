@@ -16,10 +16,10 @@ export const BankAccountSelector: FC<BankAccountProps> = (props) => {
 		props;
 	const theme = useTheme();
 
-	const [value, setValue] = React.useState(null);
+	const [value, setValue] = React.useState("");
 
 	const handleChange = (event: {
-		target: { value: React.SetStateAction<null> };
+		target: { value: React.SetStateAction<string> };
 	}) => {
 		setValue(event.target.value);
 		onPaymentMethodChange(event);
@@ -34,7 +34,8 @@ export const BankAccountSelector: FC<BankAccountProps> = (props) => {
 				value={value}
 				label="Receiving bank"
 				select
-				onChange={handleChange}>
+				onChange={handleChange}
+				SelectProps={{ MenuProps: { disableScrollLock: true } }}>
 				{bankAccounts.map((bankAccount) => {
 					return (
 						<MenuItem value={bankAccount.iban}>

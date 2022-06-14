@@ -8,7 +8,7 @@ import ReactCountryFlag from "react-country-flag";
 export const FiatSelector: FC = (props) => {
 	const theme = useTheme();
 
-	const [value, setValue] = React.useState(0);
+	const [value, setValue] = React.useState("GBP");
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);

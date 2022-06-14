@@ -16,10 +16,10 @@ export const WalletSelector: FC<WalletProps> = (props) => {
 	const { onWalletChange, error, helperText, wallets, ...other } = props;
 	const theme = useTheme();
 
-	const [value, setValue] = React.useState(null);
+	const [value, setValue] = React.useState("");
 
 	const handleChange = (event: {
-		target: { value: React.SetStateAction<null> };
+		target: { value: React.SetStateAction<string> };
 	}) => {
 		setValue(event.target.value);
 		onWalletChange(event);
@@ -34,7 +34,8 @@ export const WalletSelector: FC<WalletProps> = (props) => {
 				value={value}
 				select
 				label="Select receiving payee"
-				onChange={handleChange}>
+				onChange={handleChange}
+				SelectProps={{ MenuProps: { disableScrollLock: true } }}>
 				{wallets.map((wallet) => {
 					return (
 						<MenuItem value={wallet.address} key={wallet.address}>
