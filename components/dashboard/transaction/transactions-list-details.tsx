@@ -29,6 +29,12 @@ const CircleIconGray: FC = (props) => (
 	<CircleIcon color="disabled" fontSize="small" />
 );
 
+const progressStateIcon = {
+	CircleIconGreen: CircleIconGreen,
+	CircleIconGray: CircleIconGray,
+	CircleIconRed: CircleIconRed,
+};
+
 export const TransactionsListDetails: FC = (props) => {
 	const isMounted = useMounted();
 
@@ -96,9 +102,7 @@ export const TransactionsListDetails: FC = (props) => {
 					<Step key={step.label}>
 						<StepLabel
 							StepIconComponent={
-								step.icon_status === "CircleIconGreen"
-									? CircleIconGreen
-									: CircleIconGray
+								progressStateIcon[step.icon_status]
 							}>
 							<Grid container>
 								<Grid item md={8} xs={10}>

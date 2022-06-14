@@ -12,11 +12,11 @@ const CircleIconRed = () => <CircleIcon color="error" fontSize="small" />;
 const CircleIconGray = () => <CircleIcon color="disabled" fontSize="small" />;
 
 const progressStateIcon = {
-	CircleIconGreen: CircleIconGreen,
-	CircleIconGray: CircleIconGray,
-	CircleIconRed: CircleIconRed,
+	complete: CircleIconGreen,
+	pending: CircleIconGray,
+	active: CircleIconRed,
 };
-
+        
 export const ProgressSteps: FC = (props: {
 	progressTitle: any;
 	progressStages: any;
@@ -53,7 +53,7 @@ export const ProgressSteps: FC = (props: {
 							<Step key={step.label}>
 								<StepLabel
 									StepIconComponent={
-										progressStateIcon[step.icon_status]
+										progressStateIcon[step.status]
 									}>
 									<Grid container>
 										<Grid item md={8} xs={10}>
