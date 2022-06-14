@@ -24,29 +24,20 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { TransferRequest } from "types/transaction";
 import { ProgressSteps } from "components/common/progress-steps";
 
-
 const progressStages = [
 	{
-	  label: 'Select a wallet',
-	  status: 'complete',
+		label: "Match with seller",
+		status: "complete",
 	},
 	{
-	  label: 'Connect to you wallet',
-	   status: 'complete',
+		label: "Payment",
+		status: "active",
 	},
 	{
-	  label: 'Match with seller',
-	  status: 'complete',
+		label: "Receive your Crypto",
+		status: "pending",
 	},
-	{
-	  label: 'Payment',
-	   status: 'active',
-	},
-	{
-	  label: 'Receive your Crypto',
-	   status: 'pending',
-	},
-  ]
+];
 
 const TradePaymentModal = (
 	props: {
@@ -142,7 +133,7 @@ const TradePaymentModal = (
 									your order. Click on the button below to pay
 									for your USDC.
 								</Typography>
-								<Box sx={{ m:3 }}>
+								<Box sx={{ m: 3 }}>
 									<LazyLoadImage
 										width="70"
 										height="70"
@@ -174,8 +165,11 @@ const TradePaymentModal = (
 										alt="Plaid"
 									/>
 								</Typography>
-								<ProgressSteps progressTitle="Progress" progressStages={progressStages} activeStep={2}/>
-					
+								<ProgressSteps
+									progressTitle="Progress"
+									progressStages={progressStages}
+									activeStep={2}
+								/>
 							</div>
 						</Container>
 					</Box>

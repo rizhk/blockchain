@@ -20,7 +20,6 @@ import TradePaymentModal from "./buy-steps/payment-modal";
 import { TradeMatchingOfferModal } from "./buy-steps/matching-offer-modal";
 import RequestTransferModal from "./buy-steps/request-transfer-modal";
 import TokenTransferedModal from "./buy-steps/token-transfered-modal";
-import WalletConnectModal from "./buy-steps/wallet-connect-modal";
 import ConfirmPurchaseModal from "./buy-steps/confirm-purchase-modal";
 import {
 	usePaymentModal,
@@ -29,12 +28,8 @@ import {
 	useTokenTransferedModal,
 	useConfirmPurchaseModal,
 } from "hooks/use-buy-modal";
-import { useWeb3, useWalletConnectModal } from "hooks/Web3Client";
-import { default as DexContractAbi } from "contracts/PicanteDexAbi.json";
 import { ethers } from "ethers";
-import { FormatTypes, Interface } from "ethers/lib/utils";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { PicanteApi } from "api/end-point";
 import { walletApi } from "api/wallet-api";
 import { useMounted } from "hooks/use-mounted";
 import { Wallet } from "types/wallet";
@@ -106,8 +101,6 @@ export const BuyPanel: FC = (props) => {
 	//form error message
 	const [errorMessage, setErrorMessage] = React.useState("");
 
-	const { web3Provider, connect, disconnect } = useWeb3();
-
 	const [picanteCharge, setPicanteCharge] = React.useState(0);
 
 	const changePaymentMethod = (event: { target: { value: any } }) => {
@@ -142,7 +135,9 @@ export const BuyPanel: FC = (props) => {
 				throw new Error("transfer request error");
 			}
 
-			let txn = await web3Provider.waitForTransaction(hex);
+			const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+			let txn = await provider.waitForTransaction(hex);
 
 			if (txn) {
 				let txnHash = hex;
