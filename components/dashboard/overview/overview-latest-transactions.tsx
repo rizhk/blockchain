@@ -19,7 +19,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { format, subDays } from "date-fns";
 import { SeverityPill } from "../../severity-pill";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { OverviewTransactionsDetails } from "./overview-transactions-details";
+import { TransactionsListDetails } from "../transaction/transactions-list-details";
 import {
 	Filters,
 	ProjectListFilters,
