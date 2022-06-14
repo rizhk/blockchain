@@ -24,7 +24,7 @@ const progressStages = [
 	},
 	{
 	  label: 'Send Crypto',
-	   status: 'complete',
+	   status: 'active',
 	},
   ]
 

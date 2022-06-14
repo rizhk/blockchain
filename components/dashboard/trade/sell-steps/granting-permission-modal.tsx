@@ -15,7 +15,7 @@ const progressStages = [
 	},
 	{
 	  label: 'Grant permission',
-	  status: 'complete',
+	  status: 'active',
 	},
 	{
 	  label: 'Confirm transaction',
