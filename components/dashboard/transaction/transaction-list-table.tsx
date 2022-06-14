@@ -30,8 +30,8 @@ import { Image as ImageIcon } from "../../../icons/image";
 import type { Transaction } from "../../../types/transaction";
 import { Scrollbar } from "../../scrollbar";
 import { SeverityPill } from "../../severity-pill";
-import { TransactionsListDetails } from "./transactions-list-details"
-import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { TransactionsListDetails } from "./transactions-list-details";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 interface TransactionListTableProps {
 	onPageChange: (
@@ -70,8 +70,10 @@ export const TransactionListTable: FC<TransactionListTableProps> = (props) => {
 					<TableHead>
 						<TableRow>
 							<TableCell />
-						
-							<TableCell width="25%" colSpan={2}>TYPE</TableCell>
+
+							<TableCell width="25%" colSpan={2}>
+								TYPE
+							</TableCell>
 							<TableCell width="25%">WALLET USED</TableCell>
 							<TableCell>DATE</TableCell>
 							<TableCell>AMOUNT</TableCell>
@@ -120,7 +122,7 @@ export const TransactionListTable: FC<TransactionListTableProps> = (props) => {
 										<TableCell>
 											<img src="/static/icons/usdc.png" />
 
-											 {/* <Box
+											{/* <Box
 												sx={{
 													alignItems: "center",
 													display: "flex",
@@ -186,18 +188,21 @@ export const TransactionListTable: FC<TransactionListTableProps> = (props) => {
 												</Box>
 											</Box> */}
 										</TableCell>
-										<TableCell>											<Typography display="inline"
-														variant="subtitle2"
-														sx={{
-															textTransform:
-																"capitalize",
-														}}>
-														{transaction.txn_type}{" "}
-														{transaction.token}
-													</Typography>
-													</TableCell>
+										<TableCell>
+											{" "}
+											<Typography
+												display="inline"
+												variant="subtitle2"
+												sx={{
+													textTransform: "capitalize",
+												}}>
+												{transaction.txn_type}{" "}
+												{transaction.token}
+											</Typography>
+										</TableCell>
 										<TableCell width="25%">
-											<Typography className="truncate"
+											<Typography
+												className="truncate"
 												color="textPrimary"
 												variant="body2">
 												{transaction.wallet_id}
@@ -214,17 +219,21 @@ export const TransactionListTable: FC<TransactionListTableProps> = (props) => {
 											).format(`0,0.00`)}{" "}
 											{transaction.token}
 											<br />
-										<Typography color="textSecondary"
-														variant="body2">	{numeral(
-												transaction.fiat_amt
-											).format(`0,0.00`)}{" "}
-											{transaction.fiat}</Typography>
+											<Typography
+												color="textSecondary"
+												variant="body2">
+												{" "}
+												{numeral(
+													transaction.fiat_amt
+												).format(`0,0.00`)}{" "}
+												{transaction.fiat}
+											</Typography>
 										</TableCell>
 										<TableCell>
 											<SeverityPill
 												color={
 													transaction.status ===
-														"complete"
+													"complete"
 														? "success"
 														: "info"
 												}>
@@ -233,16 +242,21 @@ export const TransactionListTable: FC<TransactionListTableProps> = (props) => {
 										</TableCell>
 										<TableCell align="right">
 											<IconButton>
-											<MoreVertIcon />
+												<MoreVertIcon />
 											</IconButton>
 										</TableCell>
 									</TableRow>
 									{open && (
-		
-		<TableRow>
-					<TableCell colSpan={12}>					<TransactionsListDetails />
-										</TableCell>
-		</TableRow>
+										<TableRow>
+											<TableCell colSpan={12}>
+												{" "}
+												<TransactionsListDetails
+													TransactionId={
+														transaction.id
+													}
+												/>
+											</TableCell>
+										</TableRow>
 									)}
 								</Fragment>
 							);
@@ -259,7 +273,7 @@ export const TransactionListTable: FC<TransactionListTableProps> = (props) => {
 				rowsPerPage={rowsPerPage}
 				rowsPerPageOptions={[5, 10, 25]}
 			/>
-		</div >
+		</div>
 	);
 };
 
