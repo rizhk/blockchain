@@ -37,7 +37,7 @@ export const WalletSelector: FC<WalletProps> = (props) => {
 				onChange={handleChange}>
 				{wallets.map((wallet) => {
 					return (
-						<MenuItem value={wallet.address}>
+						<MenuItem value={wallet.address} key={wallet.address}>
 							{wallet.name} - {wallet.address}
 						</MenuItem>
 					);
