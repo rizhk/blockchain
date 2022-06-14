@@ -23,7 +23,7 @@ const progressStages = [
 	},
 	{
 	  label: 'Match with seller',
-	  status: 'pending',
+	  status: 'active',
 	},
 	{
 	  label: 'Payment',

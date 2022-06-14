@@ -7,8 +7,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 import Box from "@mui/material/Box";
 
 const CircleIconGreen = () => <CircleIcon color="success" fontSize="small" />;
-const CircleIconRed = () => <CircleIcon color="error" fontSize="small" />;
-
+const CircleIconRed = () => (<img src="/static/home/welcome_3.gif"/>);
 const CircleIconGray = () => <CircleIcon color="disabled" fontSize="small" />;
 
 const progressStateIcon = {
@@ -16,6 +15,7 @@ const progressStateIcon = {
 	pending: CircleIconGray,
 	active: CircleIconRed,
 };
+
 export const ProgressSteps: FC = (props: {
 	progressTitle: any;
 	progressStages: any;

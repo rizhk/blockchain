@@ -15,11 +15,11 @@ const progressStages = [
 	},
 	{
 	  label: 'Grant permission',
-	  status: 'pending',
+	  status: 'complete',
 	},
 	{
 	  label: 'Confirm transaction',
-	   status: 'pending',
+	   status: 'active',
 	},
 	{
 	  label: 'Send Crypto',

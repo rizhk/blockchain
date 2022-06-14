@@ -17,6 +17,7 @@
 
 # misc
 .DS_Store
+public/.DS_Store
 *.pem
 
 # debug

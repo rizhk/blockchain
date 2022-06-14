@@ -40,7 +40,7 @@ const progressStages = [
 	},
 	{
 	  label: 'Payment',
-	   status: 'pending',
+	   status: 'active',
 	},
 	{
 	  label: 'Receive your Crypto',
