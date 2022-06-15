@@ -64,9 +64,7 @@ const Register: NextPage = () => {
 				await register(values.email, values.name, values.password);
 
 				if (isMounted()) {
-					const returnUrl =
-						(router.query.returnUrl as string | undefined) ||
-						"/dashboard";
+					const returnUrl = "/authentication/verify-code";
 					router.push(returnUrl).catch(console.error);
 				}
 			} catch (err) {
