@@ -7,26 +7,18 @@ import { ProgressSteps } from "components/common/progress-steps";
 // steps for the progress bar
 const progressStages = [
 	{
-	  label: 'Select a wallet',
-	  status: 'complete',
+		label: "Match with seller",
+		status: "complete",
 	},
 	{
-	  label: 'Connect to you wallet',
-	   status: 'complete',
+		label: "Payment",
+		status: "complete",
 	},
 	{
-	  label: 'Match with seller',
-	  status: 'complete',
+		label: "Receive your Crypto",
+		status: "active",
 	},
-	{
-	  label: 'Payment',
-	   status: 'complete',
-	},
-	{
-	  label: 'Receive your Crypto',
-	   status: 'active',
-	},
-  ]
+];
 
 const RequestTransferModal = (
 	props: { isRequestTransferShowing: any; hide: any },
@@ -71,8 +63,11 @@ const RequestTransferModal = (
 									few minutes.
 								</Typography>
 								<SendTokenLottie />
-								<ProgressSteps progressTitle="Progress" progressStages={progressStages} activeStep={5}/>
-					
+								<ProgressSteps
+									progressTitle="Progress"
+									progressStages={progressStages}
+									activeStep={5}
+								/>
 							</div>
 						</Container>
 					</Box>

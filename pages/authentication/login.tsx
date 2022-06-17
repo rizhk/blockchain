@@ -21,6 +21,7 @@ import { gtm } from "../../lib/gtm";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useMounted } from "hooks/use-mounted";
+import { LoadingButton } from "@mui/lab";
 
 const Login: NextPage = () => {
 	const isMounted = useMounted();
@@ -145,14 +146,14 @@ const Login: NextPage = () => {
 											</Box>
 										)}
 										<Box sx={{ mt: 2 }}>
-											<Button
-												disabled={formik.isSubmitting}
+											<LoadingButton
+												loading={formik.isSubmitting}
 												fullWidth
 												size="large"
 												type="submit"
 												variant="contained">
 												Log In
-											</Button>
+											</LoadingButton>
 										</Box>
 										<Divider sx={{ my: 3 }} />
 										<div>

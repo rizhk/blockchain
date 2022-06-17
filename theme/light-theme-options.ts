@@ -95,6 +95,9 @@ export const lightThemeOptions: ThemeOptions = {
 							background: info.dark,
 						}
 					},
+					".MuiLoadingButton-loadingIndicator": {
+						color: 'white',
+					}
 				},
 			},
 		},

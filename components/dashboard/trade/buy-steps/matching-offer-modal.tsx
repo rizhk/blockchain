@@ -14,28 +14,18 @@ import { ProgressSteps } from "components/common/progress-steps";
 // steps for the progress bar
 const progressStages = [
 	{
-	  label: 'Select a wallet',
-	  status: 'complete',
+		label: "Match with seller",
+		status: "active",
 	},
 	{
-	  label: 'Connect to you wallet',
-	   status: 'complete',
+		label: "Payment",
+		status: "pending",
 	},
 	{
-	  label: 'Match with seller',
-	  status: 'active',
+		label: "Receive your Crypto",
+		status: "pending",
 	},
-	{
-	  label: 'Payment',
-	   status: 'pending',
-	},
-	{
-	  label: 'Receive your Crypto',
-	   status: 'pending',
-	},
-  ]
-	   
-
+];
 
 export const TradeMatchingOfferModal = (props: {
 	isMatchingOfferShowing: any;
@@ -77,8 +67,12 @@ export const TradeMatchingOfferModal = (props: {
 									Picante is now matching you with a seller to
 									fill your order
 								</Typography>
-								<MatchingOfferLottie  width="25px"/>
-								<ProgressSteps progressTitle="Progress" progressStages={progressStages} activeStep={2}/>
+								<MatchingOfferLottie width="25px" />
+								<ProgressSteps
+									progressTitle="Progress"
+									progressStages={progressStages}
+									activeStep={2}
+								/>
 							</div>
 						</Container>
 					</Box>

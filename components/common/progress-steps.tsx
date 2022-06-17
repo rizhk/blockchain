@@ -7,7 +7,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 import Box from "@mui/material/Box";
 
 const CircleIconGreen = () => <CircleIcon color="success" fontSize="small" />;
-const CircleIconRed = () => (<img src="/static/home/welcome_3.gif"/>);
+const CircleIconRed = () => <img src="/static/home/welcome_3.gif" />;
 const CircleIconGray = () => <CircleIcon color="disabled" fontSize="small" />;
 
 const progressStateIcon = {

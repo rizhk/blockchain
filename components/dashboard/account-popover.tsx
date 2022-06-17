@@ -61,7 +61,7 @@ export const AccountPopover: FC<AccountPopoverProps> = (props) => {
 					display: "flex",
 				}}>
 				<Avatar
-					src={user.avatar}
+					src={user && user.avatar}
 					sx={{
 						height: 40,
 						width: 40,

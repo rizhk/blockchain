@@ -226,7 +226,7 @@ const AccountButton = () => {
 						height: 40,
 						width: 40,
 					}}
-					src={user.avatar}>
+					src={user && user.avatar}>
 					<UserCircleIcon fontSize="small" />
 				</Avatar>
 			</Box>

@@ -62,8 +62,7 @@ export const TutorialDialog: FC<ContentSearchProps> = (props) => {
 								display: "flex",
 								flexDirection: "column",
 								alignItems: "center",
-								background:
-									"linear-gradient(180deg, rgba(13, 0, 255, 0.062) 0%, rgba(0, 0, 0, 0) 100%), #FFFFFF;",
+								background: "rgba(247, 247, 255, 1)",
 								textAlign: "center",
 								height: "550px",
 							}}>
@@ -103,8 +102,7 @@ export const TutorialDialog: FC<ContentSearchProps> = (props) => {
 								display: "flex",
 								flexDirection: "column",
 								alignItems: "center",
-								background:
-									"linear-gradient(180deg, rgba(13, 0, 255, 0.062) 0%, rgba(0, 0, 0, 0) 100%), #FFFFFF;",
+								background: "rgba(247, 247, 255, 1)",
 								textAlign: "center",
 								height: "550px",
 							}}>
@@ -153,8 +151,7 @@ export const TutorialDialog: FC<ContentSearchProps> = (props) => {
 								display: "flex",
 								flexDirection: "column",
 								alignItems: "center",
-								background:
-									"linear-gradient(180deg, rgba(13, 0, 255, 0.062) 0%, rgba(0, 0, 0, 0) 100%), #FFFFFF;",
+								background: "rgba(255, 247, 255, 1)",
 								textAlign: "center",
 								height: "550px",
 							}}>
