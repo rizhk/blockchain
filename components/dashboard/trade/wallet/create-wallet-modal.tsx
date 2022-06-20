@@ -11,8 +11,9 @@ import Typography from "@mui/material/Typography";
 import { Box, FormHelperText, TextField } from "@mui/material";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { NetworkSelector } from "../network/network-selector";
+import { NetworkSelector } from "components/dashboard/network/network-selector";
 import { walletApi } from "api/wallet-api";
+import { FC } from "react";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 	"& .MuiDialogContent-root": {
@@ -95,7 +96,6 @@ export const CreateWalletDialogs: FC = (
 				const success = await walletApi.create(values);
 
 				if (success) {
-					resetForm();
 					const data = await walletApi.getItems();
 					props.parentCallback(data);
 					handleClose();
@@ -109,7 +109,6 @@ export const CreateWalletDialogs: FC = (
 
 	return (
 		<form noValidate onSubmit={formik.handleSubmit} {...props}>
-			{/* this button should be outside of this FC */}
 			<Button
 				sx={{
 					mt: 3,

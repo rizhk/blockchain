@@ -66,6 +66,10 @@ export const BuyPanel: FC = (props) => {
 
 	const [wallets, setWallets] = useState<Wallet[]>([]);
 
+	const updateWallets = (updateWallets: any): void => {
+		setWallets(updateWallets);
+	};
+
 	const getWallets = useCallback(async () => {
 		try {
 			const data = await walletApi.getItems();
@@ -349,6 +353,7 @@ export const BuyPanel: FC = (props) => {
 				<Grid item md={12} xs={12}>
 					<WalletSelector
 						wallets={wallets}
+						parentCallback={updateWallets}
 						error={Boolean(
 							formik.touched.receiveWallet &&
 								formik.errors.receiveWallet
