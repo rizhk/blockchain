@@ -45,6 +45,10 @@ export const SellPanel: FC = (props) => {
 
 	const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
 
+	const updateBankAccounts = (bankAccounts: any): void => {
+		setBankAccounts(bankAccounts);
+	};
+
 	const getBankAccounts = useCallback(async () => {
 		try {
 			const data = await bankAccountApi.getItems();
@@ -84,9 +88,9 @@ export const SellPanel: FC = (props) => {
 		formik.setFieldValue("paymentMethod", event.target.value);
 	};
 
-	const changeWallet = (event: { target: { value: any } }) => {
-		formik.setFieldValue("receiveWallet", event.target.value);
-	};
+	// const changeWallet = (event: { target: { value: any } }) => {
+	// 	formik.setFieldValue("receiveWallet", event.target.value);
+	// };
 
 	const handlePayAmountChange = (event: any) => {
 		formik.setFieldValue("amountToSell", event.target.value);
@@ -296,6 +300,7 @@ export const SellPanel: FC = (props) => {
 				<Grid item md={12} xs={12}>
 					<BankAccountSelector
 						bankAccounts={bankAccounts}
+						parentCallback={updateBankAccounts}
 						error={Boolean(
 							formik.touched.paymentMethod &&
 								formik.errors.paymentMethod

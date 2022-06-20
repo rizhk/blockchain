@@ -89,7 +89,6 @@ export const WalletSelector: FC<WalletProps> = (props) => {
 	const [newWalletOpen, setNewWalletOpen] = React.useState(false);
 
 	const handleClickOpen = () => {
-		console.log("Add new wallet");
 		setNewWalletOpen(true);
 	};
 	const handleClose = () => {
@@ -124,7 +123,6 @@ export const WalletSelector: FC<WalletProps> = (props) => {
 				const success = await walletApi.create(values);
 
 				if (success) {
-					resetForm();
 					const data = await walletApi.getItems();
 					// props.wallets = data;
 					props.parentCallback(data);
