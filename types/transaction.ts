@@ -9,7 +9,8 @@ export interface Transaction {
 	fiat: string;
 	fiat_amt: number;
 	status: string;
-	details: TxnStep[];
+	steps: TxnStep[];
+	breakdown: TxnBreakdownItem[];
 	created_at: string;
 	updated_at: string;
 }
@@ -18,6 +19,14 @@ export interface TxnStep {
 	label: string;
 	description: string;
 	icon_status: string;
+	date: Date;
+}
+
+export interface TxnBreakdownItem {
+	txnId: string;
+	tokenAmt: string;
+	fiatAmt: string;
+	date: Date;
 }
 
 export interface TransferRequest {

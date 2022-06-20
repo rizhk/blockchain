@@ -58,7 +58,7 @@ export const TransactionsListDetails: FC = (props) => {
 
 				if (isMounted()) {
 					setTxn(data);
-					setSteps(data.details.reverse());
+					setSteps(data.steps.reverse());
 				}
 			} catch (err) {
 				console.error(err);
@@ -120,14 +120,18 @@ export const TransactionsListDetails: FC = (props) => {
 										color="text.primary"
 										variant="body2">
 										{" "}
-										25-07-2022
+										{new Date(
+											step.date
+										).toLocaleDateString()}
 									</Typography>
 									<Typography
 										display="inline"
 										color="text.secondary"
 										variant="body2">
 										{" "}
-										21:09
+										{new Date(
+											step.date
+										).toLocaleTimeString()}
 									</Typography>
 								</Grid>
 							</Grid>
