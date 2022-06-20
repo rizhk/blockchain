@@ -17,4 +17,6 @@ export const PicanteApi = {
 		PicanteApiHost + "/v1/market/transaction/buy/verify/token-transfer",
 	Register: PicanteApiHost + "/v1/user",
 	TutorialSkip: PicanteApiHost + "/v1/user/tutorial/skip",
+	VerifyEmail: PicanteApiHost + "/v1/user/email/verify",
+	ResendVerifyCode: PicanteApiHost + "/v1/user/email/verify/resend",
 };

@@ -11,15 +11,17 @@ import * as Yup from "yup";
 import { LoadingButton } from '@mui/lab';
 import { useFormik } from 'formik';
 import { useMounted } from "hooks/use-mounted";
+import { authApi } from 'api/auth-api';
 
 const VerifyCode: NextPage = () => {
   const isMounted = useMounted();
   const router = useRouter();
+  const { updateUser } = useAuth();
   const { disableGuard } = router.query;
 
   const formik = useFormik({
 		initialValues: {
-			code: "password",
+			code: "",
 			submit: null,
 		},
 		validationSchema: Yup.object({
@@ -28,7 +30,8 @@ const VerifyCode: NextPage = () => {
 		}),
 		onSubmit: async (values, helpers): Promise<void> => {
 			try {
-				// await login(values.email, values.password);
+				await authApi.verify(values.code);
+				await updateUser({});
 
 				if (isMounted()) {
 					const returnUrl =
@@ -127,23 +130,17 @@ const VerifyCode: NextPage = () => {
 										</Box>
 										<Divider sx={{ my: 3 }} />
 										<div>
-											<NextLink
-												href={
-													disableGuard
-														? `/authentication/verify-code?disableGuard=${disableGuard}`
-														: "/authentication/verify-code"
-												}
-												passHref>
-												<Link
-													color="secondary.main"
-													variant="body1"
-													sx={{
-														textDecoration:
-															"underline",
-													}}>
-													Didn’t get it? Resend verification code
-												</Link>
-											</NextLink>
+											<Typography
+												color="secondary.main"
+												variant="body1"
+												sx={{
+													textDecoration:
+														"underline",
+													cursor: "pointer"
+												}}
+												onClick={async() => await authApi.resend()}>
+												Didn’t get it? Resend verification code
+											</Typography>
 										</div>
 									</form>
 								</Box>

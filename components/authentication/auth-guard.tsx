@@ -26,6 +26,14 @@ export const AuthGuard: FC<AuthGuardProps> = (props) => {
           query: { returnUrl: router.asPath }
         }).catch(console.error);
       } else {
+        if (auth.user && !auth.user.email_is_verifited) {
+          router.push({
+            pathname: '/authentication/verify-code',
+            query: { returnUrl: router.asPath }
+          }).catch(console.error);
+
+          return
+        }
         setChecked(true);
       }
     },

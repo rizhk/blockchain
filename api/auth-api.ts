@@ -187,6 +187,75 @@ class AuthApi {
 			}
 		});
 	}
+
+	verify(code: string): Promise<String> {
+		const accessToken = localStorage.getItem("accessToken") || "";
+		return new Promise((resolve, reject) => {
+			try {
+				fetch(PicanteApi.VerifyEmail, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authentication: accessToken,
+					},
+					body: JSON.stringify({ ver_code: code }),
+				})
+					.then((response) => response.json())
+					.then(
+						(data) => {
+							console.log(data);
+							if (!data.error) {
+								resolve(data.msg);
+							} else {
+								reject(
+									new Error("Invalid authorization token")
+								);
+							}
+						},
+						(error) => {
+							reject(new Error(error.message));
+						}
+					);
+			} catch (err) {
+				console.error("[Auth Api]: ", err);
+				reject(new Error("Internal server error"));
+			}
+		});
+	}
+
+	resend(): Promise<String> {
+		const accessToken = localStorage.getItem("accessToken") || "";
+		return new Promise((resolve, reject) => {
+			try {
+				fetch(PicanteApi.ResendVerifyCode, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authentication: accessToken,
+					},
+				})
+					.then((response) => response.json())
+					.then(
+						(data) => {
+							console.log(data);
+							if (!data.error) {
+								resolve(data.msg);
+							} else {
+								reject(
+									new Error("Invalid authorization token")
+								);
+							}
+						},
+						(error) => {
+							reject(new Error(error.message));
+						}
+					);
+			} catch (err) {
+				console.error("[Auth Api]: ", err);
+				reject(new Error("Internal server error"));
+			}
+		});
+	}
 }
 
 export const authApi = new AuthApi();
