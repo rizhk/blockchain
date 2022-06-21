@@ -49,7 +49,7 @@ export const BuyPanel: FC = (props) => {
 	const cref = useRef(Object)!;
 	const isMounted = useMounted();
 
-	var picanteChargePercentage = 1;
+	var picanteChargePercentage = 0.1;
 
 	//payment modal
 	const [paymentObject, setPaymentObject] = React.useState(null);
@@ -296,21 +296,13 @@ export const BuyPanel: FC = (props) => {
 					src={process.env.NEXT_PUBLIC_URL + "static/Connector.svg"} // use normal <img> attributes as props
 				/>
 				<Typography variant="body2" color="neutral.500" mt={3} mb={3}>
-					<LazyLoadImage
-						width="11.2"
-						height="12.8"
-						src={
-							process.env.NEXT_PUBLIC_URL +
-							"static/icons/percentage.svg"
-						} // use normal <img> attributes as props
-					/>
 					<span>
-						&nbsp;&nbsp;&#163;{picanteCharge} GBP - 1% Estimated
+						&nbsp;&nbsp;&#163;{picanteCharge} GBP - 0.1% Estimated
 						Fees
 						<br />
 						<Typography variant="caption" color="neutral.400">
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#163;1
-							GBP = 1.25 USDC
+							GBP = 1.25 USDC (Estimated)
 						</Typography>
 					</span>
 				</Typography>
@@ -392,6 +384,3 @@ export const BuyPanel: FC = (props) => {
 		</form>
 	);
 };
-function isMounted() {
-	throw new Error("Function not implemented.");
-}

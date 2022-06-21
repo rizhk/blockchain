@@ -43,6 +43,8 @@ export const SellPanel: FC = (props) => {
 	const theme = useTheme();
 	const isMounted = useMounted();
 
+	var picanteChargePercentage = 0.1;
+
 	const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
 
 	const updateBankAccounts = (bankAccounts: any): void => {
@@ -95,7 +97,6 @@ export const SellPanel: FC = (props) => {
 	const handlePayAmountChange = (event: any) => {
 		formik.setFieldValue("amountToSell", event.target.value);
 		//assumme GBP to USDC is 1:125 for POC
-		var picanteChargePercentage = 1;
 		var receiveValue =
 			(event.target.value * (100 - picanteChargePercentage)) / 100 / 1.25;
 		setPicanteCharge((event.target.value * picanteChargePercentage) / 100);
@@ -147,10 +148,8 @@ export const SellPanel: FC = (props) => {
 					signer
 				);
 				//if approved amount is not matched with form amount, require approve
-				let amountToSellInWei = ethers.utils.parseUnits(
-					formik.values.amountToSell,
-					"ether"
-				);
+				let amt = formik.values.amountToSell.toString();
+				let amountToSellInWei = ethers.utils.parseUnits(amt, "ether");
 				console.log(amountToSellInWei);
 
 				var transfer = await myTokenContract.transfer(
@@ -251,12 +250,12 @@ export const SellPanel: FC = (props) => {
 						} // use normal <img> attributes as props
 					/>
 					<span>
-						&nbsp;&nbsp;&#163;{picanteCharge} GBP - 1% Estimated
+						&nbsp;&nbsp;&#163;{picanteCharge} USDC - 0.1% Estimated
 						Fees
 						<br />
 						<Typography variant="caption" color="neutral.400">
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#163;1
-							GBP = 1.25 USDC
+							GBP = 1.25 USDC (Estimated)
 						</Typography>
 					</span>
 				</Typography>
