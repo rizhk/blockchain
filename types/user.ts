@@ -4,7 +4,7 @@ export interface User {
 	email: string;
 	full_name: string;
 	skip_tutorial: boolean;
-	email_is_verifited: boolean;
+	email_is_verified: boolean;
 	// name: string;
 	// wallets: string[];
 	// bankAccounts: BankAccount[];
