@@ -24,8 +24,7 @@ const Logout: NextPage = () => {
 		<>
 			<Head>
 				<title>
-					Error: Not Found |{" "}
-					{process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
+					Logout | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
 				</title>
 			</Head>
 			<Box

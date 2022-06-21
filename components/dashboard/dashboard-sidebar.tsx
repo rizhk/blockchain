@@ -81,26 +81,26 @@ const getSections = (t: TFunction): Section[] => [
 				path: "/dashboard/transactions",
 				iconFilled: <TransactionIconFilled fontSize="small" />,
 			},
-	
+
 			{
 				title: t("Wallets"),
 				icon: <WalletIcon fontSize="small" />,
 				path: "/dashboard/wallets",
 				iconFilled: <WalletIconFilled fontSize="small" />,
 			},
-		
+
 			{
 				title: t("Bank accounts"),
 				icon: <BankIcon fontSize="small" />,
 				path: "/dashboard/bank-accounts",
 				iconFilled: <BankIconFilled fontSize="small" />,
 			},
-		
+
 			{
-			  title: t('Settings'),
-			  path: '/dashboard/logistics',
-			  icon: <SettingsIcon fontSize="small" />,
-			  iconFilled: <SettingsIconFilled fontSize="small" />,
+				title: t("Settings"),
+				path: "/dashboard/logistics",
+				icon: <SettingsIcon fontSize="small" />,
+				iconFilled: <SettingsIconFilled fontSize="small" />,
 			},
 			{
 				title: t("Invite and earn"),
@@ -140,7 +140,6 @@ const getSections = (t: TFunction): Section[] => [
 			},
 		],
 	},
-	
 ];
 
 export const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
@@ -195,12 +194,21 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 						display: "flex",
 						flexDirection: "column",
 						height: "100%",
-						
 					}}>
 					<div>
-		<Box sx={{ display:'flex', p: 3, direction:"row", alignItems:"center" }}>
+						<Box
+							sx={{
+								display: "flex",
+								p: 3,
+								direction: "row",
+								alignItems: "center",
+							}}>
 							<NextLink href="/dashboard" passHref>
-								<a style={{ display:'flex', alignItems:"center" }}>
+								<a
+									style={{
+										display: "flex",
+										alignItems: "center",
+									}}>
 									<LazyLoadImage
 										width="30"
 										height="30"
@@ -209,7 +217,13 @@ export const DashboardSidebar: FC<DashboardSidebarProps> = (props) => {
 											"picante-logo.svg"
 										} // use normal <img> attributes as props
 									/>
-									<Typography sx={{display:"inline", marginLeft:'10px'}} >{ user.full_name }</Typography>
+									<Typography
+										sx={{
+											display: "inline",
+											marginLeft: "10px",
+										}}>
+										{user?.full_name}
+									</Typography>
 								</a>
 							</NextLink>
 						</Box>

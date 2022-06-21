@@ -72,7 +72,7 @@ export const AccountPopover: FC<AccountPopoverProps> = (props) => {
 					sx={{
 						ml: 1,
 					}}>
-					<Typography variant="body1">{user.full_name}</Typography>
+					<Typography variant="body1">{user?.full_name}</Typography>
 					{/* <Typography color="textSecondary" variant="body2">
 						Acme Inc
 					</Typography> */}
