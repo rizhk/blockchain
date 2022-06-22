@@ -31,8 +31,8 @@ const Login: NextPage = () => {
 
 	const formik = useFormik({
 		initialValues: {
-			email: "demo@picante.io",
-			password: "password",
+			email: process.env.NEXT_PUBLIC_URL?.includes('dev') || process.env.NEXT_PUBLIC_URL?.includes('localhost') ? "demo@picante.io" : '',
+			password: process.env.NEXT_PUBLIC_URL?.includes('dev') || process.env.NEXT_PUBLIC_URL?.includes('localhost') ? "password" : '',
 			submit: null,
 		},
 		validationSchema: Yup.object({
