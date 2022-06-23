@@ -91,9 +91,9 @@ class TransactionApi {
 				.then(
 					(data) => {
 						if (!data.error) {
-							const transactions = <Transaction>data.item;
+							const transaction = <Transaction>data.item;
 
-							return resolve(transactions);
+							return resolve(transaction);
 						}
 					},
 					(error) => {
