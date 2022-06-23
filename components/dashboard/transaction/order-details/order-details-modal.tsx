@@ -18,6 +18,7 @@ export default ({ isOrderDetailsShowing, hide, txn }: ItxnsProps): JSX.Element =
 
   const handleClose = (event: React.ChangeEvent<HTMLButtonElement>, reason: string) => {
     hide();
+    document.body.style.overflow = 'auto';
   };
 
   let paidAmount = 0;
@@ -34,7 +35,7 @@ export default ({ isOrderDetailsShowing, hide, txn }: ItxnsProps): JSX.Element =
   }
 
   return (
-    <Dialog fullScreen={fullScreen} open={isOrderDetailsShowing} onClose={handleClose} disableScrollLock={true}>
+    <Dialog fullScreen={fullScreen} open={isOrderDetailsShowing} onClose={handleClose}>
       <DialogContent>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -55,9 +56,12 @@ export default ({ isOrderDetailsShowing, hide, txn }: ItxnsProps): JSX.Element =
               <Typography variant="subtitle2">Submitted</Typography>
             </Grid>
             <Grid item xs={8}>
-            <Typography display="inline"  variant="body2">{new Date(txn?.created_at).toLocaleDateString()}</Typography>
-                      {' '}
-                      <Typography display="inline" color="text.secondary" variant="body2">{new Date(txn?.created_at).toLocaleTimeString()}</Typography>
+              <Typography display="inline" variant="body2">
+                {new Date(txn?.created_at).toLocaleDateString()}
+              </Typography>{' '}
+              <Typography display="inline" color="text.secondary" variant="body2">
+                {new Date(txn?.created_at).toLocaleTimeString()}
+              </Typography>
             </Grid>
           </Grid>
           <Grid container item xs={12}>
@@ -65,7 +69,9 @@ export default ({ isOrderDetailsShowing, hide, txn }: ItxnsProps): JSX.Element =
               <Typography variant="subtitle2">Amount paid</Typography>
             </Grid>
             <Grid item xs={8}>
-              <Typography variant="body2">{paidAmount} {txn?.token}</Typography>
+              <Typography variant="body2">
+                {paidAmount} {txn?.token}
+              </Typography>
             </Grid>
           </Grid>
           <Grid container item xs={12}>
@@ -73,7 +79,9 @@ export default ({ isOrderDetailsShowing, hide, txn }: ItxnsProps): JSX.Element =
               <Typography variant="subtitle2">Amount received</Typography>
             </Grid>
             <Grid item xs={8}>
-              <Typography variant="body2">{receivedAmount} {txn?.fiat}</Typography>
+              <Typography variant="body2">
+                {receivedAmount} {txn?.fiat}
+              </Typography>
             </Grid>
           </Grid>
           <Grid item xs={12} sx={{ padding: 0 }}>
@@ -124,15 +132,22 @@ export default ({ isOrderDetailsShowing, hide, txn }: ItxnsProps): JSX.Element =
                       <Typography variant="body2">{shortTxnId}</Typography>
                     </Grid>
                     <Grid item xs={2}>
-                      <Typography variant="body2">{token_amt} {' '}{txn.token}</Typography>
+                      <Typography variant="body2">
+                        {token_amt} {txn.token}
+                      </Typography>
                     </Grid>
                     <Grid item xs={2}>
-                      <Typography variant="body2">{fiat_amt} {txn.fiat}</Typography>
+                      <Typography variant="body2">
+                        {fiat_amt} {txn.fiat}
+                      </Typography>
                     </Grid>
                     <Grid item xs={5}>
-                      <Typography display="inline"  variant="body2">{new Date(date).toLocaleDateString()}</Typography>
-                      {' '}
-                      <Typography display="inline" color="text.secondary" variant="body2">{new Date(date).toLocaleTimeString()}</Typography>
+                      <Typography display="inline" variant="body2">
+                        {new Date(date).toLocaleDateString()}
+                      </Typography>{' '}
+                      <Typography display="inline" color="text.secondary" variant="body2">
+                        {new Date(date).toLocaleTimeString()}
+                      </Typography>
                     </Grid>
                   </Grid>
                 );
