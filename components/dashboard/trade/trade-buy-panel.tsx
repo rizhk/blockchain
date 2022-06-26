@@ -123,6 +123,8 @@ export const BuyPanel: FC = (props) => {
 			1.25;
 		setPicanteCharge((event.target.value * picanteChargePercentage) / 100);
 		formik.setFieldValue("amountReceive", receiveValue);
+
+		formik.setFieldValue("amountReward", 1);
 	};
 
 	const callCreatePaymentToken = (
