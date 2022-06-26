@@ -6,39 +6,16 @@ export const Form4: FC = () => (
     sx={{
       backgroundColor: 'background.paper',
       minHeight: '100%',
-      p: 3
+      p: 3,
     }}
   >
     <form onSubmit={(event) => event.preventDefault()}>
-      <Grid
-        container
-        spacing={3}
-      >
-        <Grid
-          item
-          md={4}
-          sm={6}
-          xs={12}
-        >
-          <TextField
-            fullWidth
-            label="Password"
-            name="password"
-            type="password"
-          />
+      <Grid container spacing={3}>
+        <Grid item md={4} sm={6} xs={12}>
+          <TextField fullWidth label="Password" name="password" type="password" />
         </Grid>
-        <Grid
-          item
-          md={4}
-          sm={6}
-          xs={12}
-        >
-          <TextField
-            fullWidth
-            label="Password Confirmation"
-            name="passwordConfirm"
-            type="password"
-          />
+        <Grid item md={4} sm={6} xs={12}>
+          <TextField fullWidth label="Password Confirmation" name="passwordConfirm" type="password" />
         </Grid>
       </Grid>
       <Divider sx={{ pt: 2 }} />
@@ -46,14 +23,10 @@ export const Form4: FC = () => (
         sx={{
           display: 'flex',
           justifyContent: 'flex-end',
-          p: 2
+          p: 2,
         }}
       >
-        <Button
-          color="primary"
-          type="submit"
-          variant="contained"
-        >
+        <Button color="primary" type="submit" variant="contained">
           Change Password
         </Button>
       </Box>

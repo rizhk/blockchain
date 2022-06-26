@@ -16,7 +16,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography
+  Typography,
 } from '@mui/material';
 import { ArrowRight as ArrowRightIcon } from '../../../icons/arrow-right';
 import { PencilAlt as PencilAltIcon } from '../../../icons/pencil-alt';
@@ -34,15 +34,7 @@ interface CustomerListTableProps {
 }
 
 export const CustomerListTable: FC<CustomerListTableProps> = (props) => {
-  const {
-    customers,
-    customersCount,
-    onPageChange,
-    onRowsPerPageChange,
-    page,
-    rowsPerPage,
-    ...other
-  } = props;
+  const { customers, customersCount, onPageChange, onRowsPerPageChange, page, rowsPerPage, ...other } = props;
   const [selectedCustomers, setSelectedCustomers] = useState<string[]>([]);
 
   // Reset selected customers when customers change
@@ -53,21 +45,14 @@ export const CustomerListTable: FC<CustomerListTableProps> = (props) => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [customers]
+    [customers],
   );
 
   const handleSelectAllCustomers = (event: ChangeEvent<HTMLInputElement>): void => {
-    setSelectedCustomers(
-      event.target.checked
-        ? customers.map((customer) => customer.id)
-        : []
-    );
+    setSelectedCustomers(event.target.checked ? customers.map((customer) => customer.id) : []);
   };
 
-  const handleSelectOneCustomer = (
-    event: ChangeEvent<HTMLInputElement>,
-    customerId: string
-  ): void => {
+  const handleSelectOneCustomer = (event: ChangeEvent<HTMLInputElement>, customerId: string): void => {
     if (!selectedCustomers.includes(customerId)) {
       setSelectedCustomers((prevSelected) => [...prevSelected, customerId]);
     } else {
@@ -76,20 +61,17 @@ export const CustomerListTable: FC<CustomerListTableProps> = (props) => {
   };
 
   const enableBulkActions = selectedCustomers.length > 0;
-  const selectedSomeCustomers = selectedCustomers.length > 0
-    && selectedCustomers.length < customers.length;
+  const selectedSomeCustomers = selectedCustomers.length > 0 && selectedCustomers.length < customers.length;
   const selectedAllCustomers = selectedCustomers.length === customers.length;
 
   return (
     <div {...other}>
       <Box
         sx={{
-          backgroundColor: (theme) => theme.palette.mode === 'dark'
-            ? 'neutral.800'
-            : 'neutral.100',
+          backgroundColor: (theme) => (theme.palette.mode === 'dark' ? 'neutral.800' : 'neutral.100'),
           display: enableBulkActions ? 'block' : 'none',
           px: 2,
-          py: 0.5
+          py: 0.5,
         }}
       >
         <Checkbox
@@ -97,16 +79,10 @@ export const CustomerListTable: FC<CustomerListTableProps> = (props) => {
           indeterminate={selectedSomeCustomers}
           onChange={handleSelectAllCustomers}
         />
-        <Button
-          size="small"
-          sx={{ ml: 2 }}
-        >
+        <Button size="small" sx={{ ml: 2 }}>
           Delete
         </Button>
-        <Button
-          size="small"
-          sx={{ ml: 2 }}
-        >
+        <Button size="small" sx={{ ml: 2 }}>
           Edit
         </Button>
       </Box>
@@ -121,21 +97,11 @@ export const CustomerListTable: FC<CustomerListTableProps> = (props) => {
                   onChange={handleSelectAllCustomers}
                 />
               </TableCell>
-              <TableCell>
-                Name
-              </TableCell>
-              <TableCell>
-                Location
-              </TableCell>
-              <TableCell>
-                Orders
-              </TableCell>
-              <TableCell>
-                Spent
-              </TableCell>
-              <TableCell align="right">
-                Actions
-              </TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Location</TableCell>
+              <TableCell>Orders</TableCell>
+              <TableCell>Spent</TableCell>
+              <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -143,18 +109,11 @@ export const CustomerListTable: FC<CustomerListTableProps> = (props) => {
               const isCustomerSelected = selectedCustomers.includes(customer.id);
 
               return (
-                <TableRow
-                  hover
-                  key={customer.id}
-                  selected={isCustomerSelected}
-                >
+                <TableRow hover key={customer.id} selected={isCustomerSelected}>
                   <TableCell padding="checkbox">
                     <Checkbox
                       checked={isCustomerSelected}
-                      onChange={(event) => handleSelectOneCustomer(
-                        event,
-                        customer.id
-                      )}
+                      onChange={(event) => handleSelectOneCustomer(event, customer.id)}
                       value={isCustomerSelected}
                     />
                   </TableCell>
@@ -162,66 +121,44 @@ export const CustomerListTable: FC<CustomerListTableProps> = (props) => {
                     <Box
                       sx={{
                         alignItems: 'center',
-                        display: 'flex'
+                        display: 'flex',
                       }}
                     >
                       <Avatar
                         src={customer.avatar}
                         sx={{
                           height: 42,
-                          width: 42
+                          width: 42,
                         }}
                       >
                         {getInitials(customer.name)}
                       </Avatar>
                       <Box sx={{ ml: 1 }}>
-                        <NextLink
-                          href="/dashboard/customers/1"
-                          passHref
-                        >
-                          <Link
-                            color="inherit"
-                            variant="subtitle2"
-                          >
+                        <NextLink href="/dashboard/customers/1" passHref>
+                          <Link color="inherit" variant="subtitle2">
                             {customer.name}
                           </Link>
                         </NextLink>
-                        <Typography
-                          color="textSecondary"
-                          variant="body2"
-                        >
+                        <Typography color="textSecondary" variant="body2">
                           {customer.email}
                         </Typography>
                       </Box>
                     </Box>
                   </TableCell>
+                  <TableCell>{`${customer.city}, ${customer.state}, ${customer.country}`}</TableCell>
+                  <TableCell>{customer.totalOrders}</TableCell>
                   <TableCell>
-                    {`${customer.city}, ${customer.state}, ${customer.country}`}
-                  </TableCell>
-                  <TableCell>
-                    {customer.totalOrders}
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      color="success.main"
-                      variant="subtitle2"
-                    >
+                    <Typography color="success.main" variant="subtitle2">
                       {numeral(customer.totalAmountSpent).format(`${customer.currency}0,0.00`)}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
-                    <NextLink
-                      href="/dashboard/customers/1/edit"
-                      passHref
-                    >
+                    <NextLink href="/dashboard/customers/1/edit" passHref>
                       <IconButton component="a">
                         <PencilAltIcon fontSize="small" />
                       </IconButton>
                     </NextLink>
-                    <NextLink
-                      href="/dashboard/customers/1"
-                      passHref
-                    >
+                    <NextLink href="/dashboard/customers/1" passHref>
                       <IconButton component="a">
                         <ArrowRightIcon fontSize="small" />
                       </IconButton>
@@ -252,5 +189,5 @@ CustomerListTable.propTypes = {
   onPageChange: PropTypes.func.isRequired,
   onRowsPerPageChange: PropTypes.func,
   page: PropTypes.number.isRequired,
-  rowsPerPage: PropTypes.number.isRequired
+  rowsPerPage: PropTypes.number.isRequired,
 };

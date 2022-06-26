@@ -12,7 +12,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography
+  Typography,
 } from '@mui/material';
 import type { OrderItem } from '../../../types/order';
 import { Scrollbar } from '../../scrollbar';
@@ -33,15 +33,9 @@ export const OrderItems: FC<OrderItemsProps> = (props) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>
-                  Description
-                </TableCell>
-                <TableCell>
-                  Billing Cycle
-                </TableCell>
-                <TableCell>
-                  Amount
-                </TableCell>
+                <TableCell>Description</TableCell>
+                <TableCell>Billing Cycle</TableCell>
+                <TableCell>Amount</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -49,19 +43,11 @@ export const OrderItems: FC<OrderItemsProps> = (props) => {
                 <TableRow key={item.id}>
                   <TableCell>
                     <Typography variant="subtitle2">
-                      {item.name}
-                      {' '}
-                      x
-                      {' '}
-                      {item.quantity}
+                      {item.name} x {item.quantity}
                     </Typography>
                   </TableCell>
-                  <TableCell>
-                    {item.billingCycle}
-                  </TableCell>
-                  <TableCell>
-                    {numeral(item.unitAmount).format(`${item.currency}0,0.00`)}
-                  </TableCell>
+                  <TableCell>{item.billingCycle}</TableCell>
+                  <TableCell>{numeral(item.unitAmount).format(`${item.currency}0,0.00`)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -71,8 +57,8 @@ export const OrderItems: FC<OrderItemsProps> = (props) => {
       <TablePagination
         component="div"
         count={orderItems.length}
-        onPageChange={(): void => { }}
-        onRowsPerPageChange={(): void => { }}
+        onPageChange={(): void => {}}
+        onRowsPerPageChange={(): void => {}}
         page={0}
         rowsPerPage={5}
         rowsPerPageOptions={[5, 10, 25]}
@@ -82,5 +68,5 @@ export const OrderItems: FC<OrderItemsProps> = (props) => {
 };
 
 OrderItems.propTypes = {
-  orderItems: PropTypes.array.isRequired
+  orderItems: PropTypes.array.isRequired,
 };

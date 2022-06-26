@@ -3,15 +3,13 @@ import Markdown from 'react-markdown';
 import { Box, Card, CardContent, Chip, Grid, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-const MarkdownWrapper = styled('div')(
-  ({ theme }) => ({
-    color: theme.palette.text.primary,
-    fontFamily: theme.typography.fontFamily,
-    '& p': {
-      marginBottom: theme.spacing(2)
-    }
-  })
-);
+const MarkdownWrapper = styled('div')(({ theme }) => ({
+  color: theme.palette.text.primary,
+  fontFamily: theme.typography.fontFamily,
+  '& p': {
+    marginBottom: theme.spacing(2),
+  },
+}));
 
 const description = `
 Design files are attached in the files tab.
@@ -28,54 +26,31 @@ export const DetailList6: FC = () => (
     sx={{
       backgroundColor: 'background.default',
       minHeight: '100%',
-      p: 3
+      p: 3,
     }}
   >
     <Card>
       <CardContent>
-        <Grid
-          container
-          spacing={3}
-        >
-          <Grid
-            item
-            md={6}
-            xs={12}
-          >
-            <Typography
-              color="textSecondary"
-              variant="overline"
-            >
+        <Grid container spacing={3}>
+          <Grid item md={6} xs={12}>
+            <Typography color="textSecondary" variant="overline">
               Project Name
             </Typography>
-            <Typography variant="subtitle2">
-              Develop a PDF Export App
-            </Typography>
+            <Typography variant="subtitle2">Develop a PDF Export App</Typography>
             <Box sx={{ mt: 3 }}>
-              <Typography
-                color="textSecondary"
-                variant="overline"
-              >
+              <Typography color="textSecondary" variant="overline">
                 Tags
               </Typography>
               <Box sx={{ mt: 1 }}>
                 {['React JS'].map((tag) => (
-                  <Chip
-                    key={tag}
-                    label={tag}
-                    variant="outlined"
-                  />
+                  <Chip key={tag} label={tag} variant="outlined" />
                 ))}
               </Box>
             </Box>
           </Grid>
         </Grid>
         <Box sx={{ mt: 3 }}>
-          <Typography
-            color="textSecondary"
-            sx={{ mb: 2 }}
-            variant="overline"
-          >
+          <Typography color="textSecondary" sx={{ mb: 2 }} variant="overline">
             Description
           </Typography>
           <MarkdownWrapper>

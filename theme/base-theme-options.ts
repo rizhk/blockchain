@@ -1,9 +1,9 @@
-import { ThemeOptions } from "@mui/material";
+import { ThemeOptions } from '@mui/material';
 
-import { TypographyOptions } from "@mui/material/styles/createTypography";
-import { neutral } from "./colors";
+import { TypographyOptions } from '@mui/material/styles/createTypography';
+import { neutral } from './colors';
 
-declare module "@mui/material/Typography" {
+declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     subtitle3: true;
     caption2: true;
@@ -22,77 +22,77 @@ const typography: ExtendedTypographyOptions = {
   fontFamily:
     '"Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
   body1: {
-    fontSize: "1rem",
+    fontSize: '1rem',
     fontWeight: 400,
     lineHeight: 1.5,
   },
   body2: {
-    fontSize: "0.875rem",
+    fontSize: '0.875rem',
     fontWeight: 400,
     lineHeight: 1.57,
   },
   subtitle1: {
-    fontSize: "1rem",
+    fontSize: '1rem',
     fontWeight: 500,
     lineHeight: 1.75,
   },
   subtitle2: {
-    fontSize: "0.875rem",
+    fontSize: '0.875rem',
     fontWeight: 500,
     lineHeight: 1.57,
   },
   subtitle3: {
     color: neutral[400],
-    fontSize: "0.857rem",
+    fontSize: '0.857rem',
     fontWeight: 500,
     lineHeight: 1.57,
   },
   overline: {
-    fontSize: "0.75rem",
+    fontSize: '0.75rem',
     fontWeight: 600,
-    letterSpacing: "0.5px",
+    letterSpacing: '0.5px',
     lineHeight: 2.5,
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
   },
   caption: {
-    fontSize: "0.75rem",
+    fontSize: '0.75rem',
     fontWeight: 400,
     lineHeight: 1.66,
   },
   caption2: {
     color: neutral[400],
-    fontSize: "0.75rem",
+    fontSize: '0.75rem',
     fontWeight: 400,
     lineHeight: 1.66,
   },
   h1: {
     fontWeight: 700,
-    fontSize: "3.5rem",
+    fontSize: '3.5rem',
     lineHeight: 1.375,
   },
   h2: {
     fontWeight: 700,
-    fontSize: "3rem",
+    fontSize: '3rem',
     lineHeight: 1.375,
   },
   h3: {
     fontWeight: 700,
-    fontSize: "2.25rem",
+    fontSize: '2.25rem',
     lineHeight: 1.375,
   },
   h4: {
     fontWeight: 700,
-    fontSize: "2rem",
+    fontSize: '2rem',
     lineHeight: 1.375,
   },
   h5: {
     fontWeight: 600,
-    fontSize: "1.5rem",
+    fontSize: '1.5rem',
     lineHeight: 1.375,
   },
   h6: {
     fontWeight: 600,
-    fontSize: "1.125rem",
+    fontSize: '1.125rem',
     lineHeight: 1.375,
   },
 };
@@ -123,25 +123,25 @@ export const baseThemeOptions: ThemeOptions = {
       },
       styleOverrides: {
         root: {
-          textTransform: "none",
+          textTransform: 'none',
         },
         sizeSmall: {
-          padding: "6px 16px",
+          padding: '6px 16px',
         },
         sizeMedium: {
-          padding: "8px 20px",
+          padding: '8px 20px',
         },
         sizeLarge: {
-          padding: "11px 24px",
+          padding: '11px 24px',
         },
         textSizeSmall: {
-          padding: "7px 12px",
+          padding: '7px 12px',
         },
         textSizeMedium: {
-          padding: "9px 16px",
+          padding: '9px 16px',
         },
         textSizeLarge: {
-          padding: "12px 16px",
+          padding: '12px 16px',
         },
       },
     },
@@ -153,16 +153,16 @@ export const baseThemeOptions: ThemeOptions = {
     MuiCardActions: {
       styleOverrides: {
         root: {
-          padding: "16px 24px",
+          padding: '16px 24px',
         },
       },
     },
     MuiCardContent: {
       styleOverrides: {
         root: {
-          padding: "32px 24px",
-          "&:last-child": {
-            paddingBottom: "32px",
+          padding: '32px 24px',
+          '&:last-child': {
+            paddingBottom: '32px',
           },
         },
       },
@@ -170,21 +170,21 @@ export const baseThemeOptions: ThemeOptions = {
     MuiCardHeader: {
       defaultProps: {
         titleTypographyProps: {
-          variant: "h6",
+          variant: 'h6',
         },
         subheaderTypographyProps: {
-          variant: "body2",
+          variant: 'body2',
         },
       },
       styleOverrides: {
         root: {
-          padding: "32px 24px",
+          padding: '32px 24px',
         },
       },
     },
     MuiCheckbox: {
       defaultProps: {
-        color: "primary",
+        color: 'primary',
       },
     },
     MuiChip: {
@@ -196,41 +196,41 @@ export const baseThemeOptions: ThemeOptions = {
     },
     MuiCssBaseline: {
       styleOverrides: {
-        "*": {
-          boxSizing: "border-box",
+        '*': {
+          boxSizing: 'border-box',
         },
         html: {
-          MozOsxFontSmoothing: "grayscale",
-          WebkitFontSmoothing: "antialiased",
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "100%",
-          width: "100%",
+          MozOsxFontSmoothing: 'grayscale',
+          WebkitFontSmoothing: 'antialiased',
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '100%',
+          width: '100%',
         },
         body: {
-          display: "flex",
-          flex: "1 1 auto",
-          flexDirection: "column",
-          minHeight: "100%",
-          width: "100%",
+          display: 'flex',
+          flex: '1 1 auto',
+          flexDirection: 'column',
+          minHeight: '100%',
+          width: '100%',
         },
-        "#__next": {
-          display: "flex",
-          flex: "1 1 auto",
-          flexDirection: "column",
-          height: "100%",
-          width: "100%",
+        '#__next': {
+          display: 'flex',
+          flex: '1 1 auto',
+          flexDirection: 'column',
+          height: '100%',
+          width: '100%',
         },
-        "#nprogress": {
-          pointerEvents: "none",
+        '#nprogress': {
+          pointerEvents: 'none',
         },
-        "#nprogress .bar": {
-          backgroundColor: "#5048E5",
+        '#nprogress .bar': {
+          backgroundColor: '#5048E5',
           height: 3,
           left: 0,
-          position: "fixed",
+          position: 'fixed',
           top: 0,
-          width: "100%",
+          width: '100%',
           zIndex: 2000,
         },
       },
@@ -250,21 +250,21 @@ export const baseThemeOptions: ThemeOptions = {
       styleOverrides: {
         root: {
           borderRadius: 3,
-          overflow: "hidden",
+          overflow: 'hidden',
         },
       },
     },
     MuiLink: {
       defaultProps: {
-        underline: "hover",
+        underline: 'hover',
       },
     },
     MuiListItemIcon: {
       styleOverrides: {
         root: {
-          marginRight: "16px",
-          "&.MuiListItemIcon-root": {
-            minWidth: "unset",
+          marginRight: '16px',
+          '&.MuiListItemIcon-root': {
+            minWidth: 'unset',
           },
         },
       },
@@ -279,7 +279,7 @@ export const baseThemeOptions: ThemeOptions = {
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundImage: "none",
+          backgroundImage: 'none',
         },
       },
     },
@@ -290,12 +290,12 @@ export const baseThemeOptions: ThemeOptions = {
     },
     MuiRadio: {
       defaultProps: {
-        color: "primary",
+        color: 'primary',
       },
     },
     MuiSwitch: {
       defaultProps: {
-        color: "primary",
+        color: 'primary',
       },
     },
     MuiTab: {
@@ -304,11 +304,11 @@ export const baseThemeOptions: ThemeOptions = {
           fontSize: 14,
           fontWeight: 500,
           lineHeight: 1.71,
-          minWidth: "auto",
+          minWidth: 'auto',
           paddingLeft: 0,
           paddingRight: 0,
-          textTransform: "none",
-          "& + &": {
+          textTransform: 'none',
+          '& + &': {
             marginLeft: 24,
           },
         },
@@ -317,23 +317,23 @@ export const baseThemeOptions: ThemeOptions = {
     MuiTableCell: {
       styleOverrides: {
         root: {
-          padding: "15px 16px",
+          padding: '15px 16px',
         },
       },
     },
     MuiTableHead: {
       styleOverrides: {
         root: {
-          borderBottom: "none",
-          "& .MuiTableCell-root": {
-            borderBottom: "none",
-            fontSize: "12px",
+          borderBottom: 'none',
+          '& .MuiTableCell-root': {
+            borderBottom: 'none',
+            fontSize: '12px',
             fontWeight: 600,
             lineHeight: 1,
             letterSpacing: 0.5,
-            textTransform: "uppercase",
+            textTransform: 'uppercase',
           },
-          "& .MuiTableCell-paddingCheckbox": {
+          '& .MuiTableCell-paddingCheckbox': {
             paddingTop: 4,
             paddingBottom: 4,
           },
@@ -341,7 +341,7 @@ export const baseThemeOptions: ThemeOptions = {
       },
     },
   },
-  direction: "ltr",
+  direction: 'ltr',
   shape: {
     borderRadius: 8,
   },

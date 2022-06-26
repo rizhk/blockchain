@@ -2,16 +2,7 @@ import { useState } from 'react';
 import type { ChangeEvent, FC } from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
-import {
-  Box,
-  Button,
-  Card,
-  CardHeader,
-  Divider,
-  TextField, Theme,
-  Typography,
-  useMediaQuery
-} from '@mui/material';
+import { Box, Button, Card, CardHeader, Divider, TextField, Theme, Typography, useMediaQuery } from '@mui/material';
 import type { Order } from '../../../types/order';
 import { PropertyList } from '../../property-list';
 import { PropertyListItem } from '../../property-list-item';
@@ -38,81 +29,43 @@ export const OrderSummary: FC<OrderDetailsProps> = (props) => {
       <CardHeader title="Basic info" />
       <Divider />
       <PropertyList>
-        <PropertyListItem
-          align={align}
-          label="Customer"
-        >
-          <Typography
-            color="primary"
-            variant="body2"
-          >
+        <PropertyListItem align={align} label="Customer">
+          <Typography color="primary" variant="body2">
             {order.customer.name}
           </Typography>
-          <Typography
-            color="textSecondary"
-            variant="body2"
-          >
+          <Typography color="textSecondary" variant="body2">
             {order.customer.address1}
           </Typography>
-          <Typography
-            color="textSecondary"
-            variant="body2"
-          >
+          <Typography color="textSecondary" variant="body2">
             {order.customer.city}
           </Typography>
-          <Typography
-            color="textSecondary"
-            variant="body2"
-          >
+          <Typography color="textSecondary" variant="body2">
             {order.customer.country}
           </Typography>
         </PropertyListItem>
         <Divider />
-        <PropertyListItem
-          align={align}
-          label="ID"
-          value={order.id}
-        />
+        <PropertyListItem align={align} label="ID" value={order.id} />
         <Divider />
-        <PropertyListItem
-          align={align}
-          label="Invoice"
-          value={order.number}
-        />
+        <PropertyListItem align={align} label="Invoice" value={order.number} />
         <Divider />
-        <PropertyListItem
-          align={align}
-          label="Date"
-          value={format(order.createdAt, 'dd/MM/yyyy HH:mm')}
-        />
+        <PropertyListItem align={align} label="Date" value={format(order.createdAt, 'dd/MM/yyyy HH:mm')} />
         <Divider />
-        <PropertyListItem
-          align={align}
-          label="Promotion Code"
-          value={order.promotionCode}
-        />
+        <PropertyListItem align={align} label="Promotion Code" value={order.promotionCode} />
         <Divider />
-        <PropertyListItem
-          align={align}
-          label="Total Amount"
-          value={`${order.currency}${order.totalAmount}`}
-        />
+        <PropertyListItem align={align} label="Total Amount" value={`${order.currency}${order.totalAmount}`} />
         <Divider />
-        <PropertyListItem
-          align={align}
-          label="Status"
-        >
+        <PropertyListItem align={align} label="Status">
           <Box
             sx={{
               alignItems: {
-                sm: 'center'
+                sm: 'center',
               },
               display: 'flex',
               flexDirection: {
                 xs: 'column',
-                sm: 'row'
+                sm: 'row',
               },
-              mx: -1
+              mx: -1,
             }}
           >
             <TextField
@@ -125,28 +78,20 @@ export const OrderSummary: FC<OrderDetailsProps> = (props) => {
               sx={{
                 flexGrow: 1,
                 m: 1,
-                minWidth: 150
+                minWidth: 150,
               }}
               value={status}
             >
               {statusOptions.map((statusOption) => (
-                <option
-                  key={statusOption}
-                  value={statusOption}
-                >
+                <option key={statusOption} value={statusOption}>
                   {statusOption}
                 </option>
               ))}
             </TextField>
-            <Button
-              sx={{ m: 1 }}
-              variant="contained"
-            >
+            <Button sx={{ m: 1 }} variant="contained">
               Save
             </Button>
-            <Button sx={{ m: 1 }}>
-              Cancel
-            </Button>
+            <Button sx={{ m: 1 }}>Cancel</Button>
           </Box>
         </PropertyListItem>
       </PropertyList>
@@ -156,5 +101,5 @@ export const OrderSummary: FC<OrderDetailsProps> = (props) => {
 
 OrderSummary.propTypes = {
   // @ts-ignore
-  order: PropTypes.object.isRequired
+  order: PropTypes.object.isRequired,
 };

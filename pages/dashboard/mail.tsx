@@ -12,39 +12,30 @@ import { MailDetails } from '../../components/dashboard/mail/mail-details';
 import { MailList } from '../../components/dashboard/mail/mail-list';
 import { MailSidebar } from '../../components/dashboard/mail/mail-sidebar';
 import { gtm } from '../../lib/gtm';
-import {
-  closeComposer,
-  closeSidebar,
-  getLabels,
-  openComposer,
-  openSidebar
-} from '../../slices/mail';
+import { closeComposer, closeSidebar, getLabels, openComposer, openSidebar } from '../../slices/mail';
 import { useDispatch, useSelector } from '../../store';
 
-const MailInner = styled(
-  'div',
-  { shouldForwardProp: (prop) => prop !== 'open' }
-)<{ open?: boolean; }>(
+const MailInner = styled('div', { shouldForwardProp: (prop) => prop !== 'open' })<{ open?: boolean }>(
   ({ theme, open }) => ({
     flexGrow: 1,
     overflow: 'hidden',
     [theme.breakpoints.up('md')]: {
-      marginLeft: -280
+      marginLeft: -280,
     },
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
+      duration: theme.transitions.duration.leavingScreen,
     }),
     ...(open && {
       [theme.breakpoints.up('md')]: {
-        marginLeft: 0
+        marginLeft: 0,
       },
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen
-      })
-    })
-  })
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    }),
+  }),
 );
 
 const Mail: NextPage = () => {
@@ -52,10 +43,7 @@ const Mail: NextPage = () => {
   const router = useRouter();
   const rootRef = useRef<HTMLDivElement | null>(null);
   const { labels, isComposeOpen, isSidebarOpen } = useSelector((state) => state.mail);
-  const mdUp = useMediaQuery(
-    (theme: Theme) => theme.breakpoints.up('md'),
-    { noSsr: true }
-  );
+  const mdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'), { noSsr: true });
   const emailId = router.query.emailId as string | undefined;
   const label = router.query.label as string | undefined;
 
@@ -68,7 +56,7 @@ const Mail: NextPage = () => {
       dispatch(getLabels());
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [],
   );
 
   useEffect(
@@ -80,7 +68,7 @@ const Mail: NextPage = () => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [mdUp]
+    [mdUp],
   );
 
   const handleToggleSidebar = (): void => {
@@ -110,9 +98,7 @@ const Mail: NextPage = () => {
   return (
     <>
       <Head>
-        <title>
-          Dashboard: Mail | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
-        </title>
+        <title>Dashboard: Mail | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
       <Box
         component="main"
@@ -120,7 +106,7 @@ const Mail: NextPage = () => {
           position: 'relative',
           height: '100%',
           width: '100%',
-          overflow: 'hidden'
+          overflow: 'hidden',
         }}
       >
         <Box
@@ -131,7 +117,7 @@ const Mail: NextPage = () => {
             top: 0,
             right: 0,
             bottom: 0,
-            left: 0
+            left: 0,
           }}
         >
           <MailSidebar
@@ -143,37 +129,22 @@ const Mail: NextPage = () => {
             open={isSidebarOpen}
           />
           <MailInner open={isSidebarOpen}>
-            {
-              emailId
-                ? (
-                  <MailDetails
-                    label={label}
-                    emailId={emailId}
-                  />
-                )
-                : (
-                  <MailList
-                    onToggleSidebar={handleToggleSidebar}
-                    label={label}
-                  />
-                )
-            }
+            {emailId ? (
+              <MailDetails label={label} emailId={emailId} />
+            ) : (
+              <MailList onToggleSidebar={handleToggleSidebar} label={label} />
+            )}
           </MailInner>
         </Box>
       </Box>
-      <MailComposer
-        open={isComposeOpen}
-        onClose={handleComposerClose}
-      />
+      <MailComposer open={isComposeOpen} onClose={handleComposerClose} />
     </>
   );
 };
 
 Mail.getLayout = (page) => (
   <AuthGuard>
-    <DashboardLayout>
-      {page}
-    </DashboardLayout>
+    <DashboardLayout>{page}</DashboardLayout>
   </AuthGuard>
 );
 

@@ -26,53 +26,51 @@ import { getEvents, updateEvent } from '../../slices/calendar';
 import { useDispatch, useSelector } from '../../store';
 import type { CalendarView } from '../../types/calendar';
 
-const FullCalendarWrapper = styled('div')(
-  ({ theme }) => ({
-    marginTop: theme.spacing(3),
-    '& .fc-license-message': {
-      display: 'none'
-    },
-    '& .fc': {
-      '--fc-bg-event-opacity': 1,
-      '--fc-border-color': theme.palette.divider,
-      '--fc-daygrid-event-dot-width': '10px',
-      '--fc-event-text-color': theme.palette.primary.contrastText,
-      '--fc-list-event-hover-bg-color': theme.palette.background.default,
-      '--fc-neutral-bg-color': theme.palette.background.default,
-      '--fc-page-bg-color': theme.palette.background.default,
-      '--fc-today-bg-color': alpha(theme.palette.primary.main, 0.25),
-      color: theme.palette.text.primary,
-      fontFamily: theme.typography.fontFamily
-    },
-    '& .fc .fc-col-header-cell-cushion': {
-      paddingBottom: '10px',
-      paddingTop: '10px',
-      fontSize: theme.typography.overline.fontSize,
-      fontWeight: theme.typography.overline.fontWeight,
-      letterSpacing: theme.typography.overline.letterSpacing,
-      lineHeight: theme.typography.overline.lineHeight,
-      textTransform: theme.typography.overline.textTransform
-    },
-    '& .fc .fc-day-other .fc-daygrid-day-top': {
-      color: theme.palette.text.secondary
-    },
-    '& .fc-daygrid-event': {
-      borderRadius: theme.shape.borderRadius,
-      padding: '0px 4px',
-      fontSize: theme.typography.subtitle2.fontSize,
-      fontWeight: theme.typography.subtitle2.fontWeight,
-      lineHeight: theme.typography.subtitle2.lineHeight
-    },
-    '& .fc-daygrid-block-event .fc-event-time': {
-      fontSize: theme.typography.body2.fontSize,
-      fontWeight: theme.typography.body2.fontWeight,
-      lineHeight: theme.typography.body2.lineHeight
-    },
-    '& .fc-daygrid-day-frame': {
-      padding: '12px'
-    }
-  })
-);
+const FullCalendarWrapper = styled('div')(({ theme }) => ({
+  marginTop: theme.spacing(3),
+  '& .fc-license-message': {
+    display: 'none',
+  },
+  '& .fc': {
+    '--fc-bg-event-opacity': 1,
+    '--fc-border-color': theme.palette.divider,
+    '--fc-daygrid-event-dot-width': '10px',
+    '--fc-event-text-color': theme.palette.primary.contrastText,
+    '--fc-list-event-hover-bg-color': theme.palette.background.default,
+    '--fc-neutral-bg-color': theme.palette.background.default,
+    '--fc-page-bg-color': theme.palette.background.default,
+    '--fc-today-bg-color': alpha(theme.palette.primary.main, 0.25),
+    color: theme.palette.text.primary,
+    fontFamily: theme.typography.fontFamily,
+  },
+  '& .fc .fc-col-header-cell-cushion': {
+    paddingBottom: '10px',
+    paddingTop: '10px',
+    fontSize: theme.typography.overline.fontSize,
+    fontWeight: theme.typography.overline.fontWeight,
+    letterSpacing: theme.typography.overline.letterSpacing,
+    lineHeight: theme.typography.overline.lineHeight,
+    textTransform: theme.typography.overline.textTransform,
+  },
+  '& .fc .fc-day-other .fc-daygrid-day-top': {
+    color: theme.palette.text.secondary,
+  },
+  '& .fc-daygrid-event': {
+    borderRadius: theme.shape.borderRadius,
+    padding: '0px 4px',
+    fontSize: theme.typography.subtitle2.fontSize,
+    fontWeight: theme.typography.subtitle2.fontWeight,
+    lineHeight: theme.typography.subtitle2.lineHeight,
+  },
+  '& .fc-daygrid-block-event .fc-event-time': {
+    fontSize: theme.typography.body2.fontSize,
+    fontWeight: theme.typography.body2.fontWeight,
+    lineHeight: theme.typography.body2.lineHeight,
+  },
+  '& .fc-daygrid-day-frame': {
+    padding: '12px',
+  },
+}));
 
 const Calendar: NextPage = () => {
   const dispatch = useDispatch();
@@ -84,7 +82,7 @@ const Calendar: NextPage = () => {
   const [dialog, setDialog] = useState<any>({
     isOpen: false,
     eventId: undefined,
-    range: undefined
+    range: undefined,
   });
 
   useEffect(() => {
@@ -96,30 +94,27 @@ const Calendar: NextPage = () => {
       dispatch(getEvents());
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [],
   );
 
-  const handleResize = useCallback(
-    () => {
-      const calendarEl = calendarRef.current;
+  const handleResize = useCallback(() => {
+    const calendarEl = calendarRef.current;
 
-      if (calendarEl) {
-        const calendarApi = calendarEl.getApi();
-        const newView = smDown ? 'timeGridDay' : 'dayGridMonth';
+    if (calendarEl) {
+      const calendarApi = calendarEl.getApi();
+      const newView = smDown ? 'timeGridDay' : 'dayGridMonth';
 
-        calendarApi.changeView(newView);
-        setView(newView);
-      }
-    },
-    [calendarRef, smDown]
-  );
+      calendarApi.changeView(newView);
+      setView(newView);
+    }
+  }, [calendarRef, smDown]);
 
   useEffect(
     () => {
       handleResize();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [smDown]
+    [smDown],
   );
 
   const handleDateToday = (): void => {
@@ -168,7 +163,7 @@ const Calendar: NextPage = () => {
 
   const handleAddClick = (): void => {
     setDialog({
-      isOpen: true
+      isOpen: true,
     });
   };
 
@@ -185,15 +180,15 @@ const Calendar: NextPage = () => {
       isOpen: true,
       range: {
         start: arg.start.getTime(),
-        end: arg.end.getTime()
-      }
+        end: arg.end.getTime(),
+      },
     });
   };
 
   const handleEventSelect = (arg: EventClickArg): void => {
     setDialog({
       isOpen: true,
-      eventId: arg.event.id
+      eventId: arg.event.id,
     });
   };
 
@@ -201,11 +196,13 @@ const Calendar: NextPage = () => {
     const { event } = arg;
 
     try {
-      await dispatch(updateEvent(event.id, {
-        allDay: event.allDay,
-        start: event.start?.getTime(),
-        end: event.end?.getTime()
-      }));
+      await dispatch(
+        updateEvent(event.id, {
+          allDay: event.allDay,
+          start: event.start?.getTime(),
+          end: event.end?.getTime(),
+        }),
+      );
     } catch (err) {
       console.error(err);
     }
@@ -215,11 +212,13 @@ const Calendar: NextPage = () => {
     const { event } = arg;
 
     try {
-      await dispatch(updateEvent(event.id, {
-        allDay: event.allDay,
-        start: event.start?.getTime(),
-        end: event.end?.getTime()
-      }));
+      await dispatch(
+        updateEvent(event.id, {
+          allDay: event.allDay,
+          start: event.start?.getTime(),
+          end: event.end?.getTime(),
+        }),
+      );
     } catch (err) {
       console.error(err);
     }
@@ -227,7 +226,7 @@ const Calendar: NextPage = () => {
 
   const handleCloseDialog = (): void => {
     setDialog({
-      isOpen: false
+      isOpen: false,
     });
   };
 
@@ -236,16 +235,14 @@ const Calendar: NextPage = () => {
   return (
     <>
       <Head>
-        <title>
-          Dashboard: Calendar | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
-        </title>
+        <title>Dashboard: Calendar | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
       <Box
         component="main"
         sx={{
           backgroundColor: 'background.paper',
           flexGrow: 1,
-          py: 8
+          py: 8,
         }}
       >
         <CalendarToolbar
@@ -274,13 +271,7 @@ const Calendar: NextPage = () => {
             height={800}
             initialDate={date}
             initialView={view}
-            plugins={[
-              dayGridPlugin,
-              interactionPlugin,
-              listPlugin,
-              timeGridPlugin,
-              timelinePlugin
-            ]}
+            plugins={[dayGridPlugin, interactionPlugin, listPlugin, timeGridPlugin, timelinePlugin]}
             ref={calendarRef}
             rerenderDelay={10}
             select={handleRangeSelect}
@@ -304,9 +295,7 @@ const Calendar: NextPage = () => {
 
 Calendar.getLayout = (page) => (
   <AuthGuard>
-    <DashboardLayout>
-      {page}
-    </DashboardLayout>
+    <DashboardLayout>{page}</DashboardLayout>
   </AuthGuard>
 );
 

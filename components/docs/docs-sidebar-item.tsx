@@ -20,18 +20,7 @@ interface DocsSidebarItemProps extends ListItemProps {
 }
 
 export const DocsSidebarItem: FC<DocsSidebarItemProps> = (props) => {
-  const {
-    active,
-    chip,
-    children,
-    depth,
-    icon,
-    info,
-    open: openProp,
-    path,
-    title,
-    ...other
-  } = props;
+  const { active, chip, children, depth, icon, info, open: openProp, path, title, ...other } = props;
   const [open, setOpen] = useState<boolean>(!!openProp);
 
   const handleToggle = (): void => {
@@ -53,16 +42,12 @@ export const DocsSidebarItem: FC<DocsSidebarItemProps> = (props) => {
           display: 'block',
           mb: 0.5,
           py: 0,
-          px: 2
+          px: 2,
         }}
         {...other}
       >
         <Button
-          endIcon={
-            !open
-              ? <ChevronRightIcon fontSize="small" />
-              : <ChevronDownIcon fontSize="small" />
-          }
+          endIcon={!open ? <ChevronRightIcon fontSize="small" /> : <ChevronDownIcon fontSize="small" />}
           disableRipple
           onClick={handleToggle}
           startIcon={icon}
@@ -75,25 +60,20 @@ export const DocsSidebarItem: FC<DocsSidebarItemProps> = (props) => {
             textTransform: 'none',
             width: '100%',
             '&:hover': {
-              backgroundColor: 'rgba(255,255,255, 0.08)'
+              backgroundColor: 'rgba(255,255,255, 0.08)',
             },
             '& .MuiButton-startIcon': {
-              color: active ? 'secondary.main' : 'action.active'
+              color: active ? 'secondary.main' : 'action.active',
             },
             '& .MuiButton-endIcon': {
-              color: 'action.active'
-            }
+              color: 'action.active',
+            },
           }}
         >
-          <Box sx={{ flexGrow: 1 }}>
-            {title}
-          </Box>
+          <Box sx={{ flexGrow: 1 }}>{title}</Box>
           {info}
         </Button>
-        <Collapse
-          in={open}
-          sx={{ mt: 0.5 }}
-        >
+        <Collapse in={open} sx={{ mt: 0.5 }}>
           {children}
         </Collapse>
       </ListItem>
@@ -108,13 +88,10 @@ export const DocsSidebarItem: FC<DocsSidebarItemProps> = (props) => {
         display: 'flex',
         mb: 0.5,
         py: 0,
-        px: 2
+        px: 2,
       }}
     >
-      <NextLink
-        href={path as string}
-        passHref
-      >
+      <NextLink href={path as string} passHref>
         <Button
           component="a"
           startIcon={icon}
@@ -132,19 +109,17 @@ export const DocsSidebarItem: FC<DocsSidebarItemProps> = (props) => {
             ...(active && {
               backgroundColor: 'rgba(255,255,255, 0.08)',
               color: 'secondary.main',
-              fontWeight: 'fontWeightBold'
+              fontWeight: 'fontWeightBold',
             }),
             '& .MuiButton-startIcon': {
-              color: active ? 'secondary.main' : 'action.active'
+              color: active ? 'secondary.main' : 'action.active',
             },
             '&:hover': {
-              backgroundColor: 'rgba(255,255,255, 0.08)'
-            }
+              backgroundColor: 'rgba(255,255,255, 0.08)',
+            },
           }}
         >
-          <Box sx={{ flexGrow: 1 }}>
-            {title}
-          </Box>
+          <Box sx={{ flexGrow: 1 }}>{title}</Box>
           {info}
         </Button>
       </NextLink>
@@ -160,10 +135,10 @@ DocsSidebarItem.propTypes = {
   info: PropTypes.node,
   open: PropTypes.bool,
   path: PropTypes.string,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
 };
 
 DocsSidebarItem.defaultProps = {
   active: false,
-  open: false
+  open: false,
 };

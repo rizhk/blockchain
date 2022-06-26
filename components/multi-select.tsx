@@ -7,7 +7,7 @@ import { ChevronDown as ChevronDownIcon } from '../icons/chevron-down';
 interface MultiSelectProps {
   label: string;
   onChange?: (value: any[]) => void; // Same as type as the value received above
-  options: { label: string; value: unknown; }[];
+  options: { label: string; value: unknown }[];
   value: any[]; // This should accept string[], number[] or boolean[]
 }
 
@@ -56,17 +56,11 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
         {options.map((option) => (
           <MenuItem key={option.label}>
             <FormControlLabel
-              control={(
-                <Checkbox
-                  checked={value.includes(option.value)}
-                  onChange={handleChange}
-                  value={option.value}
-                />
-              )}
+              control={<Checkbox checked={value.includes(option.value)} onChange={handleChange} value={option.value} />}
               label={option.label}
               sx={{
                 flexGrow: 1,
-                mr: 0
+                mr: 0,
               }}
             />
           </MenuItem>
@@ -80,5 +74,5 @@ MultiSelect.propTypes = {
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   options: PropTypes.array.isRequired,
-  value: PropTypes.array.isRequired
+  value: PropTypes.array.isRequired,
 };

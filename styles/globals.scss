@@ -1,4 +1,3 @@
-
 html,
 body {
   padding: 0;
@@ -93,13 +92,15 @@ a {
   border: thin solid #f00;
 }
 
-.truncate{
+.truncate {
   width: 200px;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
-.MuiGrid-container{
-	margin-top: 0!important;
+.MuiGrid-container {
+  margin-top: 0 !important;
 }
-.web3modal-modal-lightbox.web3modal-modal-lightbox { z-index: 2001; }
+.web3modal-modal-lightbox.web3modal-modal-lightbox {
+  z-index: 2001;
+}

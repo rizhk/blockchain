@@ -12,7 +12,7 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
-  Typography
+  Typography,
 } from '@mui/material';
 
 interface Message {
@@ -31,7 +31,7 @@ const messages: Message[] = [
     date: subMinutes(new Date(), 2),
     senderAvatar: '/static/mock-images/avatars/avatar-alcides_antonio.png',
     senderName: 'Alcides Antonio',
-    unread: true
+    unread: true,
   },
   {
     id: 'de0eb1ac517aae1aa57c0b7e',
@@ -39,7 +39,7 @@ const messages: Message[] = [
     date: subMinutes(new Date(), 56),
     senderAvatar: '/static/mock-images/avatars/avatar-marcus_finn.png',
     senderName: 'Marcus Finn',
-    unread: false
+    unread: false,
   },
   {
     id: '38e2b0942c90d0ad724e6f40',
@@ -47,7 +47,7 @@ const messages: Message[] = [
     date: subHours(subMinutes(new Date(), 23), 3),
     senderAvatar: '/static/mock-images/avatars/avatar-carson_darrin.png',
     senderName: 'Carson Darrin',
-    unread: false
+    unread: false,
   },
   {
     id: '467505f3356f25a69f4c4890',
@@ -55,7 +55,7 @@ const messages: Message[] = [
     date: subHours(subMinutes(new Date(), 6), 8),
     senderAvatar: '/static/mock-images/avatars/avatar-fran_perez.png',
     senderName: 'Fran Perez',
-    unread: false
+    unread: false,
   },
   {
     id: '7e6af808e801a8361ce4cf8b',
@@ -63,8 +63,8 @@ const messages: Message[] = [
     date: subHours(subMinutes(new Date(), 18), 10),
     senderAvatar: '/static/mock-images/avatars/avatar-jie_yan_song.png',
     senderName: 'Jie Yan Song',
-    unread: false
-  }
+    unread: false,
+  },
 ];
 
 export const OverviewInbox: FC = (props) => (
@@ -73,25 +73,20 @@ export const OverviewInbox: FC = (props) => (
     <Divider />
     <List disablePadding>
       {messages.map((message, index) => (
-        <ListItem
-          divider={index + 1 < messages.length}
-          key={message.id}
-        >
+        <ListItem divider={index + 1 < messages.length} key={message.id}>
           <ListItemAvatar>
             <Avatar src={message.senderAvatar} />
           </ListItemAvatar>
           <ListItemText
             disableTypography
-            primary={(
+            primary={
               <Box
                 sx={{
                   alignItems: 'center',
-                  display: 'flex'
+                  display: 'flex',
                 }}
               >
-                <Typography variant="subtitle2">
-                  {message.senderName}
-                </Typography>
+                <Typography variant="subtitle2">{message.senderName}</Typography>
                 {message.unread && (
                   <Box
                     sx={{
@@ -99,27 +94,20 @@ export const OverviewInbox: FC = (props) => (
                       borderRadius: '50%',
                       height: 8,
                       ml: 1,
-                      width: 8
+                      width: 8,
                     }}
                   />
                 )}
               </Box>
-            )}
-            secondary={(
-              <Typography
-                color="textSecondary"
-                variant="body2"
-              >
+            }
+            secondary={
+              <Typography color="textSecondary" variant="body2">
                 {message.content}
               </Typography>
-            )}
+            }
             sx={{ pr: 2 }}
           />
-          <Typography
-            color="textSecondary"
-            sx={{ whiteSpace: 'nowrap' }}
-            variant="caption"
-          >
+          <Typography color="textSecondary" sx={{ whiteSpace: 'nowrap' }} variant="caption">
             {formatDistanceToNowStrict(message.date, { addSuffix: true })}
           </Typography>
         </ListItem>
@@ -127,9 +115,7 @@ export const OverviewInbox: FC = (props) => (
     </List>
     <Divider />
     <CardActions>
-      <Button>
-        Go to chat
-      </Button>
+      <Button>Go to chat</Button>
     </CardActions>
   </Card>
 );

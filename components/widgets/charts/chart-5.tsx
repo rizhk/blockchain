@@ -1,17 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { FC } from 'react';
 import type { ApexOptions } from 'apexcharts';
-import {
-  Box,
-  Button,
-  Card,
-  CardHeader,
-  Container,
-  List,
-  ListItem,
-  ListItemText,
-  Typography
-} from '@mui/material';
+import { Box, Button, Card, CardHeader, Container, List, ListItem, ListItemText, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useMounted } from '../../../hooks/use-mounted';
 import { ArrowRight as ArrowRightIcon } from '../../../icons/arrow-right';
@@ -21,28 +11,13 @@ const getRandomInt = (min: number, max: number): number => {
   min = Math.ceil(min);
   max = Math.floor(max);
 
-  return Math.floor(Math.random() * (
-    max - min + 1
-  )) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
 export const Chart5: FC = () => {
   const isMounted = useMounted();
   const theme = useTheme();
-  const [data, setData] = useState<any[]>([
-    163,
-    166,
-    161,
-    159,
-    99,
-    163,
-    173,
-    166,
-    167,
-    183,
-    176,
-    172
-  ]);
+  const [data, setData] = useState<any[]>([163, 166, 161, 159, 99, 163, 173, 166, 167, 183, 176, 172]);
 
   const getData = useCallback(() => {
     if (isMounted()) {
@@ -80,20 +55,20 @@ export const Chart5: FC = () => {
   const pages = [
     {
       pathname: '/projects',
-      views: '24'
+      views: '24',
     },
     {
       pathname: '/chat',
-      views: '21'
+      views: '21',
     },
     {
       pathname: '/cart',
-      views: '15'
+      views: '15',
     },
     {
       pathname: '/checkout',
-      views: '8'
-    }
+      views: '8',
+    },
   ];
 
   const chartOptions: ApexOptions = {
@@ -101,64 +76,64 @@ export const Chart5: FC = () => {
       background: 'transparent',
       stacked: false,
       toolbar: {
-        show: false
-      }
+        show: false,
+      },
     },
     colors: ['#688dff'],
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
     fill: {
-      opacity: 1
+      opacity: 1,
     },
     grid: {
-      show: false
+      show: false,
     },
     legend: {
-      show: false
+      show: false,
     },
     plotOptions: {
       bar: {
-        columnWidth: '40'
-      }
+        columnWidth: '40',
+      },
     },
     states: {
       active: {
         filter: {
-          type: 'none'
-        }
+          type: 'none',
+        },
       },
       hover: {
         filter: {
-          type: 'none'
-        }
-      }
+          type: 'none',
+        },
+      },
     },
     stroke: {
       colors: ['transparent'],
       show: true,
-      width: 2
+      width: 2,
     },
     theme: {
-      mode: theme.palette.mode
+      mode: theme.palette.mode,
     },
     xaxis: {
       axisBorder: {
-        show: false
+        show: false,
       },
       axisTicks: {
-        show: false
+        show: false,
       },
       categories: labels,
       labels: {
-        show: false
-      }
+        show: false,
+      },
     },
     yaxis: {
       labels: {
-        show: false
-      }
-    }
+        show: false,
+      },
+    },
   };
 
   const chartSeries = [{ data }];
@@ -167,64 +142,45 @@ export const Chart5: FC = () => {
     <Box
       sx={{
         backgroundColor: 'background.default',
-        p: 3
+        p: 3,
       }}
     >
       <Container maxWidth="sm">
         <Card>
           <CardHeader
             disableTypography
-            title={(
+            title={
               <Box
                 sx={{
                   alignItems: 'center',
                   display: 'flex',
-                  justifyContent: 'space-between'
+                  justifyContent: 'space-between',
                 }}
               >
                 <div>
-                  <Typography variant="h6">
-                    Active users
-                  </Typography>
-                  <Typography
-                    color="textSecondary"
-                    variant="body2"
-                  >
+                  <Typography variant="h6">Active users</Typography>
+                  <Typography color="textSecondary" variant="body2">
                     Page views per second
                   </Typography>
                 </div>
                 <Typography variant="h6">
-                  {
-                    data[data.length - 1] === 0
-                      ? data[data.length - 2]
-                      : data[data.length - 1]
-                  }
+                  {data[data.length - 1] === 0 ? data[data.length - 2] : data[data.length - 1]}
                 </Typography>
               </Box>
-            )}
+            }
           />
-          <Chart
-            height={200}
-            options={chartOptions}
-            series={chartSeries}
-            type="bar"
-          />
+          <Chart height={200} options={chartOptions} series={chartSeries} type="bar" />
           <List>
             {pages.map((page) => (
-              <ListItem
-                divider
-                key={page.pathname}
-              >
+              <ListItem divider key={page.pathname}>
                 <ListItemText
                   primary={page.pathname}
                   primaryTypographyProps={{
                     color: 'textSecondary',
-                    variant: 'body2'
+                    variant: 'body2',
                   }}
                 />
-                <Typography variant="subtitle2">
-                  {page.views}
-                </Typography>
+                <Typography variant="subtitle2">{page.views}</Typography>
               </ListItem>
             ))}
           </List>
@@ -232,13 +188,10 @@ export const Chart5: FC = () => {
             sx={{
               display: 'flex',
               justifyContent: 'flex-end',
-              p: 2
+              p: 2,
             }}
           >
-            <Button
-              endIcon={<ArrowRightIcon fontSize="small" />}
-              size="small"
-            >
+            <Button endIcon={<ArrowRightIcon fontSize="small" />} size="small">
               See All
             </Button>
           </Box>

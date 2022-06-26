@@ -8,27 +8,27 @@ export const ColorsMain: FC = () => {
   const colors = [
     {
       name: 'Primary',
-      code: theme.palette.primary.main
+      code: theme.palette.primary.main,
     },
     {
       name: 'Text Primary',
-      code: theme.palette.text.primary
+      code: theme.palette.text.primary,
     },
     {
       name: 'Text Secondary',
-      code: theme.palette.text.secondary
+      code: theme.palette.text.secondary,
     },
     {
       name: 'Divider',
-      code: theme.palette.divider
-    }
+      code: theme.palette.divider,
+    },
   ];
 
   return (
     <Box
       sx={{
         backgroundColor: 'background.paper',
-        p: 3
+        p: 3,
       }}
     >
       <List
@@ -36,18 +36,15 @@ export const ColorsMain: FC = () => {
         sx={{
           '& li:not(:last-child)': {
             pb: '33px',
-            pt: 0
+            pt: 0,
           },
           '& li:last-child': {
-            py: 0
-          }
+            py: 0,
+          },
         }}
       >
         {colors.map((color) => (
-          <ListItem
-            disableGutters
-            key={color.code}
-          >
+          <ListItem disableGutters key={color.code}>
             <ListItemAvatar>
               <Box
                 sx={{
@@ -55,24 +52,17 @@ export const ColorsMain: FC = () => {
                   borderRadius: '10px',
                   height: 46,
                   mr: 2,
-                  width: 46
+                  width: 46,
                 }}
               />
             </ListItemAvatar>
             <ListItemText
-              primary={(
-                <Typography variant="subtitle2">
-                  {color.name}
-                </Typography>
-              )}
-              secondary={(
-                <Typography
-                  color="textSecondary"
-                  variant="caption"
-                >
+              primary={<Typography variant="subtitle2">{color.name}</Typography>}
+              secondary={
+                <Typography color="textSecondary" variant="caption">
                   {color.code}
                 </Typography>
-              )}
+              }
             />
           </ListItem>
         ))}

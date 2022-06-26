@@ -26,60 +26,25 @@ export const CustomerBasicDetails: FC<CustomerBasicDetailsProps> = (props) => {
       <CardHeader title="Basic Details" />
       <Divider />
       <PropertyList>
-        <PropertyListItem
-          align={align}
-          divider
-          label="Email"
-          value={email}
-        />
-        <PropertyListItem
-          align={align}
-          divider
-          label="Phone"
-          value={phone}
-        />
-        <PropertyListItem
-          align={align}
-          divider
-          label="Country"
-          value={country}
-        />
-        <PropertyListItem
-          align={align}
-          divider
-          label="State/Region"
-          value={state}
-        />
-        <PropertyListItem
-          align={align}
-          divider
-          label="Address 1"
-          value={state}
-        />
-        <PropertyListItem
-          align={align}
-          divider
-          label="Address 2"
-          value={address2}
-        />
+        <PropertyListItem align={align} divider label="Email" value={email} />
+        <PropertyListItem align={align} divider label="Phone" value={phone} />
+        <PropertyListItem align={align} divider label="Country" value={country} />
+        <PropertyListItem align={align} divider label="State/Region" value={state} />
+        <PropertyListItem align={align} divider label="Address 1" value={state} />
+        <PropertyListItem align={align} divider label="Address 2" value={address2} />
       </PropertyList>
       <CardActions
         sx={{
           flexWrap: 'wrap',
           px: 3,
           py: 2,
-          m: -1
+          m: -1,
         }}
       >
-        <Button
-          sx={{ m: 1 }}
-          variant="outlined"
-        >
+        <Button sx={{ m: 1 }} variant="outlined">
           Reset &amp; Send Password
         </Button>
-        <Button sx={{ m: 1 }}>
-          Login as Customer
-        </Button>
+        <Button sx={{ m: 1 }}>Login as Customer</Button>
       </CardActions>
     </Card>
   );
@@ -92,5 +57,5 @@ CustomerBasicDetails.propTypes = {
   email: PropTypes.string.isRequired,
   isVerified: PropTypes.bool.isRequired,
   phone: PropTypes.string,
-  state: PropTypes.string
+  state: PropTypes.string,
 };

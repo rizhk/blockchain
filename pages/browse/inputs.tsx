@@ -20,39 +20,22 @@ const BrowseInputs: NextPage = () => {
   return (
     <>
       <Head>
-        <title>
-          Browse: Inputs | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
-        </title>
+        <title>Browse: Inputs | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
       <Box
         component="main"
         sx={{
           backgroundColor: 'background.paper',
           flexGrow: 1,
-          py: 8
+          py: 8,
         }}
       >
         <Container maxWidth="lg">
-          <WidgetPreviewer
-            element={<InputCheckbox />}
-            name="Checkbox with additional text"
-          />
-          <WidgetPreviewer
-            element={<InputRadio />}
-            name="Radio button with additional text"
-          />
-          <WidgetPreviewer
-            element={<InputSwitch />}
-            name="Switch with top description"
-          />
-          <WidgetPreviewer
-            element={<InputTextField />}
-            name="Text fields integrated in a form"
-          />
-          <WidgetPreviewer
-            element={<InputMixed />}
-            name="Mixed input form"
-          />
+          <WidgetPreviewer element={<InputCheckbox />} name="Checkbox with additional text" />
+          <WidgetPreviewer element={<InputRadio />} name="Radio button with additional text" />
+          <WidgetPreviewer element={<InputSwitch />} name="Switch with top description" />
+          <WidgetPreviewer element={<InputTextField />} name="Text fields integrated in a form" />
+          <WidgetPreviewer element={<InputMixed />} name="Mixed input form" />
         </Container>
       </Box>
     </>
@@ -61,9 +44,7 @@ const BrowseInputs: NextPage = () => {
 
 BrowseInputs.getLayout = (page) => (
   <MainLayout>
-    <BrowseLayout>
-      {page}
-    </BrowseLayout>
+    <BrowseLayout>{page}</BrowseLayout>
   </MainLayout>
 );
 

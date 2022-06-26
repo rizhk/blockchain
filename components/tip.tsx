@@ -8,16 +8,12 @@ interface TipProps {
   message: string;
 }
 
-const TipRoot = styled('div')(
-  (({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark'
-      ? theme.palette.neutral![800]
-      : theme.palette.neutral![100],
-    borderRadius: theme.shape.borderRadius,
-    display: 'flex',
-    padding: theme.spacing(1)
-  }))
-);
+const TipRoot = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? theme.palette.neutral![800] : theme.palette.neutral![100],
+  borderRadius: theme.shape.borderRadius,
+  display: 'flex',
+  padding: theme.spacing(1),
+}));
 
 export const Tip: FC<TipProps> = (props) => {
   const { message } = props;
@@ -27,7 +23,7 @@ export const Tip: FC<TipProps> = (props) => {
       <LightBulbIcon
         sx={{
           color: 'text.secondary',
-          mr: 1
+          mr: 1,
         }}
         fontSize="small"
       />
@@ -35,21 +31,17 @@ export const Tip: FC<TipProps> = (props) => {
         color="textSecondary"
         sx={{
           '& span': {
-            fontWeight: 700
-          }
+            fontWeight: 700,
+          },
         }}
         variant="caption"
       >
-        <span>
-          Tip.
-        </span>
-        {' '}
-        {message}
+        <span>Tip.</span> {message}
       </Typography>
     </TipRoot>
   );
 };
 
 Tip.propTypes = {
-  message: PropTypes.string.isRequired
+  message: PropTypes.string.isRequired,
 };

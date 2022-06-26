@@ -7,38 +7,38 @@ import { Search as SearchIcon } from '../../../icons/search';
 const categoryOptions = [
   {
     label: 'Digital',
-    value: 'digital'
+    value: 'digital',
   },
   {
     label: 'Service',
-    value: 'service'
-  }
+    value: 'service',
+  },
 ];
 
 const statusOptions = [
   {
     label: 'Published',
-    value: 'published'
+    value: 'published',
   },
   {
     label: 'Draft',
-    value: 'draft'
-  }
+    value: 'draft',
+  },
 ];
 
 const stockOptions = [
   {
     label: 'All',
-    value: 'all'
+    value: 'all',
   },
   {
     label: 'Available',
-    value: 'available'
+    value: 'available',
   },
   {
     label: 'Out of Stock',
-    value: 'outOfStock'
-  }
+    value: 'outOfStock',
+  },
 ];
 
 export const Form2: FC = () => {
@@ -49,49 +49,43 @@ export const Form2: FC = () => {
         label: 'Category',
         field: 'category',
         value: 'digital',
-        displayValue: 'Digital'
+        displayValue: 'Digital',
       },
       {
         label: 'Category',
         field: 'category',
         value: 'service',
-        displayValue: 'Service'
+        displayValue: 'Service',
       },
       {
         label: 'Status',
         field: 'status',
         value: 'published',
-        displayValue: 'Published'
+        displayValue: 'Published',
       },
       {
         label: 'Stock',
         field: 'inStock',
         value: 'outOfStock',
-        displayValue: 'Out of Stock'
-      }
+        displayValue: 'Out of Stock',
+      },
     ],
-    []
+    [],
   );
 
   const categoryValues = useMemo(
-    () => filterItems
-      .filter((filterItems) => filterItems.field === 'category')
-      .map((filterItems) => filterItems.value),
-    [filterItems]
+    () => filterItems.filter((filterItems) => filterItems.field === 'category').map((filterItems) => filterItems.value),
+    [filterItems],
   );
 
   const statusValues = useMemo(
-    () => filterItems
-      .filter((filterItems) => filterItems.field === 'status')
-      .map((filterItems) => filterItems.value),
-    [filterItems]
+    () => filterItems.filter((filterItems) => filterItems.field === 'status').map((filterItems) => filterItems.value),
+    [filterItems],
   );
 
   const stockValues = useMemo(
-    () => filterItems
-      .filter((filterItems) => filterItems.field === 'inStock')
-      .map((filterItems) => filterItems.value),
-    [filterItems]
+    () => filterItems.filter((filterItems) => filterItems.field === 'inStock').map((filterItems) => filterItems.value),
+    [filterItems],
   );
 
   return (
@@ -100,28 +94,24 @@ export const Form2: FC = () => {
         backgroundColor: 'background.paper',
         color: 'text.primary',
         minHeight: '100%',
-        p: 3
+        p: 3,
       }}
     >
       <Box
         sx={{
           alignItems: 'center',
           display: 'flex',
-          p: 2
+          p: 2,
         }}
       >
         <SearchIcon fontSize="small" />
         <Box
           sx={{
             flexGrow: 1,
-            ml: 3
+            ml: 3,
           }}
         >
-          <Input
-            disableUnderline
-            fullWidth
-            placeholder="Enter a keyword"
-          />
+          <Input disableUnderline fullWidth placeholder="Enter a keyword" />
         </Box>
       </Box>
       <Divider />
@@ -130,30 +120,25 @@ export const Form2: FC = () => {
           alignItems: 'center',
           display: 'flex',
           flexWrap: 'wrap',
-          p: 2
+          p: 2,
         }}
       >
         {filterItems.map((filterItem, i) => (
           <Chip
             key={i}
-            label={(
+            label={
               <Box
                 sx={{
                   alignItems: 'center',
                   display: 'flex',
                   '& span': {
-                    fontWeight: 600
-                  }
+                    fontWeight: 600,
+                  },
                 }}
               >
-                <span>
-                  {filterItem.label}
-                </span>
-                :
-                {' '}
-                {filterItem.displayValue}
+                <span>{filterItem.label}</span>: {filterItem.displayValue}
               </Box>
-            )}
+            }
             onDelete={(): void => {}}
             sx={{ m: 1 }}
             variant="outlined"
@@ -166,29 +151,14 @@ export const Form2: FC = () => {
           alignItems: 'center',
           display: 'flex',
           flexWrap: 'wrap',
-          p: 1
+          p: 1,
         }}
       >
-        <MultiSelect
-          label="Category"
-          options={categoryOptions}
-          value={categoryValues}
-        />
-        <MultiSelect
-          label="Status"
-          options={statusOptions}
-          value={statusValues}
-        />
-        <MultiSelect
-          label="Stock"
-          options={stockOptions}
-          value={stockValues}
-        />
+        <MultiSelect label="Category" options={categoryOptions} value={categoryValues} />
+        <MultiSelect label="Status" options={statusOptions} value={statusValues} />
+        <MultiSelect label="Stock" options={stockOptions} value={stockValues} />
         <Box sx={{ flexGrow: 1 }} />
-        <FormControlLabel
-          control={<Checkbox defaultChecked />}
-          label="In network"
-        />
+        <FormControlLabel control={<Checkbox defaultChecked />} label="In network" />
       </Box>
     </Box>
   );

@@ -18,31 +18,20 @@ const BrowseButtons: NextPage = () => {
   return (
     <>
       <Head>
-        <title>
-          Browse: Buttons | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
-        </title>
+        <title>Browse: Buttons | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
       <Box
         component="main"
         sx={{
           backgroundColor: 'background.paper',
           flexGrow: 1,
-          py: 8
+          py: 8,
         }}
       >
         <Container maxWidth="lg">
-          <WidgetPreviewer
-            element={<Buttons1 />}
-            name="Simple buttons"
-          />
-          <WidgetPreviewer
-            element={<Buttons2 />}
-            name="Buttons with text and icon"
-          />
-          <WidgetPreviewer
-            element={<Buttons3 />}
-            name="Button groups"
-          />
+          <WidgetPreviewer element={<Buttons1 />} name="Simple buttons" />
+          <WidgetPreviewer element={<Buttons2 />} name="Buttons with text and icon" />
+          <WidgetPreviewer element={<Buttons3 />} name="Button groups" />
         </Container>
       </Box>
     </>
@@ -51,9 +40,7 @@ const BrowseButtons: NextPage = () => {
 
 BrowseButtons.getLayout = (page) => (
   <MainLayout>
-    <BrowseLayout>
-      {page}
-    </BrowseLayout>
+    <BrowseLayout>{page}</BrowseLayout>
   </MainLayout>
 );
 

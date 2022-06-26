@@ -13,14 +13,10 @@ export const AmplifyPasswordRecovery: FC = (props) => {
   const formik = useFormik({
     initialValues: {
       email: '',
-      submit: null
+      submit: null,
     },
     validationSchema: Yup.object({
-      email: Yup
-        .string()
-        .email('Must be a valid email')
-        .max(255)
-        .required('Email is required')
+      email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
     }),
     onSubmit: async (values, helpers): Promise<void> => {
       try {
@@ -39,15 +35,11 @@ export const AmplifyPasswordRecovery: FC = (props) => {
           helpers.setSubmitting(false);
         }
       }
-    }
+    },
   });
 
   return (
-    <form
-      noValidate
-      onSubmit={formik.handleSubmit}
-      {...props}
-    >
+    <form noValidate onSubmit={formik.handleSubmit} {...props}>
       <TextField
         autoFocus
         error={Boolean(formik.touched.email && formik.errors.email)}
@@ -63,19 +55,11 @@ export const AmplifyPasswordRecovery: FC = (props) => {
       />
       {formik.errors.submit && (
         <Box sx={{ mt: 3 }}>
-          <FormHelperText error>
-            {formik.errors.submit}
-          </FormHelperText>
+          <FormHelperText error>{formik.errors.submit}</FormHelperText>
         </Box>
       )}
       <Box sx={{ mt: 3 }}>
-        <Button
-          disabled={formik.isSubmitting}
-          fullWidth
-          size="large"
-          type="submit"
-          variant="contained"
-        >
+        <Button disabled={formik.isSubmitting} fullWidth size="large" type="submit" variant="contained">
           Recover Password
         </Button>
       </Box>

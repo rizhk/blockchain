@@ -15,18 +15,13 @@ export const ChatMessages: FC<ChatMessagesProps> = (props) => {
   // `const { user } = useAuth();`
   const user = {
     avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
-    name: 'Anika Visser'
+    name: 'Anika Visser',
   };
 
   return (
-    <Box
-      sx={{ p: 2 }}
-      {...other}
-    >
+    <Box sx={{ p: 2 }} {...other}>
       {messages.map((message) => {
-        const participant = participants.find(
-          (_participant) => _participant.id === message.authorId
-        );
+        const participant = participants.find((_participant) => _participant.id === message.authorId);
         let authorAvatar: string | null;
         let authorName: string;
         let authorType: 'user' | 'contact';
@@ -63,5 +58,5 @@ ChatMessages.propTypes = {
   // @ts-ignore
   messages: PropTypes.array,
   // @ts-ignore
-  participants: PropTypes.array
+  participants: PropTypes.array,
 };

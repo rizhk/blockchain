@@ -12,7 +12,7 @@ import {
   Menu,
   MenuItem,
   Tooltip,
-  Typography
+  Typography,
 } from '@mui/material';
 import { Archive as ArchiveIcon } from '../../../icons/archive';
 import { Bell as BellIcon } from '../../../icons/bell';
@@ -34,16 +34,11 @@ export const ChatThreadToolbar: FC<ChatThreadToolbarProps> = (props) => {
   // To get the user from the authContext, you can use
   // `const { user } = useAuth();`
   const user = {
-    id: '5e86809283e28b96d2d38537'
+    id: '5e86809283e28b96d2d38537',
   };
 
-  const recipients = participants.filter((participant) => (
-    participant.id !== user.id
-  ));
-  const name = recipients.reduce((
-    names: string[],
-    participant
-  ) => [...names, participant.name], []).join(', ');
+  const recipients = participants.filter((participant) => participant.id !== user.id);
+  const name = recipients.reduce((names: string[], participant) => [...names, participant.name], []).join(', ');
 
   const handleMenuOpen = (): void => {
     setOpenMenu(true);
@@ -65,14 +60,14 @@ export const ChatThreadToolbar: FC<ChatThreadToolbarProps> = (props) => {
         flexShrink: 0,
         minHeight: 64,
         px: 2,
-        py: 1
+        py: 1,
       }}
       {...other}
     >
       <Box
         sx={{
           alignItems: 'center',
-          display: 'flex'
+          display: 'flex',
         }}
       >
         <AvatarGroup
@@ -83,31 +78,21 @@ export const ChatThreadToolbar: FC<ChatThreadToolbarProps> = (props) => {
                 height: 30,
                 width: 30,
                 '&:nth-of-type(2)': {
-                  mt: '10px'
-                }
-              }
-            })
+                  mt: '10px',
+                },
+              },
+            }),
           }}
         >
           {recipients.map((recipient) => (
-            <Avatar
-              key={recipient.id}
-              src={recipient.avatar || undefined}
-            />
+            <Avatar key={recipient.id} src={recipient.avatar || undefined} />
           ))}
         </AvatarGroup>
         <Box sx={{ ml: 2 }}>
-          <Typography variant="subtitle2">
-            {name}
-          </Typography>
+          <Typography variant="subtitle2">{name}</Typography>
           {Boolean(recipients.length === 1 && recipients[0].lastActivity) && (
-            <Typography
-              color="textSecondary"
-              variant="caption"
-            >
-              Last active
-              {' '}
-              {formatDistanceToNowStrict(recipients[0].lastActivity!, { addSuffix: true })}
+            <Typography color="textSecondary" variant="caption">
+              Last active {formatDistanceToNowStrict(recipients[0].lastActivity!, { addSuffix: true })}
             </Typography>
           )}
         </Box>
@@ -120,19 +105,11 @@ export const ChatThreadToolbar: FC<ChatThreadToolbarProps> = (props) => {
         <CameraIcon fontSize="small" />
       </IconButton>
       <Tooltip title="More options">
-        <IconButton
-          onClick={handleMenuOpen}
-          ref={moreRef}
-        >
+        <IconButton onClick={handleMenuOpen} ref={moreRef}>
           <DotsHorizontalIcon fontSize="small" />
         </IconButton>
       </Tooltip>
-      <Menu
-        anchorEl={moreRef.current}
-        keepMounted
-        onClose={handleMenuClose}
-        open={openMenu}
-      >
+      <Menu anchorEl={moreRef.current} keepMounted onClose={handleMenuClose} open={openMenu}>
         <MenuItem>
           <ListItemIcon>
             <BanIcon fontSize="small" />
@@ -164,9 +141,9 @@ export const ChatThreadToolbar: FC<ChatThreadToolbarProps> = (props) => {
 
 ChatThreadToolbar.propTypes = {
   // @ts-ignore
-  participants: PropTypes.array
+  participants: PropTypes.array,
 };
 
 ChatThreadToolbar.defaultProps = {
-  participants: []
+  participants: [],
 };

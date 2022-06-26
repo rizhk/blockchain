@@ -9,8 +9,9 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
-  Paper, SvgIcon,
-  Typography
+  Paper,
+  SvgIcon,
+  Typography,
 } from '@mui/material';
 import { ChatAlt as ChatAltIcon } from '../../../icons/chat-alt';
 import { CreditCard as CreditCardIcon } from '../../../icons/credit-card';
@@ -34,35 +35,35 @@ const notifications: Notification[] = [
     createdAt: subHours(now, 2).getTime(),
     description: 'Dummy text',
     title: 'Your order is placed',
-    type: 'order_placed'
+    type: 'order_placed',
   },
   {
     id: '5e8883f7ed1486d665d8be1e',
     createdAt: subDays(now, 1).getTime(),
     description: 'You have 32 unread messages',
     title: 'New message received',
-    type: 'new_message'
+    type: 'new_message',
   },
   {
     id: '5e8883fca0e8612044248ecf',
     createdAt: subDays(now, 3).getTime(),
     description: 'Dummy text',
     title: 'Your item is shipped',
-    type: 'item_shipped'
+    type: 'item_shipped',
   },
   {
     id: '5e88840187f6b09b431bae68',
     createdAt: subDays(now, 7).getTime(),
     description: 'You have 32 unread messages',
     title: 'New message received',
-    type: 'new_message'
-  }
+    type: 'new_message',
+  },
 ];
 
 const iconsMap: Record<NotificationType, typeof SvgIcon> = {
   item_shipped: ShoppingCartIcon,
   new_message: ChatAltIcon,
-  order_placed: CreditCardIcon
+  order_placed: CreditCardIcon,
 };
 
 export const Modal5: FC = () => (
@@ -70,21 +71,18 @@ export const Modal5: FC = () => (
     sx={{
       backgroundColor: 'background.default',
       minHeight: '100%',
-      p: 3
+      p: 3,
     }}
   >
     <Paper
       elevation={12}
       sx={{
         maxWidth: 320,
-        mx: 'auto'
+        mx: 'auto',
       }}
     >
       <Box sx={{ p: 2 }}>
-        <Typography
-          color="textPrimary"
-          variant="h6"
-        >
+        <Typography color="textPrimary" variant="h6">
           Notifications
         </Typography>
       </Box>
@@ -93,31 +91,23 @@ export const Modal5: FC = () => (
           const Icon = iconsMap[notification.type];
 
           return (
-            <ListItem
-              divider
-              key={notification.id}
-            >
+            <ListItem divider key={notification.id}>
               <ListItemAvatar>
                 <Avatar
                   sx={{
                     backgroundColor: 'primary.main',
-                    color: 'primary.contrastText'
+                    color: 'primary.contrastText',
                   }}
                 >
                   <Icon fontSize="small" />
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary={(
-                  <Link
-                    color="textPrimary"
-                    sx={{ cursor: 'pointer' }}
-                    underline="none"
-                    variant="subtitle2"
-                  >
+                primary={
+                  <Link color="textPrimary" sx={{ cursor: 'pointer' }} underline="none" variant="subtitle2">
                     {notification.title}
                   </Link>
-                )}
+                }
                 secondary={notification.description}
               />
             </ListItem>
@@ -128,12 +118,10 @@ export const Modal5: FC = () => (
         sx={{
           display: 'flex',
           justifyContent: 'center',
-          p: 1
+          p: 1,
         }}
       >
-        <Button size="small">
-          Mark all as read
-        </Button>
+        <Button size="small">Mark all as read</Button>
       </Box>
     </Paper>
   </Box>

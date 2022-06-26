@@ -13,11 +13,11 @@ import { gtm } from '../../lib/gtm';
 
 type Platform = 'Amplify' | 'Auth0' | 'Firebase' | 'JWT';
 
-const platformIcons: { [key in Platform]: string; } = {
+const platformIcons: { [key in Platform]: string } = {
   Amplify: '/static/icons/amplify.svg',
   Auth0: '/static/icons/auth0.svg',
   Firebase: '/static/icons/firebase.svg',
-  JWT: '/static/icons/jwt.svg'
+  JWT: '/static/icons/jwt.svg',
 };
 
 const PasswordReset: NextPage = () => {
@@ -32,9 +32,7 @@ const PasswordReset: NextPage = () => {
   return (
     <>
       <Head>
-        <title>
-          Password Reset | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
-        </title>
+        <title>Password Reset | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
       <Box
         component="main"
@@ -42,7 +40,7 @@ const PasswordReset: NextPage = () => {
           backgroundColor: 'background.default',
           display: 'flex',
           flexDirection: 'column',
-          minHeight: '100vh'
+          minHeight: '100vh',
         }}
       >
         <AuthBanner />
@@ -51,16 +49,14 @@ const PasswordReset: NextPage = () => {
           sx={{
             py: {
               xs: '60px',
-              md: '120px'
-            }
+              md: '120px',
+            },
           }}
         >
           <Box
             sx={{
               alignItems: 'center',
-              backgroundColor: (theme) => theme.palette.mode === 'dark'
-                ? 'neutral.900'
-                : 'neutral.100',
+              backgroundColor: (theme) => (theme.palette.mode === 'dark' ? 'neutral.900' : 'neutral.100'),
               borderColor: 'divider',
               borderRadius: 1,
               borderStyle: 'solid',
@@ -74,61 +70,43 @@ const PasswordReset: NextPage = () => {
                 height: 32,
                 width: 'auto',
                 flexGrow: 0,
-                flexShrink: 0
-              }
+                flexShrink: 0,
+              },
             }}
           >
-            <Typography
-              color="textSecondary"
-              variant="caption"
-            >
+            <Typography color="textSecondary" variant="caption">
               The app authenticates via {platform}
             </Typography>
-            <img
-              alt="Auth platform"
-              src={platformIcons[platform]}
-            />
+            <img alt="Auth platform" src={platformIcons[platform]} />
           </Box>
-          <Card
-            elevation={16}
-            sx={{ p: 4 }}
-          >
+          <Card elevation={16} sx={{ p: 4 }}>
             <Box
               sx={{
                 alignItems: 'center',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'center'
+                justifyContent: 'center',
               }}
             >
-              <NextLink
-                href="/"
-                passHref
-              >
+              <NextLink href="/" passHref>
                 <a>
                   <Logo
                     sx={{
                       height: 40,
-                      width: 40
+                      width: 40,
                     }}
                   />
                 </a>
               </NextLink>
-              <Typography variant="h4">
-                Password Reset
-              </Typography>
-              <Typography
-                color="textSecondary"
-                sx={{ mt: 2 }}
-                variant="body2"
-              >
+              <Typography variant="h4">Password Reset</Typography>
+              <Typography color="textSecondary" sx={{ mt: 2 }} variant="body2">
                 Reset your account password using your code
               </Typography>
             </Box>
             <Box
               sx={{
                 flexGrow: 1,
-                mt: 3
+                mt: 3,
               }}
             >
               {platform === 'Amplify' && <AmplifyPasswordReset />}
@@ -144,10 +122,7 @@ const PasswordReset: NextPage = () => {
                   }
                   passHref
                 >
-                  <Link
-                    color="textSecondary"
-                    variant="body2"
-                  >
+                  <Link color="textSecondary" variant="body2">
                     Did you not receive the code?
                   </Link>
                 </NextLink>
@@ -160,10 +135,6 @@ const PasswordReset: NextPage = () => {
   );
 };
 
-PasswordReset.getLayout = (page) => (
-  <GuestGuard>
-    {page}
-  </GuestGuard>
-);
+PasswordReset.getLayout = (page) => <GuestGuard>{page}</GuestGuard>;
 
 export default PasswordReset;

@@ -15,22 +15,12 @@ export const AmplifyRegister: FC = (props) => {
       email: '',
       password: '',
       policy: true,
-      submit: null
+      submit: null,
     },
     validationSchema: Yup.object({
-      email: Yup
-        .string()
-        .email('Must be a valid email')
-        .max(255)
-        .required('Email is required'),
-      password: Yup
-        .string()
-        .min(7)
-        .max(255)
-        .required('Password is required'),
-      policy: Yup
-        .boolean()
-        .oneOf([true], 'This field must be checked')
+      email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+      password: Yup.string().min(7).max(255).required('Password is required'),
+      policy: Yup.boolean().oneOf([true], 'This field must be checked'),
     }),
     onSubmit: async (values, helpers): Promise<void> => {
       try {
@@ -48,15 +38,11 @@ export const AmplifyRegister: FC = (props) => {
           helpers.setSubmitting(false);
         }
       }
-    }
+    },
   });
 
   return (
-    <form
-      noValidate
-      onSubmit={formik.handleSubmit}
-      {...props}
-    >
+    <form noValidate onSubmit={formik.handleSubmit} {...props}>
       <TextField
         error={Boolean(formik.touched.email && formik.errors.email)}
         fullWidth
@@ -86,48 +72,27 @@ export const AmplifyRegister: FC = (props) => {
           alignItems: 'center',
           display: 'flex',
           ml: -1,
-          mt: 2
+          mt: 2,
         }}
       >
-        <Checkbox
-          checked={formik.values.policy}
-          name="policy"
-          onChange={formik.handleChange}
-        />
-        <Typography
-          color="textSecondary"
-          variant="body2"
-        >
-          I have read the
-          {' '}
-          <Link
-            component="a"
-            href="#"
-          >
+        <Checkbox checked={formik.values.policy} name="policy" onChange={formik.handleChange} />
+        <Typography color="textSecondary" variant="body2">
+          I have read the{' '}
+          <Link component="a" href="#">
             Terms and Conditions
           </Link>
         </Typography>
       </Box>
       {Boolean(formik.touched.policy && formik.errors.policy) && (
-        <FormHelperText error>
-          {formik.errors.policy}
-        </FormHelperText>
+        <FormHelperText error>{formik.errors.policy}</FormHelperText>
       )}
       {formik.errors.submit && (
         <Box sx={{ mt: 3 }}>
-          <FormHelperText error>
-            {formik.errors.submit}
-          </FormHelperText>
+          <FormHelperText error>{formik.errors.submit}</FormHelperText>
         </Box>
       )}
       <Box sx={{ mt: 2 }}>
-        <Button
-          disabled={formik.isSubmitting}
-          fullWidth
-          size="large"
-          type="submit"
-          variant="contained"
-        >
+        <Button disabled={formik.isSubmitting} fullWidth size="large" type="submit" variant="contained">
           Register
         </Button>
       </Box>

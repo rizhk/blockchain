@@ -29,43 +29,33 @@ export const BlogComment: FC<BlogPostCommentProps> = (props) => {
     <Box
       sx={{
         display: 'flex',
-        pb: 3
+        pb: 3,
       }}
       {...other}
     >
       <Avatar src={authorAvatar} />
       <Box
         sx={{
-          backgroundColor: (theme) => theme.palette.mode === 'dark'
-            ? 'neutral.900'
-            : 'neutral.100',
+          backgroundColor: (theme) => (theme.palette.mode === 'dark' ? 'neutral.900' : 'neutral.100'),
           borderRadius: 1,
           ml: 2,
           p: 2,
-          width: '100%'
+          width: '100%',
         }}
       >
         <Box
           sx={{
             alignItems: 'flex-start',
             display: 'flex',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
           }}
         >
-          <Typography variant="subtitle2">
-            {authorName}
-          </Typography>
-          <Typography
-            color="textSecondary"
-            variant="caption"
-          >
+          <Typography variant="subtitle2">{authorName}</Typography>
+          <Typography color="textSecondary" variant="caption">
             {formatDistanceToNow(createdAt, { addSuffix: true })}
           </Typography>
         </Box>
-        <Typography
-          variant="body2"
-          sx={{ mt: 1 }}
-        >
+        <Typography variant="body2" sx={{ mt: 1 }}>
           {content}
         </Typography>
       </Box>
@@ -80,5 +70,5 @@ BlogComment.propTypes = {
   content: PropTypes.string.isRequired,
   createdAt: PropTypes.number.isRequired,
   isLiked: PropTypes.bool.isRequired,
-  likes: PropTypes.number.isRequired
+  likes: PropTypes.number.isRequired,
 };

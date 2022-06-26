@@ -1,91 +1,89 @@
-import { useEffect, useState } from "react";
-import type { NextPage } from "next";
-import Head from "next/head";
+import { useEffect, useState } from 'react';
+import type { NextPage } from 'next';
+import Head from 'next/head';
 import {
-	Box,
-	Button,
-	Card,
-	CardActions,
-	CardContent,
-	Container,
-	Divider,
-	Grid,
-	MenuItem,
-	TextField,
-	Typography,
-} from "@mui/material";
-import { AuthGuard } from "../../components/authentication/auth-guard";
-import { DashboardLayout } from "../../components/dashboard/dashboard-layout";
-import { OverviewBanner } from "../../components/dashboard/overview/overview-banner";
-import { OverviewCryptoWallet } from "../../components/dashboard/overview/overview-crypto-wallet";
-import { OverviewInbox } from "../../components/dashboard/overview/overview-inbox";
-import { OverviewLatestTransactions } from "../../components/dashboard/overview/overview-latest-transactions";
-import { OverviewPrivateWallet } from "../../components/dashboard/overview/overview-private-wallet";
-import { OverviewPicanteBalance } from "../../components/dashboard/overview/overview-picante-balance";
-import { OverviewTotalBalance } from "../../components/dashboard/overview/overview-total-balance";
-import { TradeWidget } from "../../components/dashboard/trade/trade-widget";
-import { OverviewTotalTransactions } from "../../components/dashboard/overview/overview-total-transactions";
-import { ArrowRight as ArrowRightIcon } from "../../icons/arrow-right";
-import { Briefcase as BriefcaseIcon } from "../../icons/briefcase";
-import { Download as DownloadIcon } from "../../icons/download";
-import { ExternalLink as ExternalLinkIcon } from "../../icons/external-link";
-import { InformationCircleOutlined as InformationCircleOutlinedIcon } from "../../icons/information-circle-outlined";
-import { Reports as ReportsIcon } from "../../icons/reports";
-import { Users as UsersIcon } from "../../icons/users";
-import { gtm } from "../../lib/gtm";
-import { TutorialDialog } from "components/dashboard/tutorial-dialog";
-import { useAuth } from "hooks/use-auth";
-import { useMounted } from "hooks/use-mounted";
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Container,
+  Divider,
+  Grid,
+  MenuItem,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { AuthGuard } from '../../components/authentication/auth-guard';
+import { DashboardLayout } from '../../components/dashboard/dashboard-layout';
+import { OverviewBanner } from '../../components/dashboard/overview/overview-banner';
+import { OverviewCryptoWallet } from '../../components/dashboard/overview/overview-crypto-wallet';
+import { OverviewInbox } from '../../components/dashboard/overview/overview-inbox';
+import { OverviewLatestTransactions } from '../../components/dashboard/overview/overview-latest-transactions';
+import { OverviewPrivateWallet } from '../../components/dashboard/overview/overview-private-wallet';
+import { OverviewPicanteBalance } from '../../components/dashboard/overview/overview-picante-balance';
+import { OverviewTotalBalance } from '../../components/dashboard/overview/overview-total-balance';
+import { TradeWidget } from '../../components/dashboard/trade/trade-widget';
+import { OverviewTotalTransactions } from '../../components/dashboard/overview/overview-total-transactions';
+import { ArrowRight as ArrowRightIcon } from '../../icons/arrow-right';
+import { Briefcase as BriefcaseIcon } from '../../icons/briefcase';
+import { Download as DownloadIcon } from '../../icons/download';
+import { ExternalLink as ExternalLinkIcon } from '../../icons/external-link';
+import { InformationCircleOutlined as InformationCircleOutlinedIcon } from '../../icons/information-circle-outlined';
+import { Reports as ReportsIcon } from '../../icons/reports';
+import { Users as UsersIcon } from '../../icons/users';
+import { gtm } from '../../lib/gtm';
+import { TutorialDialog } from 'components/dashboard/tutorial-dialog';
+import { useAuth } from 'hooks/use-auth';
+import { useMounted } from 'hooks/use-mounted';
 
 const Overview: NextPage = () => {
-	const [displayBanner, setDisplayBanner] = useState<boolean>(true);
-	const [displayTutorial, setDisplayTutorial] = useState<boolean>(true);
-	const { user, updateUser } = useAuth();
-	const isMounted = useMounted();
+  const [displayBanner, setDisplayBanner] = useState<boolean>(true);
+  const [displayTutorial, setDisplayTutorial] = useState<boolean>(true);
+  const { user, updateUser } = useAuth();
+  const isMounted = useMounted();
 
-	useEffect(() => {
-		gtm.push({ event: "page_view" });
-	}, []);
+  useEffect(() => {
+    gtm.push({ event: 'page_view' });
+  }, []);
 
-	useEffect(() => {
-		// Restore the persistent state from local/session storage
-		const value = globalThis.sessionStorage.getItem("dismiss-banner");
+  useEffect(() => {
+    // Restore the persistent state from local/session storage
+    const value = globalThis.sessionStorage.getItem('dismiss-banner');
 
-		if (value === "true") {
-			// setDisplayBanner(false);
-		}
+    if (value === 'true') {
+      // setDisplayBanner(false);
+    }
 
-		if (isMounted() && user != null) {
-			setDisplayTutorial(!user.skip_tutorial);
-		}
-	}, [user]);
+    if (isMounted() && user != null) {
+      setDisplayTutorial(!user.skip_tutorial);
+    }
+  }, [user]);
 
-	const handleDismissBanner = () => {
-		// Update the persistent state
-		// globalThis.sessionStorage.setItem('dismiss-banner', 'true');
-		setDisplayBanner(false);
-	};
+  const handleDismissBanner = () => {
+    // Update the persistent state
+    // globalThis.sessionStorage.setItem('dismiss-banner', 'true');
+    setDisplayBanner(false);
+  };
 
-	const saveSetting = async () => {
-		await updateUser({});
-	};
+  const saveSetting = async () => {
+    await updateUser({});
+  };
 
-	return (
-		<>
-			<Head>
-				<title>
-					Dashboard: Overview |{" "}
-					{process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
-				</title>
-			</Head>
-			<Box
-				component="main"
-				sx={{
-					flexGrow: 1,
-					py: 8,
-				}}>
-				<Container maxWidth="xl">
-					{/* <Box sx={{ mb: 4 }}>
+  return (
+    <>
+      <Head>
+        <title>Dashboard: Overview | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
+      </Head>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 8,
+        }}
+      >
+        <Container maxWidth="xl">
+          {/* <Box sx={{ mb: 4 }}>
             <Grid
               container
               justifyContent="space-between"
@@ -131,8 +129,8 @@ const Overview: NextPage = () => {
               </Grid>
             </Grid>
           </Box> */}
-					<Grid container spacing={4}>
-						{/* {displayBanner && (
+          <Grid container spacing={4}>
+            {/* {displayBanner && (
               <Grid
                 item
                 xs={12}
@@ -140,48 +138,48 @@ const Overview: NextPage = () => {
                 <OverviewBanner onDismiss={handleDismissBanner} />
               </Grid>
             )} */}
-						<Grid item md={7} xs={12}>
-							<Grid item>
-								<Typography sx={{ mb: 2 }} variant="h6">
-									Easy buy and sell crypto
-								</Typography>
-							</Grid>
-							<TradeWidget />
-						</Grid>
-						<Grid item md={5} xs={12}>
-							<Grid item>
-								<Typography sx={{ mb: 2 }} variant="h6">
-									My balances
-								</Typography>
-							</Grid>
-							<Grid item xs={12}>
-								<OverviewCryptoWallet />
-							</Grid>
-							<br />
-							<Grid item xs={12}>
-								<OverviewPrivateWallet />
-							</Grid>
-							<br />
-							<br />
-							<Typography sx={{ mb: 2 }} variant="h6">
-								My Picante tokens
-							</Typography>
-							<Grid item xs={12}>
-								<OverviewPicanteBalance />
-							</Grid>
-						</Grid>
-						{/* <Grid
+            <Grid item md={7} xs={12}>
+              <Grid item>
+                <Typography sx={{ mb: 2 }} variant="h6">
+                  Easy buy and sell crypto
+                </Typography>
+              </Grid>
+              <TradeWidget />
+            </Grid>
+            <Grid item md={5} xs={12}>
+              <Grid item>
+                <Typography sx={{ mb: 2 }} variant="h6">
+                  My balances
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <OverviewCryptoWallet />
+              </Grid>
+              <br />
+              <Grid item xs={12}>
+                <OverviewPrivateWallet />
+              </Grid>
+              <br />
+              <br />
+              <Typography sx={{ mb: 2 }} variant="h6">
+                My Picante tokens
+              </Typography>
+              <Grid item xs={12}>
+                <OverviewPicanteBalance />
+              </Grid>
+            </Grid>
+            {/* <Grid
               item
               md={8}
               xs={12}
             >
               <OverviewTotalTransactions />
             </Grid>  */}
-						<Grid item md={12} xs={12}>
-							<OverviewLatestTransactions />
-						</Grid>
+            <Grid item md={12} xs={12}>
+              <OverviewLatestTransactions />
+            </Grid>
 
-						{/* <Grid
+            {/* <Grid
               item
               md={4}
               xs={12}
@@ -382,21 +380,18 @@ const Overview: NextPage = () => {
                 </CardActions>
               </Card>
             </Grid> */}
-					</Grid>
-				</Container>
-				<TutorialDialog
-					open={displayTutorial}
-					onClose={(value) => (value ? saveSetting() : {})}
-				/>
-			</Box>
-		</>
-	);
+          </Grid>
+        </Container>
+        <TutorialDialog open={displayTutorial} onClose={(value) => (value ? saveSetting() : {})} />
+      </Box>
+    </>
+  );
 };
 
 Overview.getLayout = (page) => (
-	<AuthGuard>
-		<DashboardLayout>{page}</DashboardLayout>
-	</AuthGuard>
+  <AuthGuard>
+    <DashboardLayout>{page}</DashboardLayout>
+  </AuthGuard>
 );
 
 export default Overview;

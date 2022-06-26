@@ -27,54 +27,54 @@ interface FilterItem {
 const categoryOptions = [
   {
     label: 'Healthcare',
-    value: 'healthcare'
+    value: 'healthcare',
   },
   {
     label: 'Makeup',
-    value: 'makeup'
+    value: 'makeup',
   },
   {
     label: 'Dress',
-    value: 'dress'
+    value: 'dress',
   },
   {
     label: 'Skincare',
-    value: 'skincare'
+    value: 'skincare',
   },
   {
     label: 'Jewelry',
-    value: 'jewelry'
+    value: 'jewelry',
   },
   {
     label: 'Blouse',
-    value: 'blouse'
-  }
+    value: 'blouse',
+  },
 ];
 
 const statusOptions = [
   {
     label: 'Published',
-    value: 'published'
+    value: 'published',
   },
   {
     label: 'Draft',
-    value: 'draft'
-  }
+    value: 'draft',
+  },
 ];
 
 const stockOptions = [
   {
     label: 'All',
-    value: 'all'
+    value: 'all',
   },
   {
     label: 'Available',
-    value: 'available'
+    value: 'available',
   },
   {
     label: 'Out of Stock',
-    value: 'outOfStock'
-  }
+    value: 'outOfStock',
+  },
 ];
 
 export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
@@ -88,7 +88,7 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
         name: undefined,
         category: [],
         status: [],
-        inStock: undefined
+        inStock: undefined,
       };
 
       // Transform the filter items in an object that can be used by the parent component to call the
@@ -118,13 +118,15 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
       onChange?.(filters);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [filterItems]
+    [filterItems],
   );
 
   const handleDelete = (filterItem: FilterItem): void => {
-    setFilterItems((prevState) => prevState.filter((_filterItem) => {
-      return !(filterItem.field === _filterItem.field && filterItem.value === _filterItem.value);
-    }));
+    setFilterItems((prevState) =>
+      prevState.filter((_filterItem) => {
+        return !(filterItem.field === _filterItem.field && filterItem.value === _filterItem.value);
+      }),
+    );
   };
 
   const handleQueryChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -138,24 +140,26 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
       const filterItem = filterItems.find((filterItem) => filterItem.field === 'name');
 
       if (filterItem) {
-        setFilterItems((prevState => prevState.map((filterItem) => {
-          if (filterItem.field === 'name') {
-            return {
-              ...filterItem,
-              value: queryValue
-            };
-          }
+        setFilterItems((prevState) =>
+          prevState.map((filterItem) => {
+            if (filterItem.field === 'name') {
+              return {
+                ...filterItem,
+                value: queryValue,
+              };
+            }
 
-          return filterItem;
-        })));
+            return filterItem;
+          }),
+        );
       } else {
         setFilterItems((prevState) => [
           ...prevState,
           {
             label: 'Name',
             field: 'name',
-            value: queryValue
-          }
+            value: queryValue,
+          },
         ]);
       }
 
@@ -195,7 +199,7 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
             label: 'Category',
             field: 'category',
             value,
-            displayValue: option!.label
+            displayValue: option!.label,
           });
         }
       });
@@ -236,7 +240,7 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
             label: 'Status',
             field: 'status',
             value,
-            displayValue: option!.label
+            displayValue: option!.label,
           });
         }
       });
@@ -261,7 +265,7 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
             label: 'Stock',
             field: 'inStock',
             value: 'available',
-            displayValue: 'Available'
+            displayValue: 'Available',
           });
           break;
         case 'outOfStock':
@@ -269,7 +273,7 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
             label: 'Stock',
             field: 'inStock',
             value: 'outOfStock',
-            displayValue: 'Out of Stock'
+            displayValue: 'Out of Stock',
           });
           break;
         default:
@@ -283,34 +287,33 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
 
   // We memoize this part to prevent re-render issues
   const categoryValues = useMemo(
-    () => filterItems
-      .filter((filterItems) => filterItems.field === 'category')
-      .map((filterItems) => filterItems.value) as string[],
-    [filterItems]
+    () =>
+      filterItems
+        .filter((filterItems) => filterItems.field === 'category')
+        .map((filterItems) => filterItems.value) as string[],
+    [filterItems],
   );
 
   const statusValues = useMemo(
-    () => filterItems
-      .filter((filterItems) => filterItems.field === 'status')
-      .map((filterItems) => filterItems.value) as string[],
-    [filterItems]
+    () =>
+      filterItems
+        .filter((filterItems) => filterItems.field === 'status')
+        .map((filterItems) => filterItems.value) as string[],
+    [filterItems],
   );
 
-  const stockValues = useMemo(
-    () => {
-      const values = filterItems
-        .filter((filterItems) => filterItems.field === 'inStock')
-        .map((filterItems) => filterItems.value) as string[];
+  const stockValues = useMemo(() => {
+    const values = filterItems
+      .filter((filterItems) => filterItems.field === 'inStock')
+      .map((filterItems) => filterItems.value) as string[];
 
-      // Since we do not display the "all" as chip, we add it to the multi-select as a selected value
-      if (values.length === 0) {
-        values.unshift('all');
-      }
+    // Since we do not display the "all" as chip, we add it to the multi-select as a selected value
+    if (values.length === 0) {
+      values.unshift('all');
+    }
 
-      return values;
-    },
-    [filterItems]
-  );
+    return values;
+  }, [filterItems]);
 
   return (
     <div {...other}>
@@ -318,14 +321,14 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
         sx={{
           alignItems: 'center',
           display: 'flex',
-          p: 2
+          p: 2,
         }}
       >
         <SearchIcon fontSize="small" />
         <Box
           sx={{
             flexGrow: 1,
-            ml: 3
+            ml: 3,
           }}
         >
           <Input
@@ -339,63 +342,51 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
         </Box>
       </Box>
       <Divider />
-      {
-        filterItems.length > 0
-          ? (
-            <Box
-              sx={{
-                alignItems: 'center',
-                display: 'flex',
-                flexWrap: 'wrap',
-                p: 2
-              }}
-            >
-              {filterItems.map((filterItem, i) => (
-                <Chip
-                  key={i}
-                  label={(
-                    <Box
-                      sx={{
-                        alignItems: 'center',
-                        display: 'flex',
-                        '& span': {
-                          fontWeight: 600
-                        }
-                      }}
-                    >
-                      <span>
-                        {filterItem.label}
-                      </span>
-                      :
-                      {' '}
-                      {filterItem.displayValue || filterItem.value}
-                    </Box>
-                  )}
-                  onDelete={(): void => handleDelete(filterItem)}
-                  sx={{ m: 1 }}
-                  variant="outlined"
-                />
-              ))}
-            </Box>
-          )
-          : (
-            <Box sx={{ p: 3 }}>
-              <Typography
-                color="textSecondary"
-                variant="subtitle2"
-              >
-                No filters applied
-              </Typography>
-            </Box>
-          )
-      }
+      {filterItems.length > 0 ? (
+        <Box
+          sx={{
+            alignItems: 'center',
+            display: 'flex',
+            flexWrap: 'wrap',
+            p: 2,
+          }}
+        >
+          {filterItems.map((filterItem, i) => (
+            <Chip
+              key={i}
+              label={
+                <Box
+                  sx={{
+                    alignItems: 'center',
+                    display: 'flex',
+                    '& span': {
+                      fontWeight: 600,
+                    },
+                  }}
+                >
+                  <span>{filterItem.label}</span>: {filterItem.displayValue || filterItem.value}
+                </Box>
+              }
+              onDelete={(): void => handleDelete(filterItem)}
+              sx={{ m: 1 }}
+              variant="outlined"
+            />
+          ))}
+        </Box>
+      ) : (
+        <Box sx={{ p: 3 }}>
+          <Typography color="textSecondary" variant="subtitle2">
+            No filters applied
+          </Typography>
+        </Box>
+      )}
       <Divider />
       <Box
         sx={{
           alignItems: 'center',
           display: 'flex',
           flexWrap: 'wrap',
-          p: 1
+          p: 1,
         }}
       >
         <MultiSelect
@@ -404,23 +395,13 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
           options={categoryOptions}
           value={categoryValues}
         />
-        <MultiSelect
-          label="Status"
-          onChange={handleStatusChange}
-          options={statusOptions}
-          value={statusValues}
-        />
-        <MultiSelect
-          label="Stock"
-          onChange={handleStockChange}
-          options={stockOptions}
-          value={stockValues}
-        />
+        <MultiSelect label="Status" onChange={handleStatusChange} options={statusOptions} value={statusValues} />
+        <MultiSelect label="Stock" onChange={handleStockChange} options={stockOptions} value={stockValues} />
       </Box>
     </div>
   );
 };
 
 ProjectListFilters.propTypes = {
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };

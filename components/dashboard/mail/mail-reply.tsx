@@ -1,34 +1,24 @@
 import { useRef, useState } from 'react';
 import type { ChangeEvent, FC } from 'react';
-import {
-  Avatar,
-  Box,
-  Button,
-  IconButton,
-  Paper,
-  TextareaAutosize,
-  Tooltip
-} from '@mui/material';
+import { Avatar, Box, Button, IconButton, Paper, TextareaAutosize, Tooltip } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 
-const MailReplyTextarea = styled(TextareaAutosize)(
-  ({ theme }) => ({
-    backgroundColor: theme.palette.background.paper,
-    border: 'none',
-    color: theme.palette.text.primary,
-    fontFamily: theme.typography.body1.fontFamily,
-    fontSize: theme.typography.body1.fontSize,
-    lineHeight: theme.typography.body1.lineHeight,
-    outline: 'none',
-    resize: 'none',
-    width: '100%',
-    '&::placeholder': {
-      color: theme.palette.text.secondary
-    }
-  })
-);
+const MailReplyTextarea = styled(TextareaAutosize)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  border: 'none',
+  color: theme.palette.text.primary,
+  fontFamily: theme.typography.body1.fontFamily,
+  fontSize: theme.typography.body1.fontSize,
+  lineHeight: theme.typography.body1.lineHeight,
+  outline: 'none',
+  resize: 'none',
+  width: '100%',
+  '&::placeholder': {
+    color: theme.palette.text.secondary,
+  },
+}));
 
 export const MailReply: FC = (props) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -37,7 +27,7 @@ export const MailReply: FC = (props) => {
   // `const { user } = useAuth();`
   const user = {
     avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
-    name: 'Anika Visser'
+    name: 'Anika Visser',
   };
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
@@ -53,7 +43,7 @@ export const MailReply: FC = (props) => {
       sx={{
         backgroundColor: 'background.default',
         display: 'flex',
-        p: 3
+        p: 3,
       }}
       {...props}
     >
@@ -62,55 +52,35 @@ export const MailReply: FC = (props) => {
         sx={{
           flexGrow: 1,
           ml: 2,
-          p: 2
+          p: 2,
         }}
         variant="outlined"
       >
-        <MailReplyTextarea
-          minRows={3}
-          onChange={handleChange}
-          placeholder="Leave a message"
-          value={value}
-        />
+        <MailReplyTextarea minRows={3} onChange={handleChange} placeholder="Leave a message" value={value} />
         <Box
           sx={{
             alignItems: 'center',
             display: 'flex',
             justifyContent: 'flex-end',
-            mt: 2
+            mt: 2,
           }}
         >
-          <Button
-            sx={{ mr: 1 }}
-            variant="contained"
-          >
+          <Button sx={{ mr: 1 }} variant="contained">
             Send
           </Button>
           <Tooltip title="Attach image">
-            <IconButton
-              onClick={handleAttach}
-              size="small"
-              sx={{ mr: 1 }}
-            >
+            <IconButton onClick={handleAttach} size="small" sx={{ mr: 1 }}>
               <AddPhotoIcon fontSize="small" />
             </IconButton>
           </Tooltip>
           <Tooltip title="Attach file">
-            <IconButton
-              onClick={handleAttach}
-              size="small"
-              sx={{ mr: 1 }}
-            >
+            <IconButton onClick={handleAttach} size="small" sx={{ mr: 1 }}>
               <AttachFileIcon fontSize="small" />
             </IconButton>
           </Tooltip>
         </Box>
       </Paper>
-      <input
-        hidden
-        ref={fileInputRef}
-        type="file"
-      />
+      <input hidden ref={fileInputRef} type="file" />
     </Box>
   );
 };

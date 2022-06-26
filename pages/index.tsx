@@ -19,9 +19,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>
-          {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
-        </title>
+        <title>{process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
       <main>
         <HomeHero />
@@ -38,10 +36,6 @@ const Home: NextPage = () => {
   );
 };
 
-Home.getLayout = (page) => (
-  <MainLayout>
-    {page}
-  </MainLayout>
-);
+Home.getLayout = (page) => <MainLayout>{page}</MainLayout>;
 
 export default Home;

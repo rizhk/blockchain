@@ -1,17 +1,7 @@
 import { useState } from 'react';
 import type { FC } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Backdrop,
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  Input,
-  Paper,
-  Tooltip,
-  Typography
-} from '@mui/material';
+import { Backdrop, Box, Button, Divider, IconButton, Input, Paper, Tooltip, Typography } from '@mui/material';
 import Portal from '@mui/material/Portal';
 import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
@@ -70,8 +60,8 @@ export const MailComposer: FC<MailComposerProps> = (props) => {
             margin: 0,
             maxHeight: '100%',
             maxWidth: '100%',
-            width: '100%'
-          })
+            width: '100%',
+          }),
         }}
         elevation={12}
       >
@@ -80,26 +70,20 @@ export const MailComposer: FC<MailComposerProps> = (props) => {
             alignItems: 'center',
             display: 'flex',
             px: 2,
-            py: 1
+            py: 1,
           }}
         >
-          <Typography variant="h6">
-            New Message
-          </Typography>
+          <Typography variant="h6">New Message</Typography>
           <Box sx={{ flexGrow: 1 }} />
-          {
-            isFullScreen
-              ? (
-                <IconButton onClick={handleExitFullScreen}>
-                  <MinimizeIcon fontSize="small" />
-                </IconButton>
-              )
-              : (
-                <IconButton onClick={handleEnterFullScreen}>
-                  <ArrowsExpandIcon fontSize="small" />
-                </IconButton>
-              )
-          }
+          {isFullScreen ? (
+            <IconButton onClick={handleExitFullScreen}>
+              <MinimizeIcon fontSize="small" />
+            </IconButton>
+          ) : (
+            <IconButton onClick={handleEnterFullScreen}>
+              <ArrowsExpandIcon fontSize="small" />
+            </IconButton>
+          )}
           <IconButton onClick={onClose}>
             <XIcon fontSize="small" />
           </IconButton>
@@ -111,7 +95,7 @@ export const MailComposer: FC<MailComposerProps> = (props) => {
           sx={{
             p: 1,
             borderBottom: 1,
-            borderColor: 'divider'
+            borderColor: 'divider',
           }}
         />
         <Input
@@ -121,7 +105,7 @@ export const MailComposer: FC<MailComposerProps> = (props) => {
           sx={{
             p: 1,
             borderBottom: 1,
-            borderColor: 'divider'
+            borderColor: 'divider',
           }}
         />
         <QuillEditor
@@ -129,7 +113,7 @@ export const MailComposer: FC<MailComposerProps> = (props) => {
           placeholder="Leave a message"
           sx={{
             border: 'none',
-            flexGrow: 1
+            flexGrow: 1,
           }}
           value={messageBody}
         />
@@ -139,25 +123,17 @@ export const MailComposer: FC<MailComposerProps> = (props) => {
             alignItems: 'center',
             display: 'flex',
             justifyContent: 'flex-end',
-            p: 2
+            p: 2,
           }}
         >
-          <Button variant="contained">
-            Send
-          </Button>
+          <Button variant="contained">Send</Button>
           <Tooltip title="Attach image">
-            <IconButton
-              size="small"
-              sx={{ ml: 1 }}
-            >
+            <IconButton size="small" sx={{ ml: 1 }}>
               <AddPhotoIcon fontSize="small" />
             </IconButton>
           </Tooltip>
           <Tooltip title="Attach file">
-            <IconButton
-              size="small"
-              sx={{ ml: 1 }}
-            >
+            <IconButton size="small" sx={{ ml: 1 }}>
               <AttachFileIcon fontSize="small" />
             </IconButton>
           </Tooltip>
@@ -169,5 +145,5 @@ export const MailComposer: FC<MailComposerProps> = (props) => {
 
 MailComposer.propTypes = {
   open: PropTypes.bool,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 };

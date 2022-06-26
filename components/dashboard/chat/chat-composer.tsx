@@ -28,18 +28,18 @@ export const ChatComposer: FC<ChatComposerProps> = (props) => {
   };
 
   const handleRemoveRecipient = (recipientId: string): void => {
-    setRecipients((prevState) => prevState.filter(
-      (recipient) => recipient.id !== recipientId)
-    );
+    setRecipients((prevState) => prevState.filter((recipient) => recipient.id !== recipientId));
   };
 
   const handleSendMessage = async (body: string): Promise<void> => {
     try {
       // Handle send message and redirect to the new thread
-      const threadId = await dispatch(addMessage({
-        recipientIds: recipients.map((recipient) => recipient.id),
-        body
-      }));
+      const threadId = await dispatch(
+        addMessage({
+          recipientIds: recipients.map((recipient) => recipient.id),
+          body,
+        }),
+      );
       router.push(`/dashboard/chat?threadKey=${threadId}`).catch(console.error);
     } catch (err) {
       console.error(err);
@@ -51,7 +51,7 @@ export const ChatComposer: FC<ChatComposerProps> = (props) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        flexGrow: 1
+        flexGrow: 1,
       }}
       {...props}
     >
@@ -63,14 +63,11 @@ export const ChatComposer: FC<ChatComposerProps> = (props) => {
       <Box
         sx={{
           backgroundColor: 'background.default',
-          flexGrow: 1
+          flexGrow: 1,
         }}
       />
       <Divider />
-      <ChatMessageAdd
-        disabled={recipients.length === 0}
-        onSend={handleSendMessage}
-      />
+      <ChatMessageAdd disabled={recipients.length === 0} onSend={handleSendMessage} />
     </Box>
   );
 };

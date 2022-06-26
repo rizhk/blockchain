@@ -10,13 +10,11 @@ interface MainLayoutProps {
   children?: ReactNode;
 }
 
-const MainLayoutRoot = styled('div')(
-  ({ theme }) => ({
-    backgroundColor: theme.palette.background.default,
-    height: '100%',
-    paddingTop: 64
-  })
-);
+const MainLayoutRoot = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.background.default,
+  height: '100%',
+  paddingTop: 64,
+}));
 
 export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
@@ -24,10 +22,7 @@ export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   return (
     <MainLayoutRoot>
       <MainNavbar onOpenSidebar={(): void => setIsSidebarOpen(true)} />
-      <MainSidebar
-        onClose={(): void => setIsSidebarOpen(false)}
-        open={isSidebarOpen}
-      />
+      <MainSidebar onClose={(): void => setIsSidebarOpen(false)} open={isSidebarOpen} />
       {children}
       <Footer />
     </MainLayoutRoot>
@@ -35,5 +30,5 @@ export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
 };
 
 MainLayout.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };

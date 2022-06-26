@@ -2,17 +2,7 @@ import type { FC } from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import numeral from 'numeral';
-import {
-  Box,
-  Grid,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography
-} from '@mui/material';
+import { Box, Grid, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import type { Invoice } from '../../../types/invoice';
 import { Logo } from '../../logo';
 import { Scrollbar } from '../../scrollbar';
@@ -30,40 +20,25 @@ export const InvoicePreview: FC<InvoicePreviewProps> = (props) => {
         <Box
           sx={{
             minWidth: 800,
-            p: 6
+            p: 6,
           }}
         >
-          <Grid
-            container
-            justifyContent="space-between"
-          >
+          <Grid container justifyContent="space-between">
             <Grid item>
               <Logo />
-              <Typography variant="subtitle2">
-                www.devias.io
-              </Typography>
+              <Typography variant="subtitle2">www.devias.io</Typography>
             </Grid>
             <Grid item>
-              <Typography
-                align="right"
-                variant="h4"
-              >
+              <Typography align="right" variant="h4">
                 {invoice.status.toUpperCase()}
               </Typography>
-              <Typography
-                align="right"
-                variant="subtitle2"
-              >
-                Invoice #
-                {invoice.id}
+              <Typography align="right" variant="subtitle2">
+                Invoice #{invoice.id}
               </Typography>
             </Grid>
           </Grid>
           <Box sx={{ my: 4 }}>
-            <Grid
-              container
-              justifyContent="space-between"
-            >
+            <Grid container justifyContent="space-between">
               <Grid item>
                 <Typography variant="body2">
                   Street King William, 123
@@ -82,10 +57,7 @@ export const InvoicePreview: FC<InvoicePreviewProps> = (props) => {
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography
-                  align="right"
-                  variant="body2"
-                >
+                <Typography align="right" variant="body2">
                   accounts@devias.io
                   <br />
                   (+40) 652 3456 23
@@ -94,50 +66,29 @@ export const InvoicePreview: FC<InvoicePreviewProps> = (props) => {
             </Grid>
           </Box>
           <Box sx={{ my: 4 }}>
-            <Grid
-              container
-              justifyContent="space-between"
-            >
+            <Grid container justifyContent="space-between">
               <Grid item>
-                <Typography
-                  gutterBottom
-                  variant="subtitle2"
-                >
+                <Typography gutterBottom variant="subtitle2">
                   Due date
                 </Typography>
-                <Typography variant="body2">
-                  {invoice.dueDate && format(invoice.dueDate, 'dd MMM yyyy')}
-                </Typography>
+                <Typography variant="body2">{invoice.dueDate && format(invoice.dueDate, 'dd MMM yyyy')}</Typography>
               </Grid>
               <Grid item>
-                <Typography
-                  gutterBottom
-                  variant="subtitle2"
-                >
+                <Typography gutterBottom variant="subtitle2">
                   Date of issue
                 </Typography>
-                <Typography variant="body2">
-                  {invoice.issueDate && format(invoice.issueDate, 'dd MMM yyyy')}
-                </Typography>
+                <Typography variant="body2">{invoice.issueDate && format(invoice.issueDate, 'dd MMM yyyy')}</Typography>
               </Grid>
               <Grid item>
-                <Typography
-                  gutterBottom
-                  variant="subtitle2"
-                >
+                <Typography gutterBottom variant="subtitle2">
                   Number
                 </Typography>
-                <Typography variant="body2">
-                  {invoice.number}
-                </Typography>
+                <Typography variant="body2">{invoice.number}</Typography>
               </Grid>
             </Grid>
           </Box>
           <Box sx={{ my: 4 }}>
-            <Typography
-              gutterBottom
-              variant="subtitle2"
-            >
+            <Typography gutterBottom variant="subtitle2">
               Billed to
             </Typography>
             <Typography variant="body2">
@@ -153,34 +104,23 @@ export const InvoicePreview: FC<InvoicePreviewProps> = (props) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>
-                  Description
-                </TableCell>
+                <TableCell>Description</TableCell>
                 <TableCell />
-                <TableCell align="right">
-                  Unit Price
-                </TableCell>
+                <TableCell align="right">Unit Price</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {(invoice.items || []).map((items) => (
                 <TableRow key={items.id}>
-                  <TableCell>
-                    {items.description}
-                  </TableCell>
+                  <TableCell>{items.description}</TableCell>
                   <TableCell />
-                  <TableCell align="right">
-                    {numeral(items.unitAmount).format(`${items.currency}0,0.00`)}
-                  </TableCell>
+                  <TableCell align="right">{numeral(items.unitAmount).format(`${items.currency}0,0.00`)}</TableCell>
                 </TableRow>
               ))}
               <TableRow>
                 <TableCell />
                 <TableCell>
-                  <Typography
-                    gutterBottom
-                    variant="subtitle2"
-                  >
+                  <Typography gutterBottom variant="subtitle2">
                     Subtotal
                   </Typography>
                 </TableCell>
@@ -191,48 +131,30 @@ export const InvoicePreview: FC<InvoicePreviewProps> = (props) => {
               <TableRow>
                 <TableCell />
                 <TableCell>
-                  <Typography
-                    gutterBottom
-                    variant="subtitle2"
-                  >
+                  <Typography gutterBottom variant="subtitle2">
                     Taxes
                   </Typography>
                 </TableCell>
-                <TableCell align="right">
-                  {numeral(invoice.taxAmount).format(`${invoice.currency}0,0.00`)}
-                </TableCell>
+                <TableCell align="right">{numeral(invoice.taxAmount).format(`${invoice.currency}0,0.00`)}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell />
                 <TableCell>
-                  <Typography
-                    gutterBottom
-                    variant="subtitle2"
-                  >
+                  <Typography gutterBottom variant="subtitle2">
                     Total
                   </Typography>
                 </TableCell>
-                <TableCell align="right">
-                  {numeral(invoice.totalAmount).format(`${invoice.currency}0,0.00`)}
-                </TableCell>
+                <TableCell align="right">{numeral(invoice.totalAmount).format(`${invoice.currency}0,0.00`)}</TableCell>
               </TableRow>
             </TableBody>
           </Table>
           <Box sx={{ mt: 2 }}>
-            <Typography
-              gutterBottom
-              variant="h6"
-            >
+            <Typography gutterBottom variant="h6">
               Notes
             </Typography>
-            <Typography
-              color="textSecondary"
-              variant="body2"
-            >
-              Please make sure you have the right bank registration number
-              as I
-              had issues before and make sure you guys cover transfer
-              expenses.
+            <Typography color="textSecondary" variant="body2">
+              Please make sure you have the right bank registration number as I had issues before and make sure you guys
+              cover transfer expenses.
             </Typography>
           </Box>
         </Box>
@@ -243,5 +165,5 @@ export const InvoicePreview: FC<InvoicePreviewProps> = (props) => {
 
 InvoicePreview.propTypes = {
   // @ts-ignore
-  invoice: PropTypes.object.isRequired
+  invoice: PropTypes.object.isRequired,
 };

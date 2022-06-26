@@ -6,60 +6,42 @@ export const QuickStats4: FC = () => (
   <Box
     sx={{
       backgroundColor: 'background.default',
-      p: 3
+      p: 3,
     }}
   >
     <Card>
-      <Grid
-        alignItems="center"
-        container
-        justifyContent="space-between"
-      >
+      <Grid alignItems="center" container justifyContent="space-between">
         <Grid
           item
           md={3}
           sm={6}
           xs={12}
           sx={{
-            borderRight: (theme) => (
-              {
-                md: `1px solid ${theme.palette.divider}`
-              }
-            ),
-            borderBottom: (theme) => (
-              {
-                md: 'none',
-                xs: `1px solid ${theme.palette.divider}`
-              }
-            ),
+            borderRight: (theme) => ({
+              md: `1px solid ${theme.palette.divider}`,
+            }),
+            borderBottom: (theme) => ({
+              md: 'none',
+              xs: `1px solid ${theme.palette.divider}`,
+            }),
             p: 3,
-            textAlign: 'center'
+            textAlign: 'center',
           }}
         >
-          <Typography
-            color="textSecondary"
-            component="h2"
-            gutterBottom
-            variant="overline"
-          >
+          <Typography color="textSecondary" component="h2" gutterBottom variant="overline">
             Total Income
           </Typography>
           <Box
             sx={{
               alignItems: 'center',
               display: 'flex',
-              justifyContent: 'center'
+              justifyContent: 'center',
             }}
           >
-            <Typography
-              sx={{ mr: 1 }}
-              variant="h5"
-            >
+            <Typography sx={{ mr: 1 }} variant="h5">
               $854,355.00
             </Typography>
-            <SeverityPill color="success">
-              +25%
-            </SeverityPill>
+            <SeverityPill color="success">+25%</SeverityPill>
           </Box>
         </Grid>
         <Grid
@@ -68,45 +50,31 @@ export const QuickStats4: FC = () => (
           sm={6}
           xs={12}
           sx={{
-            borderRight: (theme) => (
-              {
-                md: `1px solid ${theme.palette.divider}`
-              }
-            ),
-            borderBottom: (theme) => (
-              {
-                md: 'none',
-                xs: `1px solid ${theme.palette.divider}`
-              }
-            ),
+            borderRight: (theme) => ({
+              md: `1px solid ${theme.palette.divider}`,
+            }),
+            borderBottom: (theme) => ({
+              md: 'none',
+              xs: `1px solid ${theme.palette.divider}`,
+            }),
             p: 3,
-            textAlign: 'center'
+            textAlign: 'center',
           }}
         >
-          <Typography
-            color="textSecondary"
-            component="h5"
-            gutterBottom
-            variant="overline"
-          >
+          <Typography color="textSecondary" component="h5" gutterBottom variant="overline">
             Total Expanses
           </Typography>
           <Box
             sx={{
               alignItems: 'center',
               display: 'flex',
-              justifyContent: 'center'
+              justifyContent: 'center',
             }}
           >
-            <Typography
-              sx={{ mr: 1 }}
-              variant="h5"
-            >
+            <Typography sx={{ mr: 1 }} variant="h5">
               $373,250.50
             </Typography>
-            <SeverityPill color="success">
-              +12%
-            </SeverityPill>
+            <SeverityPill color="success">+12%</SeverityPill>
           </Box>
         </Grid>
         <Grid
@@ -115,45 +83,31 @@ export const QuickStats4: FC = () => (
           sm={6}
           xs={12}
           sx={{
-            borderRight: (theme) => (
-              {
-                md: `1px solid ${theme.palette.divider}`
-              }
-            ),
-            borderBottom: (theme) => (
-              {
-                sm: 'none',
-                xs: `1px solid ${theme.palette.divider}`
-              }
-            ),
+            borderRight: (theme) => ({
+              md: `1px solid ${theme.palette.divider}`,
+            }),
+            borderBottom: (theme) => ({
+              sm: 'none',
+              xs: `1px solid ${theme.palette.divider}`,
+            }),
             p: 3,
-            textAlign: 'center'
+            textAlign: 'center',
           }}
         >
-          <Typography
-            color="textSecondary"
-            component="h2"
-            gutterBottom
-            variant="overline"
-          >
+          <Typography color="textSecondary" component="h2" gutterBottom variant="overline">
             Net Profit
           </Typography>
           <Box
             sx={{
               alignItems: 'center',
               display: 'flex',
-              justifyContent: 'center'
+              justifyContent: 'center',
             }}
           >
-            <Typography
-              sx={{ mr: 1 }}
-              variant="h5"
-            >
+            <Typography sx={{ mr: 1 }} variant="h5">
               $123,532.00
             </Typography>
-            <SeverityPill color="error">
-              -20%
-            </SeverityPill>
+            <SeverityPill color="error">-20%</SeverityPill>
           </Box>
         </Grid>
         <Grid
@@ -163,20 +117,13 @@ export const QuickStats4: FC = () => (
           xs={12}
           sx={{
             p: 3,
-            textAlign: 'center'
+            textAlign: 'center',
           }}
         >
-          <Typography
-            color="textSecondary"
-            component="h2"
-            gutterBottom
-            variant="overline"
-          >
+          <Typography color="textSecondary" component="h2" gutterBottom variant="overline">
             Active Subscriptions
           </Typography>
-          <Typography variant="h5">
-            26,000
-          </Typography>
+          <Typography variant="h5">26,000</Typography>
         </Grid>
       </Grid>
     </Card>

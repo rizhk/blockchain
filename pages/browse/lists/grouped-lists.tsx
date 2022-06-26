@@ -26,63 +26,28 @@ const BrowseGroupedLists: NextPage = () => {
   return (
     <>
       <Head>
-        <title>
-          Browse: Grouped Lists | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
-        </title>
+        <title>Browse: Grouped Lists | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
       <Box
         component="main"
         sx={{
           backgroundColor: 'background.paper',
           flexGrow: 1,
-          py: 8
+          py: 8,
         }}
       >
         <Container maxWidth="lg">
-          <WidgetPreviewer
-            element={<GroupedList1 />}
-            name="List"
-          />
-          <WidgetPreviewer
-            element={<GroupedList2 />}
-            name="Basic list"
-          />
-          <WidgetPreviewer
-            element={<GroupedList3 />}
-            name="Basic list"
-          />
-          <WidgetPreviewer
-            element={<GroupedList4 />}
-            name="Basic list"
-          />
-          <WidgetPreviewer
-            element={<GroupedList5 />}
-            name="Multiline list with donut chart"
-          />
-          <WidgetPreviewer
-            element={<GroupedList6 />}
-            name="Basic list"
-          />
-          <WidgetPreviewer
-            element={<GroupedList7 />}
-            name="Basic list with side avatars"
-          />
-          <WidgetPreviewer
-            element={<GroupedList8 />}
-            name="Basic list with side avatars"
-          />
-          <WidgetPreviewer
-            element={<GroupedList9 />}
-            name="Multiline list with rating bar"
-          />
-          <WidgetPreviewer
-            element={<GroupedList10 />}
-            name="Basic list with side icon"
-          />
-          <WidgetPreviewer
-            element={<GroupedList11 />}
-            name="Basic multiline list"
-          />
+          <WidgetPreviewer element={<GroupedList1 />} name="List" />
+          <WidgetPreviewer element={<GroupedList2 />} name="Basic list" />
+          <WidgetPreviewer element={<GroupedList3 />} name="Basic list" />
+          <WidgetPreviewer element={<GroupedList4 />} name="Basic list" />
+          <WidgetPreviewer element={<GroupedList5 />} name="Multiline list with donut chart" />
+          <WidgetPreviewer element={<GroupedList6 />} name="Basic list" />
+          <WidgetPreviewer element={<GroupedList7 />} name="Basic list with side avatars" />
+          <WidgetPreviewer element={<GroupedList8 />} name="Basic list with side avatars" />
+          <WidgetPreviewer element={<GroupedList9 />} name="Multiline list with rating bar" />
+          <WidgetPreviewer element={<GroupedList10 />} name="Basic list with side icon" />
+          <WidgetPreviewer element={<GroupedList11 />} name="Basic multiline list" />
         </Container>
       </Box>
     </>
@@ -91,9 +56,7 @@ const BrowseGroupedLists: NextPage = () => {
 
 BrowseGroupedLists.getLayout = (page) => (
   <MainLayout>
-    <BrowseLayout>
-      {page}
-    </BrowseLayout>
+    <BrowseLayout>{page}</BrowseLayout>
   </MainLayout>
 );
 

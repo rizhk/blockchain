@@ -1,14 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { FC } from 'react';
-import {
-  Box,
-  Button,
-  Checkbox,
-  Drawer,
-  FormControlLabel,
-  IconButton,
-  Typography
-} from '@mui/material';
+import { Box, Button, Checkbox, Drawer, FormControlLabel, IconButton, Typography } from '@mui/material';
 import type { Settings } from '../contexts/settings-context';
 import { useSettings } from '../hooks/use-settings';
 import { X as XIcon } from '../icons/x';
@@ -27,19 +19,19 @@ const themes = [
   {
     label: 'Light',
     value: 'light',
-    icon: LightThemeIcon
+    icon: LightThemeIcon,
   },
   {
     label: 'Dark',
     value: 'dark',
-    icon: DarkThemeIcon
-  }
+    icon: DarkThemeIcon,
+  },
 ];
 
 const getValues = (settings: Settings) => ({
   direction: settings.direction,
   responsiveFontSizes: settings.responsiveFontSizes,
-  theme: settings.theme
+  theme: settings.theme,
 });
 
 export const SettingsDrawer: FC<SettingsDrawerProps> = (props) => {
@@ -54,7 +46,7 @@ export const SettingsDrawer: FC<SettingsDrawerProps> = (props) => {
   const handleChange = (field: string, value: unknown): void => {
     setValues({
       ...values,
-      [field]: value
+      [field]: value,
     });
   };
 
@@ -80,33 +72,27 @@ export const SettingsDrawer: FC<SettingsDrawerProps> = (props) => {
           display: 'flex',
           justifyContent: 'space-between',
           px: 3,
-          py: 2
+          py: 2,
         }}
       >
-        <Typography
-          color="inherit"
-          variant="h6"
-        >
+        <Typography color="inherit" variant="h6">
           Theme settings
         </Typography>
-        <IconButton
-          color="inherit"
-          onClick={onClose}
-        >
+        <IconButton color="inherit" onClick={onClose}>
           <XIcon fontSize="small" />
         </IconButton>
       </Box>
       <Box
         sx={{
           py: 4,
-          px: 3
+          px: 3,
         }}
       >
         <Typography
           color="textSecondary"
           sx={{
             display: 'block',
-            mb: 1
+            mb: 1,
           }}
           variant="overline"
         >
@@ -116,7 +102,7 @@ export const SettingsDrawer: FC<SettingsDrawerProps> = (props) => {
           sx={{
             alignItems: 'center',
             display: 'flex',
-            m: -1
+            m: -1,
           }}
         >
           {themes.map((theme) => {
@@ -139,17 +125,13 @@ export const SettingsDrawer: FC<SettingsDrawerProps> = (props) => {
                     p: 1,
                     '& svg': {
                       height: 'auto',
-                      width: '100%'
-                    }
+                      width: '100%',
+                    },
                   }}
                 >
                   <Icon />
                 </Box>
-                <Typography
-                  align="center"
-                  sx={{ mt: 1 }}
-                  variant="subtitle2"
-                >
+                <Typography align="center" sx={{ mt: 1 }} variant="subtitle2">
                   {label}
                 </Typography>
               </div>
@@ -161,7 +143,7 @@ export const SettingsDrawer: FC<SettingsDrawerProps> = (props) => {
           sx={{
             display: 'block',
             mb: 1,
-            mt: 4
+            mt: 4,
           }}
           variant="overline"
         >
@@ -169,51 +151,29 @@ export const SettingsDrawer: FC<SettingsDrawerProps> = (props) => {
         </Typography>
         <div>
           <FormControlLabel
-            control={(
+            control={
               <Checkbox
                 checked={values.direction === 'rtl'}
                 name="direction"
-                onChange={(event): void => handleChange(
-                  'direction',
-                  event.target.checked
-                    ? 'rtl'
-                    : 'ltr'
-                )}
+                onChange={(event): void => handleChange('direction', event.target.checked ? 'rtl' : 'ltr')}
               />
-            )}
-            label={(
-              <Typography variant="subtitle2">
-                Activate RTL content
-              </Typography>
-            )}
+            }
+            label={<Typography variant="subtitle2">Activate RTL content</Typography>}
           />
         </div>
         <div>
           <FormControlLabel
-            control={(
+            control={
               <Checkbox
                 checked={values.responsiveFontSizes}
                 name="direction"
-                onChange={(event): void => handleChange(
-                  'responsiveFontSizes',
-                  event.target.checked
-                )}
+                onChange={(event): void => handleChange('responsiveFontSizes', event.target.checked)}
               />
-            )}
-            label={(
-              <Typography variant="subtitle2">
-                Responsive font sizes
-              </Typography>
-            )}
+            }
+            label={<Typography variant="subtitle2">Responsive font sizes</Typography>}
           />
         </div>
-        <Button
-          color="primary"
-          fullWidth
-          onClick={handleSave}
-          sx={{ mt: 3 }}
-          variant="contained"
-        >
+        <Button color="primary" fullWidth onClick={handleSave} sx={{ mt: 3 }} variant="contained">
           Save Settings
         </Button>
       </Box>
@@ -223,5 +183,5 @@ export const SettingsDrawer: FC<SettingsDrawerProps> = (props) => {
 
 SettingsDrawer.propTypes = {
   onClose: PropTypes.func,
-  open: PropTypes.bool
+  open: PropTypes.bool,
 };

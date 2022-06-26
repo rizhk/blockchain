@@ -17,50 +17,26 @@ interface BlogPostCardProps {
 }
 
 export const BlogPostCard: FC<BlogPostCardProps> = (props) => {
-  const {
-    authorAvatar,
-    authorName,
-    category,
-    cover,
-    publishedAt,
-    readTime,
-    shortDescription,
-    title,
-    ...other
-  } = props;
+  const { authorAvatar, authorName, category, cover, publishedAt, readTime, shortDescription, title, ...other } = props;
 
   return (
     <Card
       sx={{
         '& + &': {
-          mt: 6
-        }
+          mt: 6,
+        },
       }}
       {...other}
     >
-      <NextLink
-        href="/blog/1"
-        passHref
-      >
-        <CardMedia
-          component="a"
-          image={cover}
-          sx={{ height: 280 }}
-        />
+      <NextLink href="/blog/1" passHref>
+        <CardMedia component="a" image={cover} sx={{ height: 280 }} />
       </NextLink>
       <CardContent>
         <Box sx={{ mb: 2 }}>
           <Chip label={category} />
         </Box>
-        <NextLink
-          href="/blog/1"
-          passHref
-        >
-          <Link
-            color="textPrimary"
-            component="a"
-            variant="h5"
-          >
+        <NextLink href="/blog/1" passHref>
+          <Link color="textPrimary" component="a" variant="h5">
             {title}
           </Link>
         </NextLink>
@@ -72,7 +48,7 @@ export const BlogPostCard: FC<BlogPostCardProps> = (props) => {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             WebkitBoxOrient: 'vertical',
-            WebkitLineClamp: 2
+            WebkitLineClamp: 2,
           }}
           variant="body1"
         >
@@ -83,37 +59,23 @@ export const BlogPostCard: FC<BlogPostCardProps> = (props) => {
             alignItems: 'center',
             display: 'flex',
             flexWrap: 'wrap',
-            mt: 2
+            mt: 2,
           }}
         >
           <Box
             sx={{
               alignItems: 'center',
-              display: 'flex'
+              display: 'flex',
             }}
           >
-            <Avatar
-              src={authorAvatar}
-              sx={{ mr: 2 }}
-            >
+            <Avatar src={authorAvatar} sx={{ mr: 2 }}>
               {getInitials(authorName)}
             </Avatar>
             <Typography variant="subtitle2">
-              By
-              {' '}
-              {authorName}
-              {' '}
-              •
-              {' '}
-              {format(publishedAt, 'MMM d, yyyy')}
+              By {authorName} • {format(publishedAt, 'MMM d, yyyy')}
             </Typography>
           </Box>
-          <Typography
-            align="right"
-            color="textSecondary"
-            sx={{ flexGrow: 1 }}
-            variant="body2"
-          >
+          <Typography align="right" color="textSecondary" sx={{ flexGrow: 1 }} variant="body2">
             {`${readTime} read`}
           </Typography>
         </Box>
@@ -130,5 +92,5 @@ BlogPostCard.propTypes = {
   publishedAt: PropTypes.number.isRequired,
   readTime: PropTypes.string.isRequired,
   shortDescription: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
 };

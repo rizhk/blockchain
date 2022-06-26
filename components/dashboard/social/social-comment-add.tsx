@@ -12,7 +12,7 @@ export const SocialCommentAdd: FC = (props) => {
   // `const { user } = useAuth();`
   const user = {
     avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
-    name: 'Anika Visser'
+    name: 'Anika Visser',
   };
 
   return (
@@ -23,32 +23,27 @@ export const SocialCommentAdd: FC = (props) => {
           sx={{
             height: 40,
             mr: 2,
-            width: 40
+            width: 40,
           }}
         >
           {getInitials(user.name)}
         </Avatar>
         <Box sx={{ flexGrow: 1 }}>
-          <TextField
-            fullWidth
-            multiline
-            placeholder="Type your reply"
-            rows={3}
-          />
+          <TextField fullWidth multiline placeholder="Type your reply" rows={3} />
           <Box
             sx={{
               alignItems: 'center',
               display: 'flex',
               justifyContent: 'space-between',
-              mt: 3
+              mt: 3,
             }}
           >
             <IconButton
               sx={{
                 display: {
                   xs: 'inline-flex',
-                  sm: 'none'
-                }
+                  sm: 'none',
+                },
               }}
             >
               <PlusIcon fontSize="small" />
@@ -57,12 +52,12 @@ export const SocialCommentAdd: FC = (props) => {
               sx={{
                 display: {
                   xs: 'none',
-                  sm: 'block'
+                  sm: 'block',
                 },
                 m: -1,
                 '& > *': {
-                  m: 1
-                }
+                  m: 1,
+                },
               }}
             >
               <IconButton>
@@ -78,9 +73,7 @@ export const SocialCommentAdd: FC = (props) => {
                 <EmojiHappyIcon fontSize="small" />
               </IconButton>
             </Box>
-            <Button variant="contained">
-              Send
-            </Button>
+            <Button variant="contained">Send</Button>
           </Box>
         </Box>
       </Box>

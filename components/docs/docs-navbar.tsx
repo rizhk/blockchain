@@ -17,46 +17,28 @@ export const DocsNavbar: FC<DocsNavbarProps> = ({ onOpenSidebar }) => (
       borderBottomColor: 'divider',
       borderBottomStyle: 'solid',
       borderBottomWidth: 1,
-      color: 'text.secondary'
+      color: 'text.secondary',
     }}
   >
     <Toolbar sx={{ height: 64 }}>
-      <NextLink
-        href="/"
-        passHref
-      >
+      <NextLink href="/" passHref>
         <a>
           <Logo
             sx={{
               height: 40,
-              width: 40
+              width: 40,
             }}
           />
         </a>
       </NextLink>
       <Box sx={{ flexGrow: 1 }} />
-      <NextLink
-        href="/dashboard"
-        passHref
-      >
-        <Link
-          color="textSecondary"
-          underline="none"
-          variant="subtitle2"
-        >
+      <NextLink href="/dashboard" passHref>
+        <Link color="textSecondary" underline="none" variant="subtitle2">
           Live Demo
         </Link>
       </NextLink>
-      <NextLink
-        href="/browse"
-        passHref
-      >
-        <Link
-          color="textSecondary"
-          sx={{ ml: 2 }}
-          underline="none"
-          variant="subtitle2"
-        >
+      <NextLink href="/browse" passHref>
+        <Link color="textSecondary" sx={{ ml: 2 }} underline="none" variant="subtitle2">
           Components
         </Link>
       </NextLink>
@@ -65,9 +47,9 @@ export const DocsNavbar: FC<DocsNavbarProps> = ({ onOpenSidebar }) => (
         onClick={onOpenSidebar}
         sx={{
           display: {
-            lg: 'none'
+            lg: 'none',
           },
-          ml: 2
+          ml: 2,
         }}
       >
         <MenuIcon fontSize="small" />
@@ -77,5 +59,5 @@ export const DocsNavbar: FC<DocsNavbarProps> = ({ onOpenSidebar }) => (
 );
 
 DocsNavbar.propTypes = {
-  onOpenSidebar: PropTypes.func
+  onOpenSidebar: PropTypes.func,
 };

@@ -102,7 +102,9 @@ export default ({ isOrderDetailsShowing, hide, txn }: ItxnsProps): JSX.Element =
               <Typography variant="subtitle2">Details</Typography>
             </Grid>
             <Grid item xs={8}>
-              <Typography variant="body2" style={{ wordWrap: "break-word" }}>{txn?.details}</Typography>
+              <Typography variant="body2" style={{ wordWrap: 'break-word' }}>
+                {txn?.details}
+              </Typography>
             </Grid>
           </Grid>
           {txn?.breakdown && (

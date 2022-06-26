@@ -33,13 +33,9 @@ interface ThemeConfig {
 }
 
 export const createTheme = (config: ThemeConfig): Theme => {
-  let theme = createMuiTheme(
-    baseThemeOptions,
-    config.mode === 'dark' ? darkThemeOptions : lightThemeOptions,
-    {
-      direction: config.direction
-    }
-  );
+  let theme = createMuiTheme(baseThemeOptions, config.mode === 'dark' ? darkThemeOptions : lightThemeOptions, {
+    direction: config.direction,
+  });
 
   if (config.responsiveFontSizes) {
     theme = responsiveFontSizes(theme);

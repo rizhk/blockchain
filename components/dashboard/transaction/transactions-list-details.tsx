@@ -49,10 +49,8 @@ export const TransactionsListDetails: FC = (props) => {
   const getSteps = useCallback(
     async (props) => {
       try {
-        const data = await transactionApi.getTransaction(
-          props.TransactionId
-        );
-        
+        const data = await transactionApi.getTransaction(props.TransactionId);
+
         if (isMounted()) {
           setTxn(data);
           setSteps(data.steps.reverse());
@@ -109,15 +107,11 @@ export const TransactionsListDetails: FC = (props) => {
                   <Grid item md={3} xs={2}>
                     <Typography display="inline" color="text.primary" variant="body2">
                       {' '}
- 										{new Date(
-											step.date
-										).toLocaleDateString()}
+                      {new Date(step.date).toLocaleDateString()}
                     </Typography>
                     <Typography display="inline" color="text.secondary" variant="body2">
                       {' '}
-										{new Date(
-											step.date
-										).toLocaleTimeString()}
+                      {new Date(step.date).toLocaleTimeString()}
                     </Typography>
                   </Grid>
                 </Grid>

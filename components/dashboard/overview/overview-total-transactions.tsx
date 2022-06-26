@@ -10,17 +10,9 @@ const data = {
   series: [
     { data: [12, 24, 36, 48, 60, 72, 84] },
     { data: [12, 24, 36, 48, 60, 72, 84] },
-    { data: [12, 24, 36, 48, 60, 72, 84] }
+    { data: [12, 24, 36, 48, 60, 72, 84] },
   ],
-  categories: [
-    'Capital One',
-    'Ally Bank',
-    'ING',
-    'Ridgewood',
-    'BT Transilvania',
-    'CEC',
-    'CBC'
-  ]
+  categories: ['Capital One', 'Ally Bank', 'ING', 'Ridgewood', 'BT Transilvania', 'CEC', 'CBC'],
 };
 
 export const OverviewTotalTransactions: FC = (props) => {
@@ -31,99 +23,91 @@ export const OverviewTotalTransactions: FC = (props) => {
       background: 'transparent',
       stacked: true,
       toolbar: {
-        show: false
-      }
+        show: false,
+      },
     },
     colors: ['#6E7AD8', '#4655CE', '#2F3EB1'],
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
     fill: {
-      opacity: 1
+      opacity: 1,
     },
     grid: {
       borderColor: theme.palette.divider,
       xaxis: {
         lines: {
-          show: true
-        }
+          show: true,
+        },
       },
       yaxis: {
         lines: {
-          show: true
-        }
-      }
+          show: true,
+        },
+      },
     },
     states: {
       active: {
         filter: {
-          type: 'none'
-        }
+          type: 'none',
+        },
       },
       hover: {
         filter: {
-          type: 'none'
-        }
-      }
+          type: 'none',
+        },
+      },
     },
     legend: {
-      show: false
+      show: false,
     },
     stroke: {
       colors: ['transparent'],
       show: true,
-      width: 2
+      width: 2,
     },
     theme: {
-      mode: theme.palette.mode
+      mode: theme.palette.mode,
     },
     xaxis: {
       axisBorder: {
-        show: false
+        show: false,
       },
       axisTicks: {
-        show: false
+        show: false,
       },
       categories: data.categories,
       labels: {
         style: {
-          colors: '#A3A3A3'
-        }
-      }
+          colors: '#A3A3A3',
+        },
+      },
     },
     yaxis: {
       labels: {
         offsetX: -12,
         style: {
-          colors: '#A3A3A3'
-        }
-      }
-    }
+          colors: '#A3A3A3',
+        },
+      },
+    },
   };
 
   const chartSeries = data.series;
 
   return (
     <Card {...props}>
-      <CardHeader
-        subheader={format(new Date(), 'MMM yyyy')}
-        title="Total Transactions"
-      />
+      <CardHeader subheader={format(new Date(), 'MMM yyyy')} title="Total Transactions" />
       <Divider />
       <Scrollbar>
         <Box
           sx={{
             height: 336,
             minWidth: 500,
-            px: 2
+            px: 2,
           }}
         >
-          <Chart
-            height={300}
-            options={chartOptions}
-            series={chartSeries}
-            type="bar"
-          />
+          <Chart height={300} options={chartOptions} series={chartSeries} type="bar" />
         </Box>
       </Scrollbar>
     </Card>
