@@ -145,6 +145,14 @@ class TransactionApi {
         );
     });
   }
+
+  cancelTransaction(txnId: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, 3000);
+    });
+  }
 }
 
 export const transactionApi = new TransactionApi();

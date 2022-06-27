@@ -80,16 +80,15 @@ export const SellPanel: FC = (props) => {
   // 	formik.setFieldValue("receiveWallet", event.target.value);
   // };
 
-	const handlePayAmountChange = (event: any) => {
-		formik.setFieldValue("amountToSell", event.target.value);
-		//assumme GBP to USDC is 1:125 for POC
-		var receiveValue =
-			(event.target.value * (100 - picanteChargePercentage)) / 100 / 1.25;
-		setPicanteCharge((event.target.value * picanteChargePercentage) / 100);
-		formik.setFieldValue("amountReceive", receiveValue);
+  const handlePayAmountChange = (event: any) => {
+    formik.setFieldValue('amountToSell', event.target.value);
+    //assumme GBP to USDC is 1:125 for POC
+    var receiveValue = (event.target.value * (100 - picanteChargePercentage)) / 100 / 1.25;
+    setPicanteCharge((event.target.value * picanteChargePercentage) / 100);
+    formik.setFieldValue('amountReceive', receiveValue);
 
-		formik.setFieldValue("amountReward", 1);
-	};
+    formik.setFieldValue('amountReward', 1);
+  };
 
   const formik = useFormik({
     initialValues: {

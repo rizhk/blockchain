@@ -12,3 +12,28 @@ export const useOrderDetailsModal = () => {
     toggleOrderDetails,
   };
 };
+export const useCancelOrderModal = () => {
+  const [isCancelOrderShowing, setIsCancelOrderShowing] = useState(false);
+
+  function toggleCancelOrder() {
+    setIsCancelOrderShowing(!isCancelOrderShowing);
+  }
+
+  return {
+    isCancelOrderShowing,
+    toggleCancelOrder,
+  };
+};
+
+export const useCancelSubmittedModal = () => {
+  const [isCancelSubmittedShowing, setIsCancelSubmittedShowing] = useState(false);
+
+  function toggleCancelSubmitted() {
+    setIsCancelSubmittedShowing(!isCancelSubmittedShowing);
+  }
+
+  return {
+    isCancelSubmittedShowing: isCancelSubmittedShowing,
+    toggleCancelSubmitted: toggleCancelSubmitted,
+  };
+};

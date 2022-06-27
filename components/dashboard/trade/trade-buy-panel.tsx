@@ -101,17 +101,15 @@ export const BuyPanel: FC = (props) => {
     formik.setFieldValue('receiveWallet', event.target.value);
   };
 
-	const handlePayAmountChange = (event: { target: { value: any } }) => {
-		formik.setFieldValue("amountPay", event.target.value);
-		//assumme GBP to USDC is 1:1.25
-		var receiveValue =
-			((event.target.value * (100 - picanteChargePercentage)) / 100) *
-			1.25;
-		setPicanteCharge((event.target.value * picanteChargePercentage) / 100);
-		formik.setFieldValue("amountReceive", receiveValue);
+  const handlePayAmountChange = (event: { target: { value: any } }) => {
+    formik.setFieldValue('amountPay', event.target.value);
+    //assumme GBP to USDC is 1:1.25
+    var receiveValue = ((event.target.value * (100 - picanteChargePercentage)) / 100) * 1.25;
+    setPicanteCharge((event.target.value * picanteChargePercentage) / 100);
+    formik.setFieldValue('amountReceive', receiveValue);
 
-		formik.setFieldValue("amountReward", 1);
-	};
+    formik.setFieldValue('amountReward', 1);
+  };
 
   const callCreatePaymentToken = (cref: React.MutableRefObject<Object>, payment: Object) => {
     cref?.current?.callCreatePaymentToken(payment);

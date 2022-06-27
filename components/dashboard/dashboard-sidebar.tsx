@@ -62,70 +62,70 @@ const getSections = (t: TFunction): Section[] => [
     title: t(''),
     items: [
       {
-        title: t('Overview'),
+        title: t('menu.overview'),
         path: '/dashboard',
         icon: <HomeIcon fontSize="small" />,
         iconFilled: <HomeIconFilled fontSize="small" />,
       },
       {
-        title: t('Transactions'),
+        title: t('menu.transactions'),
         icon: <TransactionIcon fontSize="small" />,
         path: '/dashboard/transactions',
         iconFilled: <TransactionIconFilled fontSize="small" />,
       },
 
       {
-        title: t('Wallets'),
+        title: t('menu.wallets'),
         icon: <WalletIcon fontSize="small" />,
         path: '/dashboard/wallets',
         iconFilled: <WalletIconFilled fontSize="small" />,
       },
 
       {
-        title: t('Bank accounts'),
+        title: t('menu.bankAccounts'),
         icon: <BankIcon fontSize="small" />,
         path: '/dashboard/bank-accounts',
         iconFilled: <BankIconFilled fontSize="small" />,
       },
 
       {
-        title: t('Settings'),
+        title: t('menu.settings'),
         path: '/dashboard/logistics',
         icon: <SettingsIcon fontSize="small" />,
         iconFilled: <SettingsIconFilled fontSize="small" />,
       },
       {
-        title: t('Invite and earn'),
+        title: t('menu.inviteAndEarn'),
         path: '/invite',
         icon: <InviteIcon fontSize="small" />,
         iconFilled: <InviteIconFilled fontSize="small" />,
       },
       {
-        title: t('Reports'),
+        title: t('menu.reports'),
         path: '/reports',
         icon: <ReportsIcon fontSize="small" />,
         iconFilled: <ReportsIconFilled fontSize="small" />,
       },
       {
-        title: t('For developers'),
+        title: t('menu.forDevelopers'),
         path: '/for-developers',
         icon: <ForDevelopersIcon fontSize="small" />,
         iconFilled: <ForDevelopersIconFilled fontSize="small" />,
       },
       {
-        title: t('Help'),
+        title: t('menu.help'),
         path: '/help',
         icon: <HelpIcon fontSize="small" />,
         iconFilled: <HelpIconFilled fontSize="small" />,
       },
       {
-        title: t('Knowledgbase'),
+        title: t('menu.knowledgebase'),
         path: '/knowledgebase',
         icon: <KnowledgebaseIcon fontSize="small" />,
         iconFilled: <KnowledgebaseIconFilled fontSize="small" />,
       },
       {
-        title: t('News'),
+        title: t('menu.news'),
         path: '/news',
         icon: <NewsIcon fontSize="small" />,
         iconFilled: <NewsIconFilled fontSize="small" />,

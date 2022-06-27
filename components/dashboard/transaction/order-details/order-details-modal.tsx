@@ -3,16 +3,18 @@ import { Divider } from 'components/common/divider';
 import { TextButton } from 'components/common/text-button';
 import React, { forwardRef } from 'react';
 import ReactDOM from 'react-dom';
+import { useTranslation } from 'react-i18next';
 import { Transaction, TxnType } from 'types/transaction';
 import { primitivesUtils } from 'utils/primitives-utils';
+import OrderDetailsSummary from './order-details-summary';
 
-export interface ItxnsProps {
-  isOrderDetailsShowing: boolean;
+export interface IOrderDetailsModalProps {
+  isShowing: boolean;
   hide: () => void;
   txn: Transaction;
 }
 
-export default ({ isOrderDetailsShowing, hide, txn }: ItxnsProps): JSX.Element => {
+export default ({ isShowing, hide, txn }: IOrderDetailsModalProps): JSX.Element => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -21,69 +23,21 @@ export default ({ isOrderDetailsShowing, hide, txn }: ItxnsProps): JSX.Element =
     document.body.style.overflow = 'auto';
   };
 
-  let paidAmount = 0;
-  let receivedAmount = 0;
-  let buyerOrSeller = '';
-  if (txn?.txn_type?.toUpperCase() === TxnType.SELL) {
-    paidAmount = txn?.token_amt;
-    receivedAmount = txn?.fiat_amt;
-    buyerOrSeller = 'Buyer';
-  } else if (txn?.txn_type?.toUpperCase() === TxnType.BUY) {
-    paidAmount = txn?.token_amt;
-    receivedAmount = txn?.fiat_amt;
-    buyerOrSeller = 'Seller';
-  }
+  const { i18n, t } = useTranslation();
+
+  const buyerOrSeller =
+    txn?.txn_type?.toUpperCase() === TxnType.SELL ? t('transaction.buyer') : t('transaction.seller');
 
   return (
-    <Dialog fullScreen={fullScreen} open={isOrderDetailsShowing} onClose={handleClose}>
+    <Dialog fullScreen={fullScreen} open={isShowing} onClose={handleClose}>
       <DialogContent>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Typography variant="h6" component="h2">
-              Order details
+              Order
             </Typography>
           </Grid>
-          <Grid container item xs={12}>
-            <Grid item xs={4}>
-              <Typography variant="subtitle2">Order type</Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <Typography variant="body2">{txn?.txn_type}</Typography>
-            </Grid>
-          </Grid>
-          <Grid container item xs={12}>
-            <Grid item xs={4}>
-              <Typography variant="subtitle2">Submitted</Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <Typography display="inline" variant="body2">
-                {new Date(txn?.created_at).toLocaleDateString()}
-              </Typography>{' '}
-              <Typography display="inline" color="text.secondary" variant="body2">
-                {new Date(txn?.created_at).toLocaleTimeString()}
-              </Typography>
-            </Grid>
-          </Grid>
-          <Grid container item xs={12}>
-            <Grid item xs={4}>
-              <Typography variant="subtitle2">Amount paid</Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <Typography variant="body2">
-                {paidAmount} {txn?.token}
-              </Typography>
-            </Grid>
-          </Grid>
-          <Grid container item xs={12}>
-            <Grid item xs={4}>
-              <Typography variant="subtitle2">Amount received</Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <Typography variant="body2">
-                {receivedAmount} {txn?.fiat}
-              </Typography>
-            </Grid>
-          </Grid>
+          <OrderDetailsSummary txn={txn} />
           <Grid item xs={12} sx={{ padding: 0 }}>
             <Divider />
           </Grid>

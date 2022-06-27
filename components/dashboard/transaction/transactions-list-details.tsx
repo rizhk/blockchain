@@ -17,8 +17,11 @@ import { useMounted } from 'hooks/use-mounted';
 import { transactionApi } from 'api/transaction-api';
 import { Transaction, TxnStep } from 'types/transaction';
 import OrderDetailsModal from './order-details/order-details-modal';
-import { useOrderDetailsModal } from 'hooks/use-transaction-modal';
+import { useCancelOrderModal, useOrderDetailsModal } from 'hooks/use-transaction-modal';
 import { TextButton } from 'components/common/text-button';
+import CancelOrderModel from './order-details/cancel-order-model';
+import { ExternalLink } from 'icons/external-link';
+import { NetworkLinkButton } from 'components/common/network-link-button';
 
 const CircleIconGreen: FC = (props) => <CircleIcon color="success" fontSize="small" />;
 
@@ -63,10 +66,15 @@ export const TransactionsListDetails: FC = (props) => {
   );
 
   const { isOrderDetailsShowing, toggleOrderDetails } = useOrderDetailsModal();
+  const { isCancelOrderShowing, toggleCancelOrder } = useCancelOrderModal();
+
+  // TODO - get network link and name
+  const networkName = 'Etherscan';
 
   return (
     <>
-      <OrderDetailsModal isOrderDetailsShowing={isOrderDetailsShowing} txn={txn} hide={toggleOrderDetails} />
+      <OrderDetailsModal isShowing={isOrderDetailsShowing} txn={txn} hide={toggleOrderDetails} />
+      <CancelOrderModel isShowing={isCancelOrderShowing} txn={txn} hide={toggleCancelOrder} />
       <Box sx={{ ml: '100px', mb: '25px' }}>
         <Grid container sx={{ pt: '30px', mb: 2 }}>
           <Grid
@@ -119,14 +127,27 @@ export const TransactionsListDetails: FC = (props) => {
             </Step>
           ))}
         </Stepper>
-        {txn.status == 'in_progress' && (
-          <Button variant="outlined" color="error" sx={{ mr: 2 }}>
-            Cancel Transaction
-          </Button>
-        )}
         <TextButton onClick={toggleOrderDetails} variant="outlined">
           View order details
         </TextButton>
+        {txn.status == 'in_progress' && (
+          <>
+            <NetworkLinkButton sx={{ ml: 2 }} networkName={networkName} networkUrl={''} />
+            <Typography
+              onClick={toggleCancelOrder}
+              variant="body2"
+              sx={{
+                color: '#9E9E9E',
+                textDecorationLine: 'underline',
+                display: 'inline-block',
+                ml: 2,
+                cursor: 'pointer',
+              }}
+            >
+              Cancel Transaction
+            </Typography>
+          </>
+        )}
       </Box>
     </>
   );

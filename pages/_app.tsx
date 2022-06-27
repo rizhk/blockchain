@@ -24,7 +24,7 @@ import { gtm } from '../lib/gtm';
 import { store } from '../store';
 import { createTheme } from '../theme';
 import { createEmotionCache } from '../utils/create-emotion-cache';
-import '../i18n';
+import '../i18n/i18n';
 import 'styles/globals.scss';
 
 type EnhancedAppProps = AppProps & {

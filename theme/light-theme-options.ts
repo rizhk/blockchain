@@ -83,6 +83,11 @@ export const lightThemeOptions: ThemeOptions = {
               background: info.dark,
             },
           },
+          '&.MuiButton-containedSecondary': {
+            '&:hover': {
+              background: secondary.dark,
+            },
+          },
           '.MuiLoadingButton-loadingIndicator': {
             color: 'white',
           },
