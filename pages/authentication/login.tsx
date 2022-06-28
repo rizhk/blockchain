@@ -156,23 +156,18 @@ const Login: NextPage = () => {
                           Create account
                         </Link>
                       </NextLink>
-                      {/* <NextLink
-                  href={
-                    disableGuard
-                      ? `/authentication/password-recovery?disableGuard=${disableGuard}`
-                      : '/authentication/password-recovery'
-                  }
-                  passHref
-                >
-                  <Link
-                    color="secondary.main"
-                    variant="body1"
-                    sx={{ textDecoration: 'underline' }}
-                    ml={1}
-                  >
-                    Forgot Password
-                  </Link>
-                </NextLink> */}
+                      <NextLink
+                        href={
+                          disableGuard
+                            ? `/authentication/password-recovery?disableGuard=${disableGuard}`
+                            : '/authentication/password-recovery'
+                        }
+                        passHref
+                      >
+                        <Link color="secondary.main" variant="body1" sx={{ textDecoration: 'underline' }} ml={1}>
+                          Forgot Password
+                        </Link>
+                      </NextLink>
                     </div>
                   </form>
                 </Box>

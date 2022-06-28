@@ -242,6 +242,75 @@ class AuthApi {
       }
     });
   }
+
+  forgotPassword(email: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      try {
+        // Find the user
+        let l = {
+          email: email,
+        };
+
+        fetch(PicanteApi.RecoverPassword, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(l),
+        })
+          .then((response) => response.json())
+          .then(
+            (data) => {
+              console.log(data);
+              if (!data.error) {
+                resolve(data.message);
+              } else {
+                reject(new Error('error'));
+              }
+            },
+            (error) => {
+              reject(new Error(error.message));
+            },
+          );
+      } catch (err) {
+        console.error('[Auth Api]: ', err);
+        reject(new Error('Internal server error'));
+      }
+    });
+  }
+
+  resetPassword(recovery_key: string, password: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      try {
+        // Find the user
+        let l = {
+          recovery_key,
+          password,
+        };
+
+        fetch(PicanteApi.ResetPassword, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(l),
+        })
+          .then((response) => response.json())
+          .then(
+            (data) => {
+              console.log(data);
+              if (!data.error) {
+                resolve(data.message);
+              } else {
+                reject(new Error('error'));
+              }
+            },
+            (error) => {
+              reject(new Error(error.message));
+            },
+          );
+      } catch (err) {
+        console.error('[Auth Api]: ', err);
+        reject(new Error('Internal server error'));
+      }
+    });
+  }
 }
 
 export const authApi = new AuthApi();

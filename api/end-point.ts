@@ -16,4 +16,6 @@ export const PicanteApi = {
   TutorialSkip: PicanteApiHost + '/v1/user/tutorial/skip',
   VerifyEmail: PicanteApiHost + '/v1/user/email/verify',
   ResendVerifyCode: PicanteApiHost + '/v1/user/email/verify/resend',
+  RecoverPassword: PicanteApiHost + '/v1/user/password/recover',
+  ResetPassword: PicanteApiHost + '/v1/user/password/reset',
 };
