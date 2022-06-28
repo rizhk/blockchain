@@ -52,10 +52,6 @@ export const OverviewPrivateWallet: FC = (props) => {
           total bank account balance
         </Typography>
 
-        <Typography color="textPrimary" variant="h5">
-          total bank account balance
-        </Typography>
-        <Divider sx={{ margin: '10px 0 10px' }} />
         <Typography color="textSecondary" variant="overline" textTransform="uppercase">
           bank accounts
         </Typography>
@@ -66,7 +62,7 @@ export const OverviewPrivateWallet: FC = (props) => {
           </Grid>
           <Grid item md xs>
             <Typography variant="h6">HSBC</Typography>
-            <Typography variant="body1">xxx xxxx xxxx 2839</Typography>
+            <Typography variant="body2">xxx xxxx xxxx 2839</Typography>
           </Grid>
           <Grid item md xs>
             <Typography textAlign="right" variant="h6">
@@ -84,7 +80,7 @@ export const OverviewPrivateWallet: FC = (props) => {
           </Grid>
           <Grid item md xs>
             <Typography variant="h6">Citi</Typography>
-            <Typography variant="body1">xxx xxxx xxxx 9228</Typography>
+            <Typography variant="body2">xxx xxxx xxxx 9228</Typography>
           </Grid>
           <Grid item md xs>
             <Typography textAlign="right" variant="h6">
@@ -92,7 +88,7 @@ export const OverviewPrivateWallet: FC = (props) => {
             </Typography>
           </Grid>
         </Grid>
-
+        <Divider sx={{ mt: 2 }} />
         <Box display="flex" justifyContent="flex-end" alignItems="flex-end">
           <Button color="secondary" align="right">
             Manage Accounts

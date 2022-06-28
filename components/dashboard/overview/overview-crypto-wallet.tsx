@@ -59,7 +59,7 @@ export const OverviewCryptoWallet: FC = (props) => {
           </Grid>
           <Grid item md xs>
             <Typography variant="h6">Metamask Wallet</Typography>
-            <Typography variant="body1">1BvBM….NVN2</Typography>
+            <Typography variant="body2">1BvBM….NVN2</Typography>
           </Grid>
           <Grid item md xs>
             <Typography textAlign="right" variant="h6">
@@ -67,6 +67,7 @@ export const OverviewCryptoWallet: FC = (props) => {
             </Typography>
           </Grid>
         </Grid>
+        <Divider sx={{ mt: 2 }} />
         <Box display="flex" justifyContent="flex-end" alignItems="flex-end">
           <Button color="secondary">Connect to a different wallet</Button>
         </Box>
