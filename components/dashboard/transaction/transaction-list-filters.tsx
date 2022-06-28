@@ -222,7 +222,7 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
         sx={{
           alignItems: 'center',
           display: 'flex',
-          p: 2,
+          p: 1.5,
         }}
       >
         <SearchIcon fontSize="small" />
@@ -237,7 +237,7 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
             fullWidth
             onChange={handleQueryChange}
             onKeyUp={handleQueryKeyup}
-            placeholder="Enter a keyword"
+            placeholder="Search by type / wallet address / amount"
             value={queryValue}
           />
         </Box>
@@ -249,7 +249,8 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
             alignItems: 'center',
             display: 'flex',
             flexWrap: 'wrap',
-            p: 2,
+            p: 0.5,
+            pl: 1,
           }}
         >
           {filterItems.map((filterItem, i) => (
@@ -275,7 +276,7 @@ export const ProjectListFilters: FC<ProjectListFiltersProps> = (props) => {
           ))}
         </Box>
       ) : (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 2 }}>
           <Typography color="textSecondary" variant="subtitle2">
             No filters applied
           </Typography>

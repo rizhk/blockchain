@@ -211,14 +211,14 @@ export const BuyPanel: FC = (props) => {
         hide={toggleTokenTransfered}
       />
       <ConfirmPurchaseModal isConfirmPurchaseShowing={isConfirmPurchaseShowing} hide={toggleConfirmPurchase} />
-      <Grid container spacing={2.5} mb={2.5}>
+      <Grid container spacing={2} mb={0.5}>
         <Grid item md={8} xs={8}>
           <TextField
             error={Boolean(formik.touched.amountPay && formik.errors.amountPay)}
             helperText={formik.touched.amountPay && formik.errors.amountPay}
             fullWidth
             id="buy-form-pay"
-            label="Buy"
+            label="Enter amount"
             variant="outlined"
             value={formik.values.amountPay}
             type="number"
@@ -237,7 +237,7 @@ export const BuyPanel: FC = (props) => {
           <FiatSelector />
         </Grid>
       </Grid>
-      <Grid container spacing={2.5} mb={2.5}>
+      <Grid container spacing={2} mb={0.5}>
         <Grid item md={12} xs={12}>
           <BankAccountSelector
             error={Boolean(formik.touched.paymentMethod && formik.errors.paymentMethod)}
@@ -246,7 +246,7 @@ export const BuyPanel: FC = (props) => {
           />
         </Grid>
       </Grid>
-      <Grid container spacing={2.5} mb={2.5} sx={{ marginLeft: '0px', marginTop: '5px' }}>
+      <Grid container spacing={2} mb={0.5} sx={{ marginLeft: '0px', marginTop: '5px' }}>
         <LazyLoadImage
           src={process.env.NEXT_PUBLIC_URL + 'static/Connector.svg'} // use normal <img> attributes as props
         />
@@ -260,7 +260,7 @@ export const BuyPanel: FC = (props) => {
           </span>
         </Typography>
       </Grid>
-      <Grid container spacing={2.5} mb={2.5}>
+      <Grid container spacing={2} mb={0.5}>
         <Grid item md={8} xs={8}>
           <TextField
             fullWidth
@@ -279,7 +279,7 @@ export const BuyPanel: FC = (props) => {
           <CryptoSelector />
         </Grid>
       </Grid>
-      <Grid container spacing={2.5} mb={2.5}>
+      <Grid container spacing={2} mb={0}>
         <Grid item md={8} xs={8}>
           <TextField
             fullWidth
@@ -294,7 +294,7 @@ export const BuyPanel: FC = (props) => {
           <PicanteReward />
         </Grid>
       </Grid>
-      <Grid container spacing={4}>
+      <Grid container spacing={2}>
         <Grid item md={12} xs={12}>
           <WalletSelector
             wallets={wallets}
@@ -306,7 +306,7 @@ export const BuyPanel: FC = (props) => {
         </Grid>
       </Grid>
       {errorMessage && (
-        <Grid container spacing={4}>
+        <Grid container spacing={2}>
           <Grid item md={12} xs={12}>
             <p className="error"> {errorMessage} </p>
           </Grid>

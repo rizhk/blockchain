@@ -129,7 +129,7 @@ const Overview: NextPage = () => {
               </Grid>
             </Grid>
           </Box> */}
-          <Grid container spacing={4}>
+          <Grid container spacing={3}>
             {/* {displayBanner && (
               <Grid
                 item
@@ -152,15 +152,12 @@ const Overview: NextPage = () => {
                   My balances
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sx={{ mb: 3 }}>
                 <OverviewCryptoWallet />
               </Grid>
-              <br />
-              <Grid item xs={12}>
+              <Grid item xs={12} sx={{ mb: 3 }}>
                 <OverviewPrivateWallet />
               </Grid>
-              <br />
-              <br />
               <Typography sx={{ mb: 2 }} variant="h6">
                 My Picante tokens
               </Typography>

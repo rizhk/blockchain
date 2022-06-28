@@ -93,7 +93,6 @@ export const OverviewPrivateWallet: FC = (props) => {
           </Grid>
         </Grid>
 
-        <br />
         <Box display="flex" justifyContent="flex-end" alignItems="flex-end">
           <Button color="secondary" align="right">
             Manage Accounts

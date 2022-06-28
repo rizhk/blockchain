@@ -51,7 +51,7 @@ a {
   background-color: #fafafa;
   border: thin solid #e0e0e0;
   border-radius: 10px;
-  padding: 5px;
+  padding: 13px;
 
   .Mui-selected {
     background-color: #ffe2d9 !important;
@@ -73,6 +73,7 @@ a {
   .MuiBox-root {
     padding-left: 0 !important;
     padding-right: 0 !important;
+    padding-bottom: 0 !important;
   }
 }
 

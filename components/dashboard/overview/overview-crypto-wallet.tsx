@@ -67,9 +67,6 @@ export const OverviewCryptoWallet: FC = (props) => {
             </Typography>
           </Grid>
         </Grid>
-
-        <br />
-
         <Box display="flex" justifyContent="flex-end" alignItems="flex-end">
           <Button color="secondary">Connect to a different wallet</Button>
         </Box>

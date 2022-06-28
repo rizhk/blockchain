@@ -171,14 +171,14 @@ export const SellPanel: FC = (props) => {
       <GrantPermissionModal isGrantPermissionShowing={isGrantPermissionShowing} hide={isGrantPermissionShowing} />
       <SendTokenModal isSendTokenShowing={isSendTokenShowing} hide={isSendTokenShowing} />
       <TokenTransferedModal isTokenTransferedShowing={isTokenTransferedShowing} hide={isTokenTransferedShowing} />
-      <Grid container spacing={2.5} mb={2.5}>
+      <Grid container spacing={2} mb={0.5}>
         <Grid item md={8} xs={8}>
           <TextField
             error={Boolean(formik.touched.amountToSell && formik.errors.amountToSell)}
             helperText={formik.touched.amountToSell && formik.errors.amountToSell}
             fullWidth
             id="sell-form-amount-receive"
-            label="Sell"
+            label="Enter amount"
             type="number"
             inputProps={{
               maxLength: 13,
@@ -194,7 +194,7 @@ export const SellPanel: FC = (props) => {
           <CryptoSelector />
         </Grid>
       </Grid>
-      <Grid container spacing={2.5} mb={2.5} sx={{ marginLeft: '0px', marginTop: '5px' }}>
+      <Grid container spacing={2} mb={0.5} sx={{ marginLeft: '0px', marginTop: '5px' }}>
         <LazyLoadImage
           src={process.env.NEXT_PUBLIC_URL + 'static/Connector.svg'} // use normal <img> attributes as props
         />
@@ -213,7 +213,7 @@ export const SellPanel: FC = (props) => {
           </span>
         </Typography>
       </Grid>
-      <Grid container spacing={2.5} mb={2.5}>
+      <Grid container spacing={2} mb={0.5}>
         <Grid item md={8} xs={8}>
           <TextField
             fullWidth
@@ -233,7 +233,7 @@ export const SellPanel: FC = (props) => {
           <FiatSelector />
         </Grid>
       </Grid>
-      <Grid container spacing={2.5} mb={2.5}>
+      <Grid container spacing={2} mb={0.5}>
         <Grid item md={8} xs={8}>
           <TextField
             fullWidth
@@ -248,7 +248,7 @@ export const SellPanel: FC = (props) => {
           <PicanteReward />
         </Grid>
       </Grid>
-      <Grid container spacing={2.5}>
+      <Grid container spacing={2}>
         <Grid item md={12} xs={12}>
           <BankAccountSelector
             bankAccounts={bankAccounts}
