@@ -102,10 +102,12 @@ export const OverviewLatestTransactions: React.FC = (props) => {
 
   const handlePageChange = (event: MouseEvent<HTMLButtonElement> | null, newPage: number): void => {
     setPage(newPage);
+    document.body.style.overflow = 'auto';
   };
 
   const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setRowsPerPage(parseInt(event.target.value, 10));
+    document.body.style.overflow = 'auto';
   };
 
   // Usually query is done on backend with indexing solutions
