@@ -12,3 +12,16 @@ export const useModalLoader = () => {
     toggleModalLoader: toggleModalLoader,
   };
 };
+
+export const useLoader = () => {
+  const [isLoaderShowing, setIsLoaderShowing] = useState(false);
+
+  function toggleLoader() {
+    setIsLoaderShowing((oldIsLoaderShowing) => !oldIsLoaderShowing);
+  }
+
+  return {
+    isLoaderShowing: isLoaderShowing,
+    toggleLoader: toggleLoader,
+  };
+};

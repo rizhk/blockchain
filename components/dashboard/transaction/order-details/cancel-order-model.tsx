@@ -13,13 +13,11 @@ import {
 import { transactionApi } from 'api/transaction-api';
 import { DataDisplay } from 'components/common/data-display';
 import { Divider } from 'components/common/divider';
-import { ModalLoader } from 'components/common/modal-loader';
+import { LoadingButton } from 'components/common/loading-button';
 import { TextButton } from 'components/common/text-button';
 import useFetch from 'hooks/use-fetch';
-import { useModalLoader } from 'hooks/use-modal-loader';
-import { useMounted } from 'hooks/use-mounted';
 import { useCancelSubmittedModal } from 'hooks/use-transaction-modal';
-import React, { forwardRef, useEffect, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { Transaction, TxnType, WithdrawalPreview } from 'types/transaction';
@@ -43,21 +41,26 @@ export default ({ isShowing, hide, txn }: ICancelOrderModalProps): JSX.Element =
   };
 
   const { isCancelSubmittedShowing, toggleCancelSubmitted } = useCancelSubmittedModal();
-  const { isModalLoaderShowing, toggleModalLoader } = useModalLoader();
   const { i18n, t } = useTranslation();
 
   const onClickCancel = async () => {
-    try {
-      toggleModalLoader();
-      const data = await transactionApi.cancelTransaction(txn.id);
-      toggleModalLoader();
-      handleClose();
-      toggleCancelSubmitted();
-    } catch (err) {
-      toggleModalLoader();
-      console.error(err);
-    }
+    withdrawTransactionResetError();
+    setShouldTriggerWithdrawal(true);
   };
+  const [shouldTriggerWithdrawal, setShouldTriggerWithdrawal] = useState(false);
+
+  const {
+    loading: withdrawTransactionLoading,
+    error: withdrawTransactionError,
+    resetError: withdrawTransactionResetError,
+  } = useFetch(() => {
+    if (!shouldTriggerWithdrawal) return;
+    setShouldTriggerWithdrawal(false);
+    return transactionApi.withdrawTransaction(
+      { txn_id: txn.id },
+      { defaultErrorMessage: t('transaction.withdrawTransactionError') },
+    );
+  }, [shouldTriggerWithdrawal]);
 
   const {
     data: withdrawalPreviewData,
@@ -72,14 +75,7 @@ export default ({ isShowing, hide, txn }: ICancelOrderModalProps): JSX.Element =
 
   return (
     <>
-      <CancelSubmittedModal
-        networkName="Etherscan"
-        networkUrl=""
-        hash="0x3ee89ed1a7be434d192c0e6a6364fbcbe2f7a65bdfdee1fe4daeec05caa23ec8"
-        isShowing={isCancelSubmittedShowing}
-        hide={toggleCancelSubmitted}
-      />
-      <ModalLoader isShowing={isModalLoaderShowing} />
+      <CancelSubmittedModal isShowing={isCancelSubmittedShowing} hide={toggleCancelSubmitted} />
       <Dialog fullScreen={fullScreen} open={isShowing} onClose={handleClose}>
         <DialogContent>
           <Grid container spacing={2}>
@@ -125,12 +121,23 @@ export default ({ isShowing, hide, txn }: ICancelOrderModalProps): JSX.Element =
               </Grid>
             </Grid>
           </Grid>
+          {withdrawTransactionError && (
+            <Box mt={4} mb={1}>
+              <Alert severity="error">{withdrawTransactionError}</Alert>
+            </Box>
+          )}
           <Grid justifyContent="center" container item xs={12}>
             <Box mt={4} mb={1}>
               <TextButton onClick={hide}>{t('transaction.nevermindGoBack')}</TextButton>
-              <Button onClick={onClickCancel} variant="contained" color="secondary" sx={{ ml: 1 }}>
+              <LoadingButton
+                loading={withdrawTransactionLoading}
+                onClick={onClickCancel}
+                variant="contained"
+                color="secondary"
+                sx={{ ml: 1 }}
+              >
                 {t('transaction.confirmCancelOrder')}
-              </Button>
+              </LoadingButton>
             </Box>
           </Grid>
         </DialogContent>

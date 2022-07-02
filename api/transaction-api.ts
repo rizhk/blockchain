@@ -2,7 +2,9 @@ import { subDays, subHours } from 'date-fns';
 import type { Transaction, WithdrawalPreview } from '../types/transaction';
 import { PicanteApi } from './end-point';
 import { TransferRequest, CreateSellTxnRequest, VeriftyTokenTransferRequest } from 'types/transaction';
-class TransactionApi {
+import { BaseApi } from './base-api';
+import { BaseApiResponse } from 'types/response';
+class TransactionApi extends BaseApi {
   async createSellTxn({ offer_id, txn_hash }: { offer_id: string; txn_hash: string }): Promise<String> {
     return new Promise((resolve, reject) => {
       const accessToken = globalThis.localStorage.getItem('accessToken') || '';
@@ -146,35 +148,35 @@ class TransactionApi {
     });
   }
 
-  async fetchWithdrawalPreview({ defaultErrorMessage }: fetchWithdrawalPreviewProps): Promise<WithdrawalPreview> {
+  async fetchWithdrawalPreview(options: { defaultErrorMessage: string }): Promise<WithdrawalPreview> {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
 
-    var result = await fetch(PicanteApi.fetchWithdrawalPreview, {
+    var result = await fetch(PicanteApi.FetchWithdrawalPreview, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authentication: accessToken,
       },
     });
-    if (!result.ok) throw new Error(defaultErrorMessage);
-    var body = (await result.json()) as WithdrawalPreview;
-    if (!body) throw new Error(defaultErrorMessage);
-    var { error, message } = body;
-    if (error) throw new Error(message);
-    return body;
+    return await this.handleFetchResponse<WithdrawalPreview>(result, options);
   }
 
-  cancelTransaction(txnId: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve();
-      }, 3000);
+  async withdrawTransaction(
+    body: { txn_id: string },
+    options: { defaultErrorMessage: string },
+  ): Promise<BaseApiResponse> {
+    const accessToken = globalThis.localStorage.getItem('accessToken') || '';
+
+    var result = await fetch(PicanteApi.WithdrawTransaction, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authentication: accessToken,
+      },
+      body: JSON.stringify(body),
     });
+    return await this.handleFetchResponse(result, options);
   }
-}
-
-interface fetchWithdrawalPreviewProps {
-  defaultErrorMessage: string;
 }
 
 export const transactionApi = new TransactionApi();

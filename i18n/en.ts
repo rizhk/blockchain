@@ -16,6 +16,7 @@ export const en = {
       hash: 'Transaction Hash',
       close: 'Close',
       withdrawalPreviewError: 'Failed to get latest widthdrawal preview amounts.',
+      withdrawTransactionError: 'Failed to request for withdrawal, please try again later.',
     },
     menu: {
       overview: 'Overview',

@@ -12,12 +12,9 @@ import OrderDetailsSummary from './order-details-summary';
 export interface ICancelSubmittedModalProps {
   isShowing: boolean;
   hide: () => void;
-  hash: string;
-  networkName: string;
-  networkUrl: string;
 }
 
-export default ({ isShowing, hide, hash, networkName, networkUrl }: ICancelSubmittedModalProps): JSX.Element => {
+export default ({ isShowing, hide }: ICancelSubmittedModalProps): JSX.Element => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -42,16 +39,6 @@ export default ({ isShowing, hide, hash, networkName, networkUrl }: ICancelSubmi
               {t('transaction.cancelOrderProgressHint')}
             </Typography>
           </Grid>
-          <Grid container item xs={12}>
-            <Grid item xs={4}>
-              <Typography variant="subtitle2">{t('transaction.hash')}</Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <Typography variant="body2" sx={{ wordBreak: 'break-word' }}>
-                {hash}
-              </Typography>
-            </Grid>
-          </Grid>
         </Grid>
         <Grid item xs={12} sx={{ mt: 4 }}>
           <Divider />
@@ -59,7 +46,6 @@ export default ({ isShowing, hide, hash, networkName, networkUrl }: ICancelSubmi
         <Grid justifyContent="center" container item xs={12}>
           <Box mt={4} mb={1}>
             <TextButton onClick={hide}>{t('transaction.close')}</TextButton>
-            <NetworkLinkButton sx={{ ml: 2 }} networkName={networkName} networkUrl={networkUrl} />
           </Box>
         </Grid>
       </DialogContent>

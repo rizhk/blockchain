@@ -6,6 +6,9 @@ export default function useFetch<T>(fetchFn: () => Promise<T> | undefined, deps:
   const [data, setData] = useState<T>();
   const [error, setError] = useState<string>();
   const [loading, setLoading] = useState(false);
+  const resetError = () => {
+    setError(undefined);
+  };
 
   useEffect(() => {
     (async function () {
@@ -22,7 +25,7 @@ export default function useFetch<T>(fetchFn: () => Promise<T> | undefined, deps:
         if (isMounted()) setLoading(false);
       }
     })();
-  }, [...deps]);
+  }, [JSON.stringify(deps)]);
 
-  return { data, error, loading };
+  return { data, error, loading, resetError };
 }
