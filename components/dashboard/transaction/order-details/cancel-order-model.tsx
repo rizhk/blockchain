@@ -1,14 +1,28 @@
-import { Box, Dialog, DialogContent, Typography, Grid, useTheme, useMediaQuery, Button } from '@mui/material';
+import {
+  Box,
+  Dialog,
+  DialogContent,
+  Typography,
+  Grid,
+  useTheme,
+  useMediaQuery,
+  Button,
+  Alert,
+  Skeleton,
+} from '@mui/material';
 import { transactionApi } from 'api/transaction-api';
+import { DataDisplay } from 'components/common/data-display';
 import { Divider } from 'components/common/divider';
 import { ModalLoader } from 'components/common/modal-loader';
 import { TextButton } from 'components/common/text-button';
+import useFetch from 'hooks/use-fetch';
 import { useModalLoader } from 'hooks/use-modal-loader';
+import { useMounted } from 'hooks/use-mounted';
 import { useCancelSubmittedModal } from 'hooks/use-transaction-modal';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
-import { Transaction, TxnType } from 'types/transaction';
+import { Transaction, TxnType, WithdrawalPreview } from 'types/transaction';
 import { primitivesUtils } from 'utils/primitives-utils';
 import CancelSubmittedModal from './cancel-submitted-modal';
 import OrderDetailsSummary from './order-details-summary';
@@ -45,6 +59,17 @@ export default ({ isShowing, hide, txn }: ICancelOrderModalProps): JSX.Element =
     }
   };
 
+  const {
+    data: withdrawalPreviewData,
+    loading: withdrawalPreviewLoading,
+    error: withdrawalPreviewError,
+  } = useFetch(() => {
+    if (!isShowing) return;
+    return transactionApi.fetchWithdrawalPreview({
+      defaultErrorMessage: t('transaction.withdrawalPreviewError'),
+    });
+  }, [isShowing]);
+
   return (
     <>
       <CancelSubmittedModal
@@ -72,18 +97,30 @@ export default ({ isShowing, hide, txn }: ICancelOrderModalProps): JSX.Element =
                 <Typography variant="subtitle2">{t('transaction.cancellationGasFee')}</Typography>
               </Grid>
               <Grid item xs={8}>
-                <Typography variant="body2">{txn?.status}</Typography>
+                <Typography variant="body2">
+                  <DataDisplay
+                    defaultLoaderOptions={{ width: 100 }}
+                    isLoading={withdrawalPreviewLoading}
+                    error={withdrawalPreviewError}
+                  >
+                    <>
+                      {withdrawalPreviewData?.pay_gem_amt}
+                      {withdrawalPreviewData?.pay_gem_token} ({withdrawalPreviewData?.suggested_gas_fee}{' '}
+                      {withdrawalPreviewData?.chain_token})
+                    </>
+                  </DataDisplay>
+                </Typography>
               </Grid>
             </Grid>
             <Grid container item xs={12}>
               <Grid item xs={4}>
                 <Typography variant="subtitle2" color="secondary.main">
-                  {t('transaction.warning')}
+                  {t('transaction.warningTitle')}
                 </Typography>
               </Grid>
               <Grid item xs={8}>
                 <Typography variant="body2" color="secondary.main">
-                  {txn?.status}
+                  {t('transaction.warningMessage')}
                 </Typography>
               </Grid>
             </Grid>

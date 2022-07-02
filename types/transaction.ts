@@ -1,3 +1,5 @@
+import { BaseApiResponse } from './response';
+
 export interface Transaction {
   id: string;
   sk: string;
@@ -86,4 +88,11 @@ export const transactionRecentOptions = [
 export enum TxnType {
   SELL = 'SELL',
   BUY = 'BUY',
+}
+
+export interface WithdrawalPreview extends BaseApiResponse {
+  chain_token: string;
+  suggested_gas_fee: number;
+  pay_gem_token: string;
+  pay_gem_amt: number;
 }

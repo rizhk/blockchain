@@ -1,5 +1,5 @@
 import { subDays, subHours } from 'date-fns';
-import type { Transaction } from '../types/transaction';
+import type { Transaction, WithdrawalPreview } from '../types/transaction';
 import { PicanteApi } from './end-point';
 import { TransferRequest, CreateSellTxnRequest, VeriftyTokenTransferRequest } from 'types/transaction';
 class TransactionApi {
@@ -146,6 +146,24 @@ class TransactionApi {
     });
   }
 
+  async fetchWithdrawalPreview({ defaultErrorMessage }: fetchWithdrawalPreviewProps): Promise<WithdrawalPreview> {
+    const accessToken = globalThis.localStorage.getItem('accessToken') || '';
+
+    var result = await fetch(PicanteApi.fetchWithdrawalPreview, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authentication: accessToken,
+      },
+    });
+    if (!result.ok) throw new Error(defaultErrorMessage);
+    var body = (await result.json()) as WithdrawalPreview;
+    if (!body) throw new Error(defaultErrorMessage);
+    var { error, message } = body;
+    if (error) throw new Error(message);
+    return body;
+  }
+
   cancelTransaction(txnId: string): Promise<void> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -153,6 +171,10 @@ class TransactionApi {
       }, 3000);
     });
   }
+}
+
+interface fetchWithdrawalPreviewProps {
+  defaultErrorMessage: string;
 }
 
 export const transactionApi = new TransactionApi();
