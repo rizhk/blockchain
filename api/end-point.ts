@@ -18,6 +18,6 @@ export const PicanteApi = {
   ResendVerifyCode: PicanteApiHost + '/v1/user/email/verify/resend',
   RecoverPassword: PicanteApiHost + '/v1/user/password/recover',
   ResetPassword: PicanteApiHost + '/v1/user/password/reset',
-  FetchWithdrawalPreview: PicanteApiHost + '/v1/market/transaction/sell/withdraw/preview',
-  WithdrawTransaction: PicanteApiHost + '/v1/market/transaction/sell/withdraw/request',
+  FetchWithdrawalPreview: PicanteApiHost + '/v1/market/transaction/sell/withdrawal/preview',
+  WithdrawTransaction: PicanteApiHost + '/v1/market/transaction/sell/withdraw',
 };

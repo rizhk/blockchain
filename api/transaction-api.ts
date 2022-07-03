@@ -14,8 +14,6 @@ class TransactionApi extends BaseApi {
         txn_hash: txn_hash,
       };
 
-      console.log(req);
-
       fetch(PicanteApi.SellTxn, {
         method: 'POST',
         headers: {
