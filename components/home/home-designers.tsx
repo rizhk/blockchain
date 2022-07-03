@@ -10,23 +10,13 @@ export const HomeDesigners: FC = (props) => {
     <Box
       sx={{
         backgroundColor: 'background.paper',
-        py: 15
+        py: 15,
       }}
       {...props}
     >
       <Container maxWidth="lg">
-        <Grid
-          alignItems="center"
-          container
-          justifyContent="center"
-          spacing={3}
-        >
-          <Grid
-            item
-            md={6}
-            sm={8}
-            xs={12}
-          >
+        <Grid alignItems="center" container justifyContent="center" spacing={3}>
+          <Grid item md={6} sm={8} xs={12}>
             <Box
               sx={{
                 position: 'relative',
@@ -35,37 +25,24 @@ export const HomeDesigners: FC = (props) => {
                   height: 'auto',
                   position: 'absolute',
                   top: 0,
-                  width: '100%'
-                }
+                  width: '100%',
+                },
               }}
             >
-              <img
-                alt="For designers"
-                src={`/static/home/designers_${theme.palette.mode}.png`}
-              />
+              <img alt="For designers" src={`/static/home/designers_${theme.palette.mode}.png`} />
             </Box>
           </Grid>
-          <Grid
-            item
-            md={6}
-            xs={12}
-          >
-            <Typography variant="h3">
-              For designers
-            </Typography>
-            <Typography
-              color="textSecondary"
-              sx={{ my: 3 }}
-              variant="subtitle1"
-            >
-              We &apos; ve included the source Figma files to Plus & Extended licenses so you can
-              get creative! Build layouts with confidence.
+          <Grid item md={6} xs={12}>
+            <Typography variant="h3">For designers</Typography>
+            <Typography color="textSecondary" sx={{ my: 3 }} variant="subtitle1">
+              We &apos; ve included the source Figma files to Plus & Extended licenses so you can get creative! Build
+              layouts with confidence.
             </Typography>
             <Box
               sx={{
                 display: 'flex',
                 flexWrap: 'wrap',
-                m: -1
+                m: -1,
               }}
             >
               <Button

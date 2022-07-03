@@ -8,7 +8,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
-  signOut
+  signOut,
 } from 'firebase/auth';
 import { firebaseApp } from '../lib/firebase';
 import type { User } from '../types/user';
@@ -23,10 +23,7 @@ interface State {
 
 export interface AuthContextValue extends State {
   platform: 'Firebase';
-  createUserWithEmailAndPassword: (
-    email: string,
-    password: string
-  ) => Promise<any>;
+  createUserWithEmailAndPassword: (email: string, password: string) => Promise<any>;
   signInWithEmailAndPassword: (email: string, password: string) => Promise<any>;
   signInWithGoogle: () => Promise<any>;
   logout: () => Promise<void>;
@@ -37,7 +34,7 @@ interface AuthProviderProps {
 }
 
 enum ActionType {
-  AUTH_STATE_CHANGED = 'AUTH_STATE_CHANGED'
+  AUTH_STATE_CHANGED = 'AUTH_STATE_CHANGED',
 }
 
 type AuthStateChangedAction = {
@@ -53,7 +50,7 @@ type Action = AuthStateChangedAction;
 const initialState: State = {
   isAuthenticated: false,
   isInitialized: false,
-  user: null
+  user: null,
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -64,7 +61,7 @@ const reducer = (state: State, action: Action): State => {
       ...state,
       isAuthenticated,
       isInitialized: true,
-      user
+      user,
     };
   }
 
@@ -77,40 +74,44 @@ export const AuthContext = createContext<AuthContextValue>({
   createUserWithEmailAndPassword: () => Promise.resolve(),
   signInWithEmailAndPassword: () => Promise.resolve(),
   signInWithGoogle: () => Promise.resolve(),
-  logout: () => Promise.resolve()
+  logout: () => Promise.resolve(),
 });
 
 export const AuthProvider: FC<AuthProviderProps> = (props) => {
   const { children } = props;
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  useEffect(() => onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // Here you should extract the complete user profile to make it available in your entire app.
-      // The auth state only provides basic information.
-      dispatch({
-        type: ActionType.AUTH_STATE_CHANGED,
-        payload: {
-          isAuthenticated: true,
-          user: {
-            id: user.uid,
-            avatar: user.photoURL || undefined,
-            email: user.email || 'anika.visser@devias.io',
-            name: 'Anika Visser',
-            plan: 'Premium'
-          }
+  useEffect(
+    () =>
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // Here you should extract the complete user profile to make it available in your entire app.
+          // The auth state only provides basic information.
+          dispatch({
+            type: ActionType.AUTH_STATE_CHANGED,
+            payload: {
+              isAuthenticated: true,
+              user: {
+                id: user.uid,
+                avatar: user.photoURL || undefined,
+                email: user.email || 'anika.visser@devias.io',
+                name: 'Anika Visser',
+                plan: 'Premium',
+              },
+            },
+          });
+        } else {
+          dispatch({
+            type: ActionType.AUTH_STATE_CHANGED,
+            payload: {
+              isAuthenticated: false,
+              user: null,
+            },
+          });
         }
-      });
-    } else {
-      dispatch({
-        type: ActionType.AUTH_STATE_CHANGED,
-        payload: {
-          isAuthenticated: false,
-          user: null
-        }
-      });
-    }
-  }), [dispatch]);
+      }),
+    [dispatch],
+  );
 
   const _signInWithEmailAndPassword = async (email: string, password: string): Promise<void> => {
     await signInWithEmailAndPassword(auth, email, password);
@@ -124,7 +125,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
 
   const _createUserWithEmailAndPassword = async (email: string, password: string): Promise<void> => {
     await createUserWithEmailAndPassword(auth, email, password);
-  }
+  };
 
   const logout = async (): Promise<void> => {
     await signOut(auth);
@@ -138,7 +139,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
         createUserWithEmailAndPassword: _createUserWithEmailAndPassword,
         signInWithEmailAndPassword: _signInWithEmailAndPassword,
         signInWithGoogle,
-        logout
+        logout,
       }}
     >
       {children}
@@ -147,7 +148,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
 };
 
 AuthProvider.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export const AuthConsumer = AuthContext.Consumer;

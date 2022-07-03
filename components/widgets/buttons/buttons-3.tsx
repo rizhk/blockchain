@@ -1,23 +1,9 @@
 import { useState, useRef } from 'react';
 import type { FC } from 'react';
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  ClickAwayListener,
-  Grow,
-  MenuItem,
-  MenuList,
-  Paper,
-  Popper
-} from '@mui/material';
+import { Box, Button, ButtonGroup, ClickAwayListener, Grow, MenuItem, MenuList, Paper, Popper } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-const options = [
-  'Create a merge commit',
-  'Squash and merge',
-  'Rebase and merge'
-];
+const options = ['Create a merge commit', 'Squash and merge', 'Rebase and merge'];
 
 export const Buttons3: FC = () => {
   const anchorRef = useRef<HTMLDivElement>(null);
@@ -45,37 +31,21 @@ export const Buttons3: FC = () => {
     <Box
       sx={{
         backgroundColor: 'background.paper',
-        p: 3
+        p: 3,
       }}
     >
-      <ButtonGroup
-        ref={anchorRef}
-        variant="contained"
-      >
-        <Button>
-          {options[selectedIndex]}
-        </Button>
-        <Button
-          onClick={handleToggle}
-          size="small"
-          sx={{ backgroundColor: 'primary.dark' }}
-        >
+      <ButtonGroup ref={anchorRef} variant="contained">
+        <Button>{options[selectedIndex]}</Button>
+        <Button onClick={handleToggle} size="small" sx={{ backgroundColor: 'primary.dark' }}>
           <ArrowDropDownIcon fontSize="small" />
         </Button>
       </ButtonGroup>
-      <Popper
-        anchorEl={anchorRef.current}
-        open={open}
-        transition
-      >
+      <Popper anchorEl={anchorRef.current} open={open} transition>
         {({ TransitionProps, placement }) => (
           <Grow
             {...TransitionProps}
             style={{
-              transformOrigin:
-                placement === 'bottom'
-                  ? 'center top'
-                  : 'center bottom'
+              transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom',
             }}
           >
             <Paper>

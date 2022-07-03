@@ -14,7 +14,7 @@ export const Auth0Login: FC = (props) => {
   const handleLogin = async (): Promise<void> => {
     try {
       await loginWithRedirect({
-        returnUrl: (router.query.returnUrl as string | undefined) || '/dashboard'
+        returnUrl: (router.query.returnUrl as string | undefined) || '/dashboard',
       });
     } catch (err) {
       console.error(err);
@@ -29,21 +29,16 @@ export const Auth0Login: FC = (props) => {
     <div {...props}>
       {error && (
         <Box sx={{ my: 3 }}>
-          <FormHelperText error>
-            {error}
-          </FormHelperText>
+          <FormHelperText error>{error}</FormHelperText>
         </Box>
       )}
       <Box
         sx={{
           display: 'flex',
-          justifyContent: 'center'
+          justifyContent: 'center',
         }}
       >
-        <Button
-          onClick={handleLogin}
-          variant="contained"
-        >
+        <Button onClick={handleLogin} variant="contained">
           Log In
         </Button>
       </Box>

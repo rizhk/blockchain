@@ -1,69 +1,66 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export const usePaymentModal = () => {
-	const [isPaymentShowing, setIsPaymentShowing] = useState(false);
+  const [isPaymentShowing, setIsPaymentShowing] = useState(false);
 
-	function togglePayment() {
-		setIsPaymentShowing(!isPaymentShowing);
-	}
+  function togglePayment() {
+    setIsPaymentShowing(!isPaymentShowing);
+  }
 
-	return {
-		isPaymentShowing,
-		togglePayment,
-	};
+  return {
+    isPaymentShowing,
+    togglePayment,
+  };
 };
 
 export const useMatchingOfferModal = () => {
-	const [isMatchingOfferShowing, setIsMatchingOfferShowing] = useState(false);
+  const [isMatchingOfferShowing, setIsMatchingOfferShowing] = useState(false);
 
-	function toggleMatchingOffer() {
-		setIsMatchingOfferShowing(!isMatchingOfferShowing);
-	}
+  function toggleMatchingOffer() {
+    setIsMatchingOfferShowing(!isMatchingOfferShowing);
+  }
 
-	return {
-		isMatchingOfferShowing,
-		toggleMatchingOffer,
-	};
+  return {
+    isMatchingOfferShowing,
+    toggleMatchingOffer,
+  };
 };
 
 export const useRequestTransferModal = () => {
-	const [isRequestTransferShowing, setIsRequestTransferShowing] =
-		useState(false);
+  const [isRequestTransferShowing, setIsRequestTransferShowing] = useState(false);
 
-	function toggleRequestTransfer() {
-		setIsRequestTransferShowing(!isRequestTransferShowing);
-	}
+  function toggleRequestTransfer() {
+    setIsRequestTransferShowing(!isRequestTransferShowing);
+  }
 
-	return {
-		isRequestTransferShowing,
-		toggleRequestTransfer,
-	};
+  return {
+    isRequestTransferShowing,
+    toggleRequestTransfer,
+  };
 };
 
 export const useTokenTransferedModal = () => {
-	const [isTokenTransferedShowing, setIsTokenTransferedShowing] =
-		useState(false);
+  const [isTokenTransferedShowing, setIsTokenTransferedShowing] = useState(false);
 
-	function toggleTokenTransfered() {
-		setIsTokenTransferedShowing(!isTokenTransferedShowing);
-	}
+  function toggleTokenTransfered() {
+    setIsTokenTransferedShowing(!isTokenTransferedShowing);
+  }
 
-	return {
-		isTokenTransferedShowing,
-		toggleTokenTransfered,
-	};
+  return {
+    isTokenTransferedShowing,
+    toggleTokenTransfered,
+  };
 };
 
 export const useConfirmPurchaseModal = () => {
-	const [isConfirmPurchaseShowing, setIsConfirmPurchaseShowing] =
-		useState(false);
+  const [isConfirmPurchaseShowing, setIsConfirmPurchaseShowing] = useState(false);
 
-	function toggleConfirmPurchase() {
-		setIsConfirmPurchaseShowing(!isConfirmPurchaseShowing);
-	}
+  function toggleConfirmPurchase() {
+    setIsConfirmPurchaseShowing(!isConfirmPurchaseShowing);
+  }
 
-	return {
-		isConfirmPurchaseShowing,
-		toggleConfirmPurchase,
-	};
+  return {
+    isConfirmPurchaseShowing,
+    toggleConfirmPurchase,
+  };
 };

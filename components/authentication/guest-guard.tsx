@@ -29,7 +29,7 @@ export const GuestGuard: FC<GuestGuardProps> = (props) => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [router.isReady]
+    [router.isReady],
   );
 
   if (!checked) {
@@ -43,5 +43,5 @@ export const GuestGuard: FC<GuestGuardProps> = (props) => {
 };
 
 GuestGuard.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };

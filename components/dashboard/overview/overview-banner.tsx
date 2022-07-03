@@ -18,9 +18,9 @@ export const OverviewBanner: FC<OverviewBannerProps> = (props) => {
         display: 'flex',
         flexDirection: {
           xs: 'column',
-          md: 'row'
+          md: 'row',
         },
-        p: 4
+        p: 4,
       }}
       {...other}
     >
@@ -31,42 +31,24 @@ export const OverviewBanner: FC<OverviewBannerProps> = (props) => {
           height: 200,
           '& img': {
             height: 200,
-            width: 'auto'
-          }
+            width: 'auto',
+          },
         }}
       >
-        <img
-          alt=""
-          src="/static/banner-illustration.png"
-        />
+        <img alt="" src="/static/banner-illustration.png" />
       </Box>
       <div>
         <div>
-          <Chip
-            color="secondary"
-            label="New"
-          />
+          <Chip color="secondary" label="New" />
         </div>
-        <Typography
-          color="inherit"
-          sx={{ mt: 2 }}
-          variant="h4"
-        >
+        <Typography color="inherit" sx={{ mt: 2 }} variant="h4">
           Welcome to {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX} v5!
         </Typography>
-        <Typography
-          color="inherit"
-          sx={{ mt: 1 }}
-          variant="subtitle2"
-        >
+        <Typography color="inherit" sx={{ mt: 1 }} variant="subtitle2">
           Your dashboard has been improved! Explore new features like Notifications, Search, Jobs Platform and more.
         </Typography>
         <Box sx={{ mt: 2 }}>
-          <Button
-            color="secondary"
-            onClick={onDismiss}
-            variant="contained"
-          >
+          <Button color="secondary" onClick={onDismiss} variant="contained">
             Dismiss Banner
           </Button>
         </Box>
@@ -76,5 +58,5 @@ export const OverviewBanner: FC<OverviewBannerProps> = (props) => {
 };
 
 OverviewBanner.propTypes = {
-  onDismiss: PropTypes.func
+  onDismiss: PropTypes.func,
 };

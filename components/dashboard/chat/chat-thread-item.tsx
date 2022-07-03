@@ -22,7 +22,7 @@ const formatDistanceLocale: Record<string, string> = {
   aboutXYears: '{{count}}y',
   xYears: '{{count}}y',
   overXYears: '{{count}}y',
-  almostXYears: '{{count}}y'
+  almostXYears: '{{count}}y',
 };
 
 const customLocale: Locale = {
@@ -41,7 +41,7 @@ const customLocale: Locale = {
     }
 
     return result;
-  }
+  },
 };
 
 interface ChatThreadItemProps {
@@ -55,23 +55,17 @@ export const ChatThreadItem: FC<ChatThreadItemProps> = (props) => {
   // To get the user from the authContext, you can use
   // `const { user } = useAuth();`
   const user = {
-    id: '5e86809283e28b96d2d38537'
+    id: '5e86809283e28b96d2d38537',
   };
 
-  const recipients = thread.participants!.filter((participant) => (
-    participant.id !== user.id
-  ));
+  const recipients = thread.participants!.filter((participant) => participant.id !== user.id);
   const lastMessage = thread.messages[thread.messages.length - 1];
-  const name = recipients
-    .reduce((names: string[], participant) => [...names, participant.name], [])
-    .join(', ');
+  const name = recipients.reduce((names: string[], participant) => [...names, participant.name], []).join(', ');
   let content = '';
 
   if (lastMessage) {
     const author = lastMessage.authorId === user.id ? 'Me: ' : '';
-    const message = lastMessage.contentType === 'image'
-      ? 'Sent a photo'
-      : lastMessage.body;
+    const message = lastMessage.contentType === 'image' ? 'Sent a photo' : lastMessage.body;
 
     content = `${author}${message}`;
   }
@@ -84,12 +78,12 @@ export const ChatThreadItem: FC<ChatThreadItemProps> = (props) => {
       onClick={onSelect}
       sx={{
         ...(active && {
-          backgroundColor: 'action.selected'
+          backgroundColor: 'action.selected',
         }),
         cursor: 'pointer',
         overflow: 'hidden',
         px: 2,
-        py: 3
+        py: 3,
       }}
       {...other}
     >
@@ -98,32 +92,30 @@ export const ChatThreadItem: FC<ChatThreadItemProps> = (props) => {
           display: 'flex',
           justifyContent: {
             sm: 'flex-start',
-            xs: 'center'
-          }
+            xs: 'center',
+          },
         }}
       >
         <AvatarGroup
           max={2}
           sx={{
-            '& .MuiAvatar-root': recipients.length > 1
-              ? {
-                height: 26,
-                width: 26,
-                '&:nth-of-type(2)': {
-                  mt: '10px'
-                }
-              }
-              : {
-                height: 36,
-                width: 36
-              }
+            '& .MuiAvatar-root':
+              recipients.length > 1
+                ? {
+                    height: 26,
+                    width: 26,
+                    '&:nth-of-type(2)': {
+                      mt: '10px',
+                    },
+                  }
+                : {
+                    height: 36,
+                    width: 36,
+                  },
           }}
         >
           {recipients.map((recipient) => (
-            <Avatar
-              key={recipient.id}
-              src={recipient.avatar || undefined}
-            />
+            <Avatar key={recipient.id} src={recipient.avatar || undefined} />
           ))}
         </AvatarGroup>
       </ListItemAvatar>
@@ -131,19 +123,16 @@ export const ChatThreadItem: FC<ChatThreadItemProps> = (props) => {
         sx={{
           flexGrow: 1,
           mr: 2,
-          overflow: 'hidden'
+          overflow: 'hidden',
         }}
       >
-        <Typography
-          noWrap
-          variant="subtitle2"
-        >
+        <Typography noWrap variant="subtitle2">
           {name}
         </Typography>
         <Box
           sx={{
             alignItems: 'center',
-            display: 'flex'
+            display: 'flex',
           }}
         >
           {Boolean(thread.unreadCount && thread.unreadCount > 0) && (
@@ -153,33 +142,20 @@ export const ChatThreadItem: FC<ChatThreadItemProps> = (props) => {
                 borderRadius: '50%',
                 height: 8,
                 mr: 1,
-                width: 8
+                width: 8,
               }}
             />
           )}
-          <Typography
-            color="textSecondary"
-            noWrap
-            sx={{ flexGrow: 1 }}
-            variant="subtitle2"
-          >
+          <Typography color="textSecondary" noWrap sx={{ flexGrow: 1 }} variant="subtitle2">
             {content}
           </Typography>
         </Box>
       </Box>
-      <Typography
-        color="textSecondary"
-        sx={{ whiteSpace: 'nowrap' }}
-        variant="caption"
-      >
-        {formatDistanceStrict(
-          lastMessage.createdAt,
-          new Date(),
-          {
-            addSuffix: false,
-            locale: customLocale
-          }
-        )}
+      <Typography color="textSecondary" sx={{ whiteSpace: 'nowrap' }} variant="caption">
+        {formatDistanceStrict(lastMessage.createdAt, new Date(), {
+          addSuffix: false,
+          locale: customLocale,
+        })}
       </Typography>
     </ListItem>
   );
@@ -189,9 +165,9 @@ ChatThreadItem.propTypes = {
   active: PropTypes.bool,
   onSelect: PropTypes.func,
   // @ts-ignore
-  thread: PropTypes.object.isRequired
+  thread: PropTypes.object.isRequired,
 };
 
 ChatThreadItem.defaultProps = {
-  active: false
+  active: false,
 };

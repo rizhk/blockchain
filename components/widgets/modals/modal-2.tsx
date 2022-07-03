@@ -9,16 +9,16 @@ interface LanguageOption {
 const languageOptions: LanguageOption[] = [
   {
     icon: '/static/icons/uk_flag.svg',
-    label: 'English'
+    label: 'English',
   },
   {
     icon: '/static/icons/de_flag.svg',
-    label: 'German'
+    label: 'German',
   },
   {
     icon: '/static/icons/es_flag.svg',
-    label: 'Spanish'
-  }
+    label: 'Spanish',
+  },
 ];
 
 export const Modal2: FC = () => (
@@ -26,14 +26,14 @@ export const Modal2: FC = () => (
     sx={{
       backgroundColor: 'background.default',
       minHeight: '100%',
-      p: 3
+      p: 3,
     }}
   >
     <Paper
       elevation={12}
       sx={{
         width: 240,
-        mx: 'auto'
+        mx: 'auto',
       }}
     >
       {languageOptions.map((languageOption) => (
@@ -45,25 +45,19 @@ export const Modal2: FC = () => (
                 height: 20,
                 width: 20,
                 '& img': {
-                  width: '100%'
-                }
+                  width: '100%',
+                },
               }}
             >
-              <img
-                alt={languageOption.label}
-                src={languageOption.icon}
-              />
+              <img alt={languageOption.label} src={languageOption.icon} />
             </Box>
           </ListItemIcon>
           <ListItemText
-            primary={(
-              <Typography
-                color="textPrimary"
-                variant="subtitle2"
-              >
+            primary={
+              <Typography color="textPrimary" variant="subtitle2">
                 {languageOption.label}
               </Typography>
-            )}
+            }
           />
         </MenuItem>
       ))}

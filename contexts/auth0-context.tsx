@@ -51,19 +51,16 @@ type LoginAction = {
 
 type LogoutAction = {
   type: ActionType.LOGOUT;
-}
+};
 
-type Action =
-  | InitializeAction
-  | LoginAction
-  | LogoutAction;
+type Action = InitializeAction | LoginAction | LogoutAction;
 
 type Handler = (state: State, action: any) => State;
 
 const initialState: State = {
   isAuthenticated: false,
   isInitialized: false,
-  user: null
+  user: null,
 };
 
 const handlers: Record<ActionType, Handler> = {
@@ -74,7 +71,7 @@ const handlers: Record<ActionType, Handler> = {
       ...state,
       isAuthenticated,
       isInitialized: true,
-      user
+      user,
     };
   },
   LOGIN: (state: State, action: LoginAction): State => {
@@ -83,26 +80,25 @@ const handlers: Record<ActionType, Handler> = {
     return {
       ...state,
       isAuthenticated: true,
-      user
+      user,
     };
   },
   LOGOUT: (state: State): State => ({
     ...state,
     isAuthenticated: false,
-    user: null
-  })
+    user: null,
+  }),
 };
 
-const reducer = (state: State, action: Action): State => (
-  handlers[action.type] ? handlers[action.type](state, action) : state
-);
+const reducer = (state: State, action: Action): State =>
+  handlers[action.type] ? handlers[action.type](state, action) : state;
 
 export const AuthContext = createContext<AuthContextValue>({
   ...initialState,
   platform: 'Auth0',
   loginWithRedirect: () => Promise.resolve(),
   handleRedirectCallback: () => Promise.resolve(undefined),
-  logout: () => Promise.resolve()
+  logout: () => Promise.resolve(),
 });
 
 export const AuthProvider: FC<AuthProviderProps> = (props) => {
@@ -116,7 +112,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
           redirect_uri: window.location.origin + '/authentication/authorize',
           domain: auth0Config.domain!,
           client_id: auth0Config.client_id!,
-          cacheLocation: 'localstorage'
+          cacheLocation: 'localstorage',
         });
 
         await auth0Client.checkSession();
@@ -139,17 +135,17 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
                 avatar: user!.picture,
                 email: user!.email as string,
                 name: 'Anika Visser',
-                plan: 'Premium'
-              }
-            }
+                plan: 'Premium',
+              },
+            },
           });
         } else {
           dispatch({
             type: ActionType.INITIALIZE,
             payload: {
               isAuthenticated,
-              user: null
-            }
+              user: null,
+            },
           });
         }
       } catch (err) {
@@ -158,8 +154,8 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
           type: ActionType.INITIALIZE,
           payload: {
             isAuthenticated: false,
-            user: null
-          }
+            user: null,
+          },
         });
       }
     };
@@ -169,7 +165,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
 
   const loginWithRedirect = async (appState?: AppState): Promise<void> => {
     await auth0Client!.loginWithRedirect({
-      appState
+      appState,
     });
   };
 
@@ -188,9 +184,9 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
           avatar: user!.picture,
           email: user!.email as string,
           name: 'Anika Visser',
-          plan: 'Premium'
-        }
-      }
+          plan: 'Premium',
+        },
+      },
     });
 
     return result.appState;
@@ -199,7 +195,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
   const logout = async (): Promise<void> => {
     await auth0Client!.logout();
     dispatch({
-      type: ActionType.LOGOUT
+      type: ActionType.LOGOUT,
     });
   };
 
@@ -210,7 +206,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
         platform: 'Auth0',
         loginWithRedirect,
         handleRedirectCallback,
-        logout
+        logout,
       }}
     >
       {children}
@@ -219,7 +215,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
 };
 
 AuthProvider.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export const AuthConsumer = AuthContext.Consumer;

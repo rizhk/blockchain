@@ -21,11 +21,7 @@ export interface AuthContextValue extends State {
   verifyCode: (username: string, code: string) => Promise<void>;
   resendCode: (username: string) => Promise<void>;
   passwordRecovery: (username: string) => Promise<void>;
-  passwordReset: (
-    username: string,
-    code: string,
-    newPassword: string
-  ) => Promise<void>;
+  passwordReset: (username: string, code: string, newPassword: string) => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -55,19 +51,16 @@ type LoginAction = {
 
 type LogoutAction = {
   type: ActionType.LOGOUT;
-}
+};
 
-type Action =
-  | InitializeAction
-  | LoginAction
-  | LogoutAction;
+type Action = InitializeAction | LoginAction | LogoutAction;
 
 type Handler = (state: State, action: any) => State;
 
 const initialState: State = {
   isAuthenticated: false,
   isInitialized: false,
-  user: null
+  user: null,
 };
 
 const handlers: Record<ActionType, Handler> = {
@@ -78,7 +71,7 @@ const handlers: Record<ActionType, Handler> = {
       ...state,
       isAuthenticated,
       isInitialized: true,
-      user
+      user,
     };
   },
   LOGIN: (state: State, action: LoginAction): State => {
@@ -87,19 +80,18 @@ const handlers: Record<ActionType, Handler> = {
     return {
       ...state,
       isAuthenticated: true,
-      user
+      user,
     };
   },
   LOGOUT: (state: State): State => ({
     ...state,
     isAuthenticated: false,
-    user: null
-  })
+    user: null,
+  }),
 };
 
-const reducer = (state: State, action: Action): State => (
-  handlers[action.type] ? handlers[action.type](state, action) : state
-);
+const reducer = (state: State, action: Action): State =>
+  handlers[action.type] ? handlers[action.type](state, action) : state;
 
 export const AuthContext = createContext<AuthContextValue>({
   ...initialState,
@@ -110,7 +102,7 @@ export const AuthContext = createContext<AuthContextValue>({
   verifyCode: () => Promise.resolve(),
   resendCode: () => Promise.resolve(),
   passwordRecovery: () => Promise.resolve(),
-  passwordReset: () => Promise.resolve()
+  passwordReset: () => Promise.resolve(),
 });
 
 export const AuthProvider: FC<AuthProviderProps> = (props) => {
@@ -135,17 +127,17 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
               avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
               email: user.attributes.email,
               name: 'Anika Visser',
-              plan: 'Premium'
-            }
-          }
+              plan: 'Premium',
+            },
+          },
         });
       } catch (error) {
         dispatch({
           type: ActionType.INITIALIZE,
           payload: {
             isAuthenticated: false,
-            user: null
-          }
+            user: null,
+          },
         });
       }
     };
@@ -157,7 +149,9 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
     const user = await Auth.signIn(email, password);
 
     if (user.challengeName) {
-      console.error(`Unable to login, because challenge "${user.challengeName}" is mandated and we did not handle this case.`);
+      console.error(
+        `Unable to login, because challenge "${user.challengeName}" is mandated and we did not handle this case.`,
+      );
       return;
     }
 
@@ -169,16 +163,16 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
           avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
           email: user.attributes.email,
           name: 'Anika Visser',
-          plan: 'Premium'
-        }
-      }
+          plan: 'Premium',
+        },
+      },
     });
   };
 
   const logout = async (): Promise<void> => {
     await Auth.signOut();
     dispatch({
-      type: ActionType.LOGOUT
+      type: ActionType.LOGOUT,
     });
   };
 
@@ -186,7 +180,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
     await Auth.signUp({
       username: email,
       password,
-      attributes: { email }
+      attributes: { email },
     });
   };
 
@@ -202,11 +196,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
     await Auth.forgotPassword(username);
   };
 
-  const passwordReset = async (
-    username: string,
-    code: string,
-    newPassword: string
-  ): Promise<void> => {
+  const passwordReset = async (username: string, code: string, newPassword: string): Promise<void> => {
     await Auth.forgotPasswordSubmit(username, code, newPassword);
   };
 
@@ -221,7 +211,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
         verifyCode,
         resendCode,
         passwordRecovery,
-        passwordReset
+        passwordReset,
       }}
     >
       {children}
@@ -230,7 +220,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
 };
 
 AuthProvider.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export const AuthConsumer = AuthContext.Consumer;

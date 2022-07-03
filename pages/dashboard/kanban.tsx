@@ -26,7 +26,7 @@ const Kanban: NextPage = () => {
       dispatch(getBoard());
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [],
   );
 
   const handleDragEnd = async ({ source, destination, draggableId }: DropResult): Promise<void> => {
@@ -59,9 +59,7 @@ const Kanban: NextPage = () => {
   return (
     <>
       <Head>
-        <title>
-          Dashboard: Kanban | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
-        </title>
+        <title>Dashboard: Kanban | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
       <Box
         component="main"
@@ -69,18 +67,16 @@ const Kanban: NextPage = () => {
           display: 'flex',
           flexDirection: 'column',
           flexGrow: 1,
-          overflow: 'hidden'
+          overflow: 'hidden',
         }}
       >
         <Box
           sx={{
             pl: 3,
-            pt: 8
+            pt: 8,
           }}
         >
-          <Typography variant="h4">
-            Kanban
-          </Typography>
+          <Typography variant="h4">Kanban</Typography>
         </Box>
         <DragDropContext onDragEnd={handleDragEnd}>
           <Box
@@ -89,21 +85,18 @@ const Kanban: NextPage = () => {
               flexGrow: 1,
               flexShrink: 1,
               overflowX: 'auto',
-              overflowY: 'hidden'
+              overflowY: 'hidden',
             }}
           >
             <Box
               sx={{
                 display: 'flex',
                 px: 1,
-                py: 3
+                py: 3,
               }}
             >
               {columns.allIds.map((columnId: string) => (
-                <KanbanColumn
-                  columnId={columnId}
-                  key={columnId}
-                />
+                <KanbanColumn columnId={columnId} key={columnId} />
               ))}
               <KanbanColumnAdd />
             </Box>
@@ -116,9 +109,7 @@ const Kanban: NextPage = () => {
 
 Kanban.getLayout = (page) => (
   <AuthGuard>
-    <DashboardLayout>
-      {page}
-    </DashboardLayout>
+    <DashboardLayout>{page}</DashboardLayout>
   </AuthGuard>
 );
 

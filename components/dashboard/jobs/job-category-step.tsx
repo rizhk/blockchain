@@ -14,18 +14,18 @@ const typeOptions = [
   {
     description: 'Best for small, friendly-pocket projects',
     title: 'Freelancers',
-    value: 'freelancers'
+    value: 'freelancers',
   },
   {
     description: 'Limited-time projects with highly experienced individuals',
     title: 'Contractor',
-    value: 'contractor'
+    value: 'contractor',
   },
   {
     description: 'Unlimited term contracts',
     title: 'Employees',
-    value: 'employees'
-  }
+    value: 'employees',
+  },
 ];
 
 export const JobCategoryStep: FC<JobCategoryStepProps> = (props) => {
@@ -38,15 +38,10 @@ export const JobCategoryStep: FC<JobCategoryStepProps> = (props) => {
 
   return (
     <div {...other}>
-      <Typography variant="h6">
-        I’m looking for...
-      </Typography>
+      <Typography variant="h6">I’m looking for...</Typography>
       <Box sx={{ mt: 3 }}>
         {typeOptions.map((typeOption) => (
-          <Box
-            key={typeOption.value}
-            sx={{ mb: 2 }}
-          >
+          <Box key={typeOption.value} sx={{ mb: 2 }}>
             <Card
               key={typeOption.value}
               sx={{
@@ -58,24 +53,16 @@ export const JobCategoryStep: FC<JobCategoryStepProps> = (props) => {
                   borderColor: 'primary.main',
                   borderWidth: 2,
                   backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.08),
-                  m: '-1px'
-                })
+                  m: '-1px',
+                }),
               }}
               onClick={(): void => handleChange(typeOption.value)}
               variant="outlined"
             >
-              <Radio
-                checked={type === typeOption.value}
-                color="primary"
-              />
+              <Radio checked={type === typeOption.value} color="primary" />
               <Box sx={{ ml: 2 }}>
-                <Typography variant="subtitle1">
-                  {typeOption.title}
-                </Typography>
-                <Typography
-                  color="textSecondary"
-                  variant="body2"
-                >
+                <Typography variant="subtitle1">{typeOption.title}</Typography>
+                <Typography color="textSecondary" variant="body2">
                   {typeOption.description}
                 </Typography>
               </Box>
@@ -83,11 +70,7 @@ export const JobCategoryStep: FC<JobCategoryStepProps> = (props) => {
           </Box>
         ))}
       </Box>
-      <Button
-        endIcon={(<ArrowRightIcon fontSize="small" />)}
-        onClick={onNext}
-        variant="contained"
-      >
+      <Button endIcon={<ArrowRightIcon fontSize="small" />} onClick={onNext} variant="contained">
         Continue
       </Button>
     </div>
@@ -96,5 +79,5 @@ export const JobCategoryStep: FC<JobCategoryStepProps> = (props) => {
 
 JobCategoryStep.propTypes = {
   onBack: PropTypes.func,
-  onNext: PropTypes.func
+  onNext: PropTypes.func,
 };

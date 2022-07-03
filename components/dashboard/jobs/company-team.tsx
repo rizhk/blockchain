@@ -14,22 +14,12 @@ export const CompanyTeam: FC<CompanyTeamProps> = (props) => {
   return (
     <div {...other}>
       <div>
-        <Typography variant="h6">
-          Team ({members.length})
-        </Typography>
+        <Typography variant="h6">Team ({members.length})</Typography>
       </div>
       <Box sx={{ mt: 3 }}>
-        <Grid
-          container
-          spacing={3}
-        >
+        <Grid container spacing={3}>
           {members.map((member) => (
-            <Grid
-              item
-              key={member.id}
-              sm={6}
-              xs={12}
-            >
+            <Grid item key={member.id} sm={6} xs={12}>
               <Box
                 sx={{
                   borderColor: 'divider',
@@ -37,26 +27,19 @@ export const CompanyTeam: FC<CompanyTeamProps> = (props) => {
                   borderStyle: 'solid',
                   borderWidth: 1,
                   px: 3,
-                  py: 4
+                  py: 4,
                 }}
               >
                 <Box
                   sx={{
                     alignItems: 'center',
-                    display: 'flex'
+                    display: 'flex',
                   }}
                 >
-                  <Avatar src={member.avatar}>
-                    {getInitials(member.name)}
-                  </Avatar>
+                  <Avatar src={member.avatar}>{getInitials(member.name)}</Avatar>
                   <Box sx={{ ml: 2 }}>
-                    <Typography variant="subtitle2">
-                      {member.name}
-                    </Typography>
-                    <Typography
-                      color="textSecondary"
-                      variant="body2"
-                    >
+                    <Typography variant="subtitle2">{member.name}</Typography>
+                    <Typography color="textSecondary" variant="body2">
                       {member.role}
                     </Typography>
                   </Box>
@@ -64,15 +47,11 @@ export const CompanyTeam: FC<CompanyTeamProps> = (props) => {
                 <Box
                   sx={{
                     m: -1,
-                    mt: 1
+                    mt: 1,
                   }}
                 >
                   {(member.skillSet || []).map((skill) => (
-                    <Chip
-                      key={skill}
-                      label={skill}
-                      sx={{ m: 1 }}
-                    />
+                    <Chip key={skill} label={skill} sx={{ m: 1 }} />
                   ))}
                 </Box>
               </Box>
@@ -85,10 +64,10 @@ export const CompanyTeam: FC<CompanyTeamProps> = (props) => {
 };
 
 CompanyTeam.defaultProps = {
-  members: []
+  members: [],
 };
 
 CompanyTeam.propTypes = {
   // @ts-ignore
-  members: PropTypes.array.isRequired
+  members: PropTypes.array.isRequired,
 };

@@ -27,7 +27,7 @@ const systemLabelIcons: Record<string, typeof SvgIcon> = {
   spam: ExclamationCircleIcon,
   sent: PaperAirplaneIcon,
   starred: StarIcon,
-  important: LabelImportantIcon
+  important: LabelImportantIcon,
 };
 
 const getIcon = (label: Label): typeof SvgIcon => {
@@ -52,9 +52,7 @@ export const MailLabel: FC<MailLabelProps> = (props) => {
   const Icon = getIcon(label);
   const color = getColor(label);
   const displayUnreadCount = Boolean(label.unreadCount && label.unreadCount > 0);
-  const href = label.id !== 'inbox'
-    ? `/dashboard/mail?label=${label.id}`
-    : '/dashboard/mail';
+  const href = label.id !== 'inbox' ? `/dashboard/mail?label=${label.id}` : '/dashboard/mail';
 
   return (
     <ListItem
@@ -62,15 +60,12 @@ export const MailLabel: FC<MailLabelProps> = (props) => {
       disablePadding
       sx={{
         '& + &': {
-          mt: 1
-        }
+          mt: 1,
+        },
       }}
       {...other}
     >
-      <NextLink
-        href={href}
-        passHref
-      >
+      <NextLink href={href} passHref>
         <ButtonBase
           component="a"
           href={href}
@@ -86,28 +81,23 @@ export const MailLabel: FC<MailLabelProps> = (props) => {
             px: 2,
             textAlign: 'left',
             '&:hover': {
-              backgroundColor: 'action.hover'
+              backgroundColor: 'action.hover',
             },
             ...(active && {
               backgroundColor: 'action.selected',
-              color: 'text.primary'
-            })
+              color: 'text.primary',
+            }),
           }}
         >
           <Icon
             sx={{
               color,
-              mr: 1
+              mr: 1,
             }}
           />
-          <Box sx={{ flexGrow: 1 }}>
-            {label.name}
-          </Box>
+          <Box sx={{ flexGrow: 1 }}>{label.name}</Box>
           {displayUnreadCount && (
-            <Typography
-              color="inherit"
-              variant="subtitle2"
-            >
+            <Typography color="inherit" variant="subtitle2">
               {label.unreadCount}
             </Typography>
           )}
@@ -122,5 +112,5 @@ MailLabel.propTypes = {
   // @ts-ignore
   label: PropTypes.object.isRequired,
   href: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };

@@ -7,7 +7,7 @@ export const Buttons2: FC = () => (
   <Box
     sx={{
       backgroundColor: 'background.paper',
-      p: 3
+      p: 3,
     }}
   >
     <Button
@@ -15,8 +15,8 @@ export const Buttons2: FC = () => (
         backgroundColor: 'error.main',
         mr: 3,
         '&:hover': {
-          backgroundColor: 'error.dark'
-        }
+          backgroundColor: 'error.dark',
+        },
       }}
       size="small"
       startIcon={<TrashIcon fontSize="small" />}
@@ -24,11 +24,7 @@ export const Buttons2: FC = () => (
     >
       Delete Account
     </Button>
-    <Button
-      endIcon={<ArrowRightIcon fontSize="small" />}
-      size="small"
-      variant="contained"
-    >
+    <Button endIcon={<ArrowRightIcon fontSize="small" />} size="small" variant="contained">
       Next Page
     </Button>
   </Box>

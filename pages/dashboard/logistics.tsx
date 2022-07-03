@@ -21,28 +21,20 @@ const Logistics: NextPage = () => {
   return (
     <>
       <Head>
-        <title>
-          Dashboard: Logistics | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
-        </title>
+        <title>Dashboard: Logistics | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          py: 8
+          py: 8,
         }}
       >
         <Container maxWidth="xl">
           <Box sx={{ mb: 4 }}>
-            <Grid
-              container
-              justifyContent="space-between"
-              spacing={3}
-            >
+            <Grid container justifyContent="space-between" spacing={3}>
               <Grid item>
-                <Typography variant="h4">
-                  Logistics
-                </Typography>
+                <Typography variant="h4">Logistics</Typography>
               </Grid>
               <Grid
                 item
@@ -50,28 +42,16 @@ const Logistics: NextPage = () => {
                   alignItems: 'center',
                   display: 'flex',
                   flexWrap: 'wrap',
-                  m: -1
+                  m: -1,
                 }}
               >
-                <Button
-                  startIcon={<ReportsIcon fontSize="small" />}
-                  sx={{ m: 1 }}
-                  variant="outlined"
-                >
+                <Button startIcon={<ReportsIcon fontSize="small" />} sx={{ m: 1 }} variant="outlined">
                   Reports
                 </Button>
-                <Button
-                  startIcon={<CogIcon fontSize="small" />}
-                  sx={{ m: 1 }}
-                  variant="outlined"
-                >
+                <Button startIcon={<CogIcon fontSize="small" />} sx={{ m: 1 }} variant="outlined">
                   Settings
                 </Button>
-                <Button
-                  startIcon={<DownloadIcon fontSize="small" />}
-                  sx={{ m: 1 }}
-                  variant="contained"
-                >
+                <Button startIcon={<DownloadIcon fontSize="small" />} sx={{ m: 1 }} variant="contained">
                   Export
                 </Button>
               </Grid>
@@ -79,28 +59,14 @@ const Logistics: NextPage = () => {
           </Box>
           <LogisticsOverview />
           <Box sx={{ mt: 4 }}>
-            <Grid
-              container
-              spacing={4}
-            >
-              <Grid
-                item
-                xl={6}
-                xs={12}
-              >
+            <Grid container spacing={4}>
+              <Grid item xl={6} xs={12}>
                 <LogisticsTotalVehicles />
               </Grid>
-              <Grid
-                item
-                xl={6}
-                xs={12}
-              >
+              <Grid item xl={6} xs={12}>
                 <LogisticsVehiclesCondition />
               </Grid>
-              <Grid
-                item
-                xs={12}
-              >
+              <Grid item xs={12}>
                 <LogisticsOnRouteVehicles />
               </Grid>
             </Grid>
@@ -113,9 +79,7 @@ const Logistics: NextPage = () => {
 
 Logistics.getLayout = (page) => (
   <AuthGuard>
-    <DashboardLayout>
-      {page}
-    </DashboardLayout>
+    <DashboardLayout>{page}</DashboardLayout>
   </AuthGuard>
 );
 

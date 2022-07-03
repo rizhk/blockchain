@@ -1,14 +1,5 @@
 import type { FC } from 'react';
-import {
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  Input,
-  Paper,
-  Tooltip,
-  Typography
-} from '@mui/material';
+import { Box, Button, Divider, IconButton, Input, Paper, Tooltip, Typography } from '@mui/material';
 import AddPhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import { QuillEditor } from '../../quill-editor';
@@ -20,7 +11,7 @@ export const Modal1: FC = () => (
     sx={{
       backgroundColor: 'background.default',
       minHeight: '100%',
-      p: 3
+      p: 3,
     }}
   >
     <Paper
@@ -32,7 +23,7 @@ export const Modal1: FC = () => (
         minHeight: 500,
         mx: 'auto',
         outline: 'none',
-        width: 600
+        width: 600,
       }}
     >
       <Box
@@ -40,12 +31,10 @@ export const Modal1: FC = () => (
           alignItems: 'center',
           display: 'flex',
           px: 2,
-          py: 1
+          py: 1,
         }}
       >
-        <Typography variant="h6">
-          New Message
-        </Typography>
+        <Typography variant="h6">New Message</Typography>
         <Box sx={{ flexGrow: 1 }} />
         <IconButton>
           <ArrowsExpandIcon fontSize="small" />
@@ -61,7 +50,7 @@ export const Modal1: FC = () => (
         sx={{
           p: 1,
           borderBottom: 1,
-          borderColor: 'divider'
+          borderColor: 'divider',
         }}
       />
       <Input
@@ -71,14 +60,14 @@ export const Modal1: FC = () => (
         sx={{
           p: 1,
           borderBottom: 1,
-          borderColor: 'divider'
+          borderColor: 'divider',
         }}
       />
       <QuillEditor
         placeholder="Leave a message"
         sx={{
           border: 'none',
-          flexGrow: 1
+          flexGrow: 1,
         }}
       />
       <Divider />
@@ -87,25 +76,17 @@ export const Modal1: FC = () => (
           alignItems: 'center',
           display: 'flex',
           justifyContent: 'flex-end',
-          p: 2
+          p: 2,
         }}
       >
-        <Button variant="contained">
-          Send
-        </Button>
+        <Button variant="contained">Send</Button>
         <Tooltip title="Attach image">
-          <IconButton
-            size="small"
-            sx={{ ml: 1 }}
-          >
+          <IconButton size="small" sx={{ ml: 1 }}>
             <AddPhotoIcon fontSize="small" />
           </IconButton>
         </Tooltip>
         <Tooltip title="Attach file">
-          <IconButton
-            size="small"
-            sx={{ ml: 1 }}
-          >
+          <IconButton size="small" sx={{ ml: 1 }}>
             <AttachFileIcon fontSize="small" />
           </IconButton>
         </Tooltip>

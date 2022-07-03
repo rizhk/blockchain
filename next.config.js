@@ -5,10 +5,10 @@ const withTM = require('next-transpile-modules')([
   '@fullcalendar/daygrid',
   '@fullcalendar/list',
   '@fullcalendar/timegrid',
-  '@fullcalendar/timeline'
+  '@fullcalendar/timeline',
 ]);
 
-const path = require('path')
+const path = require('path');
 
 module.exports = withTM({
   trailingSlash: true,
@@ -19,7 +19,7 @@ module.exports = withTM({
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
-      use: ['@svgr/webpack']
+      use: ['@svgr/webpack'],
     });
     return config;
   },
@@ -28,11 +28,11 @@ module.exports = withTM({
       {
         source: '/docs',
         destination: '/docs/welcome',
-        permanent: true
-      }
+        permanent: true,
+      },
     ];
   },
-  typescript:{
+  typescript: {
     ignoreBuildErrors: true,
   },
 });

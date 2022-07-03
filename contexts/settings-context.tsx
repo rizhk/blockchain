@@ -20,7 +20,7 @@ interface SettingsProviderProps {
 const initialSettings: Settings = {
   direction: 'ltr',
   responsiveFontSizes: true,
-  theme: 'light'
+  theme: 'light',
 };
 
 export const restoreSettings = (): Settings | null => {
@@ -35,7 +35,7 @@ export const restoreSettings = (): Settings | null => {
       settings = {
         direction: 'ltr',
         responsiveFontSizes: true,
-        theme: 'light'
+        theme: 'light',
       };
     }
   } catch (err) {
@@ -53,7 +53,7 @@ export const storeSettings = (settings: Settings): void => {
 
 export const SettingsContext = createContext<SettingsContextValue>({
   settings: initialSettings,
-  saveSettings: () => { }
+  saveSettings: () => {},
 });
 
 export const SettingsProvider: FC<SettingsProviderProps> = (props) => {
@@ -77,7 +77,7 @@ export const SettingsProvider: FC<SettingsProviderProps> = (props) => {
     <SettingsContext.Provider
       value={{
         settings,
-        saveSettings
+        saveSettings,
       }}
     >
       {children}
@@ -86,7 +86,7 @@ export const SettingsProvider: FC<SettingsProviderProps> = (props) => {
 };
 
 SettingsProvider.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export const SettingsConsumer = SettingsContext.Consumer;

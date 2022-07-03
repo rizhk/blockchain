@@ -9,13 +9,9 @@ interface PropertyListProps {
 export const PropertyList: FC<PropertyListProps> = (props) => {
   const { children } = props;
 
-  return (
-    <List disablePadding>
-      {children}
-    </List>
-  );
+  return <List disablePadding>{children}</List>;
 };
 
 PropertyList.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };

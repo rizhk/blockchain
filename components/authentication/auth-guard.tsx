@@ -21,16 +21,28 @@ export const AuthGuard: FC<AuthGuardProps> = (props) => {
       }
 
       if (!auth.isAuthenticated) {
-        router.push({
-          pathname: '/authentication/login',
-          query: { returnUrl: router.asPath }
-        }).catch(console.error);
+        router
+          .push({
+            pathname: '/authentication/login',
+            query: { returnUrl: router.asPath },
+          })
+          .catch(console.error);
       } else {
+        // if (auth.user && !auth.user.email_is_verified) {
+        // 	router
+        // 		.push({
+        // 			pathname: "/authentication/verify-code",
+        // 			query: { returnUrl: router.asPath },
+        // 		})
+        // 		.catch(console.error);
+
+        // 	return;
+        // }
         setChecked(true);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [router.isReady]
+    [router.isReady],
   );
 
   if (!checked) {
@@ -44,5 +56,5 @@ export const AuthGuard: FC<AuthGuardProps> = (props) => {
 };
 
 AuthGuard.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };

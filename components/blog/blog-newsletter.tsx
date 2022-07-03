@@ -10,54 +10,31 @@ export const BlogNewsletter: FC = () => {
       elevation={16}
       sx={{
         py: 10,
-        px: 8
+        px: 8,
       }}
     >
-      <Grid
-        alignItems="center"
-        container
-        justifyContent="space-between"
-        spacing={3}
-        wrap="nowrap"
-      >
-        <Grid
-          item
-          md={8}
-          xs={12}
-        >
+      <Grid alignItems="center" container justifyContent="space-between" spacing={3} wrap="nowrap">
+        <Grid item md={8} xs={12}>
           <Box
             sx={{
               alignItems: 'flex-start',
               display: 'flex',
-              flexDirection: 'column'
+              flexDirection: 'column',
             }}
           >
-            <Typography variant="h4">
-              Join the developer list
-            </Typography>
+            <Typography variant="h4">Join the developer list</Typography>
             <Typography
               color="textSecondary"
               variant="body2"
               sx={{
                 mb: 3,
-                mt: 1
+                mt: 1,
               }}
             >
               Subscribe to our newsletter to make sure you don&apos;t miss anything.
             </Typography>
-            <TextField
-              fullWidth
-              label="Email address"
-              name="email"
-              sx={{ flexGrow: 1 }}
-              type="email"
-            />
-            <Button
-              fullWidth
-              size="large"
-              sx={{ mt: 2 }}
-              variant="contained"
-            >
+            <TextField fullWidth label="Email address" name="email" sx={{ flexGrow: 1 }} type="email" />
+            <Button fullWidth size="large" sx={{ mt: 2 }} variant="contained">
               Subscribe
             </Button>
           </Box>
@@ -68,8 +45,8 @@ export const BlogNewsletter: FC = () => {
           sx={{
             display: {
               md: 'block',
-              xs: 'none'
-            }
+              xs: 'none',
+            },
           }}
         >
           <Box
@@ -80,14 +57,11 @@ export const BlogNewsletter: FC = () => {
                 height: 'auto',
                 position: 'absolute',
                 top: 0,
-                width: '100%'
-              }
+                width: '100%',
+              },
             }}
           >
-            <img
-              alt=""
-              src={`/static/blog/blog_${theme.palette.mode}.svg`}
-            />
+            <img alt="" src={`/static/blog/blog_${theme.palette.mode}.svg`} />
           </Box>
         </Grid>
       </Grid>

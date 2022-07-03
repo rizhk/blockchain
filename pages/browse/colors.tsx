@@ -17,27 +17,19 @@ const BrowseColors: NextPage = () => {
   return (
     <>
       <Head>
-        <title>
-          Browse: Colors | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
-        </title>
+        <title>Browse: Colors | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
       <Box
         component="main"
         sx={{
           backgroundColor: 'background.paper',
           flexGrow: 1,
-          py: 8
+          py: 8,
         }}
       >
         <Container maxWidth="lg">
-          <WidgetPreviewer
-            element={<ColorsMain />}
-            name="Main colors"
-          />
-          <WidgetPreviewer
-            element={<ColorsSeverity />}
-            name="Severity colors"
-          />
+          <WidgetPreviewer element={<ColorsMain />} name="Main colors" />
+          <WidgetPreviewer element={<ColorsSeverity />} name="Severity colors" />
         </Container>
       </Box>
     </>
@@ -46,9 +38,7 @@ const BrowseColors: NextPage = () => {
 
 BrowseColors.getLayout = (page) => (
   <MainLayout>
-    <BrowseLayout>
-      {page}
-    </BrowseLayout>
+    <BrowseLayout>{page}</BrowseLayout>
   </MainLayout>
 );
 

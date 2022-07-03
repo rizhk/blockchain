@@ -16,32 +16,29 @@ import { gtm } from '../../lib/gtm';
 import { getThreads } from '../../slices/chat';
 import { useDispatch } from '../../store';
 
-const ChatInner = styled(
-  'div',
-  { shouldForwardProp: (prop) => prop !== 'open' }
-)<{ open?: boolean; }>(
+const ChatInner = styled('div', { shouldForwardProp: (prop) => prop !== 'open' })<{ open?: boolean }>(
   ({ theme, open }) => ({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
     overflow: 'hidden',
     [theme.breakpoints.up('md')]: {
-      marginLeft: -380
+      marginLeft: -380,
     },
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
+      duration: theme.transitions.duration.leavingScreen,
     }),
     ...(open && {
       [theme.breakpoints.up('md')]: {
-        marginLeft: 0
+        marginLeft: 0,
       },
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen
-      })
-    })
-  })
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    }),
+  }),
 );
 
 // In our case there two possible routes
@@ -53,12 +50,9 @@ const Chat: NextPage = () => {
   const dispatch = useDispatch();
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const compose = router.query.compose as string | undefined === 'true';
+  const compose = (router.query.compose as string | undefined) === 'true';
   const threadKey = router.query.threadKey as string | undefined;
-  const mdUp = useMediaQuery(
-    (theme: Theme) => theme.breakpoints.up('md'),
-    { noSsr: true }
-  );
+  const mdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'), { noSsr: true });
 
   useEffect(() => {
     gtm.push({ event: 'page_view' });
@@ -69,19 +63,16 @@ const Chat: NextPage = () => {
       dispatch(getThreads());
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [],
   );
 
-  useEffect(
-    () => {
-      if (!mdUp) {
-        setIsSidebarOpen(false);
-      } else {
-        setIsSidebarOpen(true);
-      }
-    },
-    [mdUp]
-  );
+  useEffect(() => {
+    if (!mdUp) {
+      setIsSidebarOpen(false);
+    } else {
+      setIsSidebarOpen(true);
+    }
+  }, [mdUp]);
 
   const handleCloseSidebar = () => {
     setIsSidebarOpen(false);
@@ -95,18 +86,12 @@ const Chat: NextPage = () => {
     return null;
   }
 
-  const view = threadKey
-    ? 'thread'
-    : compose
-      ? 'compose'
-      : 'blank';
+  const view = threadKey ? 'thread' : compose ? 'compose' : 'blank';
 
   return (
     <>
       <Head>
-        <title>
-          Dashboard: Chat | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
-        </title>
+        <title>Dashboard: Chat | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
       <Box
         component="main"
@@ -114,7 +99,7 @@ const Chat: NextPage = () => {
           position: 'relative',
           height: '100%',
           width: '100%',
-          overflow: 'hidden'
+          overflow: 'hidden',
         }}
       >
         <Box
@@ -125,14 +110,10 @@ const Chat: NextPage = () => {
             top: 0,
             right: 0,
             bottom: 0,
-            left: 0
+            left: 0,
           }}
         >
-          <ChatSidebar
-            containerRef={rootRef}
-            onClose={handleCloseSidebar}
-            open={isSidebarOpen}
-          />
+          <ChatSidebar containerRef={rootRef} onClose={handleCloseSidebar} open={isSidebarOpen} />
           <ChatInner open={isSidebarOpen}>
             <Box
               sx={{
@@ -142,7 +123,7 @@ const Chat: NextPage = () => {
                 borderBottomStyle: 'solid',
                 borderBottomWidth: 1,
                 display: 'flex',
-                p: 2
+                p: 2,
               }}
             >
               <IconButton onClick={handleToggleSidebar}>
@@ -159,7 +140,7 @@ const Chat: NextPage = () => {
                   flexGrow: 1,
                   flexDirection: 'column',
                   justifyContent: 'center',
-                  overflow: 'hidden'
+                  overflow: 'hidden',
                 }}
               >
                 <Avatar
@@ -167,16 +148,12 @@ const Chat: NextPage = () => {
                     backgroundColor: 'primary.main',
                     color: 'primary.contrastText',
                     height: 56,
-                    width: 56
+                    width: 56,
                   }}
                 >
                   <ChatAlt2Icon fontSize="small" />
                 </Avatar>
-                <Typography
-                  color="textSecondary"
-                  sx={{ mt: 2 }}
-                  variant="subtitle1"
-                >
+                <Typography color="textSecondary" sx={{ mt: 2 }} variant="subtitle1">
                   Start meaningful conversations!
                 </Typography>
               </Box>
@@ -190,9 +167,7 @@ const Chat: NextPage = () => {
 
 Chat.getLayout = (page) => (
   <AuthGuard>
-    <DashboardLayout>
-      {page}
-    </DashboardLayout>
+    <DashboardLayout>{page}</DashboardLayout>
   </AuthGuard>
 );
 

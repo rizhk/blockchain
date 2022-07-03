@@ -22,8 +22,8 @@ const MailSidebarDesktop = styled(Drawer)({
   width: 280,
   '& .MuiDrawer-paper': {
     position: 'relative',
-    width: 280
-  }
+    width: 280,
+  },
 });
 
 const MailSidebarMobile = styled(Drawer)({
@@ -31,8 +31,8 @@ const MailSidebarMobile = styled(Drawer)({
   '& .MuiDrawer-paper': {
     top: 64,
     height: 'calc(100% - 64px)',
-    width: 280
-  }
+    width: 280,
+  },
 });
 
 type GroupedLabels = {
@@ -42,7 +42,7 @@ type GroupedLabels = {
 const groupLabels = (labels: Label[]): GroupedLabels => {
   const groups: GroupedLabels = {
     system: [],
-    custom: []
+    custom: [],
   };
 
   labels.forEach((label) => {
@@ -71,33 +71,22 @@ export const MailSidebar: FC<MailSidebarProps> = (props) => {
   const content = (
     <div>
       <Box sx={{ p: 2 }}>
-        <Typography variant="h5">
-          Mailbox
-        </Typography>
-        <Button
-          fullWidth
-          onClick={onCompose}
-          startIcon={<AddIcon />}
-          sx={{ mt: 2 }}
-          variant="contained"
-        >
+        <Typography variant="h5">Mailbox</Typography>
+        <Button fullWidth onClick={onCompose} startIcon={<AddIcon />} sx={{ mt: 2 }} variant="contained">
           Compose
         </Button>
       </Box>
       <Box
         sx={{
           pb: 2,
-          px: 2
+          px: 2,
         }}
       >
         {(Object.keys(groupedLabels) as LabelType[]).map((type) => (
           <Fragment key={type}>
             {type === 'custom' && (
               <ListSubheader disableSticky={true}>
-                <Typography
-                  color="textSecondary"
-                  variant="overline"
-                >
+                <Typography color="textSecondary" variant="overline">
                   Labels
                 </Typography>
               </ListSubheader>
@@ -105,7 +94,7 @@ export const MailSidebar: FC<MailSidebarProps> = (props) => {
             <List disablePadding>
               {groupedLabels[type].map((label) => (
                 <MailLabel
-                  active={(currentLabel === label.id) || (!currentLabel && label.id === 'inbox')}
+                  active={currentLabel === label.id || (!currentLabel && label.id === 'inbox')}
                   key={label.id}
                   label={label}
                   onClick={handleLabelClick}
@@ -153,5 +142,5 @@ MailSidebar.propTypes = {
   labels: PropTypes.array.isRequired,
   onClose: PropTypes.func,
   onCompose: PropTypes.func,
-  open: PropTypes.bool
+  open: PropTypes.bool,
 };

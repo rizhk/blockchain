@@ -12,11 +12,12 @@ interface RTLProps {
   direction?: Direction;
 }
 
-const styleCache = () => createCache({
-  key: 'rtl',
-  prepend: true,
-  stylisPlugins: [stylisRTLPlugin]
-});
+const styleCache = () =>
+  createCache({
+    key: 'rtl',
+    prepend: true,
+    stylisPlugins: [stylisRTLPlugin],
+  });
 
 export const RTL: FC<RTLProps> = (props) => {
   const { children, direction = 'ltr' } = props;
@@ -26,11 +27,7 @@ export const RTL: FC<RTLProps> = (props) => {
   }, [direction]);
 
   if (direction === 'rtl') {
-    return (
-      <CacheProvider value={styleCache()}>
-        {children}
-      </CacheProvider>
-    );
+    return <CacheProvider value={styleCache()}>{children}</CacheProvider>;
   }
 
   return <>{children}</>;
@@ -38,5 +35,5 @@ export const RTL: FC<RTLProps> = (props) => {
 
 RTL.propTypes = {
   children: PropTypes.node.isRequired,
-  direction: PropTypes.oneOf<Direction>(['ltr', 'rtl'])
+  direction: PropTypes.oneOf<Direction>(['ltr', 'rtl']),
 };

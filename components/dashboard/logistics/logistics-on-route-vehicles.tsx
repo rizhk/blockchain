@@ -10,7 +10,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Typography
+  Typography,
 } from '@mui/material';
 import { Truck as TruckIcon } from '../../../icons/truck';
 import { Scrollbar } from '../../scrollbar';
@@ -33,7 +33,7 @@ const vehicles: Vehicle[] = [
     startingRoute: 'Cleveland, Ohio, USA',
     status: 'success',
     temperature: 8,
-    temperatureLabel: 'Very Good'
+    temperatureLabel: 'Very Good',
   },
   {
     id: 'VOL-653CD2',
@@ -42,7 +42,7 @@ const vehicles: Vehicle[] = [
     status: 'warning',
     temperature: 8,
     temperatureLabel: 'Very Good',
-    warning: 'Temperature not optimal'
+    warning: 'Temperature not optimal',
   },
   {
     id: 'VOL-653CD3',
@@ -51,7 +51,7 @@ const vehicles: Vehicle[] = [
     status: 'error',
     temperature: 8,
     temperatureLabel: 'Very Good',
-    warning: 'ECU not responding'
+    warning: 'ECU not responding',
   },
   {
     id: 'VOL-653CD4',
@@ -59,97 +59,64 @@ const vehicles: Vehicle[] = [
     startingRoute: 'Cleveland, Ohio, USA',
     status: 'success',
     temperature: 8,
-    temperatureLabel: 'Very Good'
-  }
+    temperatureLabel: 'Very Good',
+  },
 ];
 
 export const LogisticsOnRouteVehicles: FC = () => (
   <Card>
-    <CardHeader
-      title="On Route Vehicles"
-      subheader="Condition and temperature"
-    />
+    <CardHeader title="On Route Vehicles" subheader="Condition and temperature" />
     <Scrollbar>
       <Box sx={{ minWidth: 1200 }}>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>
-                Location
-              </TableCell>
-              <TableCell>
-                Ending Route
-              </TableCell>
-              <TableCell>
-                Starting Route
-              </TableCell>
-              <TableCell>
-                Warnings
-              </TableCell>
-              <TableCell>
-                Refrigerator Temperature
-              </TableCell>
+              <TableCell>Location</TableCell>
+              <TableCell>Ending Route</TableCell>
+              <TableCell>Starting Route</TableCell>
+              <TableCell>Warnings</TableCell>
+              <TableCell>Refrigerator Temperature</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {vehicles.map((vehicle) => (
-              <TableRow
-                key={vehicle.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
+              <TableRow key={vehicle.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell>
                   <Box
                     sx={{
                       alignItems: 'center',
-                      display: 'flex'
+                      display: 'flex',
                     }}
                   >
                     <Avatar sx={{ mr: 2 }}>
                       <TruckIcon fontSize="small" />
                     </Avatar>
-                    <Typography variant="subtitle2">
-                      {vehicle.id}
-                    </Typography>
+                    <Typography variant="subtitle2">{vehicle.id}</Typography>
                   </Box>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="body2">
-                    {vehicle.endingRoute}
-                  </Typography>
+                  <Typography variant="body2">{vehicle.endingRoute}</Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="body2">
-                    {vehicle.startingRoute}
-                  </Typography>
+                  <Typography variant="body2">{vehicle.startingRoute}</Typography>
                 </TableCell>
                 <TableCell>
-                  <SeverityPill color={vehicle.status}>
-                    {vehicle.warning || 'No warnings'}
-                  </SeverityPill>
+                  <SeverityPill color={vehicle.status}>{vehicle.warning || 'No warnings'}</SeverityPill>
                 </TableCell>
                 <TableCell>
-                  <LinearProgress
-                    value={vehicle.temperature}
-                    variant="determinate"
-                  />
+                  <LinearProgress value={vehicle.temperature} variant="determinate" />
                   <Box
                     sx={{
                       alignItems: 'center',
                       display: 'flex',
-                      mt: 2
+                      mt: 2,
                     }}
                   >
-                    <Typography
-                      color="inherit"
-                      variant="inherit"
-                    >
+                    <Typography color="inherit" variant="inherit">
                       {vehicle.temperatureLabel}
                     </Typography>
                     <Box sx={{ flexGrow: 1 }} />
-                    <Typography
-                      color="textSecondary"
-                      variant="inherit"
-                    >
+                    <Typography color="textSecondary" variant="inherit">
                       {vehicle.temperature}
                       °C
                     </Typography>

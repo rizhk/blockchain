@@ -12,7 +12,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Typography
+  Typography,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { Chart } from '../../chart';
@@ -22,24 +22,24 @@ const data = {
     {
       color: '#FFB547',
       data: 14859,
-      label: 'Strategy'
+      label: 'Strategy',
     },
     {
       color: '#7BC67E',
       data: 35690,
-      label: 'Outsourcing'
+      label: 'Outsourcing',
     },
     {
       color: '#7783DB',
       data: 45120,
-      label: 'Marketing'
+      label: 'Marketing',
     },
     {
       color: '#9DA4DD',
       data: 25486,
-      label: 'Other'
-    }
-  ]
+      label: 'Other',
+    },
+  ],
 };
 
 export const FinanceCostBreakdown: FC = (props) => {
@@ -50,26 +50,26 @@ export const FinanceCostBreakdown: FC = (props) => {
       background: 'transparent',
       stacked: false,
       toolbar: {
-        show: false
-      }
+        show: false,
+      },
     },
     colors: data.series.map((item) => item.color),
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
     fill: {
-      opacity: 1
+      opacity: 1,
     },
     labels: data.series.map((item) => item.label),
     legend: {
-      show: false
+      show: false,
     },
     stroke: {
-      width: 0
+      width: 0,
     },
     theme: {
-      mode: theme.palette.mode
-    }
+      mode: theme.palette.mode,
+    },
   };
 
   const chartSeries = data.series.map((item) => item.data);
@@ -79,22 +79,13 @@ export const FinanceCostBreakdown: FC = (props) => {
       <CardHeader title="Cost Breakdown" />
       <Divider />
       <CardContent>
-        <Chart
-          height={240}
-          options={chartOptions}
-          series={chartSeries}
-          type="pie"
-        />
+        <Chart height={240} options={chartOptions} series={chartSeries} type="pie" />
       </CardContent>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>
-              Top Channels
-            </TableCell>
-            <TableCell align="right">
-              Value
-            </TableCell>
+            <TableCell>Top Channels</TableCell>
+            <TableCell align="right">Value</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -105,7 +96,7 @@ export const FinanceCostBreakdown: FC = (props) => {
                   key={item.label}
                   sx={{
                     alignItems: 'center',
-                    display: 'flex'
+                    display: 'flex',
                   }}
                 >
                   <Box
@@ -115,19 +106,14 @@ export const FinanceCostBreakdown: FC = (props) => {
                       borderRadius: '50%',
                       height: 16,
                       mr: 1,
-                      width: 16
+                      width: 16,
                     }}
                   />
-                  <Typography variant="subtitle2">
-                    {item.label}
-                  </Typography>
+                  <Typography variant="subtitle2">{item.label}</Typography>
                 </Box>
               </TableCell>
               <TableCell align="right">
-                <Typography
-                  color="textSecondary"
-                  variant="body2"
-                >
+                <Typography color="textSecondary" variant="body2">
                   {numeral(item.data).format('$0,0.00')}
                 </Typography>
               </TableCell>

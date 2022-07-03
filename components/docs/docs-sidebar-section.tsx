@@ -19,24 +19,17 @@ interface DocsSidebarSectionProps extends ListProps {
   title: string;
 }
 
-const renderNavItems = ({
-  depth = 0,
-  items,
-  path
-}: {
-  depth?: number;
-  items: Item[];
-  path: string;
-}): JSX.Element => (
+const renderNavItems = ({ depth = 0, items, path }: { depth?: number; items: Item[]; path: string }): JSX.Element => (
   <List disablePadding>
     {items.reduce(
-      (acc: JSX.Element[], item) => reduceChildRoutes({
-        acc,
-        depth,
-        item,
-        path
-      }),
-      []
+      (acc: JSX.Element[], item) =>
+        reduceChildRoutes({
+          acc,
+          depth,
+          item,
+          path,
+        }),
+      [],
     )}
   </List>
 );
@@ -45,7 +38,7 @@ const reduceChildRoutes = ({
   acc,
   depth,
   item,
-  path
+  path,
 }: {
   acc: JSX.Element[];
   depth: number;
@@ -72,9 +65,9 @@ const reduceChildRoutes = ({
         {renderNavItems({
           depth: depth + 1,
           items: item.children,
-          path
+          path,
         })}
-      </DocsSidebarItem>
+      </DocsSidebarItem>,
     );
   } else {
     acc.push(
@@ -87,7 +80,7 @@ const reduceChildRoutes = ({
         key={key}
         path={item.path}
         title={item.title}
-      />
+      />,
     );
   }
 
@@ -99,7 +92,7 @@ export const DocsSidebarSection: FC<DocsSidebarSectionProps> = (props) => {
 
   return (
     <List
-      subheader={(
+      subheader={
         <ListSubheader
           disableGutters
           disableSticky
@@ -109,17 +102,17 @@ export const DocsSidebarSection: FC<DocsSidebarSectionProps> = (props) => {
             fontWeight: 700,
             lineHeight: 2.5,
             ml: 4,
-            textTransform: 'uppercase'
+            textTransform: 'uppercase',
           }}
         >
           {title}
         </ListSubheader>
-      )}
+      }
       {...other}
     >
       {renderNavItems({
         items,
-        path
+        path,
       })}
     </List>
   );
@@ -129,5 +122,5 @@ DocsSidebarSection.propTypes = {
   // @ts-ignore
   items: PropTypes.array,
   path: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
 };

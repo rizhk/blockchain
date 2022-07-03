@@ -16,7 +16,7 @@ import {
   TableRow,
   TableSortLabel,
   Tooltip,
-  Typography
+  Typography,
 } from '@mui/material';
 import { Scrollbar } from '../../scrollbar';
 import { ChevronRight as ChevronRightIcon } from '../../../icons/chevron-right';
@@ -42,62 +42,62 @@ const projects: Project[] = [
     id: '5eff24e675e7b3cba23e4be7',
     author: {
       avatar: '/static/mock-images/avatars/avatar-jie_yan_song.png',
-      name: 'Jie Yan Song'
+      name: 'Jie Yan Song',
     },
     budget: 12500,
     createdAt: subHours(subMinutes(subSeconds(now, 10), 34), 2).getTime(),
     currency: '$',
     technologies: ['angular'],
-    title: 'Mella Full Screen Slider'
+    title: 'Mella Full Screen Slider',
   },
   {
     id: '5eff24e98e2c9107e95cb827',
     author: {
       avatar: '/static/mock-images/avatars/avatar-omar_darboe.png',
-      name: 'Omar Darobe'
+      name: 'Omar Darobe',
     },
     budget: 15750,
     createdAt: subHours(subMinutes(subSeconds(now, 25), 56), 10).getTime(),
     currency: '$',
     technologies: ['sketch', 'html-css'],
-    title: 'Overview Design'
+    title: 'Overview Design',
   },
   {
     id: '5eff24f0d97353e3576d3c26',
     author: {
       avatar: '/static/mock-images/avatars/avatar-siegbert_gottfried.png',
-      name: 'Siegbert Gottfried'
+      name: 'Siegbert Gottfried',
     },
     budget: 15750,
     createdAt: subDays(subMinutes(subSeconds(now, 50), 30), 1).getTime(),
     currency: '$',
     technologies: ['react-js'],
-    title: 'Ten80 Web Design'
+    title: 'Ten80 Web Design',
   },
   {
     id: '5eff24f737bc6b191dd9bf58',
     author: {
       avatar: '/static/mock-images/avatars/avatar-iulia_albu.png',
-      name: 'Iulia Albu'
+      name: 'Iulia Albu',
     },
     budget: 12500,
     createdAt: subDays(subMinutes(subSeconds(now, 30), 4), 1).getTime(),
     currency: '$',
     technologies: ['vue-js'],
-    title: 'Neura e-commerce UI Kit'
+    title: 'Neura e-commerce UI Kit',
   },
   {
     id: '5eff24fb29fc5e37bdab3b2d',
     author: {
       avatar: '/static/mock-images/avatars/avatar-carson_darrin.png',
-      name: 'Carson Darrin'
+      name: 'Carson Darrin',
     },
     budget: 15750,
     createdAt: subDays(subMinutes(subSeconds(now, 6), 11), 1).getTime(),
     currency: '$',
     technologies: ['angular', 'figma'],
-    title: 'Administrator Overview'
-  }
+    title: 'Administrator Overview',
+  },
 ];
 
 const technologyMap: Record<string, string> = {
@@ -106,23 +106,23 @@ const technologyMap: Record<string, string> = {
   'vue-js': '/static/icons/vue-js.svg',
   angular: '/static/icons/angular.svg',
   figma: '/static/icons/figma.svg',
-  sketch: '/static/icons/sketch.svg'
+  sketch: '/static/icons/sketch.svg',
 };
 
 export const Table2: FC = () => (
   <Box
     sx={{
       backgroundColor: 'background.default',
-      p: 3
+      p: 3,
     }}
   >
     <Card>
       <CardHeader
-        action={(
+        action={
           <IconButton>
             <DotsHorizontalIcon fontSize="small" />
           </IconButton>
-        )}
+        }
         title="Latest Projects"
       />
       <Divider />
@@ -130,30 +130,13 @@ export const Table2: FC = () => (
         <Table sx={{ minWidth: 900 }}>
           <TableHead>
             <TableRow>
-              <TableCell>
-                Title
-              </TableCell>
-              <TableCell>
-                Author
-              </TableCell>
-              <TableCell>
-                Budget
-              </TableCell>
-              <TableCell>
-                Technology
-              </TableCell>
-              <TableCell
-                align="right"
-                sortDirection="desc"
-              >
-                <Tooltip
-                  enterDelay={300}
-                  title="Sort"
-                >
-                  <TableSortLabel
-                    active
-                    direction="desc"
-                  >
+              <TableCell>Title</TableCell>
+              <TableCell>Author</TableCell>
+              <TableCell>Budget</TableCell>
+              <TableCell>Technology</TableCell>
+              <TableCell align="right" sortDirection="desc">
+                <Tooltip enterDelay={300} title="Sort">
+                  <TableSortLabel active direction="desc">
                     Created
                   </TableSortLabel>
                 </Tooltip>
@@ -162,32 +145,22 @@ export const Table2: FC = () => (
           </TableHead>
           <TableBody>
             {projects.map((project) => (
-              <TableRow
-                hover
-                key={project.id}
-              >
-                <TableCell>
-                  {project.title}
-                </TableCell>
+              <TableRow hover key={project.id}>
+                <TableCell>{project.title}</TableCell>
                 <TableCell>
                   <Box
                     sx={{
                       alignItems: 'center',
-                      display: 'flex'
+                      display: 'flex',
                     }}
                   >
                     <Avatar src={project.author.avatar} />
-                    <Typography
-                      sx={{ ml: 1 }}
-                      variant="subtitle2"
-                    >
+                    <Typography sx={{ ml: 1 }} variant="subtitle2">
                       {project.author.name}
                     </Typography>
                   </Box>
                 </TableCell>
-                <TableCell>
-                  {numeral(project.budget).format(`${project.currency}0,0.00`)}
-                </TableCell>
+                <TableCell>{numeral(project.budget).format(`${project.currency}0,0.00`)}</TableCell>
                 <TableCell>
                   {project.technologies.map((technology) => (
                     <Box
@@ -195,24 +168,18 @@ export const Table2: FC = () => (
                       key={technology}
                       sx={{
                         '& + &': {
-                          ml: 1
+                          ml: 1,
                         },
                         '& img': {
-                          height: 30
-                        }
+                          height: 30,
+                        },
                       }}
                     >
-                      <img
-                        alt="Tech"
-                        key={technology}
-                        src={technologyMap[technology]}
-                      />
+                      <img alt="Tech" key={technology} src={technologyMap[technology]} />
                     </Box>
                   ))}
                 </TableCell>
-                <TableCell align="right">
-                  {format(project.createdAt, 'dd MMM, yyyy')}
-                </TableCell>
+                <TableCell align="right">{format(project.createdAt, 'dd MMM, yyyy')}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -222,15 +189,10 @@ export const Table2: FC = () => (
         sx={{
           display: 'flex',
           justifyContent: 'flex-end',
-          p: 2
+          p: 2,
         }}
       >
-        <Button
-          color="primary"
-          endIcon={<ChevronRightIcon fontSize="small" />}
-          size="small"
-          sx={{ cursor: 'pointer' }}
-        >
+        <Button color="primary" endIcon={<ChevronRightIcon fontSize="small" />} size="small" sx={{ cursor: 'pointer' }}>
           See All
         </Button>
       </Box>

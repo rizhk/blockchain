@@ -22,19 +22,7 @@ interface DashboardSidebarItemProps extends ListItemProps {
 }
 
 export const DashboardSidebarItem: FC<DashboardSidebarItemProps> = (props) => {
-  const {
-    children,
-    chip,
-    depth,
-    icon,
-    iconFilled,
-    info,
-    open: openProp,
-    path,
-    title,
-    ...other
-  } = props;
-
+  const { children, chip, depth, icon, iconFilled, info, open: openProp, path, title, ...other } = props;
 
   const [open, setOpen] = useState<boolean>(!!openProp);
   const router = useRouter();
@@ -50,20 +38,16 @@ export const DashboardSidebarItem: FC<DashboardSidebarItemProps> = (props) => {
   }
 
   return (
-  
     <ListItem
       disableGutters
       sx={{
         display: 'flex',
         mb: 0.5,
         py: 0,
-        px: 2
+        px: 2,
       }}
     >
-      <NextLink
-        href={path as string}
-        passHref
-      >
+      <NextLink href={path as string} passHref>
         <Button
           component="a"
           startIcon={router.pathname == path ? iconFilled : icon}
@@ -82,21 +66,18 @@ export const DashboardSidebarItem: FC<DashboardSidebarItemProps> = (props) => {
             ...(router.pathname == path && {
               backgroundColor: 'rgba(255,255,255, 0.08)',
               color: 'secondary.main',
-              fontWeight: 'fontWeightBold'
+              fontWeight: 'fontWeightBold',
             }),
             '& startIcon': {
               color: router.pathname == path ? 'secondary.main' : 'neutral.400',
             },
-            '&:hover':  {
+            '&:hover': {
               backgroundColor: '#202A44',
-              color:'secondary.main'
+              color: 'secondary.main',
             },
-
           }}
         >
-          <Box sx={{ flexGrow: 1 }}>
-            {title}
-          </Box>
+          <Box sx={{ flexGrow: 1 }}>{title}</Box>
           {info}
         </Button>
       </NextLink>
@@ -112,10 +93,10 @@ DashboardSidebarItem.propTypes = {
   info: PropTypes.node,
   open: PropTypes.bool,
   path: PropTypes.string,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
 };
 
 DashboardSidebarItem.defaultProps = {
   active: false,
-  open: false
+  open: false,
 };

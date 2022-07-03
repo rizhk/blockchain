@@ -8,69 +8,69 @@ import { useMemo } from 'react';
 const typeOptions = [
   {
     label: 'Freelance',
-    value: 'freelance'
+    value: 'freelance',
   },
   {
     label: 'Full Time',
-    value: 'fullTime'
+    value: 'fullTime',
   },
   {
     label: 'Part Time',
-    value: 'partTime'
+    value: 'partTime',
   },
   {
     label: 'Internship',
-    value: 'internship'
-  }
+    value: 'internship',
+  },
 ];
 
 const levelOptions = [
   {
     label: 'Novice',
-    value: 'novice'
+    value: 'novice',
   },
   {
     label: 'Expert',
-    value: 'expert'
-  }
+    value: 'expert',
+  },
 ];
 
 const locationOptions = [
   {
     label: 'Africa',
-    value: 'africa'
+    value: 'africa',
   },
   {
     label: 'Asia',
-    value: 'asia'
+    value: 'asia',
   },
   {
     label: 'Europe',
-    value: 'europe'
+    value: 'europe',
   },
   {
     label: 'North America',
-    value: 'northAmerica'
+    value: 'northAmerica',
   },
   {
     label: 'South America',
-    value: 'southAmerica'
-  }
+    value: 'southAmerica',
+  },
 ];
 
 const roleOptions = [
   {
     label: 'Web Developer',
-    value: 'webDeveloper'
+    value: 'webDeveloper',
   },
   {
     label: 'Android Developer',
-    value: 'androidDeveloper'
+    value: 'androidDeveloper',
   },
   {
     label: 'iOS Developer',
-    value: 'iosDeveloper'
-  }
+    value: 'iosDeveloper',
+  },
 ];
 
 export const JobsBrowseFilter: FC<CardProps> = (props) => {
@@ -80,63 +80,55 @@ export const JobsBrowseFilter: FC<CardProps> = (props) => {
         label: 'Type',
         field: 'type',
         value: 'freelance',
-        displayValue: 'Freelance'
+        displayValue: 'Freelance',
       },
       {
         label: 'Type',
         field: 'type',
         value: 'internship',
-        displayValue: 'Internship'
+        displayValue: 'Internship',
       },
       {
         label: 'Level',
         field: 'level',
         value: 'novice',
-        displayValue: 'Novice'
+        displayValue: 'Novice',
       },
       {
         label: 'Location',
         field: 'location',
         value: 'asia',
-        displayValue: 'Asia'
+        displayValue: 'Asia',
       },
       {
         label: 'Role',
         field: 'role',
         value: 'webDeveloper',
-        displayValue: 'Web Developer'
-      }
+        displayValue: 'Web Developer',
+      },
     ],
-    []
+    [],
   );
 
   // We memoize this part to prevent re-render issues
   const typeValues = useMemo(
-    () => filterItems
-      .filter((filterItems) => filterItems.field === 'type')
-      .map((filterItems) => filterItems.value),
-    [filterItems]
+    () => filterItems.filter((filterItems) => filterItems.field === 'type').map((filterItems) => filterItems.value),
+    [filterItems],
   );
 
   const levelValues = useMemo(
-    () => filterItems
-      .filter((filterItems) => filterItems.field === 'level')
-      .map((filterItems) => filterItems.value),
-    [filterItems]
+    () => filterItems.filter((filterItems) => filterItems.field === 'level').map((filterItems) => filterItems.value),
+    [filterItems],
   );
 
   const locationValues = useMemo(
-    () => filterItems
-      .filter((filterItems) => filterItems.field === 'location')
-      .map((filterItems) => filterItems.value),
-    [filterItems]
+    () => filterItems.filter((filterItems) => filterItems.field === 'location').map((filterItems) => filterItems.value),
+    [filterItems],
   );
 
   const roleValues = useMemo(
-    () => filterItems
-      .filter((filterItems) => filterItems.field === 'role')
-      .map((filterItems) => filterItems.value),
-    [filterItems]
+    () => filterItems.filter((filterItems) => filterItems.field === 'role').map((filterItems) => filterItems.value),
+    [filterItems],
   );
 
   return (
@@ -145,21 +137,17 @@ export const JobsBrowseFilter: FC<CardProps> = (props) => {
         sx={{
           alignItems: 'center',
           display: 'flex',
-          p: 2
+          p: 2,
         }}
       >
         <SearchIcon fontSize="small" />
         <Box
           sx={{
             flexGrow: 1,
-            ml: 3
+            ml: 3,
           }}
         >
-          <Input
-            disableUnderline
-            fullWidth
-            placeholder="Enter a keyword"
-          />
+          <Input disableUnderline fullWidth placeholder="Enter a keyword" />
         </Box>
       </Box>
       <Divider />
@@ -168,30 +156,25 @@ export const JobsBrowseFilter: FC<CardProps> = (props) => {
           alignItems: 'center',
           display: 'flex',
           flexWrap: 'wrap',
-          p: 2
+          p: 2,
         }}
       >
         {filterItems.map((filterItem, i) => (
           <Chip
             key={i}
-            label={(
+            label={
               <Box
                 sx={{
                   alignItems: 'center',
                   display: 'flex',
                   '& span': {
-                    fontWeight: 600
-                  }
+                    fontWeight: 600,
+                  },
                 }}
               >
-                  <span>
-                    {filterItem.label}
-                  </span>
-                :
-                {' '}
-                {filterItem.displayValue || filterItem.value}
+                <span>{filterItem.label}</span>: {filterItem.displayValue || filterItem.value}
               </Box>
-            )}
+            }
             onDelete={(): void => {}}
             sx={{ m: 1 }}
             variant="outlined"
@@ -204,34 +187,15 @@ export const JobsBrowseFilter: FC<CardProps> = (props) => {
           alignItems: 'center',
           display: 'flex',
           flexWrap: 'wrap',
-          p: 1
+          p: 1,
         }}
       >
-        <MultiSelect
-          label="Type"
-          options={typeOptions}
-          value={typeValues}
-        />
-        <MultiSelect
-          label="Level"
-          options={levelOptions}
-          value={levelValues}
-        />
-        <MultiSelect
-          label="Location"
-          options={locationOptions}
-          value={locationValues}
-        />
-        <MultiSelect
-          label="Role"
-          options={roleOptions}
-          value={roleValues}
-        />
+        <MultiSelect label="Type" options={typeOptions} value={typeValues} />
+        <MultiSelect label="Level" options={levelOptions} value={levelValues} />
+        <MultiSelect label="Location" options={locationOptions} value={locationValues} />
+        <MultiSelect label="Role" options={roleOptions} value={roleValues} />
         <Box sx={{ flexGrow: 1 }} />
-        <FormControlLabel
-          control={<Checkbox defaultChecked />}
-          label="In network"
-        />
+        <FormControlLabel control={<Checkbox defaultChecked />} label="In network" />
       </Box>
     </Card>
   );

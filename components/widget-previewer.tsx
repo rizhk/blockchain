@@ -29,36 +29,26 @@ export const WidgetPreviewer: FC<DemoPreviewerProps> = (props) => {
 
   const theme = createTheme({
     ...settings,
-    mode: selectedTheme
+    mode: selectedTheme,
   });
 
   return (
-    <Card
-      variant="outlined"
-      sx={{ mb: 8 }}
-      {...other}
-    >
+    <Card variant="outlined" sx={{ mb: 8 }} {...other}>
       <CardHeader
-        action={(
+        action={
           <IconButton onClick={handleSwitch}>
-            {
-              selectedTheme === 'light'
-                ? <MoonIcon fontSize="small" />
-                : <SunIcon fontSize="small" />
-            }
+            {selectedTheme === 'light' ? <MoonIcon fontSize="small" /> : <SunIcon fontSize="small" />}
           </IconButton>
-        )}
+        }
         title={name}
       />
       <Divider />
-      <ThemeProvider theme={theme}>
-        {element}
-      </ThemeProvider>
+      <ThemeProvider theme={theme}>{element}</ThemeProvider>
     </Card>
   );
 };
 
 WidgetPreviewer.propTypes = {
   element: PropTypes.node.isRequired,
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
 };

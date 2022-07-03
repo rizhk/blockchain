@@ -23,51 +23,25 @@ const BrowseDetailLists: NextPage = () => {
   return (
     <>
       <Head>
-        <title>
-          Browse: Detail Lists | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
-        </title>
+        <title>Browse: Detail Lists | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
       <Box
         component="main"
         sx={{
           backgroundColor: 'background.paper',
           flexGrow: 1,
-          py: 8
+          py: 8,
         }}
       >
         <Container maxWidth="lg">
-          <WidgetPreviewer
-            element={<DetailList1 />}
-            name="Currency balance card"
-          />
-          <WidgetPreviewer
-            element={<DetailList2 />}
-            name="Contact details card"
-          />
-          <WidgetPreviewer
-            element={<DetailList3 />}
-            name="Invoices details card"
-          />
-          <WidgetPreviewer
-            element={<DetailList4 />}
-            name="Order info"
-          />
-          <WidgetPreviewer
-            element={<DetailList5 />}
-            name="Order info card"
-          />
-          <WidgetPreviewer
-            element={<DetailList6 />}
-            name="Project information card"
-          />
-          <WidgetPreviewer
-            element={<DetailList7 />}
-            name="Project details card"
-          />
-          <WidgetPreviewer
-            element={<DetailList8 />}
-            name="About card"
-          />
+          <WidgetPreviewer element={<DetailList1 />} name="Currency balance card" />
+          <WidgetPreviewer element={<DetailList2 />} name="Contact details card" />
+          <WidgetPreviewer element={<DetailList3 />} name="Invoices details card" />
+          <WidgetPreviewer element={<DetailList4 />} name="Order info" />
+          <WidgetPreviewer element={<DetailList5 />} name="Order info card" />
+          <WidgetPreviewer element={<DetailList6 />} name="Project information card" />
+          <WidgetPreviewer element={<DetailList7 />} name="Project details card" />
+          <WidgetPreviewer element={<DetailList8 />} name="About card" />
         </Container>
       </Box>
     </>
@@ -76,9 +50,7 @@ const BrowseDetailLists: NextPage = () => {
 
 BrowseDetailLists.getLayout = (page) => (
   <MainLayout>
-    <BrowseLayout>
-      {page}
-    </BrowseLayout>
+    <BrowseLayout>{page}</BrowseLayout>
   </MainLayout>
 );
 

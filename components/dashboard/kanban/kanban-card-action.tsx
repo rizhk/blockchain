@@ -18,8 +18,8 @@ export const KanbanCardAction: FC<KanbanCardActionProps> = (props) => {
       sx={{
         justifyContent: 'flex-start',
         '& + &': {
-          mt: 2
-        }
+          mt: 2,
+        },
       }}
       variant="contained"
       {...other}
@@ -31,5 +31,5 @@ export const KanbanCardAction: FC<KanbanCardActionProps> = (props) => {
 
 KanbanCardAction.propTypes = {
   icon: PropTypes.element,
-  children: PropTypes.node
+  children: PropTypes.node,
 };

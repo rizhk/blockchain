@@ -1,4 +1,5 @@
-[{
+[
+  {
     "_format": "hh-sol-artifact-1",
     "contractName": "DEX",
     "sourceName": "contracts/PicanteDex.sol",

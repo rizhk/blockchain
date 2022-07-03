@@ -7,56 +7,56 @@ const labels: Label[] = [
   {
     id: 'all',
     name: 'All Mail',
-    type: 'system'
+    type: 'system',
   },
   {
     id: 'inbox',
     name: 'Inbox',
     totalCount: 0,
     type: 'system',
-    unreadCount: 1
+    unreadCount: 1,
   },
   {
     id: 'sent',
     name: 'Sent',
     totalCount: 0,
     type: 'system',
-    unreadCount: 0
+    unreadCount: 0,
   },
   {
     id: 'drafts',
     name: 'Drafts',
     totalCount: 0,
     type: 'system',
-    unreadCount: 0
+    unreadCount: 0,
   },
   {
     id: 'trash',
     name: 'Trash',
     totalCount: 1,
     type: 'system',
-    unreadCount: 0
+    unreadCount: 0,
   },
   {
     id: 'spam',
     name: 'Spam',
     totalCount: 0,
     type: 'system',
-    unreadCount: 0
+    unreadCount: 0,
   },
   {
     id: 'important',
     name: 'Important',
     totalCount: 1,
     type: 'system',
-    unreadCount: 0
+    unreadCount: 0,
   },
   {
     id: 'starred',
     name: 'Starred',
     totalCount: 1,
     type: 'system',
-    unreadCount: 1
+    unreadCount: 1,
   },
   {
     id: 'work',
@@ -64,7 +64,7 @@ const labels: Label[] = [
     name: 'Work',
     totalCount: 1,
     type: 'custom',
-    unreadCount: 0
+    unreadCount: 0,
   },
   {
     id: 'business',
@@ -72,7 +72,7 @@ const labels: Label[] = [
     name: 'Business',
     totalCount: 2,
     type: 'custom',
-    unreadCount: 1
+    unreadCount: 1,
   },
   {
     id: 'personal',
@@ -80,8 +80,8 @@ const labels: Label[] = [
     name: 'Personal',
     totalCount: 1,
     type: 'custom',
-    unreadCount: 0
-  }
+    unreadCount: 0,
+  },
 ];
 
 const emails: Email[] = [
@@ -93,29 +93,29 @@ const emails: Email[] = [
         type: 'image',
         url: '/static/mock-images/mail/attachment_1.jpg',
         name: 'working-sketch.jpg',
-        size: '128.5Kb'
+        size: '128.5Kb',
       },
       {
         id: '09223c93e60f815fdce487af',
         type: 'file',
         url: '/static/mock-images/mail/attachment_2.pdf',
         name: 'summer-customers.pdf',
-        size: '782.3Kb'
+        size: '782.3Kb',
       },
       {
         id: '165adb24c7b6a2e9aebba766',
         type: 'image',
         url: '/static/mock-images/mail/attachment_3.jpg',
         name: 'desktop-coffee.jpg',
-        size: '568.2Kb'
-      }
+        size: '568.2Kb',
+      },
     ],
     createdAt: now.getTime(),
     folder: 'inbox',
     from: {
       avatar: '/static/mock-images/avatars/avatar-marcus_finn.png',
       email: 'marcus.finn@devias.io',
-      name: 'Marcus Finn'
+      name: 'Marcus Finn',
     },
     isImportant: true,
     isStarred: false,
@@ -138,9 +138,9 @@ Marcus Finn
       {
         avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
         email: 'anika.visser@devias.io',
-        name: 'Anika Visser'
-      }
-    ]
+        name: 'Anika Visser',
+      },
+    ],
   },
   {
     id: '5e86bcbd8406cd3055f2b6c8',
@@ -149,7 +149,7 @@ Marcus Finn
     from: {
       avatar: '/static/mock-images/avatars/avatar-miron_vitold.png',
       email: 'miron.vitold@devias.io',
-      name: 'Miron Vitold'
+      name: 'Miron Vitold',
     },
     isImportant: false,
     isStarred: true,
@@ -163,9 +163,9 @@ Hey, nice projects! I really liked the one in react. What's your quote on kinda 
       {
         avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
         email: 'anika.visser@devias.io',
-        name: 'Anika Visser'
-      }
-    ]
+        name: 'Anika Visser',
+      },
+    ],
   },
   {
     id: '5e86bcb9fee1ec12453fa13b',
@@ -174,7 +174,7 @@ Hey, nice projects! I really liked the one in react. What's your quote on kinda 
     from: {
       avatar: '/static/mock-images/avatars/avatar-penjani_inyene.png',
       email: 'penjani.inyene@devias.io',
-      name: 'Penjani Inyene'
+      name: 'Penjani Inyene',
     },
     isImportant: false,
     isStarred: false,
@@ -188,9 +188,9 @@ Dear Anika, Your flight is coming up soon. Please don’t forget to check in for
       {
         avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
         email: 'anika.visser@devias.io',
-        name: 'Anika Visser'
-      }
-    ]
+        name: 'Anika Visser',
+      },
+    ],
   },
   {
     id: '5e86bcb5575181a5e527e24f',
@@ -199,7 +199,7 @@ Dear Anika, Your flight is coming up soon. Please don’t forget to check in for
     from: {
       avatar: '/static/mock-images/avatars/avatar-carson_darrin.png',
       email: 'carson.darrin@devias.io',
-      name: 'Carson Darrin'
+      name: 'Carson Darrin',
     },
     isImportant: false,
     isStarred: false,
@@ -213,10 +213,10 @@ My market leading client has another fantastic opportunity for an experienced So
       {
         avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
         email: 'anika.visser@devias.io',
-        name: 'Anika Visser'
-      }
-    ]
-  }
+        name: 'Anika Visser',
+      },
+    ],
+  },
 ];
 
 class MailApi {
@@ -224,7 +224,7 @@ class MailApi {
     return Promise.resolve(deepCopy(labels));
   }
 
-  getEmails({ label }: { label?: string; }): Promise<Email[]> {
+  getEmails({ label }: { label?: string }): Promise<Email[]> {
     return new Promise((resolve, reject) => {
       try {
         // Initially we make a copy of all emails.
@@ -232,16 +232,13 @@ class MailApi {
         let filteredEmails: Email[] = [];
 
         // Get all user custom labels
-        const customLabels = labels.reduce(
-          (acc: string[], label) => {
-            if (label.type === 'custom') {
-              acc.push(label.id);
-            }
+        const customLabels = labels.reduce((acc: string[], label) => {
+          if (label.type === 'custom') {
+            acc.push(label.id);
+          }
 
-            return acc;
-          },
-          []
-        );
+          return acc;
+        }, []);
 
         if (label && customLabels.includes(label!)) {
           filteredEmails = emails.filter((email) => email.labelIds.includes(label!));

@@ -20,34 +20,19 @@ export const AmplifyPasswordReset: FC = (props) => {
       email: username,
       password: '',
       passwordConfirm: '',
-      submit: null
+      submit: null,
     },
     validationSchema: Yup.object({
-      code: Yup
-        .array()
-        .of(Yup.string().required('Code is required')),
-      email: Yup
-        .string()
-        .email('Must be a valid email')
-        .max(255)
-        .required('Email is required'),
-      password: Yup
-        .string()
-        .min(7, 'Must be at least 7 characters')
-        .max(255)
-        .required('Required'),
-      passwordConfirm: Yup
-        .string()
+      code: Yup.array().of(Yup.string().required('Code is required')),
+      email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+      password: Yup.string().min(7, 'Must be at least 7 characters').max(255).required('Required'),
+      passwordConfirm: Yup.string()
         .oneOf([Yup.ref('password'), null], 'Passwords must match')
-        .required('Required')
+        .required('Required'),
     }),
     onSubmit: async (values, helpers): Promise<void> => {
       try {
-        await passwordReset(
-          values.email,
-          values.code.join(''),
-          values.password
-        );
+        await passwordReset(values.email, values.code.join(''), values.password);
 
         if (isMounted()) {
           router.push('/authentication/login').catch(console.error);
@@ -61,7 +46,7 @@ export const AmplifyPasswordReset: FC = (props) => {
           helpers.setSubmitting(false);
         }
       }
-    }
+    },
   });
 
   useEffect(() => {
@@ -120,42 +105,29 @@ export const AmplifyPasswordReset: FC = (props) => {
   };
 
   return (
-    <form
-      noValidate
-      onSubmit={formik.handleSubmit}
-      {...props}
-    >
-      {
-        !username
-          ? (
-            <TextField
-              autoFocus
-              error={Boolean(formik.touched.email && formik.errors.email)}
-              fullWidth
-              helperText={formik.touched.email && formik.errors.email}
-              label="Email Address"
-              margin="normal"
-              name="email"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              type="email"
-              value={formik.values.email}
-            />
-          )
-          : (
-            <TextField
-              disabled
-              fullWidth
-              margin="normal"
-              value={username}
-            />
-          )
-      }
+    <form noValidate onSubmit={formik.handleSubmit} {...props}>
+      {!username ? (
+        <TextField
+          autoFocus
+          error={Boolean(formik.touched.email && formik.errors.email)}
+          fullWidth
+          helperText={formik.touched.email && formik.errors.email}
+          label="Email Address"
+          margin="normal"
+          name="email"
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          type="email"
+          value={formik.values.email}
+        />
+      ) : (
+        <TextField disabled fullWidth margin="normal" value={username} />
+      )}
       <Typography
         color="textSecondary"
         sx={{
           mb: 2,
-          mt: 3
+          mt: 3,
         }}
         variant="subtitle2"
       >
@@ -166,18 +138,16 @@ export const AmplifyPasswordReset: FC = (props) => {
           columnGap: '16px',
           display: 'grid',
           gridTemplateColumns: 'repeat(7, 1fr)',
-          py: 1
+          py: 1,
         }}
       >
         {[1, 2, 3, 4, 5, 6].map((ref, index) => (
           <TextField
             error={Boolean(
-              Array.isArray(formik.touched.code)
-              && formik.touched.code.length === 6
-              && formik.errors.code
+              Array.isArray(formik.touched.code) && formik.touched.code.length === 6 && formik.errors.code,
             )}
             fullWidth
-            inputRef={(el) => itemsRef.current[index] = el}
+            inputRef={(el) => (itemsRef.current[index] = el)}
             // eslint-disable-next-line react/no-array-index-key
             key={`code-${index}`}
             name={`code[${index}]`}
@@ -189,26 +159,17 @@ export const AmplifyPasswordReset: FC = (props) => {
               display: 'inline-block',
               textAlign: 'center',
               '& .MuiInputBase-input': {
-                textAlign: 'center'
-              }
+                textAlign: 'center',
+              },
             }}
           />
         ))}
       </Box>
-      {
-        Boolean(
-          Array.isArray(formik.touched.code)
-          && formik.touched.code.length === 6
-          && formik.errors.code
-        ) && (
-          <FormHelperText
-            error
-            sx={{ mx: '14px' }}
-          >
-            {Array.isArray(formik.errors.code) && formik.errors.code.find((x) => x !== undefined)}
-          </FormHelperText>
-        )
-      }
+      {Boolean(Array.isArray(formik.touched.code) && formik.touched.code.length === 6 && formik.errors.code) && (
+        <FormHelperText error sx={{ mx: '14px' }}>
+          {Array.isArray(formik.errors.code) && formik.errors.code.find((x) => x !== undefined)}
+        </FormHelperText>
+      )}
       <TextField
         error={Boolean(formik.touched.password && formik.errors.password)}
         fullWidth
@@ -235,19 +196,11 @@ export const AmplifyPasswordReset: FC = (props) => {
       />
       {formik.errors.submit && (
         <Box sx={{ mt: 3 }}>
-          <FormHelperText error>
-            {formik.errors.submit}
-          </FormHelperText>
+          <FormHelperText error>{formik.errors.submit}</FormHelperText>
         </Box>
       )}
       <Box sx={{ mt: 3 }}>
-        <Button
-          disabled={formik.isSubmitting}
-          fullWidth
-          size="large"
-          type="submit"
-          variant="contained"
-        >
+        <Button disabled={formik.isSubmitting} fullWidth size="large" type="submit" variant="contained">
           Reset Password
         </Button>
       </Box>

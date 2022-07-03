@@ -14,14 +14,10 @@ export const AmplifyLogin: FC = (props) => {
     initialValues: {
       email: 'demo@devias.io',
       password: 'Password123!',
-      submit: null
+      submit: null,
     },
     validationSchema: Yup.object({
-      email: Yup
-        .string()
-        .email('Must be a valid email')
-        .max(255)
-        .required('Email is required')
+      email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
     }),
     onSubmit: async (values, helpers): Promise<void> => {
       try {
@@ -46,15 +42,11 @@ export const AmplifyLogin: FC = (props) => {
           helpers.setSubmitting(false);
         }
       }
-    }
+    },
   });
 
   return (
-    <form
-      noValidate
-      onSubmit={formik.handleSubmit}
-      {...props}
-    >
+    <form noValidate onSubmit={formik.handleSubmit} {...props}>
       <TextField
         autoFocus
         error={Boolean(formik.touched.email && formik.errors.email)}
@@ -82,32 +74,18 @@ export const AmplifyLogin: FC = (props) => {
       />
       {formik.errors.submit && (
         <Box sx={{ mt: 3 }}>
-          <FormHelperText error>
-            {formik.errors.submit}
-          </FormHelperText>
+          <FormHelperText error>{formik.errors.submit}</FormHelperText>
         </Box>
       )}
       <Box sx={{ mt: 2 }}>
-        <Button
-          disabled={formik.isSubmitting}
-          fullWidth
-          size="large"
-          type="submit"
-          variant="contained"
-        >
+        <Button disabled={formik.isSubmitting} fullWidth size="large" type="submit" variant="contained">
           Log In
         </Button>
       </Box>
       <Box sx={{ mt: 3 }}>
         <Alert severity="info">
           <div>
-            You can use
-            {' '}
-            <b>demo@devias.io</b>
-            {' '}
-            and password
-            {' '}
-            <b>Password123!</b>
+            You can use <b>demo@devias.io</b> and password <b>Password123!</b>
           </div>
         </Alert>
       </Box>

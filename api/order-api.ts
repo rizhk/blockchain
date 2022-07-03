@@ -16,7 +16,7 @@ class OrderApi {
           city: 'San Diego',
           country: 'USA',
           email: 'miron.vitold@devias.io',
-          name: 'Miron Vitold'
+          name: 'Miron Vitold',
         },
         items: [
           {
@@ -25,7 +25,7 @@ class OrderApi {
             currency: '$',
             name: 'Project Points',
             quantity: 25,
-            unitAmount: 50.25
+            unitAmount: 50.25,
           },
           {
             id: '5ecb8ac10f116d04bed990eb',
@@ -33,13 +33,13 @@ class OrderApi {
             currency: '$',
             name: 'Freelancer Subscription',
             quantity: 1,
-            unitAmount: 5.00
-          }
+            unitAmount: 5.0,
+          },
         ],
         number: 'DEV-102',
         paymentMethod: 'CreditCard',
         status: 'pending',
-        totalAmount: 500.00
+        totalAmount: 500.0,
       },
       {
         id: '5ecb8a738aa6f3e577c2b3ec',
@@ -51,7 +51,7 @@ class OrderApi {
           city: 'San Diego',
           country: 'USA',
           email: 'miron.vitold@devias.io',
-          name: 'Miron Vitold'
+          name: 'Miron Vitold',
         },
         items: [
           {
@@ -60,7 +60,7 @@ class OrderApi {
             currency: '$',
             name: 'Project Points',
             quantity: 25,
-            unitAmount: 50.25
+            unitAmount: 50.25,
           },
           {
             id: '5ecb8ac10f116d04bed990eb',
@@ -68,13 +68,13 @@ class OrderApi {
             currency: '$',
             name: 'Freelancer Subscription',
             quantity: 1,
-            unitAmount: 5.00
-          }
+            unitAmount: 5.0,
+          },
         ],
         number: 'DEV-101',
         paymentMethod: 'PayPal',
         status: 'complete',
-        totalAmount: 324.50
+        totalAmount: 324.5,
       },
       {
         id: '5ecb8a795e53f134013eba3b',
@@ -86,7 +86,7 @@ class OrderApi {
           city: 'San Diego',
           country: 'USA',
           email: 'miron.vitold@devias.io',
-          name: 'Miron Vitold'
+          name: 'Miron Vitold',
         },
         items: [
           {
@@ -95,7 +95,7 @@ class OrderApi {
             currency: '$',
             name: 'Project Points',
             quantity: 25,
-            unitAmount: 50.25
+            unitAmount: 50.25,
           },
           {
             id: '5ecb8ac10f116d04bed990eb',
@@ -103,13 +103,13 @@ class OrderApi {
             currency: '$',
             name: 'Freelancer Subscription',
             quantity: 1,
-            unitAmount: 5.00
-          }
+            unitAmount: 5.0,
+          },
         ],
         number: 'DEV-100',
         paymentMethod: 'CreditCard',
         status: 'canceled',
-        totalAmount: 746.50
+        totalAmount: 746.5,
       },
       {
         id: '5ecb8a7f738cc572a9ce0277',
@@ -121,7 +121,7 @@ class OrderApi {
           city: 'San Diego',
           country: 'USA',
           email: 'miron.vitold@devias.io',
-          name: 'Miron Vitold'
+          name: 'Miron Vitold',
         },
         items: [
           {
@@ -130,7 +130,7 @@ class OrderApi {
             currency: '$',
             name: 'Project Points',
             quantity: 25,
-            unitAmount: 50.25
+            unitAmount: 50.25,
           },
           {
             id: '5ecb8ac10f116d04bed990eb',
@@ -138,13 +138,13 @@ class OrderApi {
             currency: '$',
             name: 'Freelancer Subscription',
             quantity: 1,
-            unitAmount: 5.00
-          }
+            unitAmount: 5.0,
+          },
         ],
         number: 'DEV-99',
         paymentMethod: 'PayPal',
         status: 'rejected',
-        totalAmount: 56.89
+        totalAmount: 56.89,
       },
       {
         id: '5e86805e2bafd54f66cc95c3',
@@ -156,7 +156,7 @@ class OrderApi {
           city: 'San Diego',
           country: 'USA',
           email: 'miron.vitold@devias.io',
-          name: 'Miron Vitold'
+          name: 'Miron Vitold',
         },
         items: [
           {
@@ -165,7 +165,7 @@ class OrderApi {
             currency: '$',
             name: 'Project Points',
             quantity: 25,
-            unitAmount: 50.25
+            unitAmount: 50.25,
           },
           {
             id: '5ecb8ac10f116d04bed990eb',
@@ -173,13 +173,13 @@ class OrderApi {
             currency: '$',
             name: 'Freelancer Subscription',
             quantity: 1,
-            unitAmount: 5.00
-          }
+            unitAmount: 5.0,
+          },
         ],
         number: 'DEV-98',
         paymentMethod: 'PayPal',
         status: 'complete',
-        totalAmount: 541.59
+        totalAmount: 541.59,
       },
       {
         id: '5ecb8a85a850c16fa413849c',
@@ -191,7 +191,7 @@ class OrderApi {
           city: 'San Diego',
           country: 'USA',
           email: 'miron.vitold@devias.io',
-          name: 'Miron Vitold'
+          name: 'Miron Vitold',
         },
         items: [
           {
@@ -200,7 +200,7 @@ class OrderApi {
             currency: '$',
             name: 'Project Points',
             quantity: 25,
-            unitAmount: 50.25
+            unitAmount: 50.25,
           },
           {
             id: '5ecb8ac10f116d04bed990eb',
@@ -208,13 +208,13 @@ class OrderApi {
             currency: '$',
             name: 'Freelancer Subscription',
             quantity: 1,
-            unitAmount: 5.00
-          }
+            unitAmount: 5.0,
+          },
         ],
         status: 'pending',
         number: 'DEV-97',
         paymentMethod: 'CreditCard',
-        totalAmount: 941.21
+        totalAmount: 941.21,
       },
       {
         id: '5ecb8a8e69ba2e409ea0168f',
@@ -226,7 +226,7 @@ class OrderApi {
           city: 'San Diego',
           country: 'USA',
           email: 'miron.vitold@devias.io',
-          name: 'Miron Vitold'
+          name: 'Miron Vitold',
         },
         items: [
           {
@@ -235,7 +235,7 @@ class OrderApi {
             currency: '$',
             name: 'Project Points',
             quantity: 25,
-            unitAmount: 50.25
+            unitAmount: 50.25,
           },
           {
             id: '5ecb8ac10f116d04bed990eb',
@@ -243,13 +243,13 @@ class OrderApi {
             currency: '$',
             name: 'Freelancer Subscription',
             quantity: 1,
-            unitAmount: 5.00
-          }
+            unitAmount: 5.0,
+          },
         ],
         number: 'DEV-96',
         paymentMethod: 'CreditCard',
         status: 'complete',
-        totalAmount: 499.12
+        totalAmount: 499.12,
       },
       {
         id: '5ecb8a9341c68839d387e1c4',
@@ -261,7 +261,7 @@ class OrderApi {
           city: 'San Diego',
           country: 'USA',
           email: 'miron.vitold@devias.io',
-          name: 'Miron Vitold'
+          name: 'Miron Vitold',
         },
         items: [
           {
@@ -270,7 +270,7 @@ class OrderApi {
             currency: '$',
             name: 'Project Points',
             quantity: 25,
-            unitAmount: 50.25
+            unitAmount: 50.25,
           },
           {
             id: '5ecb8ac10f116d04bed990eb',
@@ -278,13 +278,13 @@ class OrderApi {
             currency: '$',
             name: 'Freelancer Subscription',
             quantity: 1,
-            unitAmount: 5.00
-          }
+            unitAmount: 5.0,
+          },
         ],
         number: 'DEV-95',
         paymentMethod: 'PayPal',
         status: 'rejected',
-        totalAmount: 588.75
+        totalAmount: 588.75,
       },
       {
         id: '5ecb8a984bfbb97c9ae458e8',
@@ -296,7 +296,7 @@ class OrderApi {
           city: 'San Diego',
           country: 'USA',
           email: 'miron.vitold@devias.io',
-          name: 'Miron Vitold'
+          name: 'Miron Vitold',
         },
         items: [
           {
@@ -305,7 +305,7 @@ class OrderApi {
             currency: '$',
             name: 'Project Points',
             quantity: 25,
-            unitAmount: 50.25
+            unitAmount: 50.25,
           },
           {
             id: '5ecb8ac10f116d04bed990eb',
@@ -313,13 +313,13 @@ class OrderApi {
             currency: '$',
             name: 'Freelancer Subscription',
             quantity: 1,
-            unitAmount: 5.00
-          }
+            unitAmount: 5.0,
+          },
         ],
         number: 'DEV-94',
         paymentMethod: 'CreditCard',
         status: 'canceled',
-        totalAmount: 399.99
+        totalAmount: 399.99,
       },
       {
         id: '5ecb8aa08d9127dba654ce7a',
@@ -331,7 +331,7 @@ class OrderApi {
           city: 'San Diego',
           country: 'USA',
           email: 'miron.vitold@devias.io',
-          name: 'Miron Vitold'
+          name: 'Miron Vitold',
         },
         items: [
           {
@@ -340,7 +340,7 @@ class OrderApi {
             currency: '$',
             name: 'Project Points',
             quantity: 25,
-            unitAmount: 50.25
+            unitAmount: 50.25,
           },
           {
             id: '5ecb8ac10f116d04bed990eb',
@@ -348,14 +348,14 @@ class OrderApi {
             currency: '$',
             name: 'Freelancer Subscription',
             quantity: 1,
-            unitAmount: 5.00
-          }
+            unitAmount: 5.0,
+          },
         ],
         number: 'DEV-93',
         paymentMethod: 'PayPal',
         status: 'canceled',
-        totalAmount: 500.00
-      }
+        totalAmount: 500.0,
+      },
     ];
 
     return Promise.resolve(orders);
@@ -373,7 +373,7 @@ class OrderApi {
         city: 'San Diego',
         country: 'USA',
         email: 'miron.vitold@devias.io',
-        name: 'Miron Vitold'
+        name: 'Miron Vitold',
       },
       items: [
         {
@@ -382,7 +382,7 @@ class OrderApi {
           currency: '$',
           name: 'Project Points',
           quantity: 25,
-          unitAmount: 50.25
+          unitAmount: 50.25,
         },
         {
           id: '5ecb8ac10f116d04bed990eb',
@@ -390,14 +390,14 @@ class OrderApi {
           currency: '$',
           name: 'Freelancer Subscription',
           quantity: 1,
-          unitAmount: 5.00
-        }
+          unitAmount: 5.0,
+        },
       ],
       number: 'DEV-103',
       paymentMethod: 'CreditCard',
       promotionCode: 'PROMO1',
       status: 'pending',
-      totalAmount: 500.00
+      totalAmount: 500.0,
     };
 
     return Promise.resolve(order);

@@ -17,7 +17,7 @@ const tabs = [
   { label: 'Billing', value: 'billing' },
   { label: 'Team', value: 'team' },
   { label: 'Notifications', value: 'notifications' },
-  { label: 'Security', value: 'security' }
+  { label: 'Security', value: 'security' },
 ];
 
 const Account: NextPage = () => {
@@ -34,21 +34,17 @@ const Account: NextPage = () => {
   return (
     <>
       <Head>
-        <title>
-          Dashboard: Account | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
-        </title>
+        <title>Dashboard: Account | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          py: 8
+          py: 8,
         }}
       >
         <Container maxWidth="md">
-          <Typography variant="h4">
-            Account
-          </Typography>
+          <Typography variant="h4">Account</Typography>
           <Tabs
             indicatorColor="primary"
             onChange={handleTabsChange}
@@ -59,11 +55,7 @@ const Account: NextPage = () => {
             sx={{ mt: 3 }}
           >
             {tabs.map((tab) => (
-              <Tab
-                key={tab.value}
-                label={tab.label}
-                value={tab.value}
-              />
+              <Tab key={tab.value} label={tab.label} value={tab.value} />
             ))}
           </Tabs>
           <Divider sx={{ mb: 3 }} />
@@ -80,9 +72,7 @@ const Account: NextPage = () => {
 
 Account.getLayout = (page) => (
   <AuthGuard>
-    <DashboardLayout>
-      {page}
-    </DashboardLayout>
+    <DashboardLayout>{page}</DashboardLayout>
   </AuthGuard>
 );
 

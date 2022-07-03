@@ -28,7 +28,7 @@ const cardSelector = (state: RootState, cardId: string): PopulatedCard => {
 
   return {
     ...card,
-    members: card.memberIds.map((memberId: string) => members.byId[memberId])
+    members: card.memberIds.map((memberId: string) => members.byId[memberId]),
   };
 };
 
@@ -50,7 +50,7 @@ export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>((props, re
       ref={ref}
       sx={{
         outline: 'none',
-        py: 1
+        py: 1,
       }}
       {...other}
     >
@@ -59,25 +59,17 @@ export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>((props, re
         raised={dragging}
         sx={{
           ...(dragging && {
-            backgroundColor: 'background.paper'
+            backgroundColor: 'background.paper',
           }),
           '&:hover': {
-            backgroundColor: 'background.default'
-          }
+            backgroundColor: 'background.default',
+          },
         }}
         variant="elevation"
       >
         <Box sx={{ p: 3 }}>
-          {card.cover && (
-            <CardMedia
-              image={card.cover}
-              sx={{ height: 120 }}
-            />
-          )}
-          <Typography
-            sx={{ mt: 1 }}
-            variant="subtitle1"
-          >
+          {card.cover && <CardMedia image={card.cover} sx={{ height: 120 }} />}
+          <Typography sx={{ mt: 1 }} variant="subtitle1">
             {card.name}
           </Typography>
           {card.labels.length > 0 && (
@@ -87,16 +79,11 @@ export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>((props, re
                 display: 'flex',
                 flexWrap: 'wrap',
                 m: -1,
-                mt: 1
+                mt: 1,
               }}
             >
               {card.labels.map((label) => (
-                <Chip
-                  key={label}
-                  label={label}
-                  size="small"
-                  sx={{ m: 1 }}
-                />
+                <Chip key={label} label={label} size="small" sx={{ m: 1 }} />
               ))}
             </Box>
           )}
@@ -107,8 +94,8 @@ export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>((props, re
               mt: 2,
               color: 'action.active',
               '& svg:not(:first-of-type)': {
-                ml: 2
-              }
+                ml: 2,
+              },
             }}
           >
             {card.isSubscribed && <EyeIcon fontSize="small" />}
@@ -119,22 +106,14 @@ export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>((props, re
             {card.members.length > 0 && (
               <AvatarGroup max={5}>
                 {card.members.map((member) => (
-                  <Avatar
-                    key={member.id}
-                    src={member.avatar || undefined}
-                  />
+                  <Avatar key={member.id} src={member.avatar || undefined} />
                 ))}
               </AvatarGroup>
             )}
           </Box>
         </Box>
       </Card>
-      <KanbanCardModal
-        card={card}
-        column={column}
-        onClose={handleClose}
-        open={open}
-      />
+      <KanbanCardModal card={card} column={column} onClose={handleClose} open={open} />
     </Box>
   );
 });
@@ -145,9 +124,9 @@ KanbanCard.propTypes = {
   index: PropTypes.number,
   // @ts-ignore
   column: PropTypes.object.isRequired,
-  style: PropTypes.object
+  style: PropTypes.object,
 };
 
 KanbanCard.defaultProps = {
-  dragging: false
+  dragging: false,
 };

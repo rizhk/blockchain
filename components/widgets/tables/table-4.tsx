@@ -14,7 +14,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography
+  Typography,
 } from '@mui/material';
 import { ArrowRight as ArrowRightIcon } from '../../../icons/arrow-right';
 import { DotsHorizontal as DotsHorizontalIcon } from '../../../icons/dots-horizontal';
@@ -48,12 +48,12 @@ const orders: Order[] = [
     currency: '$',
     customer: {
       email: 'carson.darrin@devias.io',
-      name: 'Carson Darrin'
+      name: 'Carson Darrin',
     },
     number: 'DEV-102',
     paymentMethod: 'CreditCard',
     status: 'pending',
-    totalAmount: 500.00
+    totalAmount: 500.0,
   },
   {
     id: '5ecb8a738aa6f3e577c2b3ec',
@@ -61,12 +61,12 @@ const orders: Order[] = [
     currency: '$',
     customer: {
       email: 'fran.perez@devias.io',
-      name: 'Fran Perez'
+      name: 'Fran Perez',
     },
     number: 'DEV-101',
     paymentMethod: 'PayPal',
     status: 'complete',
-    totalAmount: 500.00
+    totalAmount: 500.0,
   },
   {
     id: '5ecb8a795e53f134013eba3b',
@@ -74,12 +74,12 @@ const orders: Order[] = [
     currency: '$',
     customer: {
       email: 'jie.yan.song@devias.io',
-      name: 'Jie Yan Song'
+      name: 'Jie Yan Song',
     },
     number: 'DEV-100',
     paymentMethod: 'CreditCard',
     status: 'pending',
-    totalAmount: 500.00
+    totalAmount: 500.0,
   },
   {
     id: '5ecb8a7f738cc572a9ce0277',
@@ -87,12 +87,12 @@ const orders: Order[] = [
     currency: '$',
     customer: {
       email: 'clarke.gillebert@devias.io',
-      name: 'Clarke Gillebert'
+      name: 'Clarke Gillebert',
     },
     number: 'DEV-99',
     paymentMethod: 'PayPal',
     status: 'complete',
-    totalAmount: 500.00
+    totalAmount: 500.0,
   },
   {
     id: '5e86805e2bafd54f66cc95c3',
@@ -100,58 +100,54 @@ const orders: Order[] = [
     currency: '$',
     customer: {
       email: 'miron.vitold@devias.io',
-      name: 'Miron Vitold'
+      name: 'Miron Vitold',
     },
     number: 'DEV-98',
     paymentMethod: 'PayPal',
     status: 'complete',
-    totalAmount: 500.00
-  }
+    totalAmount: 500.0,
+  },
 ];
 
 const getStatusLabel = (orderStatus: OrderStatus): JSX.Element => {
-  const map: Record<OrderStatus, { color: SeverityPillColor; text: string; }> = {
+  const map: Record<OrderStatus, { color: SeverityPillColor; text: string }> = {
     canceled: {
       color: 'error',
-      text: 'Canceled'
+      text: 'Canceled',
     },
     complete: {
       color: 'success',
-      text: 'complete'
+      text: 'complete',
     },
     pending: {
       color: 'warning',
-      text: 'Pending'
+      text: 'Pending',
     },
     rejected: {
       color: 'error',
-      text: 'Rejected'
-    }
+      text: 'Rejected',
+    },
   };
 
   const { text, color } = map[orderStatus];
 
-  return (
-    <SeverityPill color={color}>
-      {text}
-    </SeverityPill>
-  );
+  return <SeverityPill color={color}>{text}</SeverityPill>;
 };
 
 export const Table4: FC = () => (
   <Box
     sx={{
       backgroundColor: 'background.default',
-      p: 3
+      p: 3,
     }}
   >
     <Card>
       <CardHeader
-        action={(
+        action={
           <IconButton>
             <DotsHorizontalIcon fontSize="small" />
           </IconButton>
-        )}
+        }
         title="Orders"
       />
       <Divider />
@@ -162,66 +158,35 @@ export const Table4: FC = () => (
               <TableCell padding="checkbox">
                 <Checkbox />
               </TableCell>
-              <TableCell>
-                Number
-              </TableCell>
-              <TableCell>
-                Customer
-              </TableCell>
-              <TableCell>
-                Method
-              </TableCell>
-              <TableCell>
-                Total
-              </TableCell>
-              <TableCell>
-                Status
-              </TableCell>
-              <TableCell align="right">
-                Actions
-              </TableCell>
+              <TableCell>Number</TableCell>
+              <TableCell>Customer</TableCell>
+              <TableCell>Method</TableCell>
+              <TableCell>Total</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {orders.map((order) => (
-              <TableRow
-                hover
-                key={order.id}
-              >
+              <TableRow hover key={order.id}>
                 <TableCell padding="checkbox">
                   <Checkbox />
                 </TableCell>
                 <TableCell>
-                  <Typography variant="subtitle2">
-                    {order.number}
-                  </Typography>
-                  <Typography
-                    color="textSecondary"
-                    variant="body2"
-                  >
+                  <Typography variant="subtitle2">{order.number}</Typography>
+                  <Typography color="textSecondary" variant="body2">
                     {format(order.createdAt, 'dd MMM yyyy | HH:mm')}
                   </Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="subtitle2">
-                    {order.customer.name}
-                  </Typography>
-                  <Typography
-                    color="textSecondary"
-                    variant="body2"
-                  >
+                  <Typography variant="subtitle2">{order.customer.name}</Typography>
+                  <Typography color="textSecondary" variant="body2">
                     {order.customer.email}
                   </Typography>
                 </TableCell>
-                <TableCell>
-                  {order.paymentMethod}
-                </TableCell>
-                <TableCell>
-                  {numeral(order.totalAmount).format(`${order.currency}0,0.00`)}
-                </TableCell>
-                <TableCell>
-                  {getStatusLabel(order.status)}
-                </TableCell>
+                <TableCell>{order.paymentMethod}</TableCell>
+                <TableCell>{numeral(order.totalAmount).format(`${order.currency}0,0.00`)}</TableCell>
+                <TableCell>{getStatusLabel(order.status)}</TableCell>
                 <TableCell align="right">
                   <IconButton>
                     <PencilAltIcon fontSize="small" />
@@ -238,10 +203,8 @@ export const Table4: FC = () => (
       <TablePagination
         component="div"
         count={orders.length}
-        onPageChange={() => {
-        }}
-        onRowsPerPageChange={() => {
-        }}
+        onPageChange={() => {}}
+        onRowsPerPageChange={() => {}}
         page={0}
         rowsPerPage={5}
         rowsPerPageOptions={[5, 10, 25]}

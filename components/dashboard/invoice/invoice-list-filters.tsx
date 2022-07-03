@@ -13,7 +13,7 @@ import {
   Switch,
   TextField,
   Typography,
-  useMediaQuery
+  useMediaQuery,
 } from '@mui/material';
 import type { Theme } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -45,7 +45,7 @@ const customers = [
   'ACME SRL',
   'Novelty I.S',
   'Beauty Clinic SRL',
-  'Division Inc.'
+  'Division Inc.',
 ];
 
 const FiltersDrawerDesktop = styled(Drawer)({
@@ -53,8 +53,8 @@ const FiltersDrawerDesktop = styled(Drawer)({
   width: 380,
   '& .MuiDrawer-paper': {
     position: 'relative',
-    width: 380
-  }
+    width: 380,
+  },
 });
 
 const FiltersDrawerMobile = styled(Drawer)({
@@ -64,8 +64,8 @@ const FiltersDrawerMobile = styled(Drawer)({
     height: 'calc(100% - 64px)',
     maxWidth: '100%',
     top: 64,
-    width: 380
-  }
+    width: 380,
+  },
 });
 
 export const InvoiceListFilters: FC<InvoiceListFiltersProps> = (props) => {
@@ -77,14 +77,14 @@ export const InvoiceListFilters: FC<InvoiceListFiltersProps> = (props) => {
     event.preventDefault();
     onChange?.({
       ...filters,
-      query: queryRef.current?.value
+      query: queryRef.current?.value,
     });
   };
 
   const handleStartDateChange = (date: Date | null): void => {
     const newFilters: Filters = {
       ...filters,
-      startDate: date
+      startDate: date,
     };
 
     // Prevent end date to be before start date
@@ -98,7 +98,7 @@ export const InvoiceListFilters: FC<InvoiceListFiltersProps> = (props) => {
   const handleEndDateChange = (date: Date | null): void => {
     const newFilters: Filters = {
       ...filters,
-      endDate: date
+      endDate: date,
     };
 
     // Prevent start date to be after end date
@@ -113,12 +113,12 @@ export const InvoiceListFilters: FC<InvoiceListFiltersProps> = (props) => {
     if (event.target.checked) {
       onChange?.({
         ...filters,
-        customer: [...(filters.customer || []), event.target.value]
+        customer: [...(filters.customer || []), event.target.value],
       });
     } else {
       onChange?.({
         ...filters,
-        customer: (filters.customer || []).filter((customer) => customer !== event.target.value)
+        customer: (filters.customer || []).filter((customer) => customer !== event.target.value),
       });
     }
   };
@@ -126,7 +126,7 @@ export const InvoiceListFilters: FC<InvoiceListFiltersProps> = (props) => {
   const handleStatusChange = (event: ChangeEvent<HTMLInputElement>): void => {
     onChange?.({
       ...filters,
-      status: event.target.checked ? 'paid' : undefined
+      status: event.target.checked ? 'paid' : undefined,
     });
   };
 
@@ -136,27 +136,24 @@ export const InvoiceListFilters: FC<InvoiceListFiltersProps> = (props) => {
         pb: 3,
         pt: {
           xs: 3,
-          lg: 8
+          lg: 8,
         },
-        px: 3
+        px: 3,
       }}
     >
       <Box
         sx={{
           display: {
-            lg: 'none'
+            lg: 'none',
           },
-          mb: 2
+          mb: 2,
         }}
       >
         <IconButton onClick={onClose}>
           <X fontSize="small" />
         </IconButton>
       </Box>
-      <Box
-        component="form"
-        onSubmit={handleQueryChange}
-      >
+      <Box component="form" onSubmit={handleQueryChange}>
         <TextField
           defaultValue=""
           fullWidth
@@ -166,23 +163,16 @@ export const InvoiceListFilters: FC<InvoiceListFiltersProps> = (props) => {
               <InputAdornment position="start">
                 <SearchIcon fontSize="small" />
               </InputAdornment>
-            )
+            ),
           }}
           label="Search"
           placeholder="Search by invoice number"
         />
       </Box>
-      <Typography
-        color="textSecondary"
-        sx={{ mt: 3 }}
-        variant="subtitle2"
-      >
+      <Typography color="textSecondary" sx={{ mt: 3 }} variant="subtitle2">
         Issue date
       </Typography>
-      <Stack
-        spacing={2}
-        sx={{ mt: 2 }}
-      >
+      <Stack spacing={2} sx={{ mt: 2 }}>
         <DatePicker
           inputFormat="dd/MM/yyyy"
           label="From"
@@ -198,11 +188,7 @@ export const InvoiceListFilters: FC<InvoiceListFiltersProps> = (props) => {
           value={filters.endDate}
         />
       </Stack>
-      <Typography
-        color="textSecondary"
-        sx={{ mt: 3 }}
-        variant="subtitle2"
-      >
+      <Typography color="textSecondary" sx={{ mt: 3 }} variant="subtitle2">
         From customer
       </Typography>
       <Box
@@ -212,24 +198,19 @@ export const InvoiceListFilters: FC<InvoiceListFiltersProps> = (props) => {
           borderRadius: 1,
           borderStyle: 'solid',
           borderWidth: 1,
-          mt: 2
+          mt: 2,
         }}
       >
         <Scrollbar sx={{ maxHeight: 200 }}>
           <FormGroup
             sx={{
               py: 1,
-              px: 1.5
+              px: 1.5,
             }}
           >
             {customers.map((customer) => (
               <FormControlLabel
-                control={(
-                  <Checkbox
-                    checked={filters.customer?.includes(customer)}
-                    onChange={handleCustomerChange}
-                  />
-                )}
+                control={<Checkbox checked={filters.customer?.includes(customer)} onChange={handleCustomerChange} />}
                 key={customer}
                 label={customer}
                 value={customer}
@@ -239,12 +220,7 @@ export const InvoiceListFilters: FC<InvoiceListFiltersProps> = (props) => {
         </Scrollbar>
       </Box>
       <FormControlLabel
-        control={(
-          <Switch
-            checked={filters.status === 'paid'}
-            onChange={handleStatusChange}
-          />
-        )}
+        control={<Switch checked={filters.status === 'paid'} onChange={handleStatusChange} />}
         label="Show paid only"
         sx={{ mt: 2 }}
       />
@@ -286,5 +262,5 @@ InvoiceListFilters.propTypes = {
   filters: PropTypes.object,
   onChange: PropTypes.func,
   onClose: PropTypes.func,
-  open: PropTypes.bool
+  open: PropTypes.bool,
 };

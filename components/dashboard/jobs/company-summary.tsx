@@ -16,10 +16,7 @@ export const CompanySummary: FC<CompanySummaryProps> = (props) => {
   return (
     <Card {...other}>
       <CardContent>
-        <Typography
-          color="textSecondary"
-          variant="overline"
-        >
+        <Typography color="textSecondary" variant="overline">
           About
         </Typography>
         <PropertyList>
@@ -28,7 +25,7 @@ export const CompanySummary: FC<CompanySummaryProps> = (props) => {
             label="Website"
             sx={{
               mt: 2,
-              p: 0
+              p: 0,
             }}
             value={company.website}
           />
@@ -37,15 +34,11 @@ export const CompanySummary: FC<CompanySummaryProps> = (props) => {
             label="Locations"
             sx={{
               mt: 2,
-              p: 0
+              p: 0,
             }}
           >
             {(company.locations || []).map((location) => (
-              <Typography
-                key={location}
-                color="textSecondary"
-                variant="body2"
-              >
+              <Typography key={location} color="textSecondary" variant="body2">
                 {location}
               </Typography>
             ))}
@@ -55,16 +48,13 @@ export const CompanySummary: FC<CompanySummaryProps> = (props) => {
             label="Company size"
             sx={{
               mt: 1,
-              p: 0
+              p: 0,
             }}
             value={company.employees}
           />
         </PropertyList>
         <Divider sx={{ my: 2 }} />
-        <Typography
-          color="textSecondary"
-          variant="overline"
-        >
+        <Typography color="textSecondary" variant="overline">
           Founders
         </Typography>
         <div>
@@ -74,23 +64,15 @@ export const CompanySummary: FC<CompanySummaryProps> = (props) => {
               sx={{
                 alignItems: 'center',
                 display: 'flex',
-                mt: 2
+                mt: 2,
               }}
             >
-              <Avatar
-                src={founder.avatar}
-                sx={{ mr: 2 }}
-              >
+              <Avatar src={founder.avatar} sx={{ mr: 2 }}>
                 {getInitials(founder.name)}
               </Avatar>
               <div>
-                <Typography variant="subtitle2">
-                  {founder.name}
-                </Typography>
-                <Typography
-                  color="textSecondary"
-                  variant="body2"
-                >
+                <Typography variant="subtitle2">{founder.name}</Typography>
+                <Typography color="textSecondary" variant="body2">
                   {founder.role}
                 </Typography>
               </div>
@@ -104,5 +86,5 @@ export const CompanySummary: FC<CompanySummaryProps> = (props) => {
 
 CompanySummary.propTypes = {
   // @ts-ignore
-  company: PropTypes.object.isRequired
+  company: PropTypes.object.isRequired,
 };

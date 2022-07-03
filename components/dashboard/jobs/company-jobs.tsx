@@ -13,10 +13,7 @@ export const CompanyJobs: FC<CompanyJobsProps> = (props) => {
   const { jobs, ...other } = props;
 
   return (
-    <Card
-      variant="outlined"
-      {...other}
-    >
+    <Card variant="outlined" {...other}>
       {jobs.map((job, index) => (
         <Fragment key={job.id}>
           <Box
@@ -26,54 +23,28 @@ export const CompanyJobs: FC<CompanyJobsProps> = (props) => {
               justifyContent: 'space-between',
               flexWrap: 'wrap',
               px: 2,
-              py: 1.5
+              py: 1.5,
             }}
           >
             <div>
-              <Typography variant="subtitle1">
-                {job.title}
-              </Typography>
-              <Typography
-                color="textSecondary"
-                variant="caption"
-              >
-                {
-                  job.isRemote
-                    ? 'Remote possible'
-                    : (`${job.country}, ${job.city}`)
-                }
-                {' '}
-                <Typography
-                  color="inherit"
-                  noWrap
-                  variant="caption"
-                >
-                  •
-                  {' '}
-                  {job.currency}
-                  {job.salaryMin}
-                  {' '}
-                  -
-                  {' '}
-                  {job.currency}
+              <Typography variant="subtitle1">{job.title}</Typography>
+              <Typography color="textSecondary" variant="caption">
+                {job.isRemote ? 'Remote possible' : `${job.country}, ${job.city}`}{' '}
+                <Typography color="inherit" noWrap variant="caption">
+                  • {job.currency}
+                  {job.salaryMin} - {job.currency}
                   {job.salaryMax}
                 </Typography>
               </Typography>
             </div>
             <div>
-              <Typography
-                color="textSecondary"
-                sx={{ mr: 2 }}
-                variant="caption"
-              >
+              <Typography color="textSecondary" sx={{ mr: 2 }} variant="caption">
                 {formatDistanceStrict(job.publishedAt, new Date(), { addSuffix: true })}
               </Typography>
-              <Button>
-                Apply
-              </Button>
+              <Button>Apply</Button>
             </div>
           </Box>
-          {(index !== jobs.length - 1) && <Divider />}
+          {index !== jobs.length - 1 && <Divider />}
         </Fragment>
       ))}
     </Card>
@@ -81,10 +52,10 @@ export const CompanyJobs: FC<CompanyJobsProps> = (props) => {
 };
 
 CompanyJobs.defaultProps = {
-  jobs: []
+  jobs: [],
 };
 
 CompanyJobs.propTypes = {
   // @ts-ignore
-  jobs: PropTypes.array
+  jobs: PropTypes.array,
 };
