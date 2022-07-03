@@ -1,5 +1,8 @@
 export const en = {
   translation: {
+    overview: {
+      xRateError: 'Failed to get exchange rate.',
+    },
     transaction: {
       seller: 'Seller new',
       buyer: 'Buyer',

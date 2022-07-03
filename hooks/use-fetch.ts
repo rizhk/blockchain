@@ -18,7 +18,10 @@ export default function useFetch<T>(fetchFn: () => Promise<T> | undefined, deps:
         const isPromise = fetchPromise instanceof Promise;
         if (!fetchPromise || !isPromise) return { data, error, loading };
         const response = await fetchPromise;
-        if (isMounted()) setData(response);
+        if (isMounted()) {
+          setData(response);
+          if (error) resetError();
+        }
       } catch (err: any) {
         if (isMounted()) setError(err.message);
       } finally {

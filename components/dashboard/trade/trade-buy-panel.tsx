@@ -30,11 +30,17 @@ import { buyOfferApi } from 'api/market-buy-offer-api';
 import { CreateBuyOfferRequest } from 'types/buy-offer';
 import { transactionApi } from 'api/transaction-api';
 import { TransferRequest, VeriftyTokenTransferRequest } from 'types/transaction';
+import { DataDisplay } from 'components/common/data-display';
+import useFetch from 'hooks/use-fetch';
+import { useTranslation } from 'react-i18next';
+import { primitivesUtils } from 'utils/primitives-utils';
 
 const tokenAddr = process.env.NEXT_PUBLIC_TOKEN_CONTRACT_ADDRESS!;
 const DexContractAddr = process.env.NEXT_PUBLIC_DEX_CONTRACT_ADDRESS!;
 
 export const BuyPanel: FC = (props) => {
+  const { i18n, t } = useTranslation();
+
   const theme = useTheme();
   const cref = useRef(Object)!;
   const isMounted = useMounted();
@@ -103,8 +109,7 @@ export const BuyPanel: FC = (props) => {
 
   const handlePayAmountChange = (event: { target: { value: any } }) => {
     formik.setFieldValue('amountPay', event.target.value);
-    //assumme GBP to USDC is 1:1.25
-    var receiveValue = ((event.target.value * (100 - picanteChargePercentage)) / 100) * 1.25;
+    var receiveValue = ((event.target.value * (100 - picanteChargePercentage)) / 100) * (xRateData?.rate || 1.25);
     setPicanteCharge((event.target.value * picanteChargePercentage) / 100);
     formik.setFieldValue('amountReceive', receiveValue);
 
@@ -191,6 +196,23 @@ export const BuyPanel: FC = (props) => {
     },
   });
 
+  const [fetchXRate, setFetchXRate] = useState(true);
+
+  const {
+    data: xRateData,
+    loading: xRateLoading,
+    error: xRateError,
+  } = useFetch(() => {
+    if (!fetchXRate) return;
+    setFetchXRate(false);
+    return buyOfferApi.getXRate(
+      { fromCur: 'GBP', toCur: 'USDC' },
+      {
+        defaultErrorMessage: t('overview.xRateError'),
+      },
+    );
+  }, [fetchXRate]);
+
   return (
     <form noValidate onSubmit={formik.handleSubmit} {...props}>
       {/* <WalletConnectModal
@@ -255,7 +277,18 @@ export const BuyPanel: FC = (props) => {
             &nbsp;&nbsp;&#163;{picanteCharge} GBP - 0.1% Estimated Fees
             <br />
             <Typography variant="caption" color="neutral.400">
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#163;1 GBP = 1.25 USDC (Estimated)
+              <DataDisplay
+                shouldShowRetryOnError
+                onClickRetry={() => setFetchXRate(true)}
+                defaultLoaderOptions={{ width: 200 }}
+                isLoading={xRateLoading}
+                error={xRateError}
+              >
+                <>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#163;1 GBP = {primitivesUtils.roundToTwo(xRateData?.rate)}{' '}
+                  USDC (Estimated)
+                </>
+              </DataDisplay>
             </Typography>
           </span>
         </Typography>
