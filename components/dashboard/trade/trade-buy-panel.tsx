@@ -108,10 +108,14 @@ export const BuyPanel: FC = (props) => {
   };
 
   const handlePayAmountChange = (event: { target: { value: any } }) => {
-    formik.setFieldValue('amountPay', event.target.value);
-    var receiveValue = ((event.target.value * (100 - picanteChargePercentage)) / 100) * (xRateData?.rate || 1.25);
-    setPicanteCharge((event.target.value * picanteChargePercentage) / 100);
-    formik.setFieldValue('amountReceive', receiveValue);
+    const amountPay = event.target.value;
+    formik.setFieldValue('amountPay', amountPay);
+
+    var receiveValue = ((amountPay * (100 - picanteChargePercentage)) / 100) * (xRateData?.rate || 1.25);
+    var charge = (amountPay * picanteChargePercentage) / 100;
+    setPicanteCharge( primitivesUtils.roundDownToTwo(charge));
+    
+    formik.setFieldValue('amountReceive', primitivesUtils.roundDownToTwo(receiveValue));
 
     formik.setFieldValue('amountReward', 1);
   };
@@ -162,7 +166,7 @@ export const BuyPanel: FC = (props) => {
       submit: null,
     },
     validationSchema: Yup.object({
-      amountPay: Yup.number().required('Amount Pay is required').min(1, 'at least £1').max(5000, 'at most £5000'),
+      amountPay: Yup.number().required('Amount Pay is required').min(50, 'at least £50').max(5000, 'at most £5000'),
       paymentMethod: Yup.string().required('Select a payment method'),
       receiveWallet: Yup.string().required('Select a wallet'),
     }),
@@ -247,7 +251,7 @@ export const BuyPanel: FC = (props) => {
             inputProps={{
               maxLength: 13,
               max: 5000,
-              min: 1,
+              min: 100,
               step: '1',
             }}
             onChange={(e) => {
@@ -285,7 +289,7 @@ export const BuyPanel: FC = (props) => {
                 error={xRateError}
               >
                 <>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#163;1 GBP = {primitivesUtils.roundToTwo(xRateData?.rate)}{' '}
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#163;1 GBP = {primitivesUtils.roundDownToTwo(xRateData?.rate)}{' '}
                   USDC (Estimated)
                 </>
               </DataDisplay>
@@ -303,7 +307,7 @@ export const BuyPanel: FC = (props) => {
             type="number"
             inputProps={{
               maxLength: 13,
-              step: '0.000000000000000001',
+              step: '0.001',
             }}
             value={formik.values.amountReceive}
           />

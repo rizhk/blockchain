@@ -88,10 +88,15 @@ export const SellPanel: FC = (props) => {
   // };
 
   const handlePayAmountChange = (event: any) => {
-    formik.setFieldValue('amountToSell', event.target.value);
+    const amountPay = event.target.value;
+
+    formik.setFieldValue('amountToSell', amountPay);
+    
     var receiveValue = ((event.target.value * (100 - picanteChargePercentage)) / 100) * (xRateData?.rate || 0.85);
-    setPicanteCharge((event.target.value * picanteChargePercentage) / 100);
-    formik.setFieldValue('amountReceive', receiveValue);
+    var charge = (amountPay * picanteChargePercentage) / 100
+    setPicanteCharge(charge);
+    
+    formik.setFieldValue('amountReceive', primitivesUtils.roundDownToTwo(receiveValue));
 
     formik.setFieldValue('amountReward', 1);
   };
@@ -106,7 +111,7 @@ export const SellPanel: FC = (props) => {
       submit: null,
     },
     validationSchema: Yup.object({
-      amountToSell: Yup.number().required('Amount to sell is required'),
+      amountToSell: Yup.number().required('Amount to sell is required').min(100, 'at least 100 USDC'),
       paymentMethod: Yup.string().required('Select a payment method'),
     }),
     onSubmit: async (values, helpers): Promise<void> => {
@@ -237,7 +242,7 @@ export const SellPanel: FC = (props) => {
                 error={xRateError}
               >
                 <>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 USDC = &#163;{primitivesUtils.roundToTwo(xRateData?.rate)}{' '}
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 USDC = &#163;{primitivesUtils.roundDownToTwo(xRateData?.rate)}{' '}
                   GBP (Estimated)
                 </>
               </DataDisplay>
