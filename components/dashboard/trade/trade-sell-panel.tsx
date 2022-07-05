@@ -39,7 +39,7 @@ export const SellPanel: FC = (props) => {
   const theme = useTheme();
   const isMounted = useMounted();
 
-  var picanteChargePercentage = 0.1;
+  var picanteChargePercentage = 0;//We are free to seller
 
   const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
 
@@ -228,8 +228,6 @@ export const SellPanel: FC = (props) => {
             src={process.env.NEXT_PUBLIC_URL + 'static/icons/percentage.svg'} // use normal <img> attributes as props
           />
           <span>
-            &nbsp;&nbsp;{picanteCharge} USDC - 0.1% Estimated Fees
-            <br />
             <Typography variant="caption" color="neutral.400">
               <DataDisplay
                 shouldShowRetryOnError
