@@ -111,7 +111,7 @@ export const SellPanel: FC = (props) => {
       submit: null,
     },
     validationSchema: Yup.object({
-      amountToSell: Yup.number().required('Amount to sell is required'),
+      amountToSell: Yup.number().required('Amount to sell is required').min(100, 'at least 100 USDC'),
       paymentMethod: Yup.string().required('Select a payment method'),
     }),
     onSubmit: async (values, helpers): Promise<void> => {

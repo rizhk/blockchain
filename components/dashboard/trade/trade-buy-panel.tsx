@@ -166,7 +166,7 @@ export const BuyPanel: FC = (props) => {
       submit: null,
     },
     validationSchema: Yup.object({
-      amountPay: Yup.number().required('Amount Pay is required').min(1, 'at least £1').max(5000, 'at most £5000'),
+      amountPay: Yup.number().required('Amount Pay is required').min(50, 'at least £50').max(5000, 'at most £5000'),
       paymentMethod: Yup.string().required('Select a payment method'),
       receiveWallet: Yup.string().required('Select a wallet'),
     }),
