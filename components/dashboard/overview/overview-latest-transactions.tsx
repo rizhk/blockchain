@@ -65,7 +65,7 @@ export const OverviewLatestTransactions: React.FC = (props) => {
   const isMounted = useMounted();
   const [transactions, setTransactions] = React.useState<Transaction[]>([]);
   const [page, setPage] = React.useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(10);
   const [filters, setFilters] = React.useState<Filters>({
     name: undefined,
     txn_type: [],
