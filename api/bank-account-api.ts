@@ -45,6 +45,8 @@ class BankAccountApi {
           (data) => {
             if (!data.error) {
               return resolve(true);
+            }else{
+              return resolve(false);
             }
           },
           (error) => {

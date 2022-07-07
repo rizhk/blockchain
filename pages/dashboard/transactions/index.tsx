@@ -54,7 +54,7 @@ const TransactionList: NextPage = () => {
   const isMounted = useMounted();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [page, setPage] = useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [filters, setFilters] = useState<Filters>({
     name: undefined,
     txn_type: [],
