@@ -72,6 +72,8 @@ export const BankAccountSelector: FC<BankAccountProps> = (props) => {
 
   const [newBankAccountOpen, setNewBankAccountOpen] = React.useState(false);
 
+  const [saveErrorMsg, setSaveErrorMsg] = React.useState<string>("");
+
   const handleClickNewBankAccountOpen = () => {
     setNewBankAccountOpen(true);
   };
@@ -121,6 +123,8 @@ export const BankAccountSelector: FC<BankAccountProps> = (props) => {
           const data = await bankAccountApi.getItems();
           props.parentCallback(data);
           handleNewBankAccountClose();
+        }else{
+          setSaveErrorMsg("Bank account info is incorrect, please recheck the defail.");
         }
       } catch (err) {
         console.error(err);
