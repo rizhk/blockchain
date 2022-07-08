@@ -27,3 +27,7 @@ export const gtmConfig = {
 export const appConfig = {
   pageTitleSuffix: process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX,
 };
+
+export const recaptchaConfig = {
+  siteKey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
+};
