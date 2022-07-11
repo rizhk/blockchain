@@ -66,7 +66,7 @@ export const OverviewPrivateWallet: FC = (props) => {
           </Grid>
           <Grid item md xs>
             <Typography textAlign="right" variant="h6">
-              USD 343.33
+              USD 3981.81
             </Typography>
             <Typography textAlign="right" color="success.main" variant="body2">
               Primary

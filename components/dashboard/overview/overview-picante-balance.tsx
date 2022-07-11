@@ -55,7 +55,7 @@ export const OverviewPicanteBalance: FC = (props) => {
           </Grid>
           <Grid item>
             <Typography textAlign="right" variant="h5">
-              123,567,456
+              92.5
             </Typography>
           </Grid>
         </Grid>
