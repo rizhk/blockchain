@@ -63,7 +63,7 @@ export const OverviewCryptoWallet: FC = (props) => {
           </Grid>
           <Grid item md xs>
             <Typography textAlign="right" variant="h6">
-              USD 343.33
+              USD 5554.46
             </Typography>
           </Grid>
         </Grid>
