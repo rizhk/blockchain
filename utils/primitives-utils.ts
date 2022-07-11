@@ -15,5 +15,9 @@ class PrimitivesUtils {
     if (!number) return number;
     return Math.floor((number + Number.EPSILON) * 100) / 100;
   }
+  thousandSeparator(number: number | undefined) {
+    if (!number) return number;
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
 }
 export const primitivesUtils = new PrimitivesUtils();

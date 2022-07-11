@@ -162,6 +162,7 @@ const TransactionList: NextPage = () => {
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
               page={page}
+              setTransactions={setTransactions}
               transactions={paginatedTransactions}
               transactionsCount={filteredTransactions.length}
               rowsPerPage={rowsPerPage}

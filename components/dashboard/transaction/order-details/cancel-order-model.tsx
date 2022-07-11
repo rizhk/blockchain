@@ -17,7 +17,7 @@ import { LoadingButton } from 'components/common/loading-button';
 import { TextButton } from 'components/common/text-button';
 import useFetch from 'hooks/use-fetch';
 import { useCancelSubmittedModal } from 'hooks/use-transaction-modal';
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import React, { Dispatch, forwardRef, SetStateAction, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { Transaction, TxnType, WithdrawalPreview } from 'types/transaction';
@@ -29,9 +29,10 @@ export interface ICancelOrderModalProps {
   isShowing: boolean;
   hide: () => void;
   txn: Transaction;
+  setRefetchTxn: Dispatch<SetStateAction<boolean>>;
 }
 
-export default ({ isShowing, hide, txn }: ICancelOrderModalProps): JSX.Element => {
+export default ({ isShowing, hide, txn, setRefetchTxn }: ICancelOrderModalProps): JSX.Element => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -53,6 +54,7 @@ export default ({ isShowing, hide, txn }: ICancelOrderModalProps): JSX.Element =
     loading: withdrawTransactionLoading,
     error: withdrawTransactionError,
     resetError: withdrawTransactionResetError,
+    data: withdrawTransactionData,
   } = useFetch(() => {
     if (!shouldTriggerWithdrawal) return;
     setShouldTriggerWithdrawal(false);
@@ -61,6 +63,14 @@ export default ({ isShowing, hide, txn }: ICancelOrderModalProps): JSX.Element =
       { defaultErrorMessage: t('transaction.withdrawTransactionError') },
     );
   }, [shouldTriggerWithdrawal]);
+
+  useEffect(() => {
+    if (withdrawTransactionData && !withdrawTransactionData.error) {
+      setRefetchTxn(true);
+      toggleCancelSubmitted();
+      handleClose();
+    }
+  }, [JSON.stringify(withdrawTransactionData)]);
 
   const {
     data: withdrawalPreviewData,
