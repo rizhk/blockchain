@@ -141,7 +141,7 @@ const Overview: NextPage = () => {
             <Grid item md={7} xs={12}>
               <Grid item>
                 <Typography sx={{ mb: 2 }} variant="h6">
-                  Easy buy and sell crypto
+                  Easily buy and sell crypto
                 </Typography>
               </Grid>
               <TradeWidget />
