@@ -1,22 +1,26 @@
 import { Grid, Typography } from '@mui/material';
 import * as React from 'react';
 import { Transaction, TxnType } from 'types/transaction';
+import { primitivesUtils } from 'utils/primitives-utils';
 
 export interface IOrderDetailsSummaryProps {
   txn: Transaction;
 }
 
 const OrderDetailsSummary: React.FC<IOrderDetailsSummaryProps> = ({ txn }) => {
-  let paidAmount = 0;
-  let receivedAmount = 0;
+  let tokenAmt = primitivesUtils.thousandSeparator(primitivesUtils.roundDownToTwo(txn?.token_amt));
+  let fiatAmt = primitivesUtils.thousandSeparator(primitivesUtils.roundDownToTwo(txn?.fiat_amt));
+  let paidAmount = undefined;
+  let receivedAmount = undefined;
+
   let buyerOrSeller = '';
   if (txn?.txn_type?.toUpperCase() === TxnType.SELL) {
-    paidAmount = txn?.token_amt;
-    receivedAmount = txn?.fiat_amt;
+    paidAmount = tokenAmt;
+    receivedAmount = fiatAmt;
     buyerOrSeller = 'Buyer';
   } else if (txn?.txn_type?.toUpperCase() === TxnType.BUY) {
-    paidAmount = txn?.token_amt;
-    receivedAmount = txn?.fiat_amt;
+    paidAmount = fiatAmt;
+    receivedAmount = paidAmount;
     buyerOrSeller = 'Seller';
   }
   return (

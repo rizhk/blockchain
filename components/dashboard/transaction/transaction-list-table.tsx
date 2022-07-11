@@ -1,4 +1,4 @@
-import { ChangeEvent, Fragment, MouseEvent, useState } from 'react';
+import { ChangeEvent, Dispatch, Fragment, MouseEvent, SetStateAction, useState } from 'react';
 import type { FC } from 'react';
 import numeral from 'numeral';
 import PropTypes from 'prop-types';
@@ -34,6 +34,7 @@ import { TransactionsListDetails } from './transactions-list-details';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 interface TransactionListTableProps {
+  setTransactions: Dispatch<SetStateAction<Transaction[]>>;
   onPageChange: (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => void;
   onRowsPerPageChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   page: number;
@@ -207,7 +208,10 @@ export const TransactionListTable: FC<TransactionListTableProps> = (props) => {
                     <TableRow>
                       <TableCell colSpan={12}>
                         {' '}
-                        <TransactionsListDetails TransactionId={transaction.id} />
+                        <TransactionsListDetails
+                          setTransactions={props.setTransactions}
+                          transactionId={transaction.id}
+                        />
                       </TableCell>
                     </TableRow>
                   )}
