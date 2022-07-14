@@ -28,3 +28,7 @@ export const appConfig = {
   pageTitleSuffix: process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX,
   networkBaseUrl: process.env.NEXT_PUBLIC_NETWORK_BASE_URL,
 };
+
+export const recaptchaConfig = {
+  siteKey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
+};
