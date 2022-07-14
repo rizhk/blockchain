@@ -39,7 +39,7 @@ export const SellPanel: FC = (props) => {
   const theme = useTheme();
   const isMounted = useMounted();
 
-  var picanteChargePercentage = 0;//We are free to seller
+  var picanteChargePercentage = 0; //We are free to seller
 
   const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
 
@@ -91,11 +91,11 @@ export const SellPanel: FC = (props) => {
     const amountPay = event.target.value;
 
     formik.setFieldValue('amountToSell', amountPay);
-    
+
     var receiveValue = ((event.target.value * (100 - picanteChargePercentage)) / 100) * (xRateData?.rate || 0.85);
-    var charge = (amountPay * picanteChargePercentage) / 100
+    var charge = (amountPay * picanteChargePercentage) / 100;
     setPicanteCharge(charge);
-    
+
     formik.setFieldValue('amountReceive', primitivesUtils.roundDownToTwo(receiveValue));
 
     formik.setFieldValue('amountReward', 1);
@@ -242,8 +242,8 @@ export const SellPanel: FC = (props) => {
                 error={xRateError}
               >
                 <>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 USDC = &#163;{primitivesUtils.roundDownToTwo(xRateData?.rate)}{' '}
-                  GBP (Estimated)
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 USDC = &#163;
+                  {primitivesUtils.roundDownToTwo(xRateData?.rate)} GBP (Estimated)
                 </>
               </DataDisplay>
             </Typography>

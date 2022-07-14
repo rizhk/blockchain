@@ -31,7 +31,7 @@ const Logout: NextPage = () => {
       >
         <Container maxWidth="lg">
           <Typography align="center" variant={mobileDevice ? 'h4' : 'h1'}>
-            You've been logout
+            You&apos;ve been logout
           </Typography>
           {/* <Typography
 						align="center"
