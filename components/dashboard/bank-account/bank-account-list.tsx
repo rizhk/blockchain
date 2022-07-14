@@ -58,6 +58,7 @@ export const BankAccountList: FC<BankAccountListProps> = (props) => {
       <Grid container spacing={4}>
         {bankAccounts.map((bankAccount) => {
           return (
+            // eslint-disable-next-line react/jsx-key
             <Grid item>
               <Card
                 sx={{

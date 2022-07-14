@@ -32,6 +32,7 @@ const cardSelector = (state: RootState, cardId: string): PopulatedCard => {
   };
 };
 
+// eslint-disable-next-line react/display-name
 export const KanbanCard = forwardRef<HTMLDivElement, KanbanCardProps>((props, ref) => {
   const { cardId, dragging, column, ...other } = props;
   const card = useSelector((state) => cardSelector(state, cardId));

@@ -37,3 +37,5 @@ export const RecaptchaField = ({
     />
   );
 };
+
+export default RecaptchaField;
