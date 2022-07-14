@@ -59,6 +59,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
       <Grid container spacing={4}>
         {wallets.map((wallet) => {
           return (
+            // eslint-disable-next-line react/jsx-key
             <Grid item>
               <Card
                 sx={{

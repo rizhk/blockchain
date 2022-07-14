@@ -14,6 +14,7 @@ export interface ICancelSubmittedModalProps {
   hide: () => void;
 }
 
+// eslint-disable-next-line react/display-name
 export default ({ isShowing, hide }: ICancelSubmittedModalProps): JSX.Element => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));

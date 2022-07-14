@@ -35,6 +35,7 @@ const Code: CodeComponent = (props) => {
 
   return !inline && match ? (
     <SyntaxHighlighter
+      // eslint-disable-next-line react/no-children-prop
       children={String(children).replace(/\n$/, '')}
       style={dracula}
       language={match[1]}
@@ -135,6 +136,7 @@ const DocsContentRoot = styled('div')(({ theme }) => ({
 export const DocsContent: FC<DocsContentProps> = (props) => {
   const { content } = props;
 
+  // eslint-disable-next-line react/no-children-prop
   return <DocsContentRoot>{content && <Markdown components={components} children={content} />}</DocsContentRoot>;
 };
 
