@@ -23,9 +23,9 @@ import { TransactionsListDetails } from '../transaction/transactions-list-detail
 import { Filters, ProjectListFilters } from '../../../components/dashboard/transaction/transaction-list-filters';
 import { TransactionListTable } from '../transaction/transaction-list-table';
 import { transactionApi } from 'api/transaction-api';
-import { Transaction } from 'ethers';
 import { useMounted } from 'hooks/use-mounted';
 import { gtm } from 'lib/gtm';
+import { Transaction } from 'types/transaction';
 
 const applyFilters = (transactions: Transaction[], filters: Filters): Transaction[] =>
   transactions.filter((transaction) => {
@@ -65,7 +65,7 @@ export const OverviewLatestTransactions: React.FC = (props) => {
   const isMounted = useMounted();
   const [transactions, setTransactions] = React.useState<Transaction[]>([]);
   const [page, setPage] = React.useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(10);
   const [filters, setFilters] = React.useState<Filters>({
     name: undefined,
     txn_type: [],
@@ -122,6 +122,7 @@ export const OverviewLatestTransactions: React.FC = (props) => {
       <Card>
         <ProjectListFilters onChange={handleFiltersChange} />
         <TransactionListTable
+          setTransactions={setTransactions}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleRowsPerPageChange}
           page={page}

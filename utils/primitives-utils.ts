@@ -11,9 +11,13 @@ class PrimitivesUtils {
     if (!str) return str;
     return `${this.getFirstNChars(str, 4)}...${this.getLastNChars(str, 4)}`;
   }
-  roundToTwo(number: number | undefined) {
+  roundDownToTwo(number: number | undefined) {
     if (!number) return number;
-    return Math.round((number + Number.EPSILON) * 100) / 100;
+    return Math.floor((number + Number.EPSILON) * 100) / 100;
+  }
+  thousandSeparator(number: number | undefined) {
+    if (!number) return number;
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 }
 export const primitivesUtils = new PrimitivesUtils();

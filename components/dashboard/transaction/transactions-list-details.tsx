@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from 'react';
+import { Dispatch, FC, ReactNode, SetStateAction, useCallback, useEffect, useState } from 'react';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -35,46 +35,54 @@ const progressStateIcon = {
   CircleIconRed: CircleIconRed,
 };
 
-export const TransactionsListDetails: FC = (props) => {
+interface ITransactionsListDetailsProps {
+  setTransactions: Dispatch<SetStateAction<Transaction[]>>;
+  transactionId: string;
+}
+
+export const TransactionsListDetails: FC<ITransactionsListDetailsProps> = (props) => {
   const isMounted = useMounted();
 
   const [steps, setSteps] = useState<TxnStep[]>([]);
-  const [txn, setTxn] = useState<Transaction>(Object);
+  const [txn, setTxn] = useState<Transaction>();
 
-  useEffect(
-    () => {
-      getSteps(props);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
-
-  const getSteps = useCallback(
-    async (props) => {
+  const [refetchTxn, setRefetchTxn] = useState(true);
+  useEffect(() => {
+    const getSteps = async () => {
       try {
-        const data = await transactionApi.getTransaction(props.TransactionId);
+        if (isMounted() && refetchTxn) {
+          const data = await transactionApi.getTransaction(props.transactionId);
 
-        if (isMounted()) {
+          // Replace the transaction with updated data
+          props.setTransactions((oldTransactions) => {
+            return oldTransactions.map((oldTrans) => {
+              return data.id === oldTrans.id ? data : oldTrans;
+            });
+          });
+
           setTxn(data);
+          setRefetchTxn(false);
           setSteps(data.steps.reverse());
         }
       } catch (err) {
         console.error(err);
       }
-    },
-    [isMounted],
-  );
+    };
+    getSteps();
+  }, [isMounted, refetchTxn]);
 
   const { isOrderDetailsShowing, toggleOrderDetails } = useOrderDetailsModal();
   const { isCancelOrderShowing, toggleCancelOrder } = useCancelOrderModal();
 
-  // TODO - get network link and name
-  const networkName = 'Etherscan';
-
   return (
     <>
       <OrderDetailsModal isShowing={isOrderDetailsShowing} txn={txn} hide={toggleOrderDetails} />
-      <CancelOrderModel isShowing={isCancelOrderShowing} txn={txn} hide={toggleCancelOrder} />
+      <CancelOrderModel
+        setRefetchTxn={setRefetchTxn}
+        isShowing={isCancelOrderShowing}
+        txn={txn}
+        hide={toggleCancelOrder}
+      />
       <Box sx={{ ml: '100px', mb: '25px' }}>
         <Grid container sx={{ pt: '30px', mb: 2 }}>
           <Grid
@@ -130,9 +138,9 @@ export const TransactionsListDetails: FC = (props) => {
         <TextButton onClick={toggleOrderDetails} variant="outlined">
           View order details
         </TextButton>
-        {txn.status == 'in_progress' && (
+        <NetworkLinkButton txn={txn} sx={{ ml: 2 }} />
+        {txn?.status == 'in_progress' && (
           <>
-            <NetworkLinkButton sx={{ ml: 2 }} networkName={networkName} networkUrl={''} />
             <Typography
               onClick={toggleCancelOrder}
               variant="body2"
