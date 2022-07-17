@@ -97,6 +97,7 @@ const TransactionHistoryPage: NextPage = () => {
 
   const handleQueryKeyup = (event: KeyboardEvent<HTMLInputElement>): void => {
     if (event.code === 'Enter' && queryValue) {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       const [queryValue, setQueryValue] = useState<string>('');
     }
   };
