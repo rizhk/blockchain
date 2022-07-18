@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { createRef, useEffect } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import NextLink from 'next/link';
@@ -12,16 +12,20 @@ import { useAuth } from '../../hooks/use-auth';
 import { gtm } from '../../lib/gtm';
 import * as Yup from 'yup';
 import { LoadingButton } from '@mui/lab';
-import { useFormik } from 'formik';
+import { Field, FormikProvider, useFormik } from 'formik';
 import { useMounted } from 'hooks/use-mounted';
 import { authApi } from 'api/auth-api';
 import { useState } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { RecaptchaField } from './recaptcha-field';
+import { recaptchaConfig } from 'config';
 
 const PasswordReset: NextPage = () => {
   const isMounted = useMounted();
   const router = useRouter();
   const { disableGuard, key } = router.query;
   const [submitted, setSubmitted] = useState(false);
+  const recaptchaRef = createRef<ReCAPTCHA>();
 
   const formik = useFormik({
     initialValues: {
@@ -38,6 +42,9 @@ const PasswordReset: NextPage = () => {
         .oneOf([Yup.ref('password'), null], 'Passwords must match'),
     }),
     onSubmit: async (values, helpers): Promise<void> => {
+      if (recaptchaRef.current) {
+        var recaptchaToken = await recaptchaRef.current.executeAsync();
+      }
       try {
         console.log('on submit');
         await authApi.resetPassword(key as string, values.password);
@@ -91,48 +98,56 @@ const PasswordReset: NextPage = () => {
                       Please create a new pasword. Your password must be different from a previous password. It must
                       also include at least one number, one capital letter and one special character.
                     </Typography>
-                    <form noValidate onSubmit={formik.handleSubmit}>
-                      <TextField
-                        error={Boolean(formik.touched.password && formik.errors.password)}
-                        fullWidth
-                        helperText={formik.touched.password && formik.errors.password}
-                        label="Create new password"
-                        margin="normal"
-                        name="password"
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        type="password"
-                        value={formik.values.password}
-                      />
-                      <TextField
-                        error={Boolean(formik.touched.confirmPassword && formik.errors.confirmPassword)}
-                        fullWidth
-                        helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
-                        label="Re-type the new password"
-                        margin="normal"
-                        name="confirmPassword"
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        type="password"
-                        value={formik.values.confirmPassword}
-                      />
-                      {formik.errors.submit && (
-                        <Box sx={{ mt: 3 }}>
-                          <FormHelperText error>{formik.errors.submit}</FormHelperText>
-                        </Box>
-                      )}
-                      <Box sx={{ mt: 2 }}>
-                        <LoadingButton
-                          loading={formik.isSubmitting}
+                    <FormikProvider value={formik}>
+                      <form noValidate onSubmit={formik.handleSubmit}>
+                        <TextField
+                          error={Boolean(formik.touched.password && formik.errors.password)}
                           fullWidth
-                          size="large"
-                          type="submit"
-                          variant="contained"
-                        >
-                          Reset password
-                        </LoadingButton>
-                      </Box>
-                    </form>
+                          helperText={formik.touched.password && formik.errors.password}
+                          label="Create new password"
+                          margin="normal"
+                          name="password"
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          type="password"
+                          value={formik.values.password}
+                        />
+                        <TextField
+                          error={Boolean(formik.touched.confirmPassword && formik.errors.confirmPassword)}
+                          fullWidth
+                          helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                          label="Re-type the new password"
+                          margin="normal"
+                          name="confirmPassword"
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          type="password"
+                          value={formik.values.confirmPassword}
+                        />
+                        <Field
+                          recaptchaRef={recaptchaRef}
+                          name="recaptchaToken"
+                          component={RecaptchaField}
+                          siteKey={recaptchaConfig.siteKey}
+                        />
+                        {formik.errors.submit && (
+                          <Box sx={{ mt: 3 }}>
+                            <FormHelperText error>{formik.errors.submit}</FormHelperText>
+                          </Box>
+                        )}
+                        <Box sx={{ mt: 2 }}>
+                          <LoadingButton
+                            loading={formik.isSubmitting}
+                            fullWidth
+                            size="large"
+                            type="submit"
+                            variant="contained"
+                          >
+                            Reset password
+                          </LoadingButton>
+                        </Box>
+                      </form>
+                    </FormikProvider>
                   </Box>
                 </Box>
               </Grid>

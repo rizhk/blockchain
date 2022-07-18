@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 import type { FC } from 'react';
 import Markdown from 'react-markdown';
 import { Box, Card, CardContent, Chip, Grid, Typography } from '@mui/material';

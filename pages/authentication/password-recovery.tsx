@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { createRef, useEffect } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import NextLink from 'next/link';
@@ -8,17 +8,21 @@ import { useAuth } from '../../hooks/use-auth';
 import { gtm } from '../../lib/gtm';
 import * as Yup from 'yup';
 import { LoadingButton } from '@mui/lab';
-import { useFormik } from 'formik';
+import { Field, FormikProvider, useFormik } from 'formik';
 import { useMounted } from 'hooks/use-mounted';
 import { authApi } from 'api/auth-api';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { RecaptchaField } from './recaptcha-field';
+import { recaptchaConfig } from 'config';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const PasswordRecovery: NextPage = () => {
   const isMounted = useMounted();
   const router = useRouter();
   const { disableGuard } = router.query;
   const [submitted, setSubmitted] = useState(false);
+  const recaptchaRef = createRef<ReCAPTCHA>();
 
   const formik = useFormik({
     initialValues: {
@@ -29,6 +33,9 @@ const PasswordRecovery: NextPage = () => {
       email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
     }),
     onSubmit: async (values, helpers): Promise<void> => {
+      if (recaptchaRef.current) {
+        var recaptchaToken = await recaptchaRef.current.executeAsync();
+      }
       try {
         console.log('on submit');
         await authApi.forgotPassword(values.email);
@@ -82,86 +89,94 @@ const PasswordRecovery: NextPage = () => {
                       Enter the email address you used when you joined and we’ll send you instructions to reset your
                       password.
                     </Typography>
-                    <form noValidate onSubmit={formik.handleSubmit}>
-                      <TextField
-                        autoFocus
-                        error={Boolean(formik.touched.email && formik.errors.email)}
-                        fullWidth
-                        helperText={formik.touched.email && formik.errors.email}
-                        label="Enter your email address"
-                        margin="normal"
-                        name="email"
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        type="email"
-                        value={formik.values.email}
-                      />
-                      {formik.errors.submit && (
-                        <Box sx={{ mt: 3 }}>
-                          <FormHelperText error>{formik.errors.submit}</FormHelperText>
-                        </Box>
-                      )}
-                      <Box sx={{ mt: 2 }}>
-                        <LoadingButton
-                          loading={formik.isSubmitting}
+                    <FormikProvider value={formik}>
+                      <form noValidate onSubmit={formik.handleSubmit}>
+                        <TextField
+                          autoFocus
+                          error={Boolean(formik.touched.email && formik.errors.email)}
                           fullWidth
-                          size="large"
-                          type="submit"
-                          variant="contained"
-                        >
-                          Send reset instructions
-                        </LoadingButton>
-                      </Box>
-                      <Divider sx={{ my: 3 }} />
-                      <Box sx={{ display: 'flex' }}>
-                        <img
-                          style={{ cursor: 'pointer' }}
-                          width={16}
-                          src={'/static/arrow-narrow-left.svg'}
-                          onClick={() => router.push('/authentication/login')}
+                          helperText={formik.touched.email && formik.errors.email}
+                          label="Enter your email address"
+                          margin="normal"
+                          name="email"
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          type="email"
+                          value={formik.values.email}
                         />
-                        <NextLink
-                          href={
-                            disableGuard
-                              ? `/authentication/login?disableGuard=${disableGuard}`
-                              : '/authentication/login'
-                          }
-                          passHref
-                        >
-                          <Link
-                            color="secondary.main"
-                            variant="body1"
-                            sx={{
-                              textDecoration: 'underline',
-                              cursor: 'pointer',
-                            }}
-                            ml={1}
-                            mr={2}
+                        <Field
+                          recaptchaRef={recaptchaRef}
+                          name="recaptchaToken"
+                          component={RecaptchaField}
+                          siteKey={recaptchaConfig.siteKey}
+                        />
+                        {formik.errors.submit && (
+                          <Box sx={{ mt: 3 }}>
+                            <FormHelperText error>{formik.errors.submit}</FormHelperText>
+                          </Box>
+                        )}
+                        <Box sx={{ mt: 2 }}>
+                          <LoadingButton
+                            loading={formik.isSubmitting}
+                            fullWidth
+                            size="large"
+                            type="submit"
+                            variant="contained"
                           >
-                            Back to login
-                          </Link>
-                        </NextLink>
-                        <NextLink
-                          href={
-                            disableGuard
-                              ? `/authentication/register?disableGuard=${disableGuard}`
-                              : '/authentication/register'
-                          }
-                          passHref
-                        >
-                          <Link
-                            color="secondary.main"
-                            variant="body1"
-                            sx={{
-                              textDecoration: 'underline',
-                              cursor: 'pointer',
-                            }}
+                            Send reset instructions
+                          </LoadingButton>
+                        </Box>
+                        <Divider sx={{ my: 3 }} />
+                        <Box sx={{ display: 'flex' }}>
+                          <img
+                            style={{ cursor: 'pointer' }}
+                            width={16}
+                            src={'/static/arrow-narrow-left.svg'}
+                            onClick={() => router.push('/authentication/login')}
+                          />
+                          <NextLink
+                            href={
+                              disableGuard
+                                ? `/authentication/login?disableGuard=${disableGuard}`
+                                : '/authentication/login'
+                            }
+                            passHref
                           >
-                            Create account
-                          </Link>
-                        </NextLink>
-                      </Box>
-                    </form>
+                            <Link
+                              color="secondary.main"
+                              variant="body1"
+                              sx={{
+                                textDecoration: 'underline',
+                                cursor: 'pointer',
+                              }}
+                              ml={1}
+                              mr={2}
+                            >
+                              Back to login
+                            </Link>
+                          </NextLink>
+                          <NextLink
+                            href={
+                              disableGuard
+                                ? `/authentication/register?disableGuard=${disableGuard}`
+                                : '/authentication/register'
+                            }
+                            passHref
+                          >
+                            <Link
+                              color="secondary.main"
+                              variant="body1"
+                              sx={{
+                                textDecoration: 'underline',
+                                cursor: 'pointer',
+                              }}
+                            >
+                              Create account
+                            </Link>
+                          </NextLink>
+                        </Box>
+                      </form>
+                    </FormikProvider>
                   </Box>
                 </Box>
               </Grid>

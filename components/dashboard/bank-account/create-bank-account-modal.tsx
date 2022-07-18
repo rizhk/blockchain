@@ -8,7 +8,7 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
-import { Box, FormHelperText, TextField,Alert } from '@mui/material';
+import { Box, FormHelperText, TextField, Alert } from '@mui/material';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { NetworkSelector } from '../network/network-selector';
@@ -59,7 +59,7 @@ export const CreateBankAccountDialogs: FC = (
 ) => {
   const [open, setOpen] = React.useState(false);
 
-  const [saveErrorMsg, setSaveErrorMsg] = React.useState<string>("");
+  const [saveErrorMsg, setSaveErrorMsg] = React.useState<string>('');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -105,8 +105,8 @@ export const CreateBankAccountDialogs: FC = (
           const data = await bankAccountApi.getItems();
           props.parentCallback(data);
           handleClose();
-        }else{
-          setSaveErrorMsg("Bank account info is incorrect, please recheck the defail.");
+        } else {
+          setSaveErrorMsg('Bank account info is incorrect, please recheck the details.');
         }
       } catch (err) {
         console.error(err);
@@ -196,10 +196,10 @@ export const CreateBankAccountDialogs: FC = (
           />
         </DialogContent>
         {saveErrorMsg && (
- <Box sx={{ mt: 3 }}>
-              <Alert severity="error">{saveErrorMsg}</Alert>
-            </Box>
-          )}
+          <Box sx={{ mt: 3 }}>
+            <Alert severity="error">{saveErrorMsg}</Alert>
+          </Box>
+        )}
         {formik.errors.submit && (
           <Box sx={{ mt: 3 }}>
             <FormHelperText error>{formik.errors.submit}</FormHelperText>

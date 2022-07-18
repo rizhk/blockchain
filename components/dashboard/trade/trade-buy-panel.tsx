@@ -113,8 +113,8 @@ export const BuyPanel: FC = (props) => {
 
     var receiveValue = ((amountPay * (100 - picanteChargePercentage)) / 100) * (xRateData?.rate || 1.25);
     var charge = (amountPay * picanteChargePercentage) / 100;
-    setPicanteCharge( primitivesUtils.roundDownToTwo(charge));
-    
+    setPicanteCharge(primitivesUtils.roundDownToTwo(charge));
+
     formik.setFieldValue('amountReceive', primitivesUtils.roundDownToTwo(receiveValue));
 
     formik.setFieldValue('amountReward', 1);
@@ -289,8 +289,8 @@ export const BuyPanel: FC = (props) => {
                 error={xRateError}
               >
                 <>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#163;1 GBP = {primitivesUtils.roundDownToTwo(xRateData?.rate)}{' '}
-                  USDC (Estimated)
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#163;1 GBP ={' '}
+                  {primitivesUtils.roundDownToTwo(xRateData?.rate)} USDC (Estimated)
                 </>
               </DataDisplay>
             </Typography>

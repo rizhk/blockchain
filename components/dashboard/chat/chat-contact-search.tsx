@@ -27,6 +27,7 @@ interface ChatContactSearchProps {
   results: Contact[];
 }
 
+// eslint-disable-next-line react/display-name
 export const ChatContactSearch = forwardRef<HTMLDivElement, ChatContactSearchProps>((props, ref) => {
   const { isFocused, onChange, onClickAway, onFocus, onSelect, query, results, ...other } = props;
 

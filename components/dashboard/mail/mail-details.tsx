@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 import { useEffect } from 'react';
 import type { FC } from 'react';
 import NextLink from 'next/link';

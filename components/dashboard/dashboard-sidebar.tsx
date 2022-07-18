@@ -38,6 +38,9 @@ import { KnowledgebaseFilled as KnowledgebaseIconFilled } from '../../icons/know
 import { News as NewsIcon } from '../../icons/news';
 import { NewsFilled as NewsIconFilled } from '../../icons/news-filled';
 import { useAuth } from 'hooks/use-auth';
+import { Briefcase } from 'icons/briefcase';
+import { PortfolioFilled } from 'icons/portfolio-filled';
+import { Portfolio as PortfolioIcon } from 'icons/portfolio';
 interface DashboardSidebarProps {
   onClose?: () => void;
   open?: boolean;
@@ -68,12 +71,17 @@ const getSections = (t: TFunction): Section[] => [
         iconFilled: <HomeIconFilled fontSize="small" />,
       },
       {
+        title: t('menu.portfolio'),
+        icon: <PortfolioIcon fontSize="small" />,
+        path: '/dashboard/portfolio/transaction-history',
+        iconFilled: <PortfolioFilled fontSize="small" />,
+      },
+      {
         title: t('menu.transactions'),
         icon: <TransactionIcon fontSize="small" />,
         path: '/dashboard/transactions',
         iconFilled: <TransactionIconFilled fontSize="small" />,
       },
-
       {
         title: t('menu.wallets'),
         icon: <WalletIcon fontSize="small" />,

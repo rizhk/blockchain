@@ -33,7 +33,7 @@ export const TutorialDialog: FC<ContentSearchProps> = (props) => {
     await authApi.skipTutorial(true);
     onClose(step);
   };
-  
+
   return (
     <Dialog
       fullWidth
