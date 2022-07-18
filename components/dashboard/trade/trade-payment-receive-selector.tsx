@@ -124,7 +124,7 @@ export const BankAccountSelector: FC<BankAccountProps> = (props) => {
           props.parentCallback(data);
           handleNewBankAccountClose();
         } else {
-          setSaveErrorMsg('Bank account info is incorrect, please recheck the defail.');
+          setSaveErrorMsg('Bank account info is incorrect, please recheck the detail.');
         }
       } catch (err) {
         console.error(err);

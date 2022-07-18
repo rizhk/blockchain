@@ -106,7 +106,7 @@ export const CreateBankAccountDialogs: FC = (
           props.parentCallback(data);
           handleClose();
         } else {
-          setSaveErrorMsg('Bank account info is incorrect, please recheck the defail.');
+          setSaveErrorMsg('Bank account info is incorrect, please recheck the details.');
         }
       } catch (err) {
         console.error(err);
