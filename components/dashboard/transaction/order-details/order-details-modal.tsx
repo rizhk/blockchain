@@ -14,6 +14,7 @@ export interface IOrderDetailsModalProps {
   txn: Transaction;
 }
 
+// eslint-disable-next-line react/display-name
 export default ({ isShowing, hide, txn }: IOrderDetailsModalProps): JSX.Element => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));

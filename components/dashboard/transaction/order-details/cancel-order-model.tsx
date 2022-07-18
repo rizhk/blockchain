@@ -32,6 +32,7 @@ export interface ICancelOrderModalProps {
   setRefetchTxn: Dispatch<SetStateAction<boolean>>;
 }
 
+// eslint-disable-next-line react/display-name
 export default ({ isShowing, hide, txn, setRefetchTxn }: ICancelOrderModalProps): JSX.Element => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));

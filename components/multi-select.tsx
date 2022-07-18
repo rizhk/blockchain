@@ -22,6 +22,8 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
 
   const handleCloseMenu = (): void => {
     setOpenMenu(false);
+    //workaround to unlock scroll fixed
+    document.body.removeAttribute('style');
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {

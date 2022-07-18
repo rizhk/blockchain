@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 import { useCallback, useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';

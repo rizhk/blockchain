@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { createRef, useEffect } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import NextLink from 'next/link';
@@ -25,15 +25,20 @@ import { Logo } from '../../components/logo';
 import { useAuth } from '../../hooks/use-auth';
 import { gtm } from '../../lib/gtm';
 import * as Yup from 'yup';
-import { useFormik } from 'formik';
+import { Field, FormikProvider, useFormik } from 'formik';
 import { useMounted } from '../../hooks/use-mounted';
 import { LoadingButton } from '@mui/lab';
+import { tokenToString } from 'typescript';
+import { RecaptchaField } from './recaptcha-field';
+import { recaptchaConfig } from 'config';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const Register: NextPage = () => {
   const isMounted = useMounted();
   const router = useRouter();
   const { register } = useAuth();
   const { disableGuard } = router.query;
+  const recaptchaRef = createRef<ReCAPTCHA>();
 
   const formik = useFormik({
     initialValues: {
@@ -54,6 +59,9 @@ const Register: NextPage = () => {
         .oneOf([Yup.ref('password'), null], 'Passwords must match'),
     }),
     onSubmit: async (values, helpers): Promise<void> => {
+      if (recaptchaRef.current) {
+        var recaptchaToken = await recaptchaRef.current.executeAsync();
+      }
       try {
         await register(values.email, values.name, values.password);
 
@@ -102,71 +110,79 @@ const Register: NextPage = () => {
                   <Typography variant="h4" my={3}>
                     Sign up and start accepting crypto payments today.
                   </Typography>
-                  <form noValidate onSubmit={formik.handleSubmit}>
-                    <TextField
-                      error={Boolean(formik.touched.name && formik.errors.name)}
-                      fullWidth
-                      helperText={formik.touched.name && formik.errors.name}
-                      label="Full name"
-                      margin="normal"
-                      name="name"
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      value={formik.values.name}
-                    />
-                    <TextField
-                      error={Boolean(formik.touched.email && formik.errors.email)}
-                      fullWidth
-                      helperText={formik.touched.email && formik.errors.email}
-                      label="Email Address"
-                      margin="normal"
-                      name="email"
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      type="email"
-                      value={formik.values.email}
-                    />
-                    <TextField
-                      error={Boolean(formik.touched.password && formik.errors.password)}
-                      fullWidth
-                      helperText={formik.touched.password && formik.errors.password}
-                      label="Password"
-                      margin="normal"
-                      name="password"
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      type="password"
-                      value={formik.values.password}
-                    />
-                    <TextField
-                      error={Boolean(formik.touched.confirmPassword && formik.errors.confirmPassword)}
-                      fullWidth
-                      helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
-                      label="Confirm password"
-                      margin="normal"
-                      name="confirmPassword"
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      type="password"
-                      value={formik.values.confirmPassword}
-                    />
-                    {formik.errors.submit && (
-                      <Box sx={{ mt: 3 }}>
-                        <FormHelperText error>{formik.errors.submit}</FormHelperText>
-                      </Box>
-                    )}
-                    <Box sx={{ mt: 2 }}>
-                      <LoadingButton
-                        loading={formik.isSubmitting}
+                  <FormikProvider value={formik}>
+                    <form noValidate onSubmit={formik.handleSubmit}>
+                      <TextField
+                        error={Boolean(formik.touched.name && formik.errors.name)}
                         fullWidth
-                        size="large"
-                        type="submit"
-                        variant="contained"
-                      >
-                        Register
-                      </LoadingButton>
-                    </Box>
-                  </form>
+                        helperText={formik.touched.name && formik.errors.name}
+                        label="Full name"
+                        margin="normal"
+                        name="name"
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        value={formik.values.name}
+                      />
+                      <TextField
+                        error={Boolean(formik.touched.email && formik.errors.email)}
+                        fullWidth
+                        helperText={formik.touched.email && formik.errors.email}
+                        label="Email Address"
+                        margin="normal"
+                        name="email"
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        type="email"
+                        value={formik.values.email}
+                      />
+                      <TextField
+                        error={Boolean(formik.touched.password && formik.errors.password)}
+                        fullWidth
+                        helperText={formik.touched.password && formik.errors.password}
+                        label="Password"
+                        margin="normal"
+                        name="password"
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        type="password"
+                        value={formik.values.password}
+                      />
+                      <TextField
+                        error={Boolean(formik.touched.confirmPassword && formik.errors.confirmPassword)}
+                        fullWidth
+                        helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                        label="Confirm password"
+                        margin="normal"
+                        name="confirmPassword"
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        type="password"
+                        value={formik.values.confirmPassword}
+                      />
+                      <Field
+                        recaptchaRef={recaptchaRef}
+                        name="recaptchaToken"
+                        component={RecaptchaField}
+                        siteKey={recaptchaConfig.siteKey}
+                      />
+                      {formik.errors.submit && (
+                        <Box sx={{ mt: 3 }}>
+                          <FormHelperText error>{formik.errors.submit}</FormHelperText>
+                        </Box>
+                      )}
+                      <Box sx={{ mt: 2 }}>
+                        <LoadingButton
+                          loading={formik.isSubmitting}
+                          fullWidth
+                          size="large"
+                          type="submit"
+                          variant="contained"
+                        >
+                          Register
+                        </LoadingButton>
+                      </Box>
+                    </form>
+                  </FormikProvider>
                   <Divider sx={{ my: 3 }} />
                   <div>
                     <NextLink

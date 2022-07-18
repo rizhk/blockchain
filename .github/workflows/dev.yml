@@ -31,6 +31,7 @@ jobs:
           envkey_NEXT_PUBLIC_DEX_CONTRACT_ADDRESS: ${{ secrets.NEXT_PUBLIC_DEX_CONTRACT_ADDRESS_DEV }}
           envkey_NEXT_PUBLIC_POLYGON_WEBSOCKET: ${{ secrets.NEXT_PUBLIC_POLYGON_WEBSOCKET_TESTNET }}
           envkey_NEXT_PUBLIC_NETWORK_BASE_URL: ${{ secrets.NEXT_PUBLIC_NETWORK_BASE_URL_DEV }}
+          envkey_NEXT_PUBLIC_RECAPTCHA_SITE_KEY: ${{ secrets.NEXT_PUBLIC_RECAPTCHA_SITE_KEY }}
           file_name: .env
           fail_on_empty: false
 

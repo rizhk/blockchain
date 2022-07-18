@@ -55,22 +55,34 @@ export interface VeriftyTokenTransferRequest {
 export const transactionTypeOptions = [
   {
     label: 'Buy',
-    value: 'buy',
+    value: 'Buy',
   },
   {
     label: 'Sell',
-    value: 'sell',
+    value: 'Sell',
   },
 ];
 
 export const transactionStatusOptions = [
   {
-    label: 'In progress',
-    value: 'In Processing',
+    label: 'Awaiting Token Transfer',
+    value: 'awaiting_token_transfer',
+  },
+  {
+    label: 'Pending Payment',
+    value: 'pending_payment',
   },
   {
     label: 'Complete',
-    value: 'Complete',
+    value: 'complete',
+  },
+  {
+    label: 'Closed',
+    value: 'closed',
+  },
+  {
+    label: 'Canceled',
+    value: 'canceled',
   },
 ];
 
