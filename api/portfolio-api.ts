@@ -1,6 +1,7 @@
 import { PicanteApi } from './end-point';
 import { BaseApi } from './base-api';
 import { AttachmentApiResponse, BaseApiResponse } from 'types/response';
+import { TransactionHistory, TransactionHistoryResponse } from 'types/portfolio';
 
 class PortfolioApi extends BaseApi {
   async exportTransactionHistory(body: {}, options: { defaultErrorMessage: string }): Promise<AttachmentApiResponse> {
@@ -17,7 +18,7 @@ class PortfolioApi extends BaseApi {
     data.timestamp = new Date().toISOString();
     return data;
   }
-  async getAllTransactionHistory(options: { defaultErrorMessage: string }): Promise<BaseApiResponse> {
+  async getAllTransactionHistory(options: { defaultErrorMessage: string }): Promise<TransactionHistoryResponse> {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
 
     var result = await fetch(PicanteApi.GetAllTransactionHistory, {
@@ -27,7 +28,9 @@ class PortfolioApi extends BaseApi {
         Authentication: accessToken,
       },
     });
-    var data = await this.handleFetchResponse(result, { ...options });
+    var data = (await this.handleFetchResponse<TransactionHistoryResponse>(result, {
+      ...options,
+    })) as TransactionHistoryResponse;
     return data;
   }
 }

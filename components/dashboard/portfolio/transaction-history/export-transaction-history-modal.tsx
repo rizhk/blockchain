@@ -27,7 +27,7 @@ export interface IExportTransactionHistoryModalProps {
   hide: () => void;
 }
 
-export default ({ isShowing, hide }: IExportTransactionHistoryModalProps): JSX.Element => {
+const ExportTransactionHistoryModal = ({ isShowing, hide }: IExportTransactionHistoryModalProps): JSX.Element => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   const [range, setRange] = useState<string>('last-30-days');
@@ -127,3 +127,5 @@ export default ({ isShowing, hide }: IExportTransactionHistoryModalProps): JSX.E
     </Dialog>
   );
 };
+
+export default ExportTransactionHistoryModal;

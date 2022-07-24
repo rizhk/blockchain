@@ -22,5 +22,5 @@ export const PicanteApi = {
   FetchWithdrawalPreview: PicanteApiHost + '/v1/market/transaction/sell/withdrawal/preview',
   WithdrawTransaction: PicanteApiHost + '/v1/market/transaction/sell/withdraw',
   ExportTransactionHistory: PicanteApiHost + '/v1/portfolio/transactions/export',
-  GetAllTransactionHistory: PicanteApiHost + '/v1/portfolio/transactions',
+  GetAllTransactionHistory: PicanteApiHost + '/v1/portfolio/transaction',
 };
