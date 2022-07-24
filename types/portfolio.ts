@@ -34,3 +34,20 @@ export interface TransactionHistory {
   CreatedAt: string;
   UpdatedAt: string;
 }
+
+export interface GetUserTagsResponse extends BaseApiResponse {
+  items: Tag[];
+}
+
+export interface Tag {
+  uid: string;
+  id: string;
+  data_type: string;
+  name: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CreateUserTagResponse extends BaseApiResponse {
+  id: string;
+}

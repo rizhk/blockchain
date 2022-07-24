@@ -1,7 +1,10 @@
 import { BackdropProps, Box, Button, ButtonBase, Chip, Divider, Drawer, Grid, Typography } from '@mui/material';
+import { portfolioApi } from 'api/portfolio-api';
 import { EtherscanLogo } from 'components/ethercan-logo';
 import { formatDistance } from 'date-fns';
 import { format } from 'date-fns-tz';
+import useMutation from 'hooks/use-mutation';
+import { useAddNoteModal, useAddTagModal } from 'hooks/use-portfolio-modal';
 import { ChevronLeft } from 'icons/chevron-left';
 import { ExitApp } from 'icons/exit-app';
 import { SuccessTick } from 'icons/success-tick';
@@ -9,25 +12,47 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { TransactionHistory } from 'types/portfolio';
 import { primitivesUtils } from 'utils/primitives-utils';
+import AddNoteModal from './add-note-modal';
+import AddTagModal from './add-tag-modal';
 
 export interface ITransactionHistoryDetailsProps {
   setOpenDrawer: React.Dispatch<React.SetStateAction<boolean>>;
   openDrawer: boolean;
-  transactionHistory: TransactionHistory;
+  transactionHistory: TransactionHistory | undefined;
+  getTransactionHistory: () => void;
 }
 
 export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps> = ({
   setOpenDrawer,
   openDrawer,
   transactionHistory,
+  getTransactionHistory,
 }) => {
   const { t } = useTranslation();
   const handleCloseDrawer = () => {
     setOpenDrawer(false);
   };
+  const { isAddTagShowing, toggleAddTag } = useAddTagModal();
+  const { isAddNoteShowing, toggleAddNote } = useAddNoteModal();
+
+  const {
+    isSuccess: isSetTagSuccess,
+    loading: isSettingTag,
+    error: setTagError,
+    mutate: setTransactionTag,
+  } = useMutation((body) => {
+    return portfolioApi.updateTransaction(body, {
+      defaultErrorMessage: t('portfolio.transHis.setTagError'),
+    });
+  });
+
+  const handleRemoveTag = (txnId: string) => {
+    setTransactionTag({ txnId, tag_id: undefined });
+  };
+
   return (
     <Drawer
-      // key={transactionHistory?.id}
+      key={transactionHistory?.id}
       anchor="right"
       onClose={handleCloseDrawer}
       open={openDrawer}
@@ -42,6 +67,20 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
       sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}
       variant="temporary"
     >
+      <AddTagModal
+        getTransactionHistory={getTransactionHistory}
+        tag={transactionHistory?.tag_name}
+        txnId={transactionHistory?.id}
+        isShowing={isAddTagShowing}
+        hide={toggleAddTag}
+      />
+      <AddNoteModal
+        getTransactionHistory={getTransactionHistory}
+        note={transactionHistory?.note}
+        txnId={transactionHistory?.id}
+        isShowing={isAddNoteShowing}
+        hide={toggleAddNote}
+      />
       <Grid container flexDirection="column">
         <Grid sx={{ py: 4, px: 2 }} rowSpacing={3} item container alignItems="center">
           <Typography onClick={() => setOpenDrawer(false)} variant="subtitle2">
@@ -244,27 +283,95 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
           <Grid item xs={4}>
             <Typography variant="body2">{`${t('portfolio.transHis.tag')}:`}</Typography>
           </Grid>
-          <Grid item xs={8}>
-            <Typography variant="body2">
-              {transactionHistory?.tag_name ? (
-                transactionHistory.tag_name
-              ) : (
-                <Button variant="outlined">{t('portfolio.transHis.addTag')}</Button>
-              )}
-            </Typography>
-          </Grid>
+          <Typography component={Grid} display="flex" justifyContent="space-between" item xs={8} variant="body2">
+            {transactionHistory?.tag_name ? (
+              <>
+                <Chip label={transactionHistory.tag_name} variant="outlined" size="small" />
+                <Box display="flex">
+                  <Typography
+                    onClick={() => handleRemoveTag(transactionHistory.id)}
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{
+                      pr: 2,
+                      textDecoration: 'underline',
+                      verticalAlign: 'center',
+                      display: 'flex',
+                      alignItems: 'center',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {t('portfolio.transHis.removeTag')}
+                  </Typography>
+                  <Typography
+                    onClick={toggleAddTag}
+                    variant="body2"
+                    color="info.main"
+                    sx={{
+                      textDecoration: 'underline',
+                      verticalAlign: 'center',
+                      display: 'flex',
+                      alignItems: 'center',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {t('portfolio.transHis.editTag')}
+                  </Typography>
+                </Box>
+              </>
+            ) : (
+              <Button onClick={toggleAddTag} variant="outlined">
+                {t('portfolio.transHis.addTag')}
+              </Button>
+            )}
+          </Typography>
         </Grid>
         <Divider sx={{ width: '95%', m: '0 auto' }} />
-        <Grid sx={{ px: 3, pb: 3 }} rowSpacing={3} container item alignItems="center">
+        <Grid sx={{ px: 3, pb: 3 }} rowSpacing={3} container item alignItems="flex-start">
           <Grid item xs={4}>
             <Typography variant="body2">{`${t('portfolio.transHis.note')}:`}</Typography>
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={8} alignItems="flex-start">
             <Typography variant="body2">
               {transactionHistory?.note ? (
-                transactionHistory.note
+                <>
+                  {transactionHistory.note}
+                  <Box display="flex" justifyContent="flex-end">
+                    <Typography
+                      onClick={() => handleRemoveTag(transactionHistory.id)}
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{
+                        pr: 2,
+                        textDecoration: 'underline',
+                        verticalAlign: 'center',
+                        display: 'flex',
+                        alignItems: 'center',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {t('portfolio.transHis.removeNote')}
+                    </Typography>
+                    <Typography
+                      onClick={toggleAddNote}
+                      variant="body2"
+                      color="info.main"
+                      sx={{
+                        textDecoration: 'underline',
+                        verticalAlign: 'center',
+                        display: 'flex',
+                        alignItems: 'center',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {t('portfolio.transHis.editNote')}
+                    </Typography>
+                  </Box>
+                </>
               ) : (
-                <Button variant="outlined">{t('portfolio.transHis.addNote')}</Button>
+                <Button onClick={toggleAddNote} variant="outlined">
+                  {t('portfolio.transHis.addNote')}
+                </Button>
               )}
             </Typography>
           </Grid>

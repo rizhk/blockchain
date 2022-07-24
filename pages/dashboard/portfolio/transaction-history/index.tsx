@@ -27,7 +27,6 @@ import { useClientPagination } from 'hooks/use-pagination';
 import { build, sequence, fake, oneOf } from '@jackfranklin/test-data-bot';
 import { MultiSelect } from 'components/multi-select';
 import { Search as SearchIcon } from 'icons/search';
-import ExportTransactionHistoryModal from 'components/dashboard/portfolio/transaction-history/export-transaction-history-modal';
 import { useExportTransactionHistoryModal } from 'hooks/use-portfolio-modal';
 import useFetch from 'hooks/use-fetch';
 import { portfolioApi } from 'api/portfolio-api';
@@ -36,6 +35,7 @@ import { ITransactionHistoryFilters, TransactionHistory } from 'types/portfolio'
 import { AccountCircle } from '@mui/icons-material';
 import { ChevronDown as ChevronDownIcon } from 'icons/chevron-down';
 import { relative } from 'path';
+import ExportTransactionHistoryModal from 'components/dashboard/portfolio/transaction-history/export-transaction-history-modal';
 
 const TransactionHistoryPage: NextPage = () => {
   const isMounted = useMounted();
@@ -45,9 +45,9 @@ const TransactionHistoryPage: NextPage = () => {
   const { isExportTransactionHistoryShowing, toggleExportTransactionHistory } = useExportTransactionHistoryModal();
   const [filter, setFilter] = useState<ITransactionHistoryFilters>({});
 
-  const { data, loading, error } = useFetch(() => {
+  const { data, loading, error, trigger } = useFetch(() => {
     return portfolioApi.getAllTransactionHistory({
-      defaultErrorMessage: t('overview.xRateError'),
+      defaultErrorMessage: t('portfolio.transHis.getTransactionsError'),
     });
   }, []);
 
@@ -272,6 +272,7 @@ const TransactionHistoryPage: NextPage = () => {
           </Box>
         </Box>
         <TransactionHistoryTable
+          getTransactionHistory={() => trigger()}
           transactionHistory={currentData}
           count={count}
           onPageChange={onPageChange}

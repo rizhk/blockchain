@@ -1,4 +1,4 @@
-import { ChangeEvent, Fragment, MouseEvent, useEffect, useState } from 'react';
+import { ChangeEvent, Fragment, MouseEvent, useEffect, useMemo, useState } from 'react';
 import type { FC } from 'react';
 import numeral from 'numeral';
 import PropTypes from 'prop-types';
@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   CardContent,
+  Chip,
   Drawer,
   Grid,
   IconButton,
@@ -38,6 +39,9 @@ import { TransactionHistory } from 'types/portfolio';
 import { MoneyReceive } from 'icons/money-receive';
 import { MoneySend } from 'icons/money-send';
 import { format } from 'date-fns-tz';
+import { useAddNoteModal, useAddTagModal } from 'hooks/use-portfolio-modal';
+import AddTagModal from './add-tag-modal';
+import AddNoteModal from './add-note-modal';
 
 interface TransactionHistoryTableProps {
   onPageChange: (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => void;
@@ -46,6 +50,7 @@ interface TransactionHistoryTableProps {
   count: number;
   transactionHistory: TransactionHistory[];
   rowsPerPage: number;
+  getTransactionHistory: () => void;
 }
 
 export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
@@ -55,19 +60,53 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
   count,
   transactionHistory = [],
   rowsPerPage,
+  getTransactionHistory,
 }) => {
   const { t } = useTranslation();
-  const isMounted = useMounted();
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [currentDetail, setCurrentDetail] = useState<TransactionHistory>(transactionHistory[0]);
+  const { isAddTagShowing, toggleAddTag } = useAddTagModal();
+  const { isAddNoteShowing, toggleAddNote } = useAddNoteModal();
 
-  const handleViewDetail = (index: number) => {
-    setCurrentDetail(transactionHistory[index]);
+  const [currentTransactionId, setCurrentTransactionId] = useState<string>();
+
+  const currentTransaction = useMemo(() => {
+    const txn = transactionHistory.filter(({ id }) => {
+      return id === currentTransactionId;
+    });
+    return txn?.length > 0 ? txn[0] : undefined;
+  }, [JSON.stringify(transactionHistory), currentTransactionId]);
+
+  const handleViewDetail = (transaction: TransactionHistory) => {
+    setCurrentTransactionId(transaction.id);
     setOpenDrawer(true);
+  };
+
+  const handleClickTag = (transaction: TransactionHistory) => {
+    setCurrentTransactionId(transaction.id);
+    toggleAddTag();
+  };
+
+  const handleClickNote = (transaction: TransactionHistory) => {
+    setCurrentTransactionId(transaction.id);
+    toggleAddNote();
   };
 
   return (
     <>
+      <AddTagModal
+        getTransactionHistory={getTransactionHistory}
+        tag={currentTransaction?.tag_name}
+        txnId={currentTransaction?.id}
+        isShowing={isAddTagShowing}
+        hide={toggleAddTag}
+      />
+      <AddNoteModal
+        getTransactionHistory={getTransactionHistory}
+        note={currentTransaction?.note}
+        txnId={currentTransaction?.id}
+        isShowing={isAddNoteShowing}
+        hide={toggleAddNote}
+      />
       <Scrollbar>
         <Table sx={{ maxWidth: 1200 }}>
           <TableHead>
@@ -161,20 +200,70 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                         USD
                       </Typography>
                     </TableCell>
-                    <TableCell>
+                    <TableCell sx={{ minWidth: '150px' }}>
                       <Typography display="inline" variant="caption" sx={{ color: 'text.secondary' }}>
-                        {transaction.tag_name}
+                        {transaction.tag_name ? (
+                          <Chip
+                            onClick={() => {
+                              handleClickTag(transaction);
+                            }}
+                            label={transaction.tag_name}
+                            variant="outlined"
+                            size="small"
+                          />
+                        ) : (
+                          <Typography
+                            onClick={() => {
+                              handleClickTag(transaction);
+                            }}
+                            display="inline"
+                            variant="body2"
+                            sx={{ cursor: 'pointer', color: 'primary.main', textDecoration: 'underline' }}
+                          >
+                            {t('portfolio.transHis.addTag')}
+                          </Typography>
+                        )}
                       </Typography>
                     </TableCell>
-                    <TableCell>
-                      <Typography display="inline" variant="caption" sx={{ color: 'text.secondary' }}>
-                        {transaction.note}
-                      </Typography>
+                    <TableCell sx={{ minWidth: '150px' }}>
+                      {transaction.note ? (
+                        <Typography
+                          onClick={() => {
+                            handleClickNote(transaction);
+                          }}
+                          display="inline"
+                          variant="caption"
+                          sx={{
+                            cursor: 'pointer',
+                            WebkitBoxOrient: 'vertical',
+                            WebkitLineClamp: 2,
+                            display: '-webkit-box',
+                            color: 'text.secondary',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            maxHeight: '3rem',
+                            lineHeight: '1.5rem',
+                          }}
+                        >
+                          {transaction.note}
+                        </Typography>
+                      ) : (
+                        <Typography
+                          onClick={() => {
+                            handleClickNote(transaction);
+                          }}
+                          display="inline"
+                          variant="body2"
+                          sx={{ cursor: 'pointer', color: 'primary.main', textDecoration: 'underline' }}
+                        >
+                          {t('portfolio.transHis.addNote')}
+                        </Typography>
+                      )}
                     </TableCell>
                     <TableCell align="right">
                       <Typography
                         sx={{ cursor: 'pointer' }}
-                        onClick={() => handleViewDetail(index)}
+                        onClick={() => handleViewDetail(transaction)}
                         display="inline"
                         variant="subtitle2"
                         color="primary"
@@ -201,7 +290,8 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
       <TransactionHistoryDetails
         openDrawer={openDrawer}
         setOpenDrawer={setOpenDrawer}
-        transactionHistory={currentDetail}
+        transactionHistory={currentTransaction}
+        getTransactionHistory={getTransactionHistory}
       />
     </>
   );

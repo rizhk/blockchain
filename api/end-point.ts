@@ -23,4 +23,7 @@ export const PicanteApi = {
   WithdrawTransaction: PicanteApiHost + '/v1/market/transaction/sell/withdraw',
   ExportTransactionHistory: PicanteApiHost + '/v1/portfolio/transactions/export',
   GetAllTransactionHistory: PicanteApiHost + '/v1/portfolio/transaction',
+  GetUserTags: PicanteApiHost + '/v1/portfolio/accouting/tag',
+  CreateTransactionTag: PicanteApiHost + '/v1/portfolio/accouting/tag',
+  UpdateTransaction: PicanteApiHost + '/v1/portfolio/transaction',
 };
