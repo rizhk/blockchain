@@ -130,11 +130,13 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
               <Typography variant="body2">{`${t('portfolio.transHis.from')}:`}</Typography>
             </Grid>
             <Grid item xs={8}>
-              <Typography display="inline" variant="body2">
+              {/* Show a full name before we can provide custom wallet name */}
+              {/* <Typography display="inline" variant="body2">
                 {transactionHistory?.blockchain_network}
-              </Typography>{' '}
-              <Typography display="inline" variant="body2" color="text.secondary">
-                ({primitivesUtils.getShortTxnId(transactionHistory?.from)})
+              </Typography>{' '} */}
+              <Typography display="inline" variant="body2" color="text.secondary" sx={{ wordWrap: 'break-word' }}>
+                {/* ({primitivesUtils.getShortTxnId(transactionHistory?.from)}) */}
+                {transactionHistory?.from}
               </Typography>
             </Grid>
           </Grid>
@@ -143,11 +145,12 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
               <Typography variant="body2">{`${t('portfolio.transHis.to')}:`}</Typography>
             </Grid>
             <Grid item xs={8}>
-              <Typography display="inline" variant="body2">
+              {/* <Typography display="inline" variant="body2">
                 {transactionHistory?.blockchain_network}
-              </Typography>{' '}
-              <Typography display="inline" variant="body2" color="text.secondary">
-                ({primitivesUtils.getShortTxnId(transactionHistory?.to)})
+              </Typography>{' '} */}
+              <Typography display="inline" variant="body2" color="text.secondary" sx={{ wordWrap: 'break-word' }}>
+                {/* ({primitivesUtils.getShortTxnId(transactionHistory?.to)}) */}
+                {transactionHistory?.to}
               </Typography>{' '}
             </Grid>
           </Grid>
@@ -171,25 +174,27 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
                 {primitivesUtils.roundDownToTwo(parseFloat(transactionHistory?.crypto_amount))}{' '}
                 {transactionHistory?.token_symbol}
               </Typography>{' '}
-              <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                {primitivesUtils.roundDownToTwo(parseFloat(transactionHistory?.crypto_amount_fiat))} USD
-              </Typography>
+              {primitivesUtils.roundDownToTwo(parseFloat(transactionHistory?.crypto_amount_fiat)) > 0 && (
+                <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
+                  {primitivesUtils.roundDownToTwo(parseFloat(transactionHistory?.crypto_amount_fiat))} USD
+                </Typography>
+              )}
             </Grid>
           </Grid>
-          <Grid container item>
+          {/* TODO: alchemy api have no info about transaction fee */}
+          {/* <Grid container item>
             <Grid item xs={4}>
               <Typography variant="body2">{`${t('portfolio.transHis.transactionFee')}:`}</Typography>
             </Grid>
             <Grid item xs={8}>
               <Typography display="inline" variant="subtitle2">
-                {primitivesUtils.roundDownToTwo(parseFloat(transactionHistory?.gas_used))}{' '}
-                {transactionHistory?.token_symbol}
+                {transactionHistory?.gas_used} {'ETH'}
               </Typography>{' '}
               <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
                 {transactionHistory?.gas_fiat} USD
               </Typography>
             </Grid>
-          </Grid>
+          </Grid> */}
         </Grid>
         <Divider sx={{ width: '95%', m: '0 auto' }} />
         <Grid sx={{ px: 3, pb: 3 }} rowSpacing={3} container item flexDirection="row">
@@ -199,8 +204,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
             </Grid>
             <Grid item xs={8}>
               <Typography display="inline" variant="subtitle2">
-                {primitivesUtils.roundDownToTwo(parseFloat(transactionHistory?.gas_used))}{' '}
-                {transactionHistory?.token_symbol}
+                {transactionHistory?.gas_used} {'ETH'}
               </Typography>{' '}
               <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
                 {transactionHistory?.gas_fiat} USD
@@ -253,7 +257,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
                 {transactionHistory?.block_num}
               </Typography>{' '}
               <Typography variant="body2" display="inline" sx={{ color: 'text.secondary' }}>
-                ({39} {t('portfolio.transHis.blockConfirmation')})
+                {/* ({39} {t('portfolio.transHis.blockConfirmation')}) */}
               </Typography>
             </Grid>
           </Grid>

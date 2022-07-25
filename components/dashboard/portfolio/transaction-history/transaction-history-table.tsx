@@ -172,13 +172,16 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                         {transaction.token_symbol}
                       </Typography>
                       <br />
-                      <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                        {primitivesUtils.roundDownToTwo(parseFloat(transaction.crypto_amount_fiat))} USD
-                      </Typography>
+                      {primitivesUtils.roundDownToTwo(parseFloat(transaction.crypto_amount_fiat)) > 0 && (
+                        <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
+                          {primitivesUtils.roundDownToTwo(parseFloat(transaction.crypto_amount_fiat))} USD
+                        </Typography>
+                      )}
                     </TableCell>
                     <TableCell>
                       <Typography display="inline" variant="subtitle2">
-                        {primitivesUtils.roundDownToTwo(parseFloat(transaction.gas_used))} {transaction.token_symbol}
+                        {primitivesUtils.roundUpUpToSixPlace(parseFloat(transaction.gas_used))} {'ETH'}
+                        {/*//TODO: hardcore for now, transaction should provide a native token symbol */}
                       </Typography>
                       <br />
                       <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
@@ -187,14 +190,14 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                     </TableCell>
                     <TableCell>
                       <Typography display="inline" variant="subtitle2">
-                        {primitivesUtils.roundDownToTwo(
+                        {primitivesUtils.roundUpUpToSixPlace(
                           parseFloat(transaction.crypto_amount) + parseFloat(transaction.gas_used),
                         )}{' '}
                         {transaction.token_symbol}
                       </Typography>
                       <br />
                       <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                        {primitivesUtils.roundDownToTwo(
+                        {primitivesUtils.roundUpUpToSixPlace(
                           parseFloat(transaction.crypto_amount_fiat) + parseFloat(transaction.gas_fiat),
                         )}{' '}
                         USD
