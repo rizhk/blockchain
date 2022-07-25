@@ -12,3 +12,29 @@ export const useExportTransactionHistoryModal = () => {
     toggleExportTransactionHistory: toggleExportTransactionHistory,
   };
 };
+
+export const useAddTagModal = () => {
+  const [isAddTagShowing, setIsAddTagShowing] = useState(false);
+
+  function toggleAddTag() {
+    setIsAddTagShowing(!isAddTagShowing);
+  }
+
+  return {
+    isAddTagShowing: isAddTagShowing,
+    toggleAddTag: toggleAddTag,
+  };
+};
+
+export const useAddNoteModal = () => {
+  const [isAddNoteShowing, setIsAddNoteShowing] = useState(false);
+
+  function toggleAddNote() {
+    setIsAddNoteShowing(!isAddNoteShowing);
+  }
+
+  return {
+    isAddNoteShowing: isAddNoteShowing,
+    toggleAddNote: toggleAddNote,
+  };
+};

@@ -17,6 +17,12 @@ export const LoadingButton: React.FC<ILoadingButtonProps> = ({ isBlocking = true
       return;
     }
   }, [loading]);
+
+  useEffect(() => {
+    return () => {
+      document.body.style.pointerEvents = 'unset';
+    };
+  }, []);
   return (
     <MuiLoadingButton loading={loading} {...rest}>
       {children}
