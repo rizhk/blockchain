@@ -21,7 +21,7 @@ export const PicanteApi = {
   ResetPassword: PicanteApiHost + '/v1/user/password/reset',
   FetchWithdrawalPreview: PicanteApiHost + '/v1/market/transaction/sell/withdrawal/preview',
   WithdrawTransaction: PicanteApiHost + '/v1/market/transaction/sell/withdraw',
-  ExportTransactionHistory: PicanteApiHost + '/v1/portfolio/transactions/export',
+  ExportTransactionHistory: PicanteApiHost + '/v1/portfolio/export/transaction',
   GetAllTransactionHistory: PicanteApiHost + '/v1/portfolio/transaction',
   GetUserTags: PicanteApiHost + '/v1/portfolio/accouting/tag',
   CreateTransactionTag: PicanteApiHost + '/v1/portfolio/accouting/tag',
