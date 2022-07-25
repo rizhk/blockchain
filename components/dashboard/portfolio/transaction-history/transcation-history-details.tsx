@@ -1,301 +1,404 @@
-import { ChangeEvent, Fragment, MouseEvent, useEffect, useMemo, useState } from 'react';
-import type { FC } from 'react';
-import numeral from 'numeral';
-import PropTypes from 'prop-types';
-import { toast } from 'react-hot-toast';
-import {
-  Box,
-  Button,
-  CardContent,
-  Chip,
-  Drawer,
-  Grid,
-  IconButton,
-  InputAdornment,
-  LinearProgress,
-  MenuItem,
-  Switch,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TablePagination,
-  TableRow,
-  TextField,
-  Typography,
-} from '@mui/material';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Scrollbar } from 'components/scrollbar';
-import { useMounted } from 'hooks/use-mounted';
-import { build, sequence, fake } from '@jackfranklin/test-data-bot';
-import { useTranslation } from 'react-i18next';
-import { primitivesUtils } from 'utils/primitives-utils';
-import { Divider } from 'components/common/divider';
-import { ArrowRight } from '@mui/icons-material';
-import { ArrowNarrowRight } from 'icons/arrow-narrow-right';
-import { ChevronRight } from 'icons/chevron-right';
-import { TransactionHistoryDetails } from './transcation-history-details';
-import { TransactionHistory } from 'types/portfolio';
-import { MoneyReceive } from 'icons/money-receive';
-import { MoneySend } from 'icons/money-send';
+import { BackdropProps, Box, Button, ButtonBase, Chip, Divider, Drawer, Grid, Typography } from '@mui/material';
+import { portfolioApi } from 'api/portfolio-api';
+import { EtherscanLogo } from 'components/ethercan-logo';
+import { formatDistance } from 'date-fns';
 import { format } from 'date-fns-tz';
+import useMutation from 'hooks/use-mutation';
 import { useAddNoteModal, useAddTagModal } from 'hooks/use-portfolio-modal';
-import AddTagModal from './add-tag-modal';
+import { ChevronLeft } from 'icons/chevron-left';
+import { ExitApp } from 'icons/exit-app';
+import { SuccessTick } from 'icons/success-tick';
+import * as React from 'react';
+import { useTranslation } from 'react-i18next';
+import { TransactionHistory } from 'types/portfolio';
+import { primitivesUtils } from 'utils/primitives-utils';
 import AddNoteModal from './add-note-modal';
+import AddTagModal from './add-tag-modal';
 
-interface TransactionHistoryTableProps {
-  onPageChange: (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => void;
-  onRowsPerPageChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  page: number;
-  count: number;
-  transactionHistory: TransactionHistory[];
-  rowsPerPage: number;
+export interface ITransactionHistoryDetailsProps {
+  setOpenDrawer: React.Dispatch<React.SetStateAction<boolean>>;
+  openDrawer: boolean;
+  transactionHistory: TransactionHistory | undefined;
   getTransactionHistory: () => void;
 }
 
-export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
-  onPageChange,
-  onRowsPerPageChange,
-  page,
-  count,
-  transactionHistory = [],
-  rowsPerPage,
+export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps> = ({
+  setOpenDrawer,
+  openDrawer,
+  transactionHistory,
   getTransactionHistory,
 }) => {
   const { t } = useTranslation();
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const handleCloseDrawer = () => {
+    setOpenDrawer(false);
+  };
   const { isAddTagShowing, toggleAddTag } = useAddTagModal();
   const { isAddNoteShowing, toggleAddNote } = useAddNoteModal();
 
-  const [currentTransactionId, setCurrentTransactionId] = useState<string>();
-
-  const currentTransaction = useMemo(() => {
-    const txn = transactionHistory.filter(({ id }) => {
-      return id === currentTransactionId;
+  const {
+    isSuccess: isSetTagSuccess,
+    loading: isSettingTag,
+    error: setTagError,
+    mutate: setTransactionTag,
+  } = useMutation((body) => {
+    return portfolioApi.updateTransaction(body, {
+      defaultErrorMessage: t('portfolio.transHis.setTagError'),
     });
-    return txn?.length > 0 ? txn[0] : undefined;
-  }, [JSON.stringify(transactionHistory), currentTransactionId]);
+  });
 
-  const handleViewDetail = (transaction: TransactionHistory) => {
-    setCurrentTransactionId(transaction.id);
-    setOpenDrawer(true);
-  };
-
-  const handleClickTag = (transaction: TransactionHistory) => {
-    setCurrentTransactionId(transaction.id);
-    toggleAddTag();
-  };
-
-  const handleClickNote = (transaction: TransactionHistory) => {
-    setCurrentTransactionId(transaction.id);
-    toggleAddNote();
+  const handleRemoveTag = (txnId: string) => {
+    setTransactionTag({ txnId, tag_id: undefined });
   };
 
   return (
-    <>
+    <Drawer
+      key={transactionHistory?.id}
+      anchor="right"
+      onClose={handleCloseDrawer}
+      open={openDrawer}
+      ModalProps={{ onBackdropClick: handleCloseDrawer }}
+      PaperProps={{
+        sx: {
+          position: 'absolute',
+          backgroundColor: 'background.paper',
+          width: 580,
+        },
+      }}
+      sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}
+      variant="temporary"
+    >
       <AddTagModal
         getTransactionHistory={getTransactionHistory}
-        tag={currentTransaction?.tag_name}
-        txnId={currentTransaction?.id}
+        tag={transactionHistory?.tag_name}
+        txnId={transactionHistory?.id}
         isShowing={isAddTagShowing}
         hide={toggleAddTag}
       />
       <AddNoteModal
         getTransactionHistory={getTransactionHistory}
-        note={currentTransaction?.note}
-        txnId={currentTransaction?.id}
+        note={transactionHistory?.note}
+        txnId={transactionHistory?.id}
         isShowing={isAddNoteShowing}
         hide={toggleAddNote}
       />
-      <Scrollbar>
-        <Table sx={{ maxWidth: 1200 }}>
-          <TableHead>
-            <TableRow>
-              <TableCell>{t('portfolio.transHis.type')}</TableCell>
-              <TableCell>
-                {t('portfolio.transHis.date')}{' '}
-                <Typography
-                  display="inline"
-                  variant="body2"
-                  sx={{ fontWeight: 700, fontSize: '0.75em', color: 'text.secondary' }}
-                >
-                  (DD-MM-YY)
+      <Grid container flexDirection="column">
+        <Grid sx={{ py: 4, px: 2 }} rowSpacing={3} item container alignItems="center">
+          <Typography onClick={() => setOpenDrawer(false)} variant="subtitle2">
+            <ChevronLeft sx={{ cursor: 'pointer' }} />
+          </Typography>
+          <Typography
+            onClick={() => setOpenDrawer(false)}
+            sx={{ cursor: 'pointer', height: '24px' }}
+            variant="subtitle2"
+          >
+            {t('portfolio.transHis.goBack')}
+          </Typography>
+        </Grid>
+        <Divider sx={{ m: 0 }} />
+        <Grid sx={{ px: 3, pb: 3 }} rowSpacing={3} container item flexDirection="row">
+          <Grid flexWrap="nowrap" container item justifyContent="space-between">
+            <Typography flex="1 0 auto" variant="subtitle1">
+              {t('portfolio.transHis.transDetails')}
+            </Typography>
+            {/* <Grid container item alignItems="center" justifyContent="flex-end">
+              <Typography variant="caption2" sx={{ pr: 1, fontSize: '0.5rem' }}>
+                {t('portfolio.transHis.poweredBy')}
+              </Typography>
+              <EtherscanLogo width="111px" height="25px" />
+            </Grid> */}
+          </Grid>
+          <Grid container item>
+            <Grid item xs={4}>
+              <Typography variant="body2">{`${t('portfolio.transHis.orderType')}:`}</Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <Typography variant="body2">
+                {transactionHistory?.type.toLowerCase() === 'in' ? (
+                  <Typography variant="body2" color="success.main">
+                    {t('portfolio.transHis.incoming')}
+                  </Typography>
+                ) : (
+                  <Typography variant="body2" color="success.main">
+                    {t('portfolio.transHis.outgoing')}
+                  </Typography>
+                )}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid container item>
+            <Grid item xs={4}>
+              <Typography variant="body2">{`${t('portfolio.transHis.from')}:`}</Typography>
+            </Grid>
+            <Grid item xs={8}>
+              {/* Show a full name before we can provide custom wallet name */}
+              {/* <Typography display="inline" variant="body2">
+                {transactionHistory?.blockchain_network}
+              </Typography>{' '} */}
+              <Typography display="inline" variant="body2" color="text.secondary" sx={{ wordWrap: 'break-word' }}>
+                {/* ({primitivesUtils.getShortTxnId(transactionHistory?.from)}) */}
+                {transactionHistory?.from}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid container item>
+            <Grid item xs={4}>
+              <Typography variant="body2">{`${t('portfolio.transHis.to')}:`}</Typography>
+            </Grid>
+            <Grid item xs={8}>
+              {/* <Typography display="inline" variant="body2">
+                {transactionHistory?.blockchain_network}
+              </Typography>{' '} */}
+              <Typography display="inline" variant="body2" color="text.secondary" sx={{ wordWrap: 'break-word' }}>
+                {/* ({primitivesUtils.getShortTxnId(transactionHistory?.to)}) */}
+                {transactionHistory?.to}
+              </Typography>{' '}
+            </Grid>
+          </Grid>
+        </Grid>
+        <Divider sx={{ width: '95%', m: '0 auto' }} />
+        <Grid sx={{ px: 3, pb: 3 }} rowSpacing={3} container item flexDirection="row">
+          <Grid container item>
+            <Grid item xs={4}>
+              <Typography variant="body2">{`${t('portfolio.transHis.blockchain')}:`}</Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <Typography variant="body2">{transactionHistory?.blockchain_network}</Typography>
+            </Grid>
+          </Grid>
+          <Grid container item>
+            <Grid item xs={4}>
+              <Typography variant="body2">{`${t('portfolio.transHis.value')}:`}</Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <Typography display="inline" variant="subtitle2">
+                {primitivesUtils.roundDownToTwo(parseFloat(transactionHistory?.crypto_amount))}{' '}
+                {transactionHistory?.token_symbol}
+              </Typography>{' '}
+              {primitivesUtils.roundDownToTwo(parseFloat(transactionHistory?.crypto_amount_fiat)) > 0 && (
+                <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
+                  {primitivesUtils.roundDownToTwo(parseFloat(transactionHistory?.crypto_amount_fiat))} USD
                 </Typography>
-              </TableCell>
-              <TableCell>{t('portfolio.transHis.from')}</TableCell>
-              <TableCell>{t('portfolio.transHis.to')}</TableCell>
-              <TableCell>{t('portfolio.transHis.amount')}</TableCell>
-              <TableCell>{t('portfolio.transHis.fees')}</TableCell>
-              <TableCell>{t('portfolio.transHis.total')}</TableCell>
-              <TableCell>{t('portfolio.transHis.tag')}</TableCell>
-              <TableCell>{t('portfolio.transHis.note')}</TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {transactionHistory.map((transaction, index) => {
-              const typeIcon = transaction.type.toLowerCase() === 'in' ? <MoneyReceive /> : <MoneySend />;
-              return (
-                <Fragment key={transaction.id}>
-                  <TableRow hover key={transaction.id}>
-                    <TableCell>{typeIcon}</TableCell>
-                    <TableCell sx={{ minWidth: '150px' }}>
-                      <Typography display="inline" variant="subtitle2">
-                        {format(new Date(transaction.transaction_date), 'dd-MM-yy')}
-                      </Typography>
-                      <br />
-                      <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                        {format(new Date(transaction.transaction_date), `hh:mm:ss aaaaa'm'`)}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography display="inline" variant="subtitle2">
-                        {transaction.blockchain_network}
-                      </Typography>
-                      <br />
-                      <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                        {primitivesUtils.getShortTxnId(transaction.from)}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography display="inline" variant="subtitle2">
-                        {transaction.blockchain_network}
-                      </Typography>
-                      <br />
-                      <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                        {primitivesUtils.getShortTxnId(transaction.to)}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography display="inline" variant="subtitle2">
-                        {primitivesUtils.roundDownToTwo(parseFloat(transaction.crypto_amount))}{' '}
-                        {transaction.token_symbol}
-                      </Typography>
-                      <br />
-                      {primitivesUtils.roundDownToTwo(parseFloat(transaction.crypto_amount_fiat)) > 0 && (
-                        <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                          {primitivesUtils.roundDownToTwo(parseFloat(transaction.crypto_amount_fiat))} USD
-                        </Typography>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      <Typography display="inline" variant="subtitle2">
-                        {primitivesUtils.roundUpUpToSixPlace(parseFloat(transaction.gas_used))} {'ETH'}
-                        {/*//TODO: hardcore for now, transaction should provide a native token symbol */}
-                      </Typography>
-                      <br />
-                      <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                        {transaction.gas_fiat} USD
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography display="inline" variant="subtitle2">
-                        {primitivesUtils.roundUpUpToSixPlace(
-                          parseFloat(transaction.crypto_amount) + parseFloat(transaction.gas_used),
-                        )}{' '}
-                        {transaction.token_symbol}
-                      </Typography>
-                      <br />
-                      <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                        {primitivesUtils.roundUpUpToSixPlace(
-                          parseFloat(transaction.crypto_amount_fiat) + parseFloat(transaction.gas_fiat),
-                        )}{' '}
-                        USD
-                      </Typography>
-                    </TableCell>
-                    <TableCell sx={{ minWidth: '150px' }}>
-                      <Typography display="inline" variant="caption" sx={{ color: 'text.secondary' }}>
-                        {transaction.tag_name ? (
-                          <Chip
-                            onClick={() => {
-                              handleClickTag(transaction);
-                            }}
-                            label={transaction.tag_name}
-                            variant="outlined"
-                            size="small"
-                          />
-                        ) : (
-                          <Typography
-                            onClick={() => {
-                              handleClickTag(transaction);
-                            }}
-                            display="inline"
-                            variant="body2"
-                            sx={{ cursor: 'pointer', color: 'primary.main', textDecoration: 'underline' }}
-                          >
-                            {t('portfolio.transHis.addTag')}
-                          </Typography>
-                        )}
-                      </Typography>
-                    </TableCell>
-                    <TableCell sx={{ minWidth: '150px' }}>
-                      {transaction.note ? (
-                        <Typography
-                          onClick={() => {
-                            handleClickNote(transaction);
-                          }}
-                          display="inline"
-                          variant="caption"
-                          sx={{
-                            cursor: 'pointer',
-                            WebkitBoxOrient: 'vertical',
-                            WebkitLineClamp: 2,
-                            display: '-webkit-box',
-                            color: 'text.secondary',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            maxHeight: '3rem',
-                            lineHeight: '1.5rem',
-                          }}
-                        >
-                          {transaction.note}
-                        </Typography>
-                      ) : (
-                        <Typography
-                          onClick={() => {
-                            handleClickNote(transaction);
-                          }}
-                          display="inline"
-                          variant="body2"
-                          sx={{ cursor: 'pointer', color: 'primary.main', textDecoration: 'underline' }}
-                        >
-                          {t('portfolio.transHis.addNote')}
-                        </Typography>
-                      )}
-                    </TableCell>
-                    <TableCell align="right">
-                      <Typography
-                        sx={{ cursor: 'pointer' }}
-                        onClick={() => handleViewDetail(transaction)}
-                        display="inline"
-                        variant="subtitle2"
-                        color="primary"
-                      >
-                        <ChevronRight />
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
-                </Fragment>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </Scrollbar>
-      <TablePagination
-        component="div"
-        count={count}
-        onPageChange={onPageChange}
-        onRowsPerPageChange={onRowsPerPageChange}
-        page={page}
-        rowsPerPage={rowsPerPage}
-        rowsPerPageOptions={[10, 25, 50]}
-      />
-      <TransactionHistoryDetails
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-        transactionHistory={currentTransaction}
-        getTransactionHistory={getTransactionHistory}
-      />
-    </>
+              )}
+            </Grid>
+          </Grid>
+          {/* TODO: alchemy api have no info about transaction fee */}
+          {/* <Grid container item>
+            <Grid item xs={4}>
+              <Typography variant="body2">{`${t('portfolio.transHis.transactionFee')}:`}</Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <Typography display="inline" variant="subtitle2">
+                {transactionHistory?.gas_used} {'ETH'}
+              </Typography>{' '}
+              <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
+                {transactionHistory?.gas_fiat} USD
+              </Typography>
+            </Grid>
+          </Grid> */}
+        </Grid>
+        <Divider sx={{ width: '95%', m: '0 auto' }} />
+        <Grid sx={{ px: 3, pb: 3 }} rowSpacing={3} container item flexDirection="row">
+          <Grid container item>
+            <Grid item xs={4}>
+              <Typography variant="body2">{`${t('portfolio.transHis.gasPrice')}:`}</Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <Typography display="inline" variant="subtitle2">
+                {transactionHistory?.gas_used} {'ETH'}
+              </Typography>{' '}
+              <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
+                {transactionHistory?.gas_fiat} USD
+              </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Divider sx={{ width: '95%', m: '0 auto' }} />
+        <Grid sx={{ px: 3, pb: 3 }} rowSpacing={3} container item flexDirection="row">
+          <Grid container item>
+            <Grid item xs={4}>
+              <Typography variant="body2">{`${t('portfolio.transHis.transactionHash')}:`}</Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <Typography variant="body2" sx={{ wordWrap: 'break-word' }}>
+                {transactionHistory?.hash}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid container item alignItems="center">
+            <Grid item xs={4}>
+              <Typography variant="body2">{`${t('portfolio.transHis.status')}:`}</Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <Typography
+                variant="body2"
+                display="flex"
+                width="min-content"
+                alignItems="center"
+                sx={{
+                  fontWeight: 600,
+                  px: 1,
+                  py: 0.5,
+                  backgroundColor: '#E5F9F6',
+                  color: '#00C9A7',
+                  borderRadius: '4px',
+                }}
+              >
+                <SuccessTick sx={{ fontSize: '0.725rem', mr: 1 }} />
+                Success
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid container item>
+            <Grid item xs={4}>
+              <Typography variant="body2">{`${t('portfolio.transHis.block')}:`}</Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <Typography variant="body2" display="inline">
+                {transactionHistory?.block_num}
+              </Typography>{' '}
+              <Typography variant="body2" display="inline" sx={{ color: 'text.secondary' }}>
+                {/* ({39} {t('portfolio.transHis.blockConfirmation')}) */}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid container item>
+            <Grid item xs={4}>
+              <Typography variant="body2">{`${t('portfolio.transHis.timestamp')}:`}</Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <Typography variant="body2" display="inline">
+                {transactionHistory?.transaction_date
+                  ? formatDistance(new Date(), new Date(transactionHistory.transaction_date), { includeSeconds: true })
+                  : null}{' '}
+                {t('portfolio.transHis.ago')}
+              </Typography>{' '}
+              <Typography variant="body2" display="inline" sx={{ color: 'text.secondary' }}>
+                (
+                {transactionHistory?.transaction_date
+                  ? format(new Date(transactionHistory.transaction_date), `MMM-dd-yyyy hh:mm:ss aaaaa'm' z`)
+                  : null}
+                )
+              </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Divider sx={{ width: '95%', m: '0 auto' }} />
+        <Grid sx={{ px: 3, pb: 3 }} rowSpacing={3} container item alignItems="center">
+          <Grid item xs={4}>
+            <Typography variant="body2">{`${t('portfolio.transHis.tag')}:`}</Typography>
+          </Grid>
+          <Typography component={Grid} display="flex" justifyContent="space-between" item xs={8} variant="body2">
+            {transactionHistory?.tag_name ? (
+              <>
+                <Chip label={transactionHistory.tag_name} variant="outlined" size="small" />
+                <Box display="flex">
+                  <Typography
+                    onClick={() => handleRemoveTag(transactionHistory.id)}
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{
+                      pr: 2,
+                      textDecoration: 'underline',
+                      verticalAlign: 'center',
+                      display: 'flex',
+                      alignItems: 'center',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {t('portfolio.transHis.removeTag')}
+                  </Typography>
+                  <Typography
+                    onClick={toggleAddTag}
+                    variant="body2"
+                    color="info.main"
+                    sx={{
+                      textDecoration: 'underline',
+                      verticalAlign: 'center',
+                      display: 'flex',
+                      alignItems: 'center',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {t('portfolio.transHis.editTag')}
+                  </Typography>
+                </Box>
+              </>
+            ) : (
+              <Button onClick={toggleAddTag} variant="outlined">
+                {t('portfolio.transHis.addTag')}
+              </Button>
+            )}
+          </Typography>
+        </Grid>
+        <Divider sx={{ width: '95%', m: '0 auto' }} />
+        <Grid sx={{ px: 3, pb: 3 }} rowSpacing={3} container item alignItems="flex-start">
+          <Grid item xs={4}>
+            <Typography variant="body2">{`${t('portfolio.transHis.note')}:`}</Typography>
+          </Grid>
+          <Grid item xs={8} alignItems="flex-start">
+            <Typography variant="body2">
+              {transactionHistory?.note ? (
+                <>
+                  {transactionHistory.note}
+                  <Box display="flex" justifyContent="flex-end">
+                    <Typography
+                      onClick={() => handleRemoveTag(transactionHistory.id)}
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{
+                        pr: 2,
+                        textDecoration: 'underline',
+                        verticalAlign: 'center',
+                        display: 'flex',
+                        alignItems: 'center',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {t('portfolio.transHis.removeNote')}
+                    </Typography>
+                    <Typography
+                      onClick={toggleAddNote}
+                      variant="body2"
+                      color="info.main"
+                      sx={{
+                        textDecoration: 'underline',
+                        verticalAlign: 'center',
+                        display: 'flex',
+                        alignItems: 'center',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {t('portfolio.transHis.editNote')}
+                    </Typography>
+                  </Box>
+                </>
+              ) : (
+                <Button onClick={toggleAddNote} variant="outlined">
+                  {t('portfolio.transHis.addNote')}
+                </Button>
+              )}
+            </Typography>
+          </Grid>
+        </Grid>
+        <Divider sx={{ width: '95%', m: '0 auto' }} />
+        <Grid sx={{ pt: 4, px: 2 }} rowSpacing={3} flexWrap="nowrap" container item flexDirection="row">
+          <Typography flex="0 1 max-content" sx={{ pr: 1 }} variant="body2" display="inline">
+            {`${t('portfolio.transHis.viewOn')} Etherscan: `}
+          </Typography>
+          <Typography
+            component="a"
+            variant="body2"
+            color="info.main"
+            sx={{ verticalAlign: 'center', display: 'flex', alignItems: 'center' }}
+            rel="noreferrer"
+            href={`https://etherscan.io/tx/${transactionHistory?.hash}`}
+            target="_blank"
+          >
+            {`https://etherscan.io/tx/${primitivesUtils.getShortTxnId(transactionHistory?.hash)}`}
+            <ExitApp />
+          </Typography>
+        </Grid>
+      </Grid>
+    </Drawer>
   );
 };
