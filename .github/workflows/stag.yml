@@ -33,7 +33,7 @@ jobs:
           envkey_NEXT_PUBLIC_NETWORK_BASE_URL: ${{ secrets.NEXT_PUBLIC_NETWORK_BASE_URL_DEV }}
           envkey_NEXT_PUBLIC_RECAPTCHA_SITE_KEY: ${{ secrets.NEXT_PUBLIC_RECAPTCHA_SITE_KEY }}
           file_name: .env
-          fail_on_empty: false
+          fail_on_empty: true
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
