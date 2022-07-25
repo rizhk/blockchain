@@ -100,12 +100,12 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
             <Typography flex="1 0 auto" variant="subtitle1">
               {t('portfolio.transHis.transDetails')}
             </Typography>
-            <Grid container item alignItems="center" justifyContent="flex-end">
+            {/* <Grid container item alignItems="center" justifyContent="flex-end">
               <Typography variant="caption2" sx={{ pr: 1, fontSize: '0.5rem' }}>
                 {t('portfolio.transHis.poweredBy')}
               </Typography>
               <EtherscanLogo width="111px" height="25px" />
-            </Grid>
+            </Grid> */}
           </Grid>
           <Grid container item>
             <Grid item xs={4}>
