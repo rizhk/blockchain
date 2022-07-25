@@ -2,7 +2,19 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { Box, Button, Card, Container, Divider, Grid, Input, Typography, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  Container,
+  Divider,
+  Grid,
+  Input,
+  InputAdornment,
+  TextField,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { TutorialDialog } from 'components/dashboard/tutorial-dialog';
 import { useAuth } from 'hooks/use-auth';
 import { useMounted } from 'hooks/use-mounted';
@@ -13,13 +25,17 @@ import { AuthGuard } from 'components/authentication/auth-guard';
 import { TransactionHistoryTable } from 'components/dashboard/portfolio/transaction-history/transaction-history-table';
 import { useClientPagination } from 'hooks/use-pagination';
 import { build, sequence, fake, oneOf } from '@jackfranklin/test-data-bot';
-import { TransactionHistory } from 'types/transaction-history';
 import { MultiSelect } from 'components/multi-select';
 import { Search as SearchIcon } from 'icons/search';
-import ExportTransactionHistoryModal from 'components/dashboard/portfolio/transaction-history/export-transaction-history-modal';
 import { useExportTransactionHistoryModal } from 'hooks/use-portfolio-modal';
 import useFetch from 'hooks/use-fetch';
 import { portfolioApi } from 'api/portfolio-api';
+import { DesktopDatePicker, MobileDatePicker } from '@mui/x-date-pickers';
+import { ITransactionHistoryFilters, TransactionHistory } from 'types/portfolio';
+import { AccountCircle } from '@mui/icons-material';
+import { ChevronDown as ChevronDownIcon } from 'icons/chevron-down';
+import { relative } from 'path';
+import ExportTransactionHistoryModal from 'components/dashboard/portfolio/transaction-history/export-transaction-history-modal';
 
 const TransactionHistoryPage: NextPage = () => {
   const isMounted = useMounted();
@@ -27,60 +43,38 @@ const TransactionHistoryPage: NextPage = () => {
   const [transactionHistory, setTransactionHistory] = useState<TransactionHistory[]>([]);
   const theme = useTheme();
   const { isExportTransactionHistoryShowing, toggleExportTransactionHistory } = useExportTransactionHistoryModal();
+  const [filter, setFilter] = useState<ITransactionHistoryFilters>({});
 
-  const { data, loading, error } = useFetch(() => {
+  const { data, loading, error, trigger } = useFetch(() => {
     return portfolioApi.getAllTransactionHistory({
-      defaultErrorMessage: t('overview.xRateError'),
+      defaultErrorMessage: t('portfolio.transHis.getTransactionsError'),
     });
   }, []);
 
+  const handleChangeWallet = (value: any[]) => {
+    setFilter((preFilter) => {
+      return { ...preFilter, wallet: value };
+    });
+  };
+  const handleChangeNewest = (value: any[]) => {
+    setFilter((preFilter) => {
+      return { ...preFilter, newest: value };
+    });
+  };
+  const handleChangeFromDate = (newValue: Date | null) => {
+    setFilter((preFilter) => {
+      return { ...preFilter, fromDate: newValue };
+    });
+  };
+  const handleChangeToDate = (newValue: Date | null) => {
+    setFilter((preFilter) => {
+      return { ...preFilter, fromDate: newValue };
+    });
+  };
+
   useEffect(() => {
-    if (isMounted()) {
-      const transactionHistoryBuilder = build<TransactionHistory>('TransactionHistory', {
-        fields: {
-          id: sequence((x) => `${x}`),
-          data_type: oneOf('Incoming', 'Outgoing'),
-          details: fake((f) => f.name.findName()),
-          from_wallet_name: fake((f) => f.name.findName()),
-          from_wallet_id: fake((f) => f.datatype.uuid()),
-          to_wallet_name: fake((f) => f.name.findName()),
-          to_wallet_id: fake((f) => f.datatype.uuid()),
-          txn_date: fake((f) => f.date.past()),
-          token: 'ETH',
-          token_amt: fake((f) => f.finance.amount()),
-          fiat: 'USD',
-          fiat_amt: fake((f) => f.name.findName()),
-          fees_token_amt: fake((f) => f.finance.amount()),
-          fees_fiat_amt: fake((f) => f.finance.amount()),
-          total_token_amt: fake((f) => f.finance.amount()),
-          total_fiat_amt: fake((f) => f.finance.amount()),
-          notes: fake((f) => f.lorem.paragraph()),
-          created_at: fake((f) => f.name.findName()),
-          updated_at: fake((f) => f.name.findName()),
-        },
-      });
-      const data: TransactionHistory[] = [];
-      data.push(transactionHistoryBuilder());
-      data.push(transactionHistoryBuilder());
-      data.push(transactionHistoryBuilder());
-      data.push(transactionHistoryBuilder());
-      data.push(transactionHistoryBuilder());
-      data.push(transactionHistoryBuilder());
-      data.push(transactionHistoryBuilder());
-      data.push(transactionHistoryBuilder());
-      data.push(transactionHistoryBuilder());
-      data.push(transactionHistoryBuilder());
-      data.push(transactionHistoryBuilder());
-      data.push(transactionHistoryBuilder());
-      data.push(transactionHistoryBuilder());
-      data.push(transactionHistoryBuilder());
-      data.push(transactionHistoryBuilder());
-      data.push(transactionHistoryBuilder());
-      data.push(transactionHistoryBuilder());
-      data.push(transactionHistoryBuilder());
-      setTransactionHistory(data);
-    }
-  }, [isMounted]);
+    setTransactionHistory(data?.items || []);
+  }, [JSON.stringify(data)]);
 
   const { currentData, count, onPageChange, onRowsPerPageChange, page, rowsPerPage } =
     useClientPagination(transactionHistory);
@@ -96,10 +90,9 @@ const TransactionHistoryPage: NextPage = () => {
   };
 
   const handleQueryKeyup = (event: KeyboardEvent<HTMLInputElement>): void => {
-    if (event.code === 'Enter' && queryValue) {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const [queryValue, setQueryValue] = useState<string>('');
-    }
+    // if (event.code === 'Enter' && queryValue) {
+    //   const [queryValue, setQueryValue] = useState<string>('');
+    // }
   };
 
   return (
@@ -118,7 +111,8 @@ const TransactionHistoryPage: NextPage = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          py: 8,
+          pt: 8,
+          pb: 4,
         }}
       >
         <Container maxWidth="xl">
@@ -153,7 +147,7 @@ const TransactionHistoryPage: NextPage = () => {
           </Box>
         </Container>
       </Box>
-      {/* <Card sx={{ mx: 3, mb: 3 }}>
+      <Card sx={{ mx: 3, mb: 3 }}>
         <Box
           sx={{
             alignItems: 'center',
@@ -169,6 +163,7 @@ const TransactionHistoryPage: NextPage = () => {
             }}
           >
             <Input
+              sx={{ 'input::placeholder': { fontSize: '0.875rem', fontWeight: 400, lineHeight: 1.57 } }}
               disableUnderline
               fullWidth
               onChange={handleQueryChange}
@@ -181,16 +176,103 @@ const TransactionHistoryPage: NextPage = () => {
         <Divider />
         <Box
           sx={{
+            position: 'relative',
             alignItems: 'center',
             display: 'flex',
             flexWrap: 'wrap',
-            p: 1,
+            py: 3,
+            px: 1,
           }}
         >
-          <MultiSelect label="Wallet" onChange={undefined} options={[{ label: 'All wallets', value: 1 }]} value={[1]} />
-          <MultiSelect label="Newest" onChange={undefined} options={[{ label: 'Newest', value: 1 }]} value={[1]} />
+          <MultiSelect
+            label="All Wallets"
+            onChange={handleChangeWallet}
+            options={[{ label: 'All wallets', value: 1 }]}
+            value={[filter?.wallet]}
+          />
+          <MultiSelect
+            label="Newest"
+            onChange={handleChangeNewest}
+            options={[{ label: 'Newest', value: 1 }]}
+            value={[filter?.newest]}
+          />
+          <Box
+            sx={{
+              px: 1,
+              '.MuiInputBase-root:not(.Mui-disabled):before, .MuiInputBase-root:not(.Mui-disabled):after, .MuiInputBase-root:hover:not(.Mui-disabled):before, .MuiInputBase-root:hover:not(.Mui-disabled):after':
+                {
+                  border: 'none',
+                },
+            }}
+          >
+            <Typography display="block" variant="body2" sx={{ position: 'absolute', top: '1rem', fontSize: '0.75rem' }}>
+              {t('portfolio.transHis.from').toUpperCase()}
+            </Typography>
+            <DesktopDatePicker
+              inputFormat="MM/dd/yyyy"
+              value={filter?.fromDate}
+              onChange={handleChangeFromDate}
+              components={{
+                OpenPickerIcon: ChevronDownIcon,
+              }}
+              renderInput={(params) => (
+                <TextField
+                  sx={{
+                    '.MuiInputBase-input': {
+                      width: '82px',
+                      height: '20px',
+                      fontWeight: ' 600',
+                      fontSize: '14px',
+                      lineHeight: '18px',
+                      color: 'text.primary',
+                    },
+                  }}
+                  variant="standard"
+                  {...params}
+                />
+              )}
+            />
+          </Box>
+          <Box
+            sx={{
+              px: 1,
+              '.MuiInputBase-root:not(.Mui-disabled):before, .MuiInputBase-root:not(.Mui-disabled):after, .MuiInputBase-root:hover:not(.Mui-disabled):before, .MuiInputBase-root:hover:not(.Mui-disabled):after':
+                {
+                  border: 'none',
+                },
+            }}
+          >
+            <Typography display="block" variant="body2" sx={{ position: 'absolute', top: '1rem', fontSize: '0.75rem' }}>
+              {t('portfolio.transHis.to').toUpperCase()}
+            </Typography>
+            <DesktopDatePicker
+              inputFormat="MM/dd/yyyy"
+              value={filter?.toDate}
+              onChange={handleChangeToDate}
+              components={{
+                OpenPickerIcon: ChevronDownIcon,
+              }}
+              renderInput={(params) => (
+                <TextField
+                  sx={{
+                    '.MuiInputBase-input': {
+                      width: '82px',
+                      height: '20px',
+                      fontWeight: ' 600',
+                      fontSize: '14px',
+                      lineHeight: '18px',
+                      color: 'text.primary',
+                    },
+                  }}
+                  variant="standard"
+                  {...params}
+                />
+              )}
+            />
+          </Box>
         </Box>
         <TransactionHistoryTable
+          getTransactionHistory={() => trigger()}
           transactionHistory={currentData}
           count={count}
           onPageChange={onPageChange}
@@ -198,7 +280,7 @@ const TransactionHistoryPage: NextPage = () => {
           page={page}
           rowsPerPage={rowsPerPage}
         />
-      </Card> */}
+      </Card>
     </>
   );
 };
