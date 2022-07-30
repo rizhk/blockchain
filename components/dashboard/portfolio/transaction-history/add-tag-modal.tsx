@@ -59,7 +59,7 @@ const AddTagModal = ({ isShowing, hide, tag, txnId, getTransactionHistory }: IAd
     loading: isCreatingTag,
     error: createTagError,
     mutate: createTransactionTag,
-  } = useMutation((body) => {
+  } = useMutation((body: { name: string }) => {
     return portfolioApi.createTransactionTag(body, {
       defaultErrorMessage: t('portfolio.transHis.createUserTagsError'),
     });
@@ -70,24 +70,24 @@ const AddTagModal = ({ isShowing, hide, tag, txnId, getTransactionHistory }: IAd
     loading: isSettingTag,
     error: setTagError,
     mutate: setTransactionTag,
-  } = useMutation((body) => {
+  } = useMutation((body: { txnId: string; tag_id: string }) => {
     return portfolioApi.updateTransaction(body, {
       defaultErrorMessage: t('portfolio.transHis.setTagError'),
     });
   });
 
   const formik = useFormik({
-    initialValues: { name: undefined },
+    initialValues: { name: undefined as string | undefined },
     validationSchema: Yup.object({
       name: Yup.string().max(255).required('Name is required'),
     }),
     onSubmit: async (values, helpers): Promise<void> => {
-      await createTransactionTag({ name: values.name });
+      await createTransactionTag({ name: values.name as string });
     },
   });
 
   const handleClickTag = async (id: string) => {
-    await setTransactionTag({ txnId, tag_id: id });
+    await setTransactionTag({ txnId: txnId as string, tag_id: id as string });
   };
 
   React.useEffect(() => {

@@ -26,4 +26,6 @@ export const PicanteApi = {
   GetUserTags: PicanteApiHost + '/v1/portfolio/accouting/tag',
   CreateTransactionTag: PicanteApiHost + '/v1/portfolio/accouting/tag',
   UpdateTransaction: PicanteApiHost + '/v1/portfolio/transaction',
+  GetAllWallets: PicanteApiHost + '/v1/portfolio/wallet',
+  GetUserAssets: PicanteApiHost + '/v1/portfolio/assets',
 };
