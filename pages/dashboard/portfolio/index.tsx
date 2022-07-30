@@ -9,6 +9,9 @@ import { useAuth } from 'hooks/use-auth';
 import { useMounted } from 'hooks/use-mounted';
 import { DashboardLayout } from 'components/dashboard/dashboard-layout';
 import { useTranslation } from 'react-i18next';
+import { RecentTransactions } from 'components/dashboard/portfolio/dashboard/recent-transactions';
+import { MyWallets } from 'components/dashboard/portfolio/dashboard/my-wallets';
+import { Assets } from 'components/dashboard/portfolio/dashboard/assets';
 
 const Portfolio: NextPage = () => {
   const isMounted = useMounted();
@@ -34,22 +37,18 @@ const Portfolio: NextPage = () => {
         }}
       >
         <Container maxWidth="xl">
-          <Box sx={{ mb: 4 }}>
-            <Grid container justifyContent="space-between" spacing={3}>
-              <Grid item>
-                <Typography variant="h4">{t('portfolio.head')}</Typography>
-              </Grid>
-              <Grid
-                item
-                sx={{
-                  alignItems: 'center',
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  m: -1,
-                }}
-              ></Grid>
+          <Grid container spacing={3} flexWrap="nowrap">
+            <Grid container item flexDirection="column" flex="1 1 55%">
+              <Box sx={{ height: '400px', width: '400px' }}></Box>
+              <Box sx={{ mb: 6 }}></Box>
+              <Assets />
             </Grid>
-          </Box>
+            <Grid container item flexDirection="column" flex="1 1 45%">
+              <MyWallets />
+              <Box sx={{ mb: 6 }}></Box>
+              <RecentTransactions />
+            </Grid>
+          </Grid>
         </Container>
       </Box>
     </>
