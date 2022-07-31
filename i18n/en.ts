@@ -20,6 +20,7 @@ export const en = {
         getAssetsError: 'Failed to get assets',
         assets: 'Assets',
         mostRecent: 'Most recent',
+        earliest: 'Earliest',
         status: 'Status',
         allWallets: 'All wallets',
       },

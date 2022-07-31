@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import type { ChangeEvent, FC } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Checkbox, Divider, FormControlLabel, Menu, MenuItem, Typography } from '@mui/material';
+import { Box, Button, Checkbox, Divider, FormControlLabel, Menu, MenuItem, Typography } from '@mui/material';
 import { ChevronDown as ChevronDownIcon } from '../icons/chevron-down';
 
 interface SingleSelectProps<T> {
@@ -41,7 +41,7 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
   };
 
   return (
-    <>
+    <Box>
       <Button
         color="inherit"
         endIcon={<ChevronDownIcon fontSize="small" />}
@@ -63,14 +63,14 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
           </MenuItem>
         ))}
         {shouldShowClearButton && (
-          <>
+          <Box>
             <Divider />
             <MenuItem onClick={handleClear}>
               <Typography variant="body2">Clear selection</Typography>
             </MenuItem>
-          </>
+          </Box>
         )}
       </Menu>
-    </>
+    </Box>
   );
 };
