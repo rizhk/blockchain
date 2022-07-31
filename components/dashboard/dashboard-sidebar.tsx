@@ -62,16 +62,16 @@ interface Section {
 
 const getSections = (t: TFunction): Section[] => [
   {
-    title: t(''),
+    title: t('menu.portfolio'),
     items: [
+      // {
+      //   title: t('menu.overview'),
+      //   path: '/dashboard',
+      //   icon: <HomeIcon fontSize="small" />,
+      //   iconFilled: <HomeIconFilled fontSize="small" />,
+      // },
       {
         title: t('menu.overview'),
-        path: '/dashboard',
-        icon: <HomeIcon fontSize="small" />,
-        iconFilled: <HomeIconFilled fontSize="small" />,
-      },
-      {
-        title: t('menu.portfolio'),
         icon: <PortfolioIcon fontSize="small" />,
         path: '/dashboard/portfolio',
         iconFilled: <PortfolioFilled fontSize="small" />,
@@ -79,65 +79,69 @@ const getSections = (t: TFunction): Section[] => [
       {
         title: t('menu.transactions'),
         icon: <TransactionIcon fontSize="small" />,
-        path: '/dashboard/transactions',
+        path: '/dashboard/portfolio/transaction-history/',
         iconFilled: <TransactionIconFilled fontSize="small" />,
       },
+      // {
+      //   title: t('menu.transactions'),
+      //   icon: <TransactionIcon fontSize="small" />,
+      //   path: '/dashboard/transactions',
+      //   iconFilled: <TransactionIconFilled fontSize="small" />,
+      // },
       {
         title: t('menu.wallets'),
         icon: <WalletIcon fontSize="small" />,
         path: '/dashboard/wallets',
         iconFilled: <WalletIconFilled fontSize="small" />,
       },
-
-      {
-        title: t('menu.bankAccounts'),
-        icon: <BankIcon fontSize="small" />,
-        path: '/dashboard/bank-accounts',
-        iconFilled: <BankIconFilled fontSize="small" />,
-      },
-
-      {
-        title: t('menu.settings'),
-        path: '/dashboard/logistics',
-        icon: <SettingsIcon fontSize="small" />,
-        iconFilled: <SettingsIconFilled fontSize="small" />,
-      },
-      {
-        title: t('menu.inviteAndEarn'),
-        path: '/invite',
-        icon: <InviteIcon fontSize="small" />,
-        iconFilled: <InviteIconFilled fontSize="small" />,
-      },
-      {
-        title: t('menu.reports'),
-        path: '/reports',
-        icon: <ReportsIcon fontSize="small" />,
-        iconFilled: <ReportsIconFilled fontSize="small" />,
-      },
-      {
-        title: t('menu.forDevelopers'),
-        path: '/for-developers',
-        icon: <ForDevelopersIcon fontSize="small" />,
-        iconFilled: <ForDevelopersIconFilled fontSize="small" />,
-      },
-      {
-        title: t('menu.help'),
-        path: '/help',
-        icon: <HelpIcon fontSize="small" />,
-        iconFilled: <HelpIconFilled fontSize="small" />,
-      },
-      {
-        title: t('menu.knowledgebase'),
-        path: '/knowledgebase',
-        icon: <KnowledgebaseIcon fontSize="small" />,
-        iconFilled: <KnowledgebaseIconFilled fontSize="small" />,
-      },
-      {
-        title: t('menu.news'),
-        path: '/news',
-        icon: <NewsIcon fontSize="small" />,
-        iconFilled: <NewsIconFilled fontSize="small" />,
-      },
+      // {
+      //   title: t('menu.bankAccounts'),
+      //   icon: <BankIcon fontSize="small" />,
+      //   path: '/dashboard/bank-accounts',
+      //   iconFilled: <BankIconFilled fontSize="small" />,
+      // },
+      // {
+      //   title: t('menu.settings'),
+      //   path: '/dashboard/logistics',
+      //   icon: <SettingsIcon fontSize="small" />,
+      //   iconFilled: <SettingsIconFilled fontSize="small" />,
+      // },
+      // {
+      //   title: t('menu.inviteAndEarn'),
+      //   path: '/invite',
+      //   icon: <InviteIcon fontSize="small" />,
+      //   iconFilled: <InviteIconFilled fontSize="small" />,
+      // },
+      // {
+      //   title: t('menu.reports'),
+      //   path: '/reports',
+      //   icon: <ReportsIcon fontSize="small" />,
+      //   iconFilled: <ReportsIconFilled fontSize="small" />,
+      // },
+      // {
+      //   title: t('menu.forDevelopers'),
+      //   path: '/for-developers',
+      //   icon: <ForDevelopersIcon fontSize="small" />,
+      //   iconFilled: <ForDevelopersIconFilled fontSize="small" />,
+      // },
+      // {
+      //   title: t('menu.help'),
+      //   path: '/help',
+      //   icon: <HelpIcon fontSize="small" />,
+      //   iconFilled: <HelpIconFilled fontSize="small" />,
+      // },
+      // {
+      //   title: t('menu.knowledgebase'),
+      //   path: '/knowledgebase',
+      //   icon: <KnowledgebaseIcon fontSize="small" />,
+      //   iconFilled: <KnowledgebaseIconFilled fontSize="small" />,
+      // },
+      // {
+      //   title: t('menu.news'),
+      //   path: '/news',
+      //   icon: <NewsIcon fontSize="small" />,
+      //   iconFilled: <NewsIconFilled fontSize="small" />,
+      // },
     ],
   },
 ];

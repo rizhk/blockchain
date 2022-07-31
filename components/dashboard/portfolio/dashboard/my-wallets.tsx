@@ -54,7 +54,7 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({}) => {
                     {t('portfolio.dashboard.addWallet')}
                   </Grid>
                 </Grid>
-                {data?.items.map(({ id, type, name, icon_tag, address, fiat_value, fiat_currency }) => {
+                {data?.items?.map(({ id, type, name, icon_tag, address, fiat_value, fiat_currency }) => {
                   return (
                     <Grid spacing={3} container key={id}>
                       <Grid container item flexWrap="nowrap" alignItems="center">
