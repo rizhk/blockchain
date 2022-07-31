@@ -77,5 +77,14 @@ export interface Wallet {
 export interface AssetsResponse extends BaseApiResponse {
   total_bal: string;
   total_bal_symbol: string;
-  items?: any;
+  items: Asset[];
+}
+
+export interface Asset {
+  icon: string;
+  name: string;
+  symbol: string;
+  balance: string;
+  fiat_value: string;
+  fiat_currency: string;
 }
