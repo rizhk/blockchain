@@ -3,8 +3,10 @@ import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  console.log('called');
+  console.log(pathname);
   if (pathname == '/' || pathname == '') {
-    return NextResponse.rewrite(new URL('/dashboard', request.url));
+    return NextResponse.rewrite(new URL('/dashboard/portfolio', request.url));
   }
   return NextResponse.next();
 }

@@ -30,6 +30,11 @@ module.exports = withTM({
         destination: '/docs/welcome',
         permanent: true,
       },
+      {
+        source: '/dashboard',
+        destination: '/dashboard/portfolio',
+        permanent: false,
+      },
     ];
   },
   typescript: {
