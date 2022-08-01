@@ -150,7 +150,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                     </TableCell>
                     <TableCell>
                       <Typography display="inline" variant="subtitle2">
-                        {transaction.blockchain_network}
+                        {transaction.from_name}
                       </Typography>
                       <br />
                       <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
@@ -159,7 +159,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                     </TableCell>
                     <TableCell>
                       <Typography display="inline" variant="subtitle2">
-                        {transaction.blockchain_network}
+                        {transaction.to_name}
                       </Typography>
                       <br />
                       <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>

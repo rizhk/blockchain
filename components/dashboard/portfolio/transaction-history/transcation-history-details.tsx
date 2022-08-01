@@ -130,10 +130,9 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
               <Typography variant="body2">{`${t('portfolio.transHis.from')}:`}</Typography>
             </Grid>
             <Grid item xs={8}>
-              {/* Show a full name before we can provide custom wallet name */}
-              {/* <Typography display="inline" variant="body2">
-                {transactionHistory?.blockchain_network}
-              </Typography>{' '} */}
+              <Typography display="inline" variant="body2">
+                {transactionHistory?.from_name}
+              </Typography>{' '}
               <Typography display="inline" variant="body2" color="text.secondary" sx={{ wordWrap: 'break-word' }}>
                 {/* ({primitivesUtils.getShortTxnId(transactionHistory?.from)}) */}
                 {transactionHistory?.from}
@@ -145,9 +144,9 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
               <Typography variant="body2">{`${t('portfolio.transHis.to')}:`}</Typography>
             </Grid>
             <Grid item xs={8}>
-              {/* <Typography display="inline" variant="body2">
-                {transactionHistory?.blockchain_network}
-              </Typography>{' '} */}
+              <Typography display="inline" variant="body2">
+                {transactionHistory?.to_name}
+              </Typography>{' '}
               <Typography display="inline" variant="body2" color="text.secondary" sx={{ wordWrap: 'break-word' }}>
                 {/* ({primitivesUtils.getShortTxnId(transactionHistory?.to)}) */}
                 {transactionHistory?.to}

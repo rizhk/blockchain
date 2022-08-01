@@ -32,14 +32,19 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({}) => {
             <Card>
               <CardContent>
                 {data?.items.map(
-                  ({ id, blockchain_network, crypto_amount, token_symbol, type, crypto_amount_fiat }) => {
+                  ({ id, from_name, to_name, crypto_amount, token_symbol, type, crypto_amount_fiat }) => {
                     return (
                       <Grid container key={id}>
                         <Grid container item>
                           <Grid component={Typography} variant="body1" flex="1 1 auto">
-                            {blockchain_network}
+                            {from_name}
+                            {type.toLowerCase() == 'in' ? (
+                              <Typography>{from_name}</Typography>
+                            ) : (
+                              <Typography>{to_name}</Typography>
+                            )}
                           </Grid>
-                          <Grid component={Typography} variant="subtitle1" flex="0 1 30%">
+                          <Grid component={Typography} variant="subtitle1" flex="0 1 50%">
                             {primitivesUtils.roundDownToTwo(parseFloat(crypto_amount))} {token_symbol}
                           </Grid>
                         </Grid>
@@ -55,8 +60,9 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({}) => {
                               </Typography>
                             )}{' '}
                           </Grid>
-                          <Grid component={Typography} variant="subtitle1" flex="0 1 30%" color="text.secondary">
-                            {primitivesUtils.roundDownToTwo(parseFloat(crypto_amount_fiat))} USD
+                          <Grid component={Typography} variant="subtitle1" flex="0 1 50%" color="text.secondary">
+                            {'USD '}
+                            {primitivesUtils.roundDownToTwo(parseFloat(crypto_amount_fiat))}
                           </Grid>
                           <Box flex="1 1 100%" sx={{ mb: 2 }}></Box>
                         </Grid>
