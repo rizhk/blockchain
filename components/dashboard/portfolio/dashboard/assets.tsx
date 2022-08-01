@@ -97,14 +97,14 @@ export const Assets: React.FC<IAssetsProps> = ({}) => {
           <Grid item flex="1 1 100%">
             <Card>
               <CardContent sx={{ p: 0 }}>
-                <Grid container justifyContent="space-between">
+                {/* <Grid container justifyContent="space-between">
                   <Box
                     sx={{
                       position: 'relative',
                       alignItems: 'center',
                       display: 'flex',
                       flexWrap: 'wrap',
-                      py: 3,
+                      py: 2,
                       px: 2,
                     }}
                   >
@@ -140,7 +140,7 @@ export const Assets: React.FC<IAssetsProps> = ({}) => {
                     />
                   </Box>
                 </Grid>
-                <Divider sx={{ m: 0, p: 0 }} />
+                <Divider sx={{ m: 0, p: 0 }} /> */}
                 <Grid container flexWrap="nowrap" sx={{ py: 2 }} alignItems="center">
                   <Grid item flex="0 1 auto" component={AssetsChart} data={chartData} />
                   <Grid item container>

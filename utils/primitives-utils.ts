@@ -18,6 +18,13 @@ class PrimitivesUtils {
     else val = number;
     return Math.floor((val + Number.EPSILON) * 100) / 100;
   }
+  roundUpToTwo(number: number | string | undefined) {
+    if (!number) return undefined;
+    var val: number = 0;
+    if (typeof number === 'string') val = parseFloat(number);
+    else val = number;
+    return Math.ceil((val + Number.EPSILON) * 100) / 100;
+  }
   roundUpUpToSixPlace(number: number | undefined) {
     if (!number) return number;
     return Math.ceil((number + Number.EPSILON) * 100000) / 100000;

@@ -33,14 +33,14 @@ const Portfolio: NextPage = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          py: 8,
+          py: 6,
         }}
       >
         <Container maxWidth="xl">
           <Grid container spacing={3} flexWrap="nowrap">
             <Grid container item flexDirection="column" flex="1 1 55%">
-              <Box sx={{ height: '400px', width: '400px' }}></Box>
-              <Box sx={{ mb: 6 }}></Box>
+              {/* <Box sx={{ height: '400px', width: '400px' }}></Box> */}
+              {/* <Box sx={{ mb: 6 }}></Box> */}
               <Assets />
             </Grid>
             <Grid container item flexDirection="column" flex="1 1 45%">

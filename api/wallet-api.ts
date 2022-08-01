@@ -1,6 +1,6 @@
 import { subDays, subHours } from 'date-fns';
-import type { Wallet } from '../types/wallet';
-import { PicanteApi } from './end-point';
+import type { Wallet } from 'types/wallet';
+import { PicanteApi } from 'api/end-point';
 
 const now = new Date();
 

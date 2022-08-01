@@ -5,6 +5,7 @@ import useFetch from 'hooks/use-fetch';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { primitivesUtils } from 'utils/primitives-utils';
+import Image from 'next/image';
 
 export interface IMyWalletsProps {}
 
@@ -43,23 +44,23 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({}) => {
                   <Grid item component={Typography} variant="overline" sx={{ margin: '0 auto 0 0' }}>
                     {t('portfolio.dashboard.myWallets')}
                   </Grid>
-                  <Grid
+                  {/* <Grid
                     item
                     component={Link}
-                    href="/dashboard/portfolio/transaction-history/"
+                    href="/dashboard/portfolio/wallet"
                     variant="textLink1"
                     color="secondary.main"
                     sx={{ textDecoration: 'underline ' }}
                   >
                     {t('portfolio.dashboard.addWallet')}
-                  </Grid>
+                  </Grid> */}
                 </Grid>
                 {data?.items?.map(({ id, type, name, icon_tag, address, fiat_value, fiat_currency }) => {
                   return (
                     <Grid spacing={3} container key={id}>
                       <Grid container item flexWrap="nowrap" alignItems="center">
                         <Grid component={Typography} variant="body1" flex="0 0 auto" sx={{ mr: 2 }}>
-                          <img alt="Firebase" src={`/static/icons/cryptocurrency/svg/icon/${icon_tag}.svg`} />
+                          <Image src={`/static/crypto/color/${icon_tag}.svg`} height="30" width="30" />{' '}
                         </Grid>
                         <Grid flexDirection="column" container flex="1 1 auto">
                           <Grid component={Typography} variant="body1" sx={{ pb: 0.25 }}>
@@ -79,7 +80,7 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({}) => {
                 })}
                 <Typography
                   component={Link}
-                  href="/dashboard/wallets/"
+                  href="/dashboard/portfolio/wallet/"
                   sx={{ m: 2 }}
                   display="block"
                   textAlign="center"
