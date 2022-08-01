@@ -91,9 +91,15 @@ const getSections = (t: TFunction): Section[] => [
       {
         title: t('menu.wallets'),
         icon: <WalletIcon fontSize="small" />,
-        path: '/dashboard/wallets',
+        path: '/dashboard/portfolio/wallet',
         iconFilled: <WalletIconFilled fontSize="small" />,
       },
+      // {
+      //   title: t('menu.wallets'),
+      //   icon: <WalletIcon fontSize="small" />,
+      //   path: '/dashboard/wallets',
+      //   iconFilled: <WalletIconFilled fontSize="small" />,
+      // },
       // {
       //   title: t('menu.bankAccounts'),
       //   icon: <BankIcon fontSize="small" />,

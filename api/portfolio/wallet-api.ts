@@ -1,14 +1,16 @@
 import { subDays, subHours } from 'date-fns';
-import type { Wallet } from 'types/wallet';
+import { BlockchainNetwork } from 'types/blockchain/network';
+import type { Wallet } from 'types/portfolio/wallet';
 import { PicanteApi } from 'api/end-point';
 
 const now = new Date();
 
 type CreateWalletRequest = {
   name: string;
-  chain_id: string;
+  network_id: string;
   address: string;
 };
+
 class WalletApi {
   async create({
     networkId,
@@ -24,7 +26,7 @@ class WalletApi {
 
       const req: CreateWalletRequest = {
         name: name,
-        chain_id: networkId,
+        network_id: networkId,
         address: walletAddress,
       };
 
@@ -41,6 +43,30 @@ class WalletApi {
           (data) => {
             if (!data.error) {
               return resolve(true);
+            }
+          },
+          (error) => {
+            return reject(new Error(error.message));
+          },
+        );
+    });
+  }
+
+  getNetworks(): Promise<BlockchainNetwork[]> {
+    return new Promise((resolve, reject) => {
+      fetch(PicanteApi.Blockchain + '/network', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => response.json())
+        .then(
+          (data) => {
+            if (!data.error) {
+              const networks = <BlockchainNetwork[]>data.items;
+
+              return resolve(networks);
             }
           },
           (error) => {

@@ -10,6 +10,7 @@ export const PicanteApi = {
   SellTxn: PicanteApiHost + '/v1/market/transaction/sell',
   Transaction: PicanteApiHost + '/v1/transaction',
   Wallet: PicanteApiHost + '/v1/wallet',
+  Blockchain: PicanteApiHost + '/v1/blockchain',
   // RequestTransfer: PicanteApiHost + "/v1/contract/exchange/transfer/request",
   RequestTransfer: PicanteApiHost + '/v1/market/transaction/buy/request/transfer',
   VerfiyTokenTransfer: PicanteApiHost + '/v1/market/transaction/buy/verify/token-transfer',
@@ -21,6 +22,9 @@ export const PicanteApi = {
   ResetPassword: PicanteApiHost + '/v1/user/password/reset',
   FetchWithdrawalPreview: PicanteApiHost + '/v1/market/transaction/sell/withdrawal/preview',
   WithdrawTransaction: PicanteApiHost + '/v1/market/transaction/sell/withdraw',
+};
+
+export const PortfolioApiEndPoints = {
   ExportTransactionHistory: PicanteApiHost + '/v1/portfolio/export/transaction',
   GetAllTransactionHistory: PicanteApiHost + '/v1/portfolio/transaction',
   GetUserTags: PicanteApiHost + '/v1/portfolio/accouting/tag',
@@ -28,4 +32,5 @@ export const PicanteApi = {
   UpdateTransaction: PicanteApiHost + '/v1/portfolio/transaction',
   GetAllWallets: PicanteApiHost + '/v1/portfolio/wallet',
   GetUserAssets: PicanteApiHost + '/v1/portfolio/assets',
+  Wallet: PicanteApiHost + '/v1/portfolio/wallet',
 };

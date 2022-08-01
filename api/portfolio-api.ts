@@ -1,4 +1,4 @@
-import { PicanteApi } from './end-point';
+import { PortfolioApiEndPoints } from './end-point';
 import { BaseApi } from './base-api';
 import { AttachmentApiResponse, BaseApiResponse } from 'types/response';
 import {
@@ -14,7 +14,7 @@ class PortfolioApi extends BaseApi {
   async exportTransactionHistory(body: {}, options: { defaultErrorMessage: string }): Promise<AttachmentApiResponse> {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
 
-    var result = await fetch(PicanteApi.ExportTransactionHistory, {
+    var result = await fetch(PortfolioApiEndPoints.ExportTransactionHistory, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ class PortfolioApi extends BaseApi {
   async getAllTransactionHistory(options: { defaultErrorMessage: string }): Promise<TransactionHistoryResponse> {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
 
-    var result = await fetch(PicanteApi.GetAllTransactionHistory, {
+    var result = await fetch(PortfolioApiEndPoints.GetAllTransactionHistory, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ class PortfolioApi extends BaseApi {
   async getUserTags(options: { defaultErrorMessage: string }): Promise<GetUserTagsResponse> {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
 
-    var result = await fetch(PicanteApi.GetUserTags, {
+    var result = await fetch(PortfolioApiEndPoints.GetUserTags, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ class PortfolioApi extends BaseApi {
   ): Promise<CreateUserTagResponse> {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
 
-    var result = await fetch(PicanteApi.CreateTransactionTag, {
+    var result = await fetch(PortfolioApiEndPoints.CreateTransactionTag, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ class PortfolioApi extends BaseApi {
   ): Promise<TransactionHistoryResponse> {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
 
-    var result = await fetch(`${PicanteApi.UpdateTransaction}/${body.txnId}`, {
+    var result = await fetch(`${PortfolioApiEndPoints.UpdateTransaction}/${body.txnId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ class PortfolioApi extends BaseApi {
   async getAllWallets(options: { defaultErrorMessage: string }): Promise<WalletResponse> {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
 
-    var result = await fetch(PicanteApi.GetAllWallets, {
+    var result = await fetch(PortfolioApiEndPoints.GetAllWallets, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -127,7 +127,7 @@ class PortfolioApi extends BaseApi {
   async getUserAssets(options: { defaultErrorMessage: string }): Promise<AssetsResponse> {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
 
-    var result = await fetch(PicanteApi.GetUserAssets, {
+    var result = await fetch(PortfolioApiEndPoints.GetUserAssets, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

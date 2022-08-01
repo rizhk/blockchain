@@ -11,11 +11,11 @@ import Typography from '@mui/material/Typography';
 import { Box, FormHelperText, Grid, TextField } from '@mui/material';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { NetworkSelector } from '../network/network-selector';
-import { walletApi } from 'api/wallet-api';
+import { NetworkSelector } from 'components/dashboard/network/network-selector';
+import { walletApi } from 'api/portfolio/wallet-api';
 import { useMounted } from 'hooks/use-mounted';
 import { BlockchainNetwork } from 'types/blockchain/network';
-import { Wallet } from 'types/wallet';
+import { Wallet } from 'types/portfolio/wallet';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -81,7 +81,7 @@ export const AddWalletDialog: FC = (
     getNetworks();
   }, []);
 
-  const changeWalletType = (value) => {
+  const changeWalletType = (value: string) => {
     formik.setFieldValue('walletType', value);
   };
 
@@ -141,7 +141,11 @@ export const AddWalletDialog: FC = (
   return (
     <form noValidate onSubmit={formik.handleSubmit}>
       <BootstrapDialog onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.open}>
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={props.handleClose}></BootstrapDialogTitle>
+        <BootstrapDialogTitle
+          id="customized-dialog-title"
+          onClose={props.handleClose}
+          parentCallback={[]}
+        ></BootstrapDialogTitle>
         {step == 1 && (
           <DialogContent>
             <Typography
