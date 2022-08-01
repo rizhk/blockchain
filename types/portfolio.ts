@@ -29,8 +29,10 @@ export interface TransactionHistory {
   type: string;
   transaction_date: string;
   from: string;
+  from_name: string;
   contract_address: string;
   to: string;
+  to_name: string;
   gas_used: string;
   gas_fiat: string;
   crypto_amount: string;
