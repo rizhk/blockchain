@@ -166,44 +166,50 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                         {primitivesUtils.getShortTxnId(transaction.to)}
                       </Typography>
                     </TableCell>
-                    <TableCell>
+                    <TableCell sx={{ maxWidth: '150px' }}>
                       <Typography display="inline" variant="subtitle2">
                         {primitivesUtils.roundDownToTwo(parseFloat(transaction.crypto_amount))}{' '}
                         {transaction.token_symbol}
                       </Typography>
                       <br />
-                      {primitivesUtils.roundDownToTwo(parseFloat(transaction.crypto_amount_fiat)) > 0 && (
+                      {primitivesUtils.roundUpToTwo(parseFloat(transaction.crypto_amount_fiat)) > 0 && (
                         <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                          {primitivesUtils.roundDownToTwo(parseFloat(transaction.crypto_amount_fiat))} USD
+                          {'USD '}
+                          {primitivesUtils.roundUpToTwo(parseFloat(transaction.crypto_amount_fiat))}
                         </Typography>
                       )}
                     </TableCell>
                     <TableCell>
                       <Typography display="inline" variant="subtitle2">
-                        {primitivesUtils.roundUpUpToSixPlace(parseFloat(transaction.gas_used))} {'ETH'}
+                        {primitivesUtils.roundUpToTwo(parseFloat(transaction.gas_used))} {'ETH'}
                         {/*//TODO: hardcore for now, transaction should provide a native token symbol */}
                       </Typography>
                       <br />
                       <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                        {transaction.gas_fiat} USD
+                        {'USD '}
+                        {primitivesUtils.thousandSeparator(
+                          primitivesUtils.roundUpToTwo(parseFloat(transaction.gas_fiat)),
+                        )}
                       </Typography>
                     </TableCell>
-                    <TableCell>
+                    <TableCell sx={{ maxWidth: '150px' }}>
                       <Typography display="inline" variant="subtitle2">
-                        {primitivesUtils.roundUpUpToSixPlace(
+                        {primitivesUtils.roundUpToTwo(
                           parseFloat(transaction.crypto_amount) + parseFloat(transaction.gas_used),
                         )}{' '}
                         {transaction.token_symbol}
                       </Typography>
                       <br />
                       <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                        {primitivesUtils.roundUpUpToSixPlace(
-                          parseFloat(transaction.crypto_amount_fiat) + parseFloat(transaction.gas_fiat),
-                        )}{' '}
-                        USD
+                        {'USD '}
+                        {primitivesUtils.thousandSeparator(
+                          primitivesUtils.roundUpToTwo(
+                            parseFloat(transaction.crypto_amount_fiat) + parseFloat(transaction.gas_fiat),
+                          ),
+                        )}
                       </Typography>
                     </TableCell>
-                    <TableCell sx={{ minWidth: '150px' }}>
+                    <TableCell sx={{ maxWidth: '100px' }}>
                       <Typography display="inline" variant="caption" sx={{ color: 'text.secondary' }}>
                         {transaction.tag_name ? (
                           <Chip
@@ -228,7 +234,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                         )}
                       </Typography>
                     </TableCell>
-                    <TableCell sx={{ minWidth: '150px' }}>
+                    <TableCell sx={{ maxWidth: '150px' }}>
                       {transaction.note ? (
                         <Typography
                           onClick={() => {
