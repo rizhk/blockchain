@@ -139,7 +139,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                 <Fragment key={transaction.id}>
                   <TableRow hover key={transaction.id}>
                     <TableCell>{typeIcon}</TableCell>
-                    <TableCell sx={{ minWidth: '150px' }}>
+                    <TableCell sx={{ maxWidth: '140px' }}>
                       <Typography display="inline" variant="subtitle2">
                         {format(new Date(transaction.transaction_date), 'dd-MM-yy')}
                       </Typography>
