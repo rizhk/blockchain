@@ -31,6 +31,7 @@ import type { Wallet } from 'types/portfolio/wallet';
 import { walletApi } from 'api/portfolio/wallet-api';
 import { Scrollbar } from 'components/scrollbar';
 import { AddWalletDialog } from './add-wallet-modal';
+import { primitivesUtils } from 'utils/primitives-utils';
 
 interface WalletListProps {
   wallets: Wallet[];
@@ -74,10 +75,11 @@ export const WalletList: FC<WalletListProps> = (props) => {
           <Table sx={{ maxWidth: 816 }}>
             <TableHead sx={{ backgroundColor: 'white' }}>
               <TableRow>
-                <TableCell>TYPE</TableCell>
-                <TableCell width="50%">NICKNAME</TableCell>
-                <TableCell>BALANCE</TableCell>
-                <TableCell align="right"></TableCell>
+                <TableCell width="15%">TYPE</TableCell>
+                <TableCell width="30%">NICKNAME</TableCell>
+                <TableCell width="22%">Address</TableCell>
+                <TableCell width="23%">Net worth (USD)</TableCell>
+                <TableCell width="10%" align="right"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -86,13 +88,19 @@ export const WalletList: FC<WalletListProps> = (props) => {
                   <Fragment key={wallet.id}>
                     <TableRow hover key={wallet.id}>
                       <TableCell>
-                        <img src={`/static/crypto/color/${wallet.icon_tag}.svg`} height="30" />
+                        <img src={`/static/crypto/color/${wallet.icon_tag}.svg`} height="30" /> {wallet.type}
                       </TableCell>
                       <TableCell>
                         <Typography>{wallet.name}</Typography>
                       </TableCell>
                       <TableCell>
-                        {wallet.fiat_currency} {wallet.fiat_value}
+                        <Typography>{primitivesUtils.getShortTxnId(wallet.address)}</Typography>
+                      </TableCell>
+                      <TableCell>
+                        {wallet.fiat_currency}{' '}
+                        {primitivesUtils.thousandSeparator(
+                          primitivesUtils.roundDownToTwo(parseFloat(wallet.fiat_value)),
+                        )}
                       </TableCell>
                       <TableCell align="right">
                         <IconButton>

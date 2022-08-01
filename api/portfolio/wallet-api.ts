@@ -1,7 +1,7 @@
 import { subDays, subHours } from 'date-fns';
 import { BlockchainNetwork } from 'types/blockchain/network';
 import type { Wallet } from 'types/portfolio/wallet';
-import { PicanteApi } from 'api/end-point';
+import { PortfolioApiEndPoints, PicanteApi } from 'api/end-point';
 
 const now = new Date();
 
@@ -30,7 +30,7 @@ class WalletApi {
         address: walletAddress,
       };
 
-      fetch(PicanteApi.Wallet, {
+      fetch(PortfolioApiEndPoints.Wallet, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ class WalletApi {
     return new Promise((resolve, reject) => {
       const accessToken = globalThis.localStorage.getItem('accessToken') || '';
 
-      fetch(PicanteApi.Wallet, {
+      fetch(PortfolioApiEndPoints.Wallet, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -107,7 +107,7 @@ class WalletApi {
     return new Promise((resolve, reject) => {
       const accessToken = globalThis.localStorage.getItem('accessToken') || '';
 
-      fetch(PicanteApi.Wallet + '/' + walletId, {
+      fetch(PortfolioApiEndPoints.Wallet + '/' + walletId, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -134,7 +134,7 @@ class WalletApi {
     return new Promise((resolve, reject) => {
       const accessToken = globalThis.localStorage.getItem('accessToken') || '';
 
-      fetch(PicanteApi.Wallet + '/' + walletId, {
+      fetch(PortfolioApiEndPoints.Wallet + '/' + walletId, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
