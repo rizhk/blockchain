@@ -65,7 +65,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
         <Grid item sx={{ mb: 2, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Typography variant="h6">My Wallets ({walletsCount})</Typography>
           <Button color="info" variant="contained" onClick={handleClickOpen}>
-            Add a new wallet
+            Add a wallet
           </Button>
         </Grid>
       </Grid>

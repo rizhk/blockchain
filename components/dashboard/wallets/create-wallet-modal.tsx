@@ -8,14 +8,11 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
-import { Box, FormHelperText, Grid, TextField } from '@mui/material';
+import { Box, FormHelperText, TextField } from '@mui/material';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { NetworkSelector } from 'components/dashboard/network/network-selector';
+import { NetworkSelector } from '../network/network-selector';
 import { walletApi } from 'api/wallet-api';
-import { useMounted } from 'hooks/use-mounted';
-import { BlockchainNetwork } from 'types/blockchain/network';
-import { Wallet } from 'types/wallet';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -57,32 +54,16 @@ const BootstrapDialogTitle = (props: DialogTitleProps) => {
   );
 };
 
-export const AddWalletDialog: FC = (
+export const CreateWalletDialogs: FC = (
   props: JSX.IntrinsicAttributes & React.ClassAttributes<HTMLFormElement> & React.FormHTMLAttributes<HTMLFormElement>,
 ) => {
-  const isMounted = useMounted();
+  const [open, setOpen] = React.useState(false);
 
-  const [step, setStep] = React.useState(1);
-  const [networks, setNetworks] = React.useState<BlockchainNetwork[]>([]);
-
-  const getNetworks = React.useCallback(async () => {
-    try {
-      const data = await walletApi.getNetworks();
-
-      if (isMounted()) {
-        setNetworks(data);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }, [isMounted]);
-
-  React.useEffect(() => {
-    getNetworks();
-  }, []);
-
-  const changeWalletType = (value) => {
-    formik.setFieldValue('walletType', value);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const changeNetworkId = (event: { target: { value: any } }) => {
@@ -99,132 +80,105 @@ export const AddWalletDialog: FC = (
 
   const formik = useFormik({
     initialValues: {
-      walletType: '',
-      networkId: '',
+      networkId: '80001',
       walletAddress: '',
       name: '',
-      submit: null,
     },
     validationSchema: Yup.object({
-      walletType: Yup.string().required('Please select a wallet type to continue'),
-      ...(step == 2
-        ? {
-            walletAddress: Yup.string().required('Wallet address is required'),
-            name: Yup.string().required('Wallet name is required'),
-          }
-        : {}),
+      networkId: Yup.string().required('Select a blockchain network'),
+      walletAddress: Yup.string().required('Wallet address is required'),
+      name: Yup.string().required('Wallet name is required'),
     }),
     onSubmit: async (values, helpers): Promise<void> => {
-      if (step == 1) {
-        setStep(2);
-      } else if (step == 2) {
-        try {
-          const success = await walletApi.create({
-            networkId: values.walletType,
-            walletAddress: values.walletAddress,
-            name: values.name,
-          });
+      try {
+        const success = await walletApi.create(values);
 
-          if (success) {
-            const data = await walletApi.getItems();
-            props.parentCallback(data);
-            props.handleClose();
-          }
-        } catch (err) {
-          console.error(err);
-          console.error(err.data.message);
+        if (success) {
+          const data = await walletApi.getItems();
+          props.parentCallback(data);
+          handleClose();
         }
+      } catch (err) {
+        console.error(err);
+        console.error(err.data.message);
       }
     },
   });
 
   return (
-    <form noValidate onSubmit={formik.handleSubmit}>
-      <BootstrapDialog onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.open}>
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={props.handleClose}></BootstrapDialogTitle>
-        {step == 1 && (
-          <DialogContent>
-            <Typography
-              sx={{
-                mb: 2,
-              }}
-            >
-              Select a wallet to connect to:
-            </Typography>
-            <Typography>Wallet types</Typography>
-            <Grid container columnGap={3}>
-              {networks.map((i) => (
-                <Grid key={i.network_id} item sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <Button
-                    sx={{ backgroundColor: formik.values.walletType == `${i.network_id}` ? '#F34F1D0D' : undefined }}
-                    variant="outlined"
-                    color="secondary"
-                    onClick={() => changeWalletType(`${i.network_id}`)}
-                  >
-                    <img src={`/static/crypto/color/${i.icon_tag}.svg`} height="30" />
-                  </Button>
-                  {i.name}
-                </Grid>
-              ))}
-            </Grid>
-          </DialogContent>
-        )}
-        {step == 2 && (
-          <DialogContent>
-            <Typography
-              sx={{
-                mb: 2,
-              }}
-            >
-              Add wallet details
-            </Typography>
-            <TextField
-              sx={{
-                mt: 2,
-                mb: 2,
-              }}
-              fullWidth
-              id="create-wallet-address"
-              label="Wallet Address"
-              value={formik.values.walletAddress}
-              error={Boolean(formik.touched.walletAddress && formik.errors.walletAddress)}
-              helperText={formik.touched.walletAddress && formik.errors.walletAddress}
-              onChange={handleAddressChange}
-            />
-            <TextField
-              sx={{
-                mt: 2,
-                mb: 2,
-              }}
-              fullWidth
-              id="create-wallet-name"
-              label="Enter a nickname"
-              placeholder="E.g. Sumner’s Metamask"
-              value={formik.values.name}
-              error={Boolean(formik.touched.name && formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
-              onChange={handleNameChange}
-            />
-          </DialogContent>
+    <form noValidate onSubmit={formik.handleSubmit} {...props}>
+      {/* this button should be outside of this FC */}
+      <Button
+        sx={{
+          mt: 3,
+          background: '#5048E5',
+          borderRadius: 1,
+        }}
+        variant="contained"
+        onClick={handleClickOpen}
+      >
+        Add a new wallet
+      </Button>
+      <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}></BootstrapDialogTitle>
+        <DialogContent>
+          <Typography
+            sx={{
+              mb: 2,
+            }}
+          >
+            Add a wallet
+          </Typography>
+          <NetworkSelector
+            error={Boolean(formik.touched.networkId && formik.errors.networkId)}
+            helperText={formik.touched.networkId && formik.errors.networkId}
+            onNetworkChange={changeNetworkId}
+          />
+          <TextField
+            sx={{
+              mt: 2,
+              mb: 2,
+            }}
+            fullWidth
+            id="create-wallet-address"
+            label="Wallet Address"
+            value={formik.values.walletAddress}
+            error={Boolean(formik.touched.walletAddress && formik.errors.walletAddress)}
+            helperText={formik.touched.walletAddress && formik.errors.walletAddress}
+            onChange={handleAddressChange}
+          />
+          <TextField
+            sx={{
+              mt: 2,
+              mb: 2,
+            }}
+            fullWidth
+            id="create-wallet-name"
+            label="Enter a nickname"
+            value={formik.values.name}
+            error={Boolean(formik.touched.name && formik.errors.name)}
+            helperText={formik.touched.name && formik.errors.name}
+            onChange={handleNameChange}
+          />
+        </DialogContent>
+        {formik.errors.submit && (
+          <Box sx={{ mt: 3 }}>
+            <FormHelperText error>{formik.errors.submit}</FormHelperText>
+          </Box>
         )}
         <DialogActions>
-          {step == 1 && (
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              {formik.errors.walletType && (
-                <Box sx={{ mr: 1 }}>
-                  <FormHelperText error>{formik.errors.walletType}</FormHelperText>
-                </Box>
-              )}
-              <Button variant="contained" color="info" type="submit" onClick={formik.handleSubmit}>
-                Next
-              </Button>
-            </Box>
-          )}
-          {step == 2 && (
-            <Button variant="contained" color="info" type="submit" onClick={formik.handleSubmit}>
-              Finish
-            </Button>
-          )}
+          <Button
+            sx={{
+              mt: 4,
+              background: '#5048E5',
+              borderRadius: 1,
+            }}
+            variant="contained"
+            type="submit"
+            onClick={formik.handleSubmit}
+          >
+            Add wallet
+          </Button>
         </DialogActions>
       </BootstrapDialog>
     </form>

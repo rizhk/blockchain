@@ -81,7 +81,7 @@ export const AddWalletDialog: FC = (
     getNetworks();
   }, []);
 
-  const changeWalletType = (value: string) => {
+  const changeWalletType = (value) => {
     formik.setFieldValue('walletType', value);
   };
 
