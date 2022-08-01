@@ -73,7 +73,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
       <Card sx={{ maxWidth: 816 }}>
         <Scrollbar>
           <Table sx={{ maxWidth: 816 }}>
-            <TableHead sx={{ backgroundColor: 'white' }}>
+            <TableHead>
               <TableRow>
                 <TableCell width="15%">TYPE</TableCell>
                 <TableCell width="30%">NICKNAME</TableCell>
