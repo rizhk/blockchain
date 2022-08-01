@@ -148,7 +148,8 @@ const TransactionHistoryPage: NextPage = () => {
         </Container>
       </Box>
       <Card sx={{ mx: 3, mb: 3 }}>
-        <Box
+        {/* TODO: PP-349 FN - adding filter option*/}
+        {/* <Box
           sx={{
             alignItems: 'center',
             display: 'flex',
@@ -270,7 +271,7 @@ const TransactionHistoryPage: NextPage = () => {
               )}
             />
           </Box>
-        </Box>
+        </Box> */}
         <TransactionHistoryTable
           getTransactionHistory={() => trigger()}
           transactionHistory={currentData}

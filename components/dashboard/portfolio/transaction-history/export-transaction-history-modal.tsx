@@ -74,7 +74,7 @@ const ExportTransactionHistoryModal = ({ isShowing, hide }: IExportTransactionHi
               {t('portfolio.transHis.exportTransHis')}
             </Typography>
           </Grid>
-          <Grid container item xs={12}>
+          {/* <Grid container item xs={12}>
             <FormControl fullWidth>
               <TextField
                 id="data-range-select"
@@ -89,7 +89,7 @@ const ExportTransactionHistoryModal = ({ isShowing, hide }: IExportTransactionHi
                 </MenuItem>
               </TextField>
             </FormControl>
-          </Grid>
+          </Grid> */}
           <Grid container item xs={12}>
             <FormControl fullWidth>
               <TextField

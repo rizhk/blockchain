@@ -7,6 +7,12 @@ export interface ITransactionHistoryFilters {
   toDate?: Date | null;
 }
 
+export interface IAssetFilters {
+  wallet?: string;
+  desc: boolean;
+  status?: string;
+}
+
 export interface TransactionHistoryResponse extends BaseApiResponse {
   items: TransactionHistory[];
 }
@@ -23,6 +29,7 @@ export interface TransactionHistory {
   type: string;
   transaction_date: string;
   from: string;
+  contract_address: string;
   to: string;
   gas_used: string;
   gas_fiat: string;
@@ -50,4 +57,34 @@ export interface Tag {
 
 export interface CreateUserTagResponse extends BaseApiResponse {
   id: string;
+}
+
+export interface WalletResponse extends BaseApiResponse {
+  items: Wallet[];
+}
+export interface Wallet {
+  id: string;
+  type: string;
+  name: string;
+  icon_tag: string;
+  address: string;
+  fiat_value: string;
+  fiat_currency: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AssetsResponse extends BaseApiResponse {
+  total_bal: string;
+  total_bal_symbol: string;
+  items: Asset[];
+}
+
+export interface Asset {
+  icon: string;
+  name: string;
+  symbol: string;
+  balance: string;
+  fiat_value: string;
+  fiat_currency: string;
 }

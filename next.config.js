@@ -16,6 +16,9 @@ module.exports = withTM({
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
+  images: {
+    domains: ['static.alchemyapi.io'],
+  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
@@ -29,6 +32,11 @@ module.exports = withTM({
         source: '/docs',
         destination: '/docs/welcome',
         permanent: true,
+      },
+      {
+        source: '/dashboard',
+        destination: '/dashboard/portfolio',
+        permanent: false,
       },
     ];
   },

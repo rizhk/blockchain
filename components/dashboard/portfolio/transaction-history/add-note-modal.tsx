@@ -53,7 +53,7 @@ const AddNoteModal = ({ isShowing, hide, note, txnId, getTransactionHistory }: I
     loading: isSettingNote,
     error: setNoteError,
     mutate: setTransactionNote,
-  } = useMutation((body) => {
+  } = useMutation((body: { txnId: string; note: string }) => {
     return portfolioApi.updateTransaction(body, {
       defaultErrorMessage: t('portfolio.transHis.setNoteError'),
     });
@@ -65,7 +65,7 @@ const AddNoteModal = ({ isShowing, hide, note, txnId, getTransactionHistory }: I
       note: Yup.string().max(255).required('Note is required'),
     }),
     onSubmit: async (values, helpers): Promise<void> => {
-      await setTransactionNote({ txnId, note: values.note });
+      await setTransactionNote({ txnId: txnId as string, note: values.note as string });
     },
   });
 

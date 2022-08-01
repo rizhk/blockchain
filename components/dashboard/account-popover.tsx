@@ -92,14 +92,14 @@ export const AccountPopover: FC<AccountPopoverProps> = (props) => {
             />
           </MenuItem>
         </NextLink> */}
-        <NextLink href="/dashboard/account" passHref>
+        {/* <NextLink href="/dashboard/account" passHref>
           <MenuItem component="a">
             <ListItemIcon>
               <CogIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText primary={<Typography variant="body1">Settings</Typography>} />
           </MenuItem>
-        </NextLink>
+        </NextLink> */}
         {/* <NextLink
           href="/dashboard"
           passHref
@@ -117,7 +117,7 @@ export const AccountPopover: FC<AccountPopoverProps> = (props) => {
             />
           </MenuItem>
         </NextLink> */}
-        <Divider />
+        {/* <Divider /> */}
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <LogoutIcon fontSize="small" />

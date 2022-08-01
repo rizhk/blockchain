@@ -40,14 +40,14 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
     loading: isSettingTag,
     error: setTagError,
     mutate: setTransactionTag,
-  } = useMutation((body) => {
+  } = useMutation((body: { txnId: string; tag_id: string }) => {
     return portfolioApi.updateTransaction(body, {
       defaultErrorMessage: t('portfolio.transHis.setTagError'),
     });
   });
 
   const handleRemoveTag = (txnId: string) => {
-    setTransactionTag({ txnId, tag_id: undefined });
+    // setTransactionTag({ txnId, tag_id: undefined });
   };
 
   return (
