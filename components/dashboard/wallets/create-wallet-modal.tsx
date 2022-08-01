@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import { Box, FormHelperText, Grid, TextField } from '@mui/material';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { NetworkSelector } from '../network/network-selector';
+import { NetworkSelector } from 'components/dashboard/network/network-selector';
 import { walletApi } from 'api/wallet-api';
 import { useMounted } from 'hooks/use-mounted';
 import { BlockchainNetwork } from 'types/blockchain/network';

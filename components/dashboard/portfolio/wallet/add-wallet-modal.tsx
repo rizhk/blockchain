@@ -141,11 +141,7 @@ export const AddWalletDialog: FC = (
   return (
     <form noValidate onSubmit={formik.handleSubmit}>
       <BootstrapDialog onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.open}>
-        <BootstrapDialogTitle
-          id="customized-dialog-title"
-          onClose={props.handleClose}
-          parentCallback={[]}
-        ></BootstrapDialogTitle>
+        <BootstrapDialogTitle id="customized-dialog-title" onClose={props.handleClose}></BootstrapDialogTitle>
         {step == 1 && (
           <DialogContent>
             <Typography
