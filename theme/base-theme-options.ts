@@ -168,9 +168,9 @@ export const baseThemeOptions: ThemeOptions = {
     MuiCardContent: {
       styleOverrides: {
         root: {
-          padding: '24px',
+          padding: '12px',
           '&:last-child': {
-            // paddingBottom: '32px',
+            paddingBottom: '8px',
           },
         },
       },

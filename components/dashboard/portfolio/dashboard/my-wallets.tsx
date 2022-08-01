@@ -43,16 +43,16 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({}) => {
                   <Grid item component={Typography} variant="overline" sx={{ margin: '0 auto 0 0' }}>
                     {t('portfolio.dashboard.myWallets')}
                   </Grid>
-                  <Grid
+                  {/* <Grid
                     item
                     component={Link}
-                    href="/dashboard/portfolio/transaction-history/"
+                    href="/dashboard/portfolio/wallet"
                     variant="textLink1"
                     color="secondary.main"
                     sx={{ textDecoration: 'underline ' }}
                   >
                     {t('portfolio.dashboard.addWallet')}
-                  </Grid>
+                  </Grid> */}
                 </Grid>
                 {data?.items?.map(({ id, type, name, icon_tag, address, fiat_value, fiat_currency }) => {
                   return (
@@ -79,7 +79,7 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({}) => {
                 })}
                 <Typography
                   component={Link}
-                  href="/dashboard/wallets/"
+                  href="/dashboard/portfolio/wallet/"
                   sx={{ m: 2 }}
                   display="block"
                   textAlign="center"
