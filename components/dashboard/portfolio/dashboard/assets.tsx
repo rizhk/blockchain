@@ -1,4 +1,5 @@
 import {
+  alpha,
   Box,
   Card,
   CardContent,
@@ -71,7 +72,28 @@ export const Assets: React.FC<IAssetsProps> = ({}) => {
 
   const theme = useTheme();
 
-  const chartBaseColors = [theme.palette.primary.main, theme.palette.primary.dark, '#828DF8', '#B9BDDF'];
+  const chartBaseColors = [
+    alpha(theme.palette.primary.main, 1),
+    alpha(theme.palette.primary.dark, 1),
+    alpha('#828DF8', 1),
+    alpha('#B9BDDF', 1),
+    alpha(theme.palette.primary.main, 0.8),
+    alpha(theme.palette.primary.dark, 0.8),
+    alpha('#828DF8', 0.8),
+    alpha('#B9BDDF', 0.8),
+    alpha(theme.palette.primary.main, 0.6),
+    alpha(theme.palette.primary.dark, 0.6),
+    alpha('#828DF8', 0.6),
+    alpha('#B9BDDF', 0.6),
+    alpha(theme.palette.primary.main, 0.4),
+    alpha(theme.palette.primary.dark, 0.4),
+    alpha('#828DF8', 0.4),
+    alpha('#B9BDDF', 0.4),
+    alpha(theme.palette.primary.main, 0.2),
+    alpha(theme.palette.primary.dark, 0.2),
+    alpha('#828DF8', 0.2),
+    alpha('#B9BDDF', 0.2),
+  ];
 
   const chartDataSeries = filteredData?.items?.map(({ name, balance }, index) => {
     return {
