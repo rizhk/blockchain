@@ -1,4 +1,4 @@
-import { Alert, Button, Skeleton, Typography } from '@mui/material';
+import { Alert, Button, Grid, Skeleton, Typography } from '@mui/material';
 import * as React from 'react';
 
 export interface IDataDisplayProps {
@@ -22,7 +22,7 @@ export const DataDisplay: React.FC<IDataDisplayProps> = ({
   onClickRetry,
 }) => {
   const defaultLoadingComponent = (
-    <Skeleton sx={{ bgcolor: 'neutral.200' }} animation="pulse" {...defaultLoaderOptions} />
+    <Grid item comopnent={<Skeleton />} sx={{ bgcolor: 'neutral.200' }} animation="pulse" {...defaultLoaderOptions} />
   );
   const defaultErrorComponent = (
     <>

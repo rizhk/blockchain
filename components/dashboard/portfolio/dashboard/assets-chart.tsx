@@ -34,12 +34,12 @@ export const AssetsChart: React.FC<IAssetsChartProps> = ({ data }) => {
     tooltip: {
       enabled: false,
     },
-    colors: data?.series?.map((item) => item.color),
-    labels: data?.series?.map((item) => item.name),
+    colors: data?.series?.map((item) => item.color) || [],
+    labels: data?.series?.map((item) => item.name) || [],
     theme: {
       mode: theme.palette.mode,
     },
   };
-  const chartSeries = data?.series?.map((item) => item.data);
+  const chartSeries = data?.series?.map((item) => item.data) || [];
   return <Chart height={200} options={chartOptions} series={chartSeries} type="pie" />;
 };
