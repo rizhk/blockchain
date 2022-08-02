@@ -1,6 +1,7 @@
 import { Box, Card, CardContent, Grid, Link, Typography } from '@mui/material';
 import { portfolioApi } from 'api/portfolio-api';
 import { DataDisplay } from 'components/common/data-display';
+import { TokenSymbolDisplay } from 'components/common/wallet-name-display';
 import useFetch from 'hooks/use-fetch';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -45,7 +46,8 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({}) => {
                             )}
                           </Grid>
                           <Grid component={Typography} variant="subtitle1" flex="0 1 50%">
-                            {primitivesUtils.convertCurrencyDisplay(crypto_amount)} {token_symbol}
+                            {primitivesUtils.convertCurrencyDisplay(crypto_amount)}{' '}
+                            <TokenSymbolDisplay name={token_symbol} />
                           </Grid>
                         </Grid>
                         <Grid container item>

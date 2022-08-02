@@ -42,6 +42,7 @@ import { format } from 'date-fns-tz';
 import { useAddNoteModal, useAddTagModal } from 'hooks/use-portfolio-modal';
 import AddTagModal from './add-tag-modal';
 import AddNoteModal from './add-note-modal';
+import { TokenSymbolDisplay } from 'components/common/wallet-name-display';
 
 interface TransactionHistoryTableProps {
   onPageChange: (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => void;
@@ -195,7 +196,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                           parseFloat(transaction.crypto_amount) + parseFloat(transaction.gas_used),
                           true,
                         )}{' '}
-                        {transaction.token_symbol}
+                        <TokenSymbolDisplay variant="subtitle2" name={transaction.token_symbol} />
                       </Typography>
                       <br />
                       <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
