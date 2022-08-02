@@ -110,7 +110,6 @@ const TransactionHistoryPage: NextPage = () => {
       <Box
         component="main"
         sx={{
-          flexGrow: 1,
           pt: 8,
           pb: 4,
         }}
