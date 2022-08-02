@@ -48,7 +48,7 @@ const Wallets: NextPage = () => {
           py: 8,
         }}
       >
-        <WalletList wallets={wallets} walletsCount={wallets.length} parentCallback={updateWallets} />
+        <WalletList wallets={wallets} walletsCount={wallets?.length | 0} parentCallback={updateWallets} />
         <Container>
           <Grid container>
             <AddWalletDialog parentCallback={updateWallets} />

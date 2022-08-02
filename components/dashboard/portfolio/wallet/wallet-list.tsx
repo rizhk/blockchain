@@ -65,7 +65,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
     <Container maxWidth="xl">
       <Grid container sx={{ maxWidth: 816 }}>
         <Grid item sx={{ mb: 2, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Typography variant="h6">My Wallets ({walletsCount})</Typography>
+          <Typography variant="h6">My Wallets ({walletsCount | 0})</Typography>
           <Button color="info" variant="contained" onClick={handleClickOpen}>
             Add a wallet
           </Button>
@@ -118,7 +118,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
         </Scrollbar>
         <TablePagination
           component="div"
-          count={wallets.length}
+          count={wallets?.length}
           onPageChange={(): void => {}}
           onRowsPerPageChange={(): void => {}}
           page={0}
