@@ -168,44 +168,41 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                     </TableCell>
                     <TableCell sx={{ maxWidth: '150px' }}>
                       <Typography display="inline" variant="subtitle2">
-                        {primitivesUtils.roundDownToTwo(parseFloat(transaction.crypto_amount))}{' '}
-                        {transaction.token_symbol}
+                        {primitivesUtils.convertCurrencyDisplay(transaction.crypto_amount)} {transaction.token_symbol}
                       </Typography>
                       <br />
-                      {primitivesUtils.roundUpToTwo(parseFloat(transaction.crypto_amount_fiat)) > 0 && (
+                      {parseFloat(transaction.crypto_amount_fiat) > 0 && (
                         <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
                           {'USD '}
-                          {primitivesUtils.roundUpToTwo(parseFloat(transaction.crypto_amount_fiat))}
+                          {primitivesUtils.convertCurrencyDisplay(transaction.crypto_amount_fiat)}
                         </Typography>
                       )}
                     </TableCell>
                     <TableCell>
                       <Typography display="inline" variant="subtitle2">
-                        {primitivesUtils.roundUpToTwo(parseFloat(transaction.gas_used))} {'ETH'}
+                        {primitivesUtils.convertCurrencyDisplay(transaction.gas_used)} {'ETH'}
                         {/*//TODO: hardcore for now, transaction should provide a native token symbol */}
                       </Typography>
                       <br />
                       <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
                         {'USD '}
-                        {primitivesUtils.thousandSeparator(
-                          primitivesUtils.roundUpToTwo(parseFloat(transaction.gas_fiat)),
-                        )}
+                        {primitivesUtils.convertCurrencyDisplay(transaction.gas_fiat)}
                       </Typography>
                     </TableCell>
                     <TableCell sx={{ maxWidth: '150px' }}>
                       <Typography display="inline" variant="subtitle2">
-                        {primitivesUtils.roundUpToTwo(
+                        {primitivesUtils.convertCurrencyDisplay(
                           parseFloat(transaction.crypto_amount) + parseFloat(transaction.gas_used),
+                          true,
                         )}{' '}
                         {transaction.token_symbol}
                       </Typography>
                       <br />
                       <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
                         {'USD '}
-                        {primitivesUtils.thousandSeparator(
-                          primitivesUtils.roundUpToTwo(
-                            parseFloat(transaction.crypto_amount_fiat) + parseFloat(transaction.gas_fiat),
-                          ),
+                        {primitivesUtils.convertCurrencyDisplay(
+                          parseFloat(transaction.crypto_amount_fiat) + parseFloat(transaction.gas_fiat),
+                          true,
                         )}
                       </Typography>
                     </TableCell>

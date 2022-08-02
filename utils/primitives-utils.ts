@@ -33,8 +33,8 @@ class PrimitivesUtils {
     if (!number) return number;
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
-  convertCurrencyDisplay(value: string | number): string {
-    return this.thousandSeparator(this.roundDownToTwo(value)) as string;
+  convertCurrencyDisplay(value: string | number, shouldRoundUp: boolean = false): string {
+    return this.thousandSeparator(shouldRoundUp ? this.roundDownToTwo(value) : this.roundUpToTwo(value)) as string;
   }
 }
 export const primitivesUtils = new PrimitivesUtils();

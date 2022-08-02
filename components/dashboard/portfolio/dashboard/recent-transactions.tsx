@@ -45,7 +45,7 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({}) => {
                             )}
                           </Grid>
                           <Grid component={Typography} variant="subtitle1" flex="0 1 50%">
-                            {primitivesUtils.roundDownToTwo(parseFloat(crypto_amount))} {token_symbol}
+                            {primitivesUtils.convertCurrencyDisplay(crypto_amount)} {token_symbol}
                           </Grid>
                         </Grid>
                         <Grid container item>
@@ -62,7 +62,7 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({}) => {
                           </Grid>
                           <Grid component={Typography} variant="subtitle1" flex="0 1 50%" color="text.secondary">
                             {'USD '}
-                            {primitivesUtils.roundDownToTwo(parseFloat(crypto_amount_fiat))}
+                            {primitivesUtils.convertCurrencyDisplay(crypto_amount_fiat)}
                           </Grid>
                           <Box flex="1 1 100%" sx={{ mb: 2 }}></Box>
                         </Grid>
