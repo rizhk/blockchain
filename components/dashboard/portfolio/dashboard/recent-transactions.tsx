@@ -38,16 +38,17 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({}) => {
                       <Grid container key={id}>
                         <Grid container item>
                           <Grid component={Typography} variant="body1" flex="1 1 auto">
-                            {from_name}
                             {type.toLowerCase() == 'in' ? (
-                              <Typography>{from_name}</Typography>
-                            ) : (
                               <Typography>{to_name}</Typography>
+                            ) : (
+                              <Typography>{from_name}</Typography>
                             )}
                           </Grid>
                           <Grid component={Typography} variant="subtitle1" flex="0 1 30%">
-                            {primitivesUtils.convertCurrencyDisplay(crypto_amount)}{' '}
-                            <TokenSymbolDisplay name={token_symbol} />
+                            <TokenSymbolDisplay
+                              amt={primitivesUtils.convertCurrencyDisplay(crypto_amount)}
+                              name={token_symbol}
+                            />
                           </Grid>
                         </Grid>
                         <Grid container item>

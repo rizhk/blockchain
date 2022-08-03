@@ -3,10 +3,11 @@ import * as React from 'react';
 import { primitivesUtils } from 'utils/primitives-utils';
 
 export interface ITokenSymbolDisplayProps extends React.ComponentProps<typeof Typography> {
+  amt: string;
   name: string;
 }
 
-export const TokenSymbolDisplay: React.FC<ITokenSymbolDisplayProps> = ({ name, ...rest }) => {
+export const TokenSymbolDisplay: React.FC<ITokenSymbolDisplayProps> = ({ amt, name, ...rest }) => {
   const knownTokenSymbols = ['USDC', 'WLUNA', 'LUNA'];
 
   const { trimmed, tokenSymbol } = React.useMemo(() => {
@@ -26,10 +27,14 @@ export const TokenSymbolDisplay: React.FC<ITokenSymbolDisplayProps> = ({ name, .
     <>
       {trimmed ? (
         <Tooltip title={name}>
-          <Typography {...rest}>{tokenSymbol}...</Typography>
+          <Typography {...rest}>
+            {amt} {tokenSymbol}...
+          </Typography>
         </Tooltip>
       ) : (
-        <Typography {...rest}>{tokenSymbol}</Typography>
+        <Typography {...rest}>
+          {amt} {tokenSymbol}
+        </Typography>
       )}
     </>
   );
