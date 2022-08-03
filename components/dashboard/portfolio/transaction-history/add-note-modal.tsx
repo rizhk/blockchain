@@ -41,7 +41,7 @@ const AddNoteModal = ({ isShowing, hide, note, txnId, getTransactionHistory }: I
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-  const handleClose = (event: React.ChangeEvent<HTMLButtonElement>, reason: string) => {
+  const handleClose = () => {
     hide();
     document.body.style.overflow = 'auto';
   };
@@ -76,6 +76,7 @@ const AddNoteModal = ({ isShowing, hide, note, txnId, getTransactionHistory }: I
   React.useEffect(() => {
     if (isSetNoteSuccess) {
       getTransactionHistory();
+      handleClose();
     }
   }, [isSetNoteSuccess]);
 

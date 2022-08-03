@@ -3,6 +3,7 @@ import type { ApexOptions } from 'apexcharts';
 import { Avatar, Box, Button, Card, CardActions, Divider, Typography, CardContent, Grid } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 import { ArrowRight as ArrowRightIcon } from '../../../icons/arrow-right';
+import { primitivesUtils } from 'utils/primitives-utils';
 
 const bankIcons = {
   citi: '/static/icons/citi.png',
@@ -48,9 +49,15 @@ export const OverviewPrivateWallet: FC = (props) => {
   return (
     <Card {...props} elevation={16}>
       <CardContent>
-        <Typography color="textSecondary" variant="overline" textTransform="uppercase">
+        <Typography display="block" color="textSecondary" variant="overline" textTransform="uppercase">
           total bank account balance
         </Typography>
+
+        <Typography textAlign="left" variant="h6" sx={{ mb: 2 }}>
+          {`$ ${primitivesUtils.convertCurrencyDisplay(5343.33)}`}
+        </Typography>
+
+        <Divider sx={{ mb: 2 }} />
 
         <Typography color="textSecondary" variant="overline" textTransform="uppercase">
           bank accounts

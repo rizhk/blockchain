@@ -75,6 +75,10 @@ export const en = {
         setTagError: 'Failed to change tag, please try again later',
         getTransactionsError: 'Failed to get transactions, please try again later',
         save: 'Save',
+        connectWalletToSeeTxn: 'Connect a wallet to begin seeing your transactions.',
+      },
+      walletList: {
+        connectWalletToStart: 'Connect a wallet to begin tracking your assets.',
       },
     },
     transaction: {
