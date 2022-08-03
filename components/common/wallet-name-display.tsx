@@ -14,7 +14,13 @@ export const TokenSymbolDisplay: React.FC<ITokenSymbolDisplayProps> = ({ name, .
       return item.toLowerCase() === name.toLowerCase();
     });
     if (found) return { trimmed: false, tokenSymbol: name };
-    else return { trimmed: true, tokenSymbol: primitivesUtils.getFirstNChars(name, 6) };
+    else {
+      if (name.length >= 6) {
+        return { trimmed: true, tokenSymbol: primitivesUtils.getFirstNChars(name, 6) };
+      } else {
+        return { trimmed: false, tokenSymbol: name };
+      }
+    }
   }, [name]);
   return (
     <>
