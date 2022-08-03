@@ -118,7 +118,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
         </Scrollbar>
         <TablePagination
           component="div"
-          count={wallets?.length}
+          count={wallets?.length | 0}
           onPageChange={(): void => {}}
           onRowsPerPageChange={(): void => {}}
           page={0}
