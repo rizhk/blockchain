@@ -82,7 +82,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
         hide={toggleAddNote}
       />
       <Grid container flexDirection="column">
-        <Grid sx={{ py: 4, px: 2 }} rowSpacing={3} item container alignItems="center">
+        <Grid sx={{ py: 2, px: 2 }} rowSpacing={3} item container alignItems="center">
           <Typography onClick={() => setOpenDrawer(false)} variant="subtitle2">
             <ChevronLeft sx={{ cursor: 'pointer' }} />
           </Typography>
@@ -380,7 +380,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
           </Grid>
         </Grid>
         <Divider sx={{ width: '95%', m: '0 auto' }} />
-        <Grid sx={{ pt: 4, px: 2 }} rowSpacing={3} flexWrap="nowrap" container item flexDirection="row">
+        <Grid sx={{ pt: 2, pb: 2, px: 2 }} rowSpacing={3} flexWrap="nowrap" container item flexDirection="row">
           <Typography flex="0 1 max-content" sx={{ pr: 1 }} variant="body2" display="inline">
             {`${t('portfolio.transHis.viewOn')} Etherscan: `}
           </Typography>

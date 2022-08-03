@@ -133,6 +133,13 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
           </TableRow>
         </TableHead>
         <TableBody>
+          {count === 0 && (
+            <TableRow>
+              <TableCell colSpan={10}>
+                <Typography align="center"> {t('portfolio.transHis.connectWalletToSeeTxn')}</Typography>
+              </TableCell>
+            </TableRow>
+          )}
           {transactionHistory.map((transaction, index) => {
             const typeIcon = transaction.type.toLowerCase() === 'in' ? <MoneyReceive /> : <MoneySend />;
             return (
@@ -190,14 +197,14 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                     </Typography>
                   </TableCell>
                   <TableCell sx={{ maxWidth: '150px' }}>
-                    <Typography display="inline" variant="subtitle2">
+                    {/* <Typography display="inline" variant="subtitle2">
                       {primitivesUtils.convertCurrencyDisplay(
                         parseFloat(transaction.crypto_amount) + parseFloat(transaction.gas_used),
                         true,
                       )}{' '}
                       <TokenSymbolDisplay variant="subtitle2" name={transaction.token_symbol} />
                     </Typography>
-                    <br />
+                    <br /> */}
                     <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
                       {'USD '}
                       {primitivesUtils.convertCurrencyDisplay(

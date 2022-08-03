@@ -45,7 +45,7 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({}) => {
                               <Typography>{to_name}</Typography>
                             )}
                           </Grid>
-                          <Grid component={Typography} variant="subtitle1" flex="0 1 50%">
+                          <Grid component={Typography} variant="subtitle1" flex="0 1 30%">
                             {primitivesUtils.convertCurrencyDisplay(crypto_amount)}{' '}
                             <TokenSymbolDisplay name={token_symbol} />
                           </Grid>
@@ -62,7 +62,7 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({}) => {
                               </Typography>
                             )}{' '}
                           </Grid>
-                          <Grid component={Typography} variant="subtitle1" flex="0 1 50%" color="text.secondary">
+                          <Grid component={Typography} variant="subtitle1" flex="0 1 30%" color="text.secondary">
                             {'USD '}
                             {primitivesUtils.convertCurrencyDisplay(crypto_amount_fiat)}
                           </Grid>

@@ -132,7 +132,7 @@ const TransactionHistoryPage: NextPage = () => {
                 <Button
                   sx={{
                     px: 3,
-                    py: 2,
+                    py: 1.5,
                     mx: 2,
                   }}
                   color="info"

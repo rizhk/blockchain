@@ -33,6 +33,7 @@ import { Scrollbar } from 'components/scrollbar';
 import { AddWalletDialog } from './add-wallet-modal';
 import { primitivesUtils } from 'utils/primitives-utils';
 import Image from 'next/image';
+import { useTranslation } from 'react-i18next';
 
 interface WalletListProps {
   wallets: Wallet[];
@@ -41,6 +42,7 @@ interface WalletListProps {
 }
 
 export const WalletList: FC<WalletListProps> = (props) => {
+  const { t } = useTranslation();
   const { wallets, walletsCount } = props;
 
   const handleDelete = async (address: string) => {
@@ -84,6 +86,13 @@ export const WalletList: FC<WalletListProps> = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
+              {walletsCount === 0 && (
+                <TableRow>
+                  <TableCell colSpan={5}>
+                    <Typography align="center">{t('portfolio.walletList.connectWalletToStart')}</Typography>
+                  </TableCell>
+                </TableRow>
+              )}
               {wallets?.map((wallet) => {
                 return (
                   <Fragment key={wallet.id}>
@@ -118,7 +127,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
         </Scrollbar>
         <TablePagination
           component="div"
-          count={wallets?.length}
+          count={wallets?.length | 0}
           onPageChange={(): void => {}}
           onRowsPerPageChange={(): void => {}}
           page={0}
