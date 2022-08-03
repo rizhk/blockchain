@@ -33,7 +33,7 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({}) => {
       <Grid container flexDirection="row" width="100%">
         <Grid item>
           <Typography sx={{ mb: 3 }} variant="h6">
-            {`${t('portfolio.dashboard.totalWalletBal')}: ${totalBalance}`}
+            {`${t('portfolio.dashboard.totalWalletBal')}: $ ${primitivesUtils.convertCurrencyDisplay(totalBalance)}`}
           </Typography>
         </Grid>
         <DataDisplay isLoading={loading} error={error} defaultLoaderOptions={{ height: '400px', width: '100%' }}>

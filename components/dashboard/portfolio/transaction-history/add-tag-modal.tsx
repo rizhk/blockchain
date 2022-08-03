@@ -41,7 +41,7 @@ const AddTagModal = ({ isShowing, hide, tag, txnId, getTransactionHistory }: IAd
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-  const handleClose = (event: React.ChangeEvent<HTMLButtonElement>, reason: string) => {
+  const handleClose = () => {
     hide();
     document.body.style.overflow = 'auto';
   };
@@ -100,6 +100,7 @@ const AddTagModal = ({ isShowing, hide, tag, txnId, getTransactionHistory }: IAd
   React.useEffect(() => {
     if (isSetTagSuccess) {
       getTransactionHistory();
+      handleClose();
     }
   }, [isSetTagSuccess]);
 

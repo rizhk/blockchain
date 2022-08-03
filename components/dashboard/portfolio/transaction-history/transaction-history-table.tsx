@@ -42,6 +42,7 @@ import { format } from 'date-fns-tz';
 import { useAddNoteModal, useAddTagModal } from 'hooks/use-portfolio-modal';
 import AddTagModal from './add-tag-modal';
 import AddNoteModal from './add-note-modal';
+import { TokenSymbolDisplay } from 'components/common/wallet-name-display';
 
 interface TransactionHistoryTableProps {
   onPageChange: (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => void;
@@ -107,186 +108,181 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
         isShowing={isAddNoteShowing}
         hide={toggleAddNote}
       />
-      <Scrollbar>
-        <Table sx={{ maxWidth: 1200 }}>
-          <TableHead>
-            <TableRow>
-              <TableCell>{t('portfolio.transHis.type')}</TableCell>
-              <TableCell>
-                {t('portfolio.transHis.date')}{' '}
-                <Typography
-                  display="inline"
-                  variant="body2"
-                  sx={{ fontWeight: 700, fontSize: '0.75em', color: 'text.secondary' }}
-                >
-                  (DD-MM-YY)
-                </Typography>
-              </TableCell>
-              <TableCell>{t('portfolio.transHis.from')}</TableCell>
-              <TableCell>{t('portfolio.transHis.to')}</TableCell>
-              <TableCell>{t('portfolio.transHis.amount')}</TableCell>
-              <TableCell>{t('portfolio.transHis.fees')}</TableCell>
-              <TableCell>{t('portfolio.transHis.total')}</TableCell>
-              <TableCell>{t('portfolio.transHis.tag')}</TableCell>
-              <TableCell>{t('portfolio.transHis.note')}</TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {transactionHistory.map((transaction, index) => {
-              const typeIcon = transaction.type.toLowerCase() === 'in' ? <MoneyReceive /> : <MoneySend />;
-              return (
-                <Fragment key={transaction.id}>
-                  <TableRow hover key={transaction.id}>
-                    <TableCell>{typeIcon}</TableCell>
-                    <TableCell sx={{ maxWidth: '140px' }}>
-                      <Typography display="inline" variant="subtitle2">
-                        {format(new Date(transaction.transaction_date), 'dd-MM-yy')}
-                      </Typography>
-                      <br />
+      <Table sx={{ maxWidth: 1200 }}>
+        <TableHead>
+          <TableRow>
+            <TableCell>{t('portfolio.transHis.type')}</TableCell>
+            <TableCell>
+              {t('portfolio.transHis.date')}{' '}
+              <Typography
+                display="inline"
+                variant="body2"
+                sx={{ fontWeight: 700, fontSize: '0.75em', color: 'text.secondary' }}
+              >
+                (DD-MM-YY)
+              </Typography>
+            </TableCell>
+            <TableCell>{t('portfolio.transHis.from')}</TableCell>
+            <TableCell>{t('portfolio.transHis.to')}</TableCell>
+            <TableCell>{t('portfolio.transHis.amount')}</TableCell>
+            <TableCell>{t('portfolio.transHis.fees')}</TableCell>
+            <TableCell>{t('portfolio.transHis.total')}</TableCell>
+            <TableCell>{t('portfolio.transHis.tag')}</TableCell>
+            <TableCell>{t('portfolio.transHis.note')}</TableCell>
+            <TableCell></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {transactionHistory.map((transaction, index) => {
+            const typeIcon = transaction.type.toLowerCase() === 'in' ? <MoneyReceive /> : <MoneySend />;
+            return (
+              <Fragment key={transaction.id}>
+                <TableRow hover key={transaction.id}>
+                  <TableCell>{typeIcon}</TableCell>
+                  <TableCell sx={{ maxWidth: '140px' }}>
+                    <Typography display="inline" variant="subtitle2">
+                      {format(new Date(transaction.transaction_date), 'dd-MM-yy')}
+                    </Typography>
+                    <br />
+                    <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
+                      {format(new Date(transaction.transaction_date), `hh:mm:ss aaaaa'm'`)}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography display="inline" variant="subtitle2">
+                      {transaction.from_name}
+                    </Typography>
+                    <br />
+                    <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
+                      {primitivesUtils.getShortTxnId(transaction.from)}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography display="inline" variant="subtitle2">
+                      {transaction.to_name}
+                    </Typography>
+                    <br />
+                    <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
+                      {primitivesUtils.getShortTxnId(transaction.to)}
+                    </Typography>
+                  </TableCell>
+                  <TableCell sx={{ maxWidth: '150px' }}>
+                    <Typography display="inline" variant="subtitle2">
+                      {primitivesUtils.convertCurrencyDisplay(transaction.crypto_amount)} {transaction.token_symbol}
+                    </Typography>
+                    <br />
+                    {parseFloat(transaction.crypto_amount_fiat) > 0 && (
                       <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                        {format(new Date(transaction.transaction_date), `hh:mm:ss aaaaa'm'`)}
+                        {'USD '}
+                        {primitivesUtils.convertCurrencyDisplay(transaction.crypto_amount_fiat)}
                       </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography display="inline" variant="subtitle2">
-                        {transaction.from_name}
-                      </Typography>
-                      <br />
-                      <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                        {primitivesUtils.getShortTxnId(transaction.from)}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography display="inline" variant="subtitle2">
-                        {transaction.to_name}
-                      </Typography>
-                      <br />
-                      <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                        {primitivesUtils.getShortTxnId(transaction.to)}
-                      </Typography>
-                    </TableCell>
-                    <TableCell sx={{ maxWidth: '150px' }}>
-                      <Typography display="inline" variant="subtitle2">
-                        {primitivesUtils.roundDownToTwo(parseFloat(transaction.crypto_amount))}{' '}
-                        {transaction.token_symbol}
-                      </Typography>
-                      <br />
-                      {primitivesUtils.roundUpToTwo(parseFloat(transaction.crypto_amount_fiat)) > 0 && (
-                        <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                          {'USD '}
-                          {primitivesUtils.roundUpToTwo(parseFloat(transaction.crypto_amount_fiat))}
-                        </Typography>
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    <Typography display="inline" variant="subtitle2">
+                      {primitivesUtils.convertCurrencyDisplay(transaction.gas_used)} {'ETH'}
+                      {/*//TODO: hardcore for now, transaction should provide a native token symbol */}
+                    </Typography>
+                    <br />
+                    <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
+                      {'USD '}
+                      {primitivesUtils.convertCurrencyDisplay(transaction.gas_fiat)}
+                    </Typography>
+                  </TableCell>
+                  <TableCell sx={{ maxWidth: '150px' }}>
+                    <Typography display="inline" variant="subtitle2">
+                      {primitivesUtils.convertCurrencyDisplay(
+                        parseFloat(transaction.crypto_amount) + parseFloat(transaction.gas_used),
+                        true,
+                      )}{' '}
+                      <TokenSymbolDisplay variant="subtitle2" name={transaction.token_symbol} />
+                    </Typography>
+                    <br />
+                    <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
+                      {'USD '}
+                      {primitivesUtils.convertCurrencyDisplay(
+                        parseFloat(transaction.crypto_amount_fiat) + parseFloat(transaction.gas_fiat),
+                        true,
                       )}
-                    </TableCell>
-                    <TableCell>
-                      <Typography display="inline" variant="subtitle2">
-                        {primitivesUtils.roundUpToTwo(parseFloat(transaction.gas_used))} {'ETH'}
-                        {/*//TODO: hardcore for now, transaction should provide a native token symbol */}
-                      </Typography>
-                      <br />
-                      <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                        {'USD '}
-                        {primitivesUtils.thousandSeparator(
-                          primitivesUtils.roundUpToTwo(parseFloat(transaction.gas_fiat)),
-                        )}
-                      </Typography>
-                    </TableCell>
-                    <TableCell sx={{ maxWidth: '150px' }}>
-                      <Typography display="inline" variant="subtitle2">
-                        {primitivesUtils.roundUpToTwo(
-                          parseFloat(transaction.crypto_amount) + parseFloat(transaction.gas_used),
-                        )}{' '}
-                        {transaction.token_symbol}
-                      </Typography>
-                      <br />
-                      <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                        {'USD '}
-                        {primitivesUtils.thousandSeparator(
-                          primitivesUtils.roundUpToTwo(
-                            parseFloat(transaction.crypto_amount_fiat) + parseFloat(transaction.gas_fiat),
-                          ),
-                        )}
-                      </Typography>
-                    </TableCell>
-                    <TableCell sx={{ maxWidth: '100px' }}>
-                      <Typography display="inline" variant="caption" sx={{ color: 'text.secondary' }}>
-                        {transaction.tag_name ? (
-                          <Chip
-                            onClick={() => {
-                              handleClickTag(transaction);
-                            }}
-                            label={transaction.tag_name}
-                            variant="outlined"
-                            size="small"
-                          />
-                        ) : (
-                          <Typography
-                            onClick={() => {
-                              handleClickTag(transaction);
-                            }}
-                            display="inline"
-                            variant="body2"
-                            sx={{ cursor: 'pointer', color: 'primary.main', textDecoration: 'underline' }}
-                          >
-                            {t('portfolio.transHis.addTag')}
-                          </Typography>
-                        )}
-                      </Typography>
-                    </TableCell>
-                    <TableCell sx={{ maxWidth: '150px' }}>
-                      {transaction.note ? (
-                        <Typography
+                    </Typography>
+                  </TableCell>
+                  <TableCell sx={{ maxWidth: '100px' }}>
+                    <Typography display="inline" variant="caption" sx={{ color: 'text.secondary' }}>
+                      {transaction.tag_name ? (
+                        <Chip
                           onClick={() => {
-                            handleClickNote(transaction);
+                            handleClickTag(transaction);
                           }}
-                          display="inline"
-                          variant="caption"
-                          sx={{
-                            cursor: 'pointer',
-                            WebkitBoxOrient: 'vertical',
-                            WebkitLineClamp: 2,
-                            display: '-webkit-box',
-                            color: 'text.secondary',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            maxHeight: '3rem',
-                            lineHeight: '1.5rem',
-                          }}
-                        >
-                          {transaction.note}
-                        </Typography>
+                          label={transaction.tag_name}
+                          variant="outlined"
+                          size="small"
+                        />
                       ) : (
                         <Typography
                           onClick={() => {
-                            handleClickNote(transaction);
+                            handleClickTag(transaction);
                           }}
                           display="inline"
                           variant="body2"
                           sx={{ cursor: 'pointer', color: 'primary.main', textDecoration: 'underline' }}
                         >
-                          {t('portfolio.transHis.addNote')}
+                          {t('portfolio.transHis.addTag')}
                         </Typography>
                       )}
-                    </TableCell>
-                    <TableCell align="right">
+                    </Typography>
+                  </TableCell>
+                  <TableCell sx={{ maxWidth: '150px' }}>
+                    {transaction.note ? (
                       <Typography
-                        sx={{ cursor: 'pointer' }}
-                        onClick={() => handleViewDetail(transaction)}
+                        onClick={() => {
+                          handleClickNote(transaction);
+                        }}
                         display="inline"
-                        variant="subtitle2"
-                        color="primary"
+                        variant="caption"
+                        sx={{
+                          cursor: 'pointer',
+                          WebkitBoxOrient: 'vertical',
+                          WebkitLineClamp: 2,
+                          display: '-webkit-box',
+                          color: 'text.secondary',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          maxHeight: '3rem',
+                          lineHeight: '1.5rem',
+                        }}
                       >
-                        <ChevronRight />
+                        {transaction.note}
                       </Typography>
-                    </TableCell>
-                  </TableRow>
-                </Fragment>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </Scrollbar>
+                    ) : (
+                      <Typography
+                        onClick={() => {
+                          handleClickNote(transaction);
+                        }}
+                        display="inline"
+                        variant="body2"
+                        sx={{ cursor: 'pointer', color: 'primary.main', textDecoration: 'underline' }}
+                      >
+                        {t('portfolio.transHis.addNote')}
+                      </Typography>
+                    )}
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography
+                      sx={{ cursor: 'pointer' }}
+                      onClick={() => handleViewDetail(transaction)}
+                      display="inline"
+                      variant="subtitle2"
+                      color="primary"
+                    >
+                      <ChevronRight />
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              </Fragment>
+            );
+          })}
+        </TableBody>
+      </Table>
       <TablePagination
         component="div"
         count={count}

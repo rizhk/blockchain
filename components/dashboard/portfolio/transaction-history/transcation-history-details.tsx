@@ -291,7 +291,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
               <>
                 <Chip label={transactionHistory.tag_name} variant="outlined" size="small" />
                 <Box display="flex">
-                  <Typography
+                  {/* <Typography
                     onClick={() => handleRemoveTag(transactionHistory.id)}
                     variant="body2"
                     color="text.secondary"
@@ -305,7 +305,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
                     }}
                   >
                     {t('portfolio.transHis.removeTag')}
-                  </Typography>
+                  </Typography> */}
                   <Typography
                     onClick={toggleAddTag}
                     variant="body2"
@@ -340,7 +340,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
                 <>
                   {transactionHistory.note}
                   <Box display="flex" justifyContent="flex-end">
-                    <Typography
+                    {/* <Typography
                       onClick={() => handleRemoveTag(transactionHistory.id)}
                       variant="body2"
                       color="text.secondary"
@@ -354,7 +354,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
                       }}
                     >
                       {t('portfolio.transHis.removeNote')}
-                    </Typography>
+                    </Typography> */}
                     <Typography
                       onClick={toggleAddNote}
                       variant="body2"
