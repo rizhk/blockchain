@@ -133,6 +133,13 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
           </TableRow>
         </TableHead>
         <TableBody>
+          {count === 0 && (
+            <TableRow>
+              <TableCell colSpan={10}>
+                <Typography align="center"> {t('portfolio.transHis.connectWalletToSeeTxn')}</Typography>
+              </TableCell>
+            </TableRow>
+          )}
           {transactionHistory.map((transaction, index) => {
             const typeIcon = transaction.type.toLowerCase() === 'in' ? <MoneyReceive /> : <MoneySend />;
             return (
