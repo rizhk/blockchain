@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Grid, Icon, IconButton, Link, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, Grid, Icon, IconButton, Typography } from '@mui/material';
 import { portfolioApi } from 'api/portfolio-api';
 import { DataDisplay } from 'components/common/data-display';
 import useFetch from 'hooks/use-fetch';
@@ -6,6 +6,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { primitivesUtils } from 'utils/primitives-utils';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export interface IMyWalletsProps {}
 
@@ -33,13 +34,16 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({}) => {
       <Grid container flexDirection="row" width="100%">
         <Grid item>
           <Typography sx={{ mb: 3 }} variant="h6">
-            {`${t('portfolio.dashboard.totalWalletBal')}: $ ${primitivesUtils.convertCurrencyDisplay(totalBalance)}`}
+            {`${t('portfolio.dashboard.totalWalletBal')}: `}{' '}
+            <Typography display="inline" variant="h6" color="secondary.main">
+              ${primitivesUtils.convertCurrencyDisplay(totalBalance)}
+            </Typography>
           </Typography>
         </Grid>
         <DataDisplay isLoading={loading} error={error} defaultLoaderOptions={{ height: '400px', width: '100%' }}>
           <Grid item flex="1 1 100%">
             <Card>
-              <CardContent>
+              <CardContent sx={{ m: 2 }}>
                 <Grid container justifyContent="space-between">
                   <Grid item component={Typography} variant="overline" sx={{ margin: '0 auto 0 0' }}>
                     {t('portfolio.dashboard.myWallets')}
@@ -55,40 +59,62 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({}) => {
                     {t('portfolio.dashboard.addWallet')}
                   </Grid> */}
                 </Grid>
-                {data?.items?.map(({ id, type, name, icon_tag, address, fiat_value, fiat_currency }) => {
-                  return (
-                    <Grid spacing={3} container key={id}>
-                      <Grid container item flexWrap="nowrap" alignItems="center">
-                        <Grid component={Typography} variant="body1" flex="0 0 auto" sx={{ mr: 2 }}>
-                          <Image src={`/static/crypto/color/${icon_tag}.svg`} height="30" width="30" />{' '}
-                        </Grid>
-                        <Grid flexDirection="column" container flex="1 1 auto">
-                          <Grid component={Typography} variant="body1" sx={{ pb: 0.25 }}>
-                            {name}
+                {data?.items && data.items.length > 0 ? (
+                  <>
+                    {data?.items?.map(({ id, type, name, icon_tag, address, fiat_value, fiat_currency }) => {
+                      return (
+                        <Grid spacing={3} container key={id}>
+                          <Grid container item flexWrap="nowrap" alignItems="center">
+                            <Grid component={Typography} variant="body1" flex="0 0 auto" sx={{ mr: 2 }}>
+                              <Image src={`/static/crypto/color/${icon_tag}.svg`} height="30" width="30" />{' '}
+                            </Grid>
+                            <Grid flexDirection="column" container flex="1 1 auto">
+                              <Grid component={Typography} variant="body1" sx={{ pb: 0.25 }}>
+                                {name}
+                              </Grid>
+                              <Grid component={Typography} variant="body2" color="text.secondary">
+                                {primitivesUtils.getShortTxnId(address)}
+                              </Grid>
+                            </Grid>
+                            <Grid component={Typography} variant="body1" flex="0 0 auto">
+                              {fiat_currency}{' '}
+                              {primitivesUtils.thousandSeparator(
+                                primitivesUtils.roundDownToTwo(parseFloat(fiat_value)),
+                              )}
+                            </Grid>
                           </Grid>
-                          <Grid component={Typography} variant="body2" color="text.secondary">
-                            {primitivesUtils.getShortTxnId(address)}
-                          </Grid>
                         </Grid>
-                        <Grid component={Typography} variant="body1" flex="0 0 auto">
-                          {fiat_currency}{' '}
-                          {primitivesUtils.thousandSeparator(primitivesUtils.roundDownToTwo(parseFloat(fiat_value)))}
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  );
-                })}
-                <Typography
-                  component={Link}
-                  href="/dashboard/portfolio/wallet/"
-                  sx={{ m: 2 }}
-                  display="block"
-                  textAlign="center"
-                  variant="textLink1"
-                  color="secondary.main"
-                >
-                  {t('portfolio.dashboard.viewAllWallets')}
-                </Typography>
+                      );
+                    })}
+                    <Link href="/dashboard/portfolio/wallet/" passHref>
+                      <Typography
+                        sx={{ m: 2, cursor: 'pointer' }}
+                        display="block"
+                        textAlign="center"
+                        variant="textLink1"
+                        color="secondary.main"
+                      >
+                        {t('portfolio.dashboard.viewAllWallets')}
+                      </Typography>
+                    </Link>
+                  </>
+                ) : (
+                  <Grid container alignItems="center" justifyContent="center">
+                    <Typography
+                      sx={{ mx: 2, my: 4, maxWidth: '300px' }}
+                      display="block"
+                      textAlign="center"
+                      variant="ctaText1"
+                    >
+                      {t('portfolio.dashboard.noWalletCtaText')}
+                    </Typography>
+                    <Link href="/dashboard/portfolio/wallet/" passHref>
+                      <Button type="button" variant="contained" color="primary" sx={{ mb: 8 }}>
+                        {t('portfolio.dashboard.addWalletNow')}
+                      </Button>
+                    </Link>
+                  </Grid>
+                )}
               </CardContent>
             </Card>
           </Grid>

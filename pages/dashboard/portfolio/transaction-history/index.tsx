@@ -36,6 +36,7 @@ import { AccountCircle } from '@mui/icons-material';
 import { ChevronDown as ChevronDownIcon } from 'icons/chevron-down';
 import { relative } from 'path';
 import ExportTransactionHistoryModal from 'components/dashboard/portfolio/transaction-history/export-transaction-history-modal';
+import { DataDisplay } from 'components/common/data-display';
 
 const TransactionHistoryPage: NextPage = () => {
   const isMounted = useMounted();
@@ -271,15 +272,17 @@ const TransactionHistoryPage: NextPage = () => {
             />
           </Box>
         </Box> */}
-        <TransactionHistoryTable
-          getTransactionHistory={() => trigger()}
-          transactionHistory={currentData}
-          count={count}
-          onPageChange={onPageChange}
-          onRowsPerPageChange={onRowsPerPageChange}
-          page={page}
-          rowsPerPage={rowsPerPage}
-        />
+        <DataDisplay isLoading={loading} error={error} defaultLoaderOptions={{ height: '80vh', width: '100%' }}>
+          <TransactionHistoryTable
+            getTransactionHistory={() => trigger()}
+            transactionHistory={currentData}
+            count={count}
+            onPageChange={onPageChange}
+            onRowsPerPageChange={onRowsPerPageChange}
+            page={page}
+            rowsPerPage={rowsPerPage}
+          />
+        </DataDisplay>
       </Card>
     </>
   );
