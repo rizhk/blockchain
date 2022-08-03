@@ -1,19 +1,30 @@
 import { DependencyList, useEffect, useState } from 'react';
 import { useMounted } from './use-mounted';
 
-type ArgumentTypes<F extends Function> = F extends (...args: infer A) => any ? A : never;
+declare type MutateFunction<TData, TVariables> = (...args: Parameters<MutationFunction<TData, TVariables>>) => void;
+declare type UseMutateFunction<TData, TVariables> = {
+  data: TData | undefined;
+  error: any;
+  loading: boolean;
+  resetError: () => void;
+  mutate: MutateFunction<TData, TVariables>;
+  isSuccess: boolean;
+};
+export declare type MutationFunction<TData, TVariables> = (variables: TVariables) => Promise<TData>;
 
-export default function useMutation<T>(mutateFn: (...args: any) => Promise<T> | undefined, deps?: DependencyList) {
+export default function useMutation<TData, TVariables>(
+  mutateFn: MutationFunction<TData, TVariables>,
+): UseMutateFunction<TData, TVariables> {
   const isMounted = useMounted();
-  const [isSuccess, setIsSuccess] = useState<boolean>();
-  const [data, setData] = useState<T>();
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [data, setData] = useState<TData>();
   const [error, setError] = useState<string>();
   const [loading, setLoading] = useState(false);
   const resetError = () => {
     setError(undefined);
   };
 
-  const mutate = async (params: ArgumentTypes<typeof mutateFn>) => {
+  const mutate = async (params: TVariables) => {
     try {
       if (isMounted()) {
         setLoading(true);

@@ -11,9 +11,19 @@ class PrimitivesUtils {
     if (!str) return str;
     return `${this.getFirstNChars(str, 4)}...${this.getLastNChars(str, 4)}`;
   }
-  roundDownToTwo(number: number | undefined) {
-    if (!number) return number;
-    return Math.floor((number + Number.EPSILON) * 100) / 100;
+  roundDownToTwo(number: number | string | undefined) {
+    if (!number) return undefined;
+    var val: number = 0;
+    if (typeof number === 'string') val = parseFloat(number);
+    else val = number;
+    return Math.floor((val + Number.EPSILON) * 100) / 100;
+  }
+  roundUpToTwo(number: number | string | undefined) {
+    if (!number) return undefined;
+    var val: number = 0;
+    if (typeof number === 'string') val = parseFloat(number);
+    else val = number;
+    return Math.ceil((val + Number.EPSILON) * 100) / 100;
   }
   roundUpUpToSixPlace(number: number | undefined) {
     if (!number) return number;
@@ -22,6 +32,9 @@ class PrimitivesUtils {
   thousandSeparator(number: number | undefined) {
     if (!number) return number;
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+  convertCurrencyDisplay(value: string | number, shouldRoundUp: boolean = false): string {
+    return this.thousandSeparator(shouldRoundUp ? this.roundDownToTwo(value) : this.roundUpToTwo(value)) as string;
   }
 }
 export const primitivesUtils = new PrimitivesUtils();

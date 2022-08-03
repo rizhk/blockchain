@@ -40,14 +40,14 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
     loading: isSettingTag,
     error: setTagError,
     mutate: setTransactionTag,
-  } = useMutation((body) => {
+  } = useMutation((body: { txnId: string; tag_id: string }) => {
     return portfolioApi.updateTransaction(body, {
       defaultErrorMessage: t('portfolio.transHis.setTagError'),
     });
   });
 
   const handleRemoveTag = (txnId: string) => {
-    setTransactionTag({ txnId, tag_id: undefined });
+    // setTransactionTag({ txnId, tag_id: undefined });
   };
 
   return (
@@ -82,7 +82,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
         hide={toggleAddNote}
       />
       <Grid container flexDirection="column">
-        <Grid sx={{ py: 4, px: 2 }} rowSpacing={3} item container alignItems="center">
+        <Grid sx={{ py: 2, px: 2 }} rowSpacing={3} item container alignItems="center">
           <Typography onClick={() => setOpenDrawer(false)} variant="subtitle2">
             <ChevronLeft sx={{ cursor: 'pointer' }} />
           </Typography>
@@ -130,10 +130,9 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
               <Typography variant="body2">{`${t('portfolio.transHis.from')}:`}</Typography>
             </Grid>
             <Grid item xs={8}>
-              {/* Show a full name before we can provide custom wallet name */}
-              {/* <Typography display="inline" variant="body2">
-                {transactionHistory?.blockchain_network}
-              </Typography>{' '} */}
+              <Typography display="inline" variant="body2">
+                {transactionHistory?.from_name}
+              </Typography>{' '}
               <Typography display="inline" variant="body2" color="text.secondary" sx={{ wordWrap: 'break-word' }}>
                 {/* ({primitivesUtils.getShortTxnId(transactionHistory?.from)}) */}
                 {transactionHistory?.from}
@@ -145,9 +144,9 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
               <Typography variant="body2">{`${t('portfolio.transHis.to')}:`}</Typography>
             </Grid>
             <Grid item xs={8}>
-              {/* <Typography display="inline" variant="body2">
-                {transactionHistory?.blockchain_network}
-              </Typography>{' '} */}
+              <Typography display="inline" variant="body2">
+                {transactionHistory?.to_name}
+              </Typography>{' '}
               <Typography display="inline" variant="body2" color="text.secondary" sx={{ wordWrap: 'break-word' }}>
                 {/* ({primitivesUtils.getShortTxnId(transactionHistory?.to)}) */}
                 {transactionHistory?.to}
@@ -292,7 +291,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
               <>
                 <Chip label={transactionHistory.tag_name} variant="outlined" size="small" />
                 <Box display="flex">
-                  <Typography
+                  {/* <Typography
                     onClick={() => handleRemoveTag(transactionHistory.id)}
                     variant="body2"
                     color="text.secondary"
@@ -306,7 +305,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
                     }}
                   >
                     {t('portfolio.transHis.removeTag')}
-                  </Typography>
+                  </Typography> */}
                   <Typography
                     onClick={toggleAddTag}
                     variant="body2"
@@ -341,7 +340,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
                 <>
                   {transactionHistory.note}
                   <Box display="flex" justifyContent="flex-end">
-                    <Typography
+                    {/* <Typography
                       onClick={() => handleRemoveTag(transactionHistory.id)}
                       variant="body2"
                       color="text.secondary"
@@ -355,7 +354,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
                       }}
                     >
                       {t('portfolio.transHis.removeNote')}
-                    </Typography>
+                    </Typography> */}
                     <Typography
                       onClick={toggleAddNote}
                       variant="body2"
@@ -381,7 +380,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
           </Grid>
         </Grid>
         <Divider sx={{ width: '95%', m: '0 auto' }} />
-        <Grid sx={{ pt: 4, px: 2 }} rowSpacing={3} flexWrap="nowrap" container item flexDirection="row">
+        <Grid sx={{ pt: 2, pb: 2, px: 2 }} rowSpacing={3} flexWrap="nowrap" container item flexDirection="row">
           <Typography flex="0 1 max-content" sx={{ pr: 1 }} variant="body2" display="inline">
             {`${t('portfolio.transHis.viewOn')} Etherscan: `}
           </Typography>

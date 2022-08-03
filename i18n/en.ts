@@ -6,6 +6,24 @@ export const en = {
     portfolio: {
       head: 'Portfolio',
       title: 'Portfolio',
+      dashboard: {
+        recentTrans: 'Recent transactions',
+        vewAllTrans: 'View all transactions',
+        incoming: 'Incoming',
+        outgoing: 'Outgoing',
+        totalWalletBal: 'Total wallet balance',
+        viewAllWallets: 'View all wallets',
+        addWallet: 'Add wallet',
+        myWallets: 'MY WALLETS',
+        getRecentTransactionError: 'Failed to get recent transactions',
+        getMyWalletsError: 'Failed to get my wallets',
+        getAssetsError: 'Failed to get assets',
+        assets: 'Assets',
+        mostRecent: 'Most recent',
+        earliest: 'Earliest',
+        status: 'Status',
+        allWallets: 'All wallets',
+      },
       transHis: {
         head: 'Transaction History',
         title: 'Transaction History',
@@ -57,6 +75,10 @@ export const en = {
         setTagError: 'Failed to change tag, please try again later',
         getTransactionsError: 'Failed to get transactions, please try again later',
         save: 'Save',
+        connectWalletToSeeTxn: 'Connect a wallet to begin seeing your transactions.',
+      },
+      walletList: {
+        connectWalletToStart: 'Connect a wallet to begin tracking your assets.',
       },
     },
     transaction: {

@@ -7,12 +7,14 @@ declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     subtitle3: true;
     caption2: true;
+    textLink1: true;
   }
 }
 
 interface ExtendedTypographyOptions extends TypographyOptions {
   subtitle3: React.CSSProperties;
   caption2: React.CSSProperties;
+  textLink1: React.CSSProperties;
 }
 
 const typography: ExtendedTypographyOptions = {
@@ -64,6 +66,12 @@ const typography: ExtendedTypographyOptions = {
     fontSize: '0.75rem',
     fontWeight: 400,
     lineHeight: 1.66,
+  },
+  textLink1: {
+    fontSize: '0.75rem',
+    fontWeight: 400,
+    lineHeight: 1.66,
+    textDecoration: 'underline',
   },
   h1: {
     fontWeight: 700,
@@ -160,9 +168,9 @@ export const baseThemeOptions: ThemeOptions = {
     MuiCardContent: {
       styleOverrides: {
         root: {
-          padding: '24px',
+          padding: '12px',
           '&:last-child': {
-            // paddingBottom: '32px',
+            paddingBottom: '8px',
           },
         },
       },
