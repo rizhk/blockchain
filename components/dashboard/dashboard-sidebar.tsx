@@ -79,7 +79,7 @@ const getSections = (t: TFunction): Section[] => [
       {
         title: t('menu.transactions'),
         icon: <TransactionIcon fontSize="small" />,
-        path: '/dashboard/portfolio/transaction-history/',
+        path: '/dashboard/portfolio/transaction-history',
         iconFilled: <TransactionIconFilled fontSize="small" />,
       },
       // {

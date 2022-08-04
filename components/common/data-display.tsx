@@ -22,7 +22,7 @@ export const DataDisplay: React.FC<IDataDisplayProps> = ({
   onClickRetry,
 }) => {
   const defaultLoadingComponent = (
-    <Grid item comopnent={<Skeleton />} sx={{ bgcolor: 'neutral.200' }} animation="pulse" {...defaultLoaderOptions} />
+    <Skeleton sx={{ bgcolor: 'neutral.200', transform: 'unset' }} animation="pulse" {...defaultLoaderOptions} />
   );
   const defaultErrorComponent = (
     <>

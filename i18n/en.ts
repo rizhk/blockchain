@@ -23,6 +23,11 @@ export const en = {
         earliest: 'Earliest',
         status: 'Status',
         allWallets: 'All wallets',
+        noWalletCtaText: 'Connect a wallet to begin tracking your assets.',
+        noTransactionCtaText: 'Connect a wallet to begin seeing your recent transactions.',
+        noAssetCtaText:
+          'Once your wallets have been connected, you will see  the asset allocation across all of your wallets here.',
+        addWalletNow: 'Add a wallet now',
       },
       transHis: {
         head: 'Transaction History',
