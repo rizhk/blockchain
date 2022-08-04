@@ -8,6 +8,7 @@ declare module '@mui/material/Typography' {
     subtitle3: true;
     caption2: true;
     textLink1: true;
+    ctaText1: true;
   }
 }
 
@@ -15,6 +16,7 @@ interface ExtendedTypographyOptions extends TypographyOptions {
   subtitle3: React.CSSProperties;
   caption2: React.CSSProperties;
   textLink1: React.CSSProperties;
+  ctaText1: React.CSSProperties;
 }
 
 const typography: ExtendedTypographyOptions = {
@@ -46,6 +48,12 @@ const typography: ExtendedTypographyOptions = {
   subtitle3: {
     color: neutral[400],
     fontSize: '0.857rem',
+    fontWeight: 500,
+    lineHeight: 1.57,
+  },
+  ctaText1: {
+    color: neutral[700],
+    fontSize: '1.15rem',
     fontWeight: 500,
     lineHeight: 1.57,
   },
