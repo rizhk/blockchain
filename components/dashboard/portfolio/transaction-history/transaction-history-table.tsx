@@ -174,14 +174,10 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                     </Typography>
                   </TableCell>
                   <TableCell sx={{ maxWidth: '150px' }}>
-                    {/* <Typography display="inline" variant="subtitle2">
-                      {primitivesUtils.convertCurrencyDisplay(transaction.crypto_amount)} {transaction.token_symbol}
-                      
-                    </Typography> */}
-                    <TokenSymbolDisplay
-                      amt={primitivesUtils.convertCurrencyDisplay(transaction.crypto_amount)}
-                      name={transaction.token_symbol}
-                    />
+                    <Typography display="block" variant="subtitle2">
+                      {primitivesUtils.convertCurrencyDisplay(transaction.crypto_amount)}{' '}
+                      <TokenSymbolDisplay display="inline-block" variant="subtitle2" name={transaction.token_symbol} />
+                    </Typography>
                     {parseFloat(transaction.crypto_amount_fiat) > 0 && (
                       <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
                         {'USD '}

@@ -1,12 +1,12 @@
 import {
   alpha,
   Box,
+  Button,
   Card,
   CardContent,
   Grid,
   Icon,
   IconButton,
-  Link,
   MenuItem,
   Table,
   TableBody,
@@ -33,6 +33,7 @@ import { primitivesUtils } from 'utils/primitives-utils';
 import { AssetsChart } from './assets-chart';
 import Image from 'next/image';
 import { Dot } from 'icons/dot';
+import Link from 'next/link';
 
 export interface IAssetsProps {}
 
@@ -163,67 +164,85 @@ export const Assets: React.FC<IAssetsProps> = ({}) => {
                   </Box>
                 </Grid>
                 <Divider sx={{ m: 0, p: 0 }} /> */}
-                <Grid container flexWrap="nowrap" sx={{ py: 2 }} alignItems="center">
-                  <Grid item flex="0 1 auto" component={AssetsChart} data={chartData} />
-                  <Grid item container>
-                    <Grid container item flex="1 1 auto" alignItems="flex-end" flexWrap="nowrap" sx={{ py: 1 }}>
-                      <Grid item flex="1 1 33%">
-                        <Typography variant="overline" sx={{ textTransform: 'none', lineHeight: 0.25 }}>
-                          Total
-                        </Typography>
-                        <br />
-                        <Typography variant="overline" display="inline-block" color="secondary.main">
-                          {data?.total_bal_symbol}{' '}
-                          {primitivesUtils.convertCurrencyDisplay(filteredData?.total_bal as string)}
-                        </Typography>
+                {data?.items && data?.items.length > 0 ? (
+                  <Grid container flexWrap="nowrap" sx={{ py: 2 }} alignItems="center">
+                    <Grid item flex="0 1 auto" component={AssetsChart} data={chartData} />
+                    <Grid item container>
+                      <Grid container item flex="1 1 auto" alignItems="flex-end" flexWrap="nowrap" sx={{ py: 1 }}>
+                        <Grid item flex="1 1 33%">
+                          <Typography variant="overline" sx={{ textTransform: 'none', lineHeight: 0.25 }}>
+                            Total
+                          </Typography>
+                          <br />
+                          <Typography variant="overline" display="inline-block" color="secondary.main">
+                            {data?.total_bal_symbol}{' '}
+                            {primitivesUtils.convertCurrencyDisplay(filteredData?.total_bal as string)}
+                          </Typography>
+                        </Grid>
+                        <Grid item flex="1 1 33%">
+                          <Typography variant="overline">BALANCE</Typography>
+                        </Grid>
+                        <Grid item flex="1 1 33%">
+                          <Typography variant="overline">USD AMOUNT</Typography>
+                        </Grid>
                       </Grid>
-                      <Grid item flex="1 1 33%">
-                        <Typography variant="overline">BALANCE</Typography>
-                      </Grid>
-                      <Grid item flex="1 1 33%">
-                        <Typography variant="overline">USD AMOUNT</Typography>
-                      </Grid>
-                    </Grid>
-                    {filteredData?.items?.map((item, index) => {
-                      return (
-                        <Grid
-                          key={item.name}
-                          container
-                          item
-                          flex="1 1 auto"
-                          alignItems="center"
-                          flexWrap="nowrap"
-                          sx={{ borderTop: '1px solid #E6E8F0', py: 2 }}
-                        >
-                          <Grid container item flex="1 1 33%" alignItems="center">
-                            <Grid item component={Dot} sx={{ color: [chartBaseColors[index]] }} />
-                            <Grid
-                              item
-                              component={() => {
-                                return <Image width="20" height="20" alt={item.symbol} src={item.icon} />;
-                              }}
-                            />
-                            <Grid item>
-                              <Typography sx={{ pl: 1 }} variant="caption">
-                                {item.name}
+                      {filteredData?.items?.map((item, index) => {
+                        return (
+                          <Grid
+                            key={item.name}
+                            container
+                            item
+                            flex="1 1 auto"
+                            alignItems="center"
+                            flexWrap="nowrap"
+                            sx={{ borderTop: '1px solid #E6E8F0', py: 2 }}
+                          >
+                            <Grid container item flex="1 1 33%" alignItems="center">
+                              <Grid item component={Dot} sx={{ color: [chartBaseColors[index]] }} />
+                              <Grid
+                                item
+                                component={() => {
+                                  return <Image width="20" height="20" alt={item.symbol} src={item.icon} />;
+                                }}
+                              />
+                              <Grid item>
+                                <Typography sx={{ pl: 1 }} variant="caption">
+                                  {item.name}
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                            <Grid item flex="1 1 33%">
+                              <Typography variant="caption">
+                                {item.symbol} {primitivesUtils.convertCurrencyDisplay(item.balance)}
+                              </Typography>
+                            </Grid>
+                            <Grid item flex="1 1 33%">
+                              <Typography variant="caption">
+                                {item.fiat_currency} {primitivesUtils.convertCurrencyDisplay(item.fiat_value)}
                               </Typography>
                             </Grid>
                           </Grid>
-                          <Grid item flex="1 1 33%">
-                            <Typography variant="caption">
-                              {item.symbol} {primitivesUtils.convertCurrencyDisplay(item.balance)}
-                            </Typography>
-                          </Grid>
-                          <Grid item flex="1 1 33%">
-                            <Typography variant="caption">
-                              {item.fiat_currency} {primitivesUtils.convertCurrencyDisplay(item.fiat_value)}
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                      );
-                    })}
+                        );
+                      })}
+                    </Grid>
                   </Grid>
-                </Grid>
+                ) : (
+                  <Grid container alignItems="center" justifyContent="center">
+                    <Typography
+                      sx={{ mx: 4, mt: 10, mb: 4, maxWidth: '400px' }}
+                      display="block"
+                      textAlign="center"
+                      variant="ctaText1"
+                    >
+                      {t('portfolio.dashboard.noAssetCtaText')}
+                    </Typography>
+                    <Link href="/dashboard/portfolio/wallet/" passHref>
+                      <Button type="button" variant="contained" color="primary" sx={{ mb: 12 }}>
+                        {t('portfolio.dashboard.addWalletNow')}
+                      </Button>
+                    </Link>
+                  </Grid>
+                )}
               </CardContent>
             </Card>
           </Grid>

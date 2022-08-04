@@ -12,14 +12,14 @@ class PrimitivesUtils {
     return `${this.getFirstNChars(str, 4)}...${this.getLastNChars(str, 4)}`;
   }
   roundDownToTwo(number: number | string | undefined) {
-    if (!number) return undefined;
+    if (!number) return 0;
     var val: number = 0;
     if (typeof number === 'string') val = parseFloat(number);
     else val = number;
     return Math.floor((val + Number.EPSILON) * 100) / 100;
   }
   roundUpToTwo(number: number | string | undefined) {
-    if (!number) return undefined;
+    if (!number) return 0;
     var val: number = 0;
     if (typeof number === 'string') val = parseFloat(number);
     else val = number;
