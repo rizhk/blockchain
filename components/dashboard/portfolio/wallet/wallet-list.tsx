@@ -1,4 +1,4 @@
-import { ChangeEvent, Fragment, MouseEvent, useState } from 'react';
+import { ChangeEvent, Fragment, MouseEvent, useRef, useState } from 'react';
 import type { FC } from 'react';
 import numeral from 'numeral';
 import PropTypes from 'prop-types';
@@ -25,6 +25,9 @@ import {
   TableRow,
   TextField,
   Typography,
+  Menu,
+  ListItemIcon,
+  ListItemText,
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import type { Wallet } from 'types/portfolio/wallet';
@@ -34,12 +37,65 @@ import { AddWalletDialog } from './add-wallet-modal';
 import { primitivesUtils } from 'utils/primitives-utils';
 import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
-
+import React from 'react';
+import { Trash as TrashIcon } from 'icons/trash';
 interface WalletListProps {
   wallets: Wallet[];
   walletsCount: number;
   parentCallback: (wallets: Wallet[]) => void;
 }
+
+interface MoreMenuProps {
+  onDelete: (id: string) => void;
+  onEdit: (id: string) => void;
+}
+
+const MoreMenu: FC<MoreMenuProps> = (props) => {
+  const anchorRef = useRef<HTMLButtonElement | null>(null);
+  const [openMenu, setOpenMenu] = useState<boolean>(false);
+
+  const handleMenuOpen = (): void => {
+    setOpenMenu(true);
+  };
+
+  const handleMenuClose = (): void => {
+    setOpenMenu(false);
+  };
+
+  return (
+    <Fragment>
+      <IconButton onClick={handleMenuOpen} ref={anchorRef}>
+        <MoreVertIcon />
+      </IconButton>
+      <Menu
+        anchorEl={anchorRef.current}
+        anchorOrigin={{
+          horizontal: 'left',
+          vertical: 'top',
+        }}
+        onClose={handleMenuClose}
+        open={openMenu}
+        PaperProps={{
+          sx: {
+            maxWidth: '100%',
+            width: 256,
+          },
+        }}
+        transformOrigin={{
+          horizontal: 'left',
+          vertical: 'top',
+        }}
+      >
+        <MenuItem onClick={() => props.onDelete('')}>
+          <ListItemIcon>
+            <TrashIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Delete" />
+        </MenuItem>
+      </Menu>
+    </Fragment>
+  );
+};
 
 export const WalletList: FC<WalletListProps> = (props) => {
   const { t } = useTranslation();
@@ -114,9 +170,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
                         )}
                       </TableCell>
                       <TableCell align="right">
-                        <IconButton>
-                          <MoreVertIcon />
-                        </IconButton>
+                        <MoreMenu onDelete={(id) => {}} onEdit={(id) => {}} />
                       </TableCell>
                     </TableRow>
                   </Fragment>
@@ -135,7 +189,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
           rowsPerPageOptions={[5, 10, 25]}
         />
       </Card>
-      <AddWalletDialog open={open} handleClose={handleClose} />
+      <AddWalletDialog open={open} handleClose={handleClose} parentCallback={props.parentCallback} />
     </Container>
   );
 };
