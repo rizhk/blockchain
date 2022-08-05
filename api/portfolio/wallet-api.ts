@@ -2,6 +2,9 @@ import { subDays, subHours } from 'date-fns';
 import { BlockchainNetwork } from 'types/blockchain/network';
 import type { Wallet } from 'types/portfolio/wallet';
 import { PortfolioApiEndPoints, PicanteApi } from 'api/end-point';
+import { BaseApi } from 'api/base-api';
+import { BaseApiResponse } from 'types/response';
+import { CreateWalletResponse } from 'types/wallet';
 
 const now = new Date();
 
@@ -11,45 +14,37 @@ type CreateWalletRequest = {
   address: string;
 };
 
-class WalletApi {
-  async create({
-    networkId,
-    walletAddress,
-    name,
-  }: {
-    networkId: string;
-    walletAddress: string;
-    name: string;
-  }): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      const accessToken = globalThis.localStorage.getItem('accessToken') || '';
+class WalletApi extends BaseApi {
+  async create(
+    {
+      networkId,
+      walletAddress,
+      name,
+    }: {
+      networkId: string;
+      walletAddress: string;
+      name: string;
+    },
+    options: { defaultErrorMessage: string },
+  ): Promise<CreateWalletResponse> {
+    const accessToken = globalThis.localStorage.getItem('accessToken') || '';
 
-      const req: CreateWalletRequest = {
-        name: name,
-        network_id: networkId,
-        address: walletAddress,
-      };
+    const req: CreateWalletRequest = {
+      name: name,
+      network_id: networkId,
+      address: walletAddress,
+    };
 
-      fetch(PortfolioApiEndPoints.Wallet, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authentication: accessToken,
-        },
-        body: JSON.stringify(req),
-      })
-        .then((response) => response.json())
-        .then(
-          (data) => {
-            if (!data.error) {
-              return resolve(true);
-            }
-          },
-          (error) => {
-            return reject(new Error(error.message));
-          },
-        );
+    var result = await fetch(PortfolioApiEndPoints.Wallet, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authentication: accessToken,
+      },
+      body: JSON.stringify(req),
     });
+    var data = (await this.handleFetchResponse(result, { ...options })) as CreateWalletResponse;
+    return data;
   }
 
   getNetworks(): Promise<BlockchainNetwork[]> {

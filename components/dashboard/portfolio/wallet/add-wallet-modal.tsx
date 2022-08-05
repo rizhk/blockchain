@@ -110,20 +110,25 @@ export const AddWalletDialog: FC = (
     }),
     onSubmit: async (values, helpers): Promise<void> => {
       try {
-        const success = await walletApi.create({
-          networkId: values.walletType,
-          walletAddress: values.walletAddress,
-          name: values.name,
-        });
+        const { error, message } = await walletApi.create(
+          {
+            networkId: values.walletType,
+            walletAddress: values.walletAddress,
+            name: values.name,
+          },
+          { defaultErrorMessage: 'Failed to create wallet' },
+        );
 
-        if (success) {
+        if (!error) {
           const data = await walletApi.getItems();
           props.parentCallback(data);
           props.handleClose();
+          helpers.resetForm();
         }
       } catch (err) {
-        console.error(err);
-        console.error(err.data.message);
+        helpers.setStatus({ success: false });
+        helpers.setErrors({ submit: err.message });
+        helpers.setSubmitting(false);
       }
     },
   });
@@ -197,6 +202,11 @@ export const AddWalletDialog: FC = (
             helperText={formik.touched.name && formik.errors.name}
             onChange={handleNameChange}
           />
+          {formik.errors.submit && (
+            <Box sx={{ mx: 1 }}>
+              <FormHelperText error>{formik.errors.submit}</FormHelperText>
+            </Box>
+          )}
         </DialogContent>
         <DialogActions>
           <Button variant="contained" color="info" type="submit" onClick={formik.handleSubmit}>
