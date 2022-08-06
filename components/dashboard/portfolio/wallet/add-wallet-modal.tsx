@@ -4,11 +4,10 @@ import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
-import { Box, FormHelperText, Grid, MenuItem, TextField } from '@mui/material';
+import { Box, DialogActions, FormHelperText, Grid, MenuItem, TextField } from '@mui/material';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { NetworkSelector } from 'components/dashboard/network/network-selector';
@@ -16,6 +15,7 @@ import { walletApi } from 'api/portfolio/wallet-api';
 import { useMounted } from 'hooks/use-mounted';
 import { BlockchainNetwork } from 'types/blockchain/network';
 import { Wallet } from 'types/portfolio/wallet';
+import { LoadingButton } from '@mui/lab';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -69,6 +69,9 @@ export const AddWalletDialog: FC = (
 
       if (isMounted()) {
         setNetworks(data);
+        if (data.length) {
+          changeWalletType({ target: { value: data[0].network_id } });
+        }
       }
     } catch (err) {
       console.error(err);
@@ -160,18 +163,17 @@ export const AddWalletDialog: FC = (
             onChange={changeWalletType}
           >
             {networks.map((n) => (
-              <MenuItem
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                }}
-                key={n.network_id}
-                value={n.network_id}
-                selected={formik.values.walletType == n.network_id}
-              >
-                <img src={`/static/crypto/color/${n.icon_tag}.svg`} height="30" />
-                {n.name}
+              <MenuItem key={n.network_id} value={n.network_id} selected={formik.values.walletType == n.network_id}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                  }}
+                >
+                  <img src={`/static/crypto/color/${n.icon_tag}.svg`} height="30" />
+                  <Typography sx={{ pl: 1 }}>{n.name}</Typography>
+                </Box>
               </MenuItem>
             ))}
           </TextField>
@@ -209,9 +211,15 @@ export const AddWalletDialog: FC = (
           )}
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" color="info" type="submit" onClick={formik.handleSubmit}>
+          <LoadingButton
+            onClick={() => formik.handleSubmit()}
+            loading={formik.isSubmitting}
+            color="info"
+            type="submit"
+            variant="contained"
+          >
             Finish
-          </Button>
+          </LoadingButton>
         </DialogActions>
       </BootstrapDialog>
     </form>

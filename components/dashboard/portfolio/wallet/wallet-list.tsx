@@ -125,7 +125,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
         <Grid item sx={{ mb: 2, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Typography variant="h6">My Wallets ({walletsCount | 0})</Typography>
           <Button color="info" variant="contained" onClick={handleClickOpen}>
-            Add a wallet
+            Add
           </Button>
         </Grid>
       </Grid>
@@ -154,8 +154,10 @@ export const WalletList: FC<WalletListProps> = (props) => {
                   <Fragment key={wallet.id}>
                     <TableRow hover key={wallet.id}>
                       <TableCell>
-                        <Image src={`/static/crypto/color/${wallet.icon_tag}.svg`} height="30" width="30" />{' '}
-                        {wallet.type}
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <Image src={`/static/crypto/color/${wallet.icon_tag}.svg`} height="30" width="30" />{' '}
+                          <Typography sx={{ pl: 1 }}>{wallet.type}</Typography>
+                        </Box>
                       </TableCell>
                       <TableCell>
                         <Typography>{wallet.name}</Typography>
@@ -169,7 +171,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
                           primitivesUtils.roundDownToTwo(parseFloat(wallet.fiat_value)),
                         )}
                       </TableCell>
-                      <TableCell align="right">
+                      <TableCell sx={{ display: 'flex', alignItems: 'center' }} align="right">
                         <MoreMenu onDelete={(id) => {}} onEdit={(id) => {}} />
                       </TableCell>
                     </TableRow>
