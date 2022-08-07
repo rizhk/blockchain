@@ -16,6 +16,7 @@ import { useMounted } from 'hooks/use-mounted';
 import { BlockchainNetwork } from 'types/blockchain/network';
 import { Wallet } from 'types/portfolio/wallet';
 import { LoadingButton } from '@mui/lab';
+import { useTranslation } from 'react-i18next';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -60,6 +61,8 @@ const BootstrapDialogTitle = (props: DialogTitleProps) => {
 export const AddWalletDialog: FC = (
   props: JSX.IntrinsicAttributes & React.ClassAttributes<HTMLFormElement> & React.FormHTMLAttributes<HTMLFormElement>,
 ) => {
+  const { t } = useTranslation();
+
   const isMounted = useMounted();
   const [networks, setNetworks] = React.useState<BlockchainNetwork[]>([]);
 
@@ -107,9 +110,9 @@ export const AddWalletDialog: FC = (
       submit: null,
     },
     validationSchema: Yup.object({
-      walletType: Yup.string().required('Please select a wallet type to continue'),
-      walletAddress: Yup.string().required('Wallet address is required'),
-      name: Yup.string().required('Wallet name is required'),
+      walletType: Yup.string().required(t('portfolio.walletList.selectWalletType')),
+      walletAddress: Yup.string().required(t('portfolio.walletList.walletAddressRequired')),
+      name: Yup.string().required(t('portfolio.walletList.walletNameRequired')),
     }),
     onSubmit: async (values, helpers): Promise<void> => {
       try {
@@ -119,7 +122,7 @@ export const AddWalletDialog: FC = (
             walletAddress: values.walletAddress,
             name: values.name,
           },
-          { defaultErrorMessage: 'Failed to create wallet' },
+          { defaultErrorMessage: t('portfolio.walletList.failToCreate') },
         );
 
         if (!error) {
@@ -146,7 +149,7 @@ export const AddWalletDialog: FC = (
               mb: 2,
             }}
           >
-            Add wallet details
+            {t('portfolio.walletList.addWallet')}
           </Typography>
           <TextField
             sx={{
@@ -156,7 +159,7 @@ export const AddWalletDialog: FC = (
             fullWidth
             select
             id="create-wallet-network"
-            label="Wallet Type"
+            label={t('portfolio.walletList.walletType')}
             value={formik.values.walletType}
             error={Boolean(formik.touched.walletType && formik.errors.walletType)}
             helperText={formik.touched.walletType && formik.errors.walletType}
@@ -184,7 +187,7 @@ export const AddWalletDialog: FC = (
             }}
             fullWidth
             id="create-wallet-address"
-            label="Wallet Address"
+            label={t('portfolio.walletList.walletAddress')}
             value={formik.values.walletAddress}
             error={Boolean(formik.touched.walletAddress && formik.errors.walletAddress)}
             helperText={formik.touched.walletAddress && formik.errors.walletAddress}
@@ -197,7 +200,7 @@ export const AddWalletDialog: FC = (
             }}
             fullWidth
             id="create-wallet-name"
-            label="Enter a nickname"
+            label={t('portfolio.walletList.enterNickname')}
             placeholder="E.g. Sumner’s Metamask"
             value={formik.values.name}
             error={Boolean(formik.touched.name && formik.errors.name)}
@@ -218,7 +221,7 @@ export const AddWalletDialog: FC = (
             type="submit"
             variant="contained"
           >
-            Add
+            {t('portfolio.walletList.add')}
           </LoadingButton>
         </DialogActions>
       </BootstrapDialog>
