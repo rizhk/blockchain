@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, createRef, useEffect, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
@@ -9,6 +9,7 @@ import {
   Container,
   Divider,
   Grid,
+  IconButton,
   Input,
   InputAdornment,
   TextField,
@@ -32,11 +33,13 @@ import useFetch from 'hooks/use-fetch';
 import { portfolioApi } from 'api/portfolio-api';
 import { DesktopDatePicker, MobileDatePicker } from '@mui/x-date-pickers';
 import { ITransactionHistoryFilters, TransactionHistory } from 'types/portfolio';
-import { AccountCircle } from '@mui/icons-material';
+import { AccountCircle, Clear } from '@mui/icons-material';
 import { ChevronDown as ChevronDownIcon } from 'icons/chevron-down';
 import { relative } from 'path';
 import ExportTransactionHistoryModal from 'components/dashboard/portfolio/transaction-history/export-transaction-history-modal';
 import { DataDisplay } from 'components/common/data-display';
+import { SingleSelect } from 'components/single-select';
+import { DatePicker } from 'components/common/date-picker';
 
 const TransactionHistoryPage: NextPage = () => {
   const isMounted = useMounted();
@@ -44,34 +47,42 @@ const TransactionHistoryPage: NextPage = () => {
   const [transactionHistory, setTransactionHistory] = useState<TransactionHistory[]>([]);
   const theme = useTheme();
   const { isExportTransactionHistoryShowing, toggleExportTransactionHistory } = useExportTransactionHistoryModal();
-  const [filter, setFilter] = useState<ITransactionHistoryFilters>({});
+  const [filter, setFilter] = useState<ITransactionHistoryFilters>({
+    sort: 'DESC',
+    start_date: undefined,
+    end_date: undefined,
+  });
 
   const { data, loading, error, trigger } = useFetch(() => {
-    return portfolioApi.getAllTransactionHistory({
-      defaultErrorMessage: t('portfolio.transHis.getTransactionsError'),
-    });
-  }, []);
+    return portfolioApi.getAllTransactionHistory(
+      {
+        defaultErrorMessage: t('portfolio.transHis.getTransactionsError'),
+      },
+      filter,
+    );
+  }, [JSON.stringify(filter)]);
 
-  const handleChangeWallet = (value: any[]) => {
+  const handleChangeWallet = (value: any | undefined) => {
     setFilter((preFilter) => {
       return { ...preFilter, wallet: value };
     });
   };
-  const handleChangeNewest = (value: any[]) => {
+  const handleChangeNewest = (value: any | undefined) => {
     setFilter((preFilter) => {
-      return { ...preFilter, newest: value };
+      return { ...preFilter, sort: value };
     });
   };
-  const handleChangeFromDate = (newValue: Date | null) => {
+  const handleChangeFromDate = (newValue: Date) => {
     setFilter((preFilter) => {
-      return { ...preFilter, fromDate: newValue };
+      return { ...preFilter, start_date: newValue };
     });
   };
-  const handleChangeToDate = (newValue: Date | null) => {
+  const handleChangeToDate = (newValue: Date) => {
     setFilter((preFilter) => {
-      return { ...preFilter, fromDate: newValue };
+      return { ...preFilter, end_date: newValue };
     });
   };
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setTransactionHistory(data?.items || []);
@@ -95,6 +106,17 @@ const TransactionHistoryPage: NextPage = () => {
     //   const [queryValue, setQueryValue] = useState<string>('');
     // }
   };
+
+  const walletOptions = [
+    ...(data?.items?.map(({ from_name, from }) => {
+      return { label: from_name, value: from };
+    }) || []),
+    ...(data?.items?.map(({ to_name, to }) => {
+      return { label: to_name, value: to };
+    }) || []),
+  ];
+  // TODO should filter unique by value but there are many unnamed wallets
+  const uniqueWalletOptions = [...new Map(walletOptions.map((item) => [item['label'], item])).values()];
 
   return (
     <>
@@ -173,7 +195,7 @@ const TransactionHistoryPage: NextPage = () => {
               value={queryValue}
             />
           </Box>
-        </Box>
+        </Box> */}
         <Divider />
         <Box
           sx={{
@@ -185,93 +207,43 @@ const TransactionHistoryPage: NextPage = () => {
             px: 1,
           }}
         >
-          <MultiSelect
-            label="All Wallets"
+          <SingleSelect<string>
+            shouldShowClearButton
             onChange={handleChangeWallet}
-            options={[{ label: 'All wallets', value: 1 }]}
-            value={[filter?.wallet]}
+            label="All Wallets"
+            value={filter?.wallet}
+            options={uniqueWalletOptions}
           />
-          <MultiSelect
-            label="Newest"
+          <SingleSelect<string>
             onChange={handleChangeNewest}
-            options={[{ label: 'Newest', value: 1 }]}
-            value={[filter?.newest]}
+            label="Newest"
+            value={filter?.sort}
+            options={[
+              { label: 'Newest', value: 'DESC' },
+              { label: 'Earliest', value: 'ASC' },
+            ]}
           />
-          <Box
-            sx={{
-              px: 1,
-              '.MuiInputBase-root:not(.Mui-disabled):before, .MuiInputBase-root:not(.Mui-disabled):after, .MuiInputBase-root:hover:not(.Mui-disabled):before, .MuiInputBase-root:hover:not(.Mui-disabled):after':
-                {
-                  border: 'none',
-                },
+          <DatePicker
+            label={t('portfolio.transHis.from').toUpperCase()}
+            value={filter?.start_date}
+            handleDateChange={handleChangeFromDate}
+            handleClear={() => {
+              setFilter((preFilter) => {
+                return { ...preFilter, start_date: undefined };
+              });
             }}
-          >
-            <Typography display="block" variant="body2" sx={{ position: 'absolute', top: '1rem', fontSize: '0.75rem' }}>
-              {t('portfolio.transHis.from').toUpperCase()}
-            </Typography>
-            <DesktopDatePicker
-              inputFormat="MM/dd/yyyy"
-              value={filter?.fromDate}
-              onChange={handleChangeFromDate}
-              components={{
-                OpenPickerIcon: ChevronDownIcon,
-              }}
-              renderInput={(params) => (
-                <TextField
-                  sx={{
-                    '.MuiInputBase-input': {
-                      width: '82px',
-                      height: '20px',
-                      fontWeight: ' 600',
-                      fontSize: '14px',
-                      lineHeight: '18px',
-                      color: 'text.primary',
-                    },
-                  }}
-                  variant="standard"
-                  {...params}
-                />
-              )}
-            />
-          </Box>
-          <Box
-            sx={{
-              px: 1,
-              '.MuiInputBase-root:not(.Mui-disabled):before, .MuiInputBase-root:not(.Mui-disabled):after, .MuiInputBase-root:hover:not(.Mui-disabled):before, .MuiInputBase-root:hover:not(.Mui-disabled):after':
-                {
-                  border: 'none',
-                },
+          />
+          <DatePicker
+            label={t('portfolio.transHis.to').toUpperCase()}
+            value={filter?.end_date}
+            handleDateChange={handleChangeToDate}
+            handleClear={() => {
+              setFilter((preFilter) => {
+                return { ...preFilter, end_date: undefined };
+              });
             }}
-          >
-            <Typography display="block" variant="body2" sx={{ position: 'absolute', top: '1rem', fontSize: '0.75rem' }}>
-              {t('portfolio.transHis.to').toUpperCase()}
-            </Typography>
-            <DesktopDatePicker
-              inputFormat="MM/dd/yyyy"
-              value={filter?.toDate}
-              onChange={handleChangeToDate}
-              components={{
-                OpenPickerIcon: ChevronDownIcon,
-              }}
-              renderInput={(params) => (
-                <TextField
-                  sx={{
-                    '.MuiInputBase-input': {
-                      width: '82px',
-                      height: '20px',
-                      fontWeight: ' 600',
-                      fontSize: '14px',
-                      lineHeight: '18px',
-                      color: 'text.primary',
-                    },
-                  }}
-                  variant="standard"
-                  {...params}
-                />
-              )}
-            />
-          </Box>
-        </Box> */}
+          />
+        </Box>
         <DataDisplay isLoading={loading} error={error} defaultLoaderOptions={{ height: '80vh', width: '100%' }}>
           <TransactionHistoryTable
             getTransactionHistory={() => trigger()}
