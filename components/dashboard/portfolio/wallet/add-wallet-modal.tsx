@@ -218,7 +218,7 @@ export const AddWalletDialog: FC = (
             type="submit"
             variant="contained"
           >
-            Finish
+            Add
           </LoadingButton>
         </DialogActions>
       </BootstrapDialog>
