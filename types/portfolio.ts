@@ -1,10 +1,10 @@
 import { BaseApiResponse } from './response';
 
 export interface ITransactionHistoryFilters {
-  wallet?: string[];
-  newest?: string[];
-  fromDate?: Date | null;
-  toDate?: Date | null;
+  wallet?: string;
+  sort?: string;
+  start_date?: Date | undefined;
+  end_date?: Date | undefined;
 }
 
 export interface IAssetFilters {

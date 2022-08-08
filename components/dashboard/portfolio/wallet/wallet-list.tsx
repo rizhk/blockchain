@@ -28,6 +28,8 @@ import {
   Menu,
   ListItemIcon,
   ListItemText,
+  Snackbar,
+  Alert,
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import type { Wallet } from 'types/portfolio/wallet';
@@ -39,6 +41,8 @@ import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import React from 'react';
 import { Trash as TrashIcon } from 'icons/trash';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+
 interface WalletListProps {
   wallets: Wallet[];
   walletsCount: number;
@@ -111,6 +115,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
   };
 
   const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -125,10 +130,17 @@ export const WalletList: FC<WalletListProps> = (props) => {
         <Grid item sx={{ mb: 2, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Typography variant="h6">My Wallets ({walletsCount | 0})</Typography>
           <Button color="info" variant="contained" onClick={handleClickOpen}>
-            Add a wallet
+            Add
           </Button>
         </Grid>
       </Grid>
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={copied}
+        autoHideDuration={2000}
+        onClose={() => setCopied(false)}
+        message="Copied to clipboard"
+      />
       <Card sx={{ maxWidth: 816 }}>
         <Scrollbar>
           <Table sx={{ maxWidth: 816 }}>
@@ -154,14 +166,26 @@ export const WalletList: FC<WalletListProps> = (props) => {
                   <Fragment key={wallet.id}>
                     <TableRow hover key={wallet.id}>
                       <TableCell>
-                        <Image src={`/static/crypto/color/${wallet.icon_tag}.svg`} height="30" width="30" />{' '}
-                        {wallet.type}
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <Image src={`/static/crypto/color/${wallet.icon_tag}.svg`} height="30" width="30" />{' '}
+                          <Typography sx={{ pl: 1 }}>{wallet.type}</Typography>
+                        </Box>
                       </TableCell>
                       <TableCell>
                         <Typography>{wallet.name}</Typography>
                       </TableCell>
                       <TableCell>
-                        <Typography>{primitivesUtils.getShortTxnId(wallet.address)}</Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <Typography sx={{ pr: 2 }}>{primitivesUtils.getShortTxnId(wallet.address)}</Typography>
+                          <Button
+                            onClick={() => {
+                              navigator.clipboard.writeText(wallet.address);
+                              setCopied(true);
+                            }}
+                          >
+                            <ContentCopyIcon />
+                          </Button>
+                        </Box>
                       </TableCell>
                       <TableCell>
                         {wallet.fiat_currency}{' '}
@@ -169,7 +193,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
                           primitivesUtils.roundDownToTwo(parseFloat(wallet.fiat_value)),
                         )}
                       </TableCell>
-                      <TableCell align="right">
+                      <TableCell sx={{ display: 'flex', alignItems: 'center' }} align="right">
                         <MoreMenu onDelete={(id) => {}} onEdit={(id) => {}} />
                       </TableCell>
                     </TableRow>

@@ -64,6 +64,15 @@ const gradient = {
 
 export const lightThemeOptions: ThemeOptions = {
   components: {
+    MuiAlert: {
+      styleOverrides: {
+        standardSuccess: {
+          backgroundColor: 'rgba(33, 150, 83, 0.1)',
+          color: '#219653',
+          fontWeight: 'bold',
+        },
+      },
+    },
     MuiAvatar: {
       styleOverrides: {
         root: {
