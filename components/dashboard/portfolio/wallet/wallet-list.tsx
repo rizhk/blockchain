@@ -43,11 +43,18 @@ import React from 'react';
 import { Trash as TrashIcon } from 'icons/trash';
 import EditIcon from '@mui/icons-material/Edit';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { EditWalletDialog } from './edit-wallet-modal';
+
+export enum ListAction {
+  ADD,
+  EDIT,
+  DELETE,
+}
 
 interface WalletListProps {
   wallets: Wallet[];
   walletsCount: number;
-  parentCallback: (wallets: Wallet[]) => void;
+  parentCallback: (wallets: Wallet[], action?: ListAction) => void;
 }
 
 interface MoreMenuProps {
@@ -121,14 +128,25 @@ export const WalletList: FC<WalletListProps> = (props) => {
     }
   };
 
-  const [open, setOpen] = useState(false);
+  const [addOpen, setAddOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleAddClick = () => {
+    setAddOpen(true);
   };
-  const handleClose = () => {
-    setOpen(false);
+  const handleAddClose = () => {
+    setAddOpen(false);
+  };
+
+  const [editOpen, setEditOpen] = useState(false);
+  const [editWallet, setEditWallet] = useState<Wallet | null>();
+  const handleEditClick = (wallet: Wallet) => {
+    setEditWallet(wallet);
+    setEditOpen(true);
+  };
+  const handleEditClose = () => {
+    setEditOpen(false);
+    setEditWallet(null);
   };
 
   return (
@@ -138,7 +156,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
           <Typography variant="h6">
             {t('portfolio.walletList.myWallets')} ({walletsCount | 0})
           </Typography>
-          <Button color="info" variant="contained" onClick={handleClickOpen}>
+          <Button color="info" variant="contained" onClick={handleAddClick}>
             {t('portfolio.walletList.add')}
           </Button>
         </Grid>
@@ -209,10 +227,10 @@ export const WalletList: FC<WalletListProps> = (props) => {
 
                             if (success) {
                               const NewWallets = wallets.filter((item) => item.id !== wallet.id);
-                              props.parentCallback(NewWallets);
+                              props.parentCallback(NewWallets, ListAction.DELETE);
                             }
                           }}
-                          onEdit={() => {}}
+                          onEdit={() => handleEditClick(wallet)}
                         />
                       </TableCell>
                     </TableRow>
@@ -232,7 +250,19 @@ export const WalletList: FC<WalletListProps> = (props) => {
           rowsPerPageOptions={[5, 10, 25]}
         />
       </Card>
-      <AddWalletDialog open={open} handleClose={handleClose} parentCallback={props.parentCallback} />
+      <AddWalletDialog
+        open={addOpen}
+        handleClose={handleAddClose}
+        parentCallback={(wallet: Wallet[]) => props.parentCallback(wallet, ListAction.ADD)}
+      />
+      {editWallet != null && (
+        <EditWalletDialog
+          wallet={editWallet}
+          open={editOpen}
+          handleClose={handleEditClose}
+          parentCallback={(wallet: Wallet[]) => props.parentCallback(wallet, ListAction.EDIT)}
+        />
+      )}
     </Container>
   );
 };
