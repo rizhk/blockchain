@@ -8,12 +8,13 @@ import { useMounted } from 'hooks/use-mounted';
 import { walletApi } from 'api/portfolio/wallet-api';
 import { Wallet } from 'types/portfolio/wallet';
 import { WalletList } from 'components/dashboard/portfolio/wallet/wallet-list';
-import { Box, Button, Container, Grid, Modal, Typography } from '@mui/material';
+import { Alert, Box, Button, Collapse, Container, Grid, Modal, Typography } from '@mui/material';
 import { AddWalletDialog } from 'components/dashboard/portfolio/wallet/add-wallet-modal';
 
 const Wallets: NextPage = () => {
   const isMounted = useMounted();
   const [wallets, setWallets] = useState<Wallet[]>([]);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     gtm.push({ event: 'page_view' });
@@ -33,7 +34,11 @@ const Wallets: NextPage = () => {
   }, [isMounted]);
 
   const updateWallets = (updateWallets: any): void => {
+    setOpen(true);
     setWallets(updateWallets);
+    setTimeout(() => {
+      setOpen(false);
+    }, 3000);
   };
 
   return (
@@ -45,10 +50,17 @@ const Wallets: NextPage = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          py: 8,
+          py: 4,
         }}
       >
-        <WalletList wallets={wallets} walletsCount={wallets?.length | 0} parentCallback={updateWallets} />
+        <Collapse in={open}>
+          <Alert icon={false} severity="success">
+            You have successfully added a new wallet.
+          </Alert>
+        </Collapse>
+        <Box sx={{ py: 4 }}>
+          <WalletList wallets={wallets} walletsCount={wallets?.length | 0} parentCallback={updateWallets} />
+        </Box>
         <Container>
           <Grid container>
             <AddWalletDialog parentCallback={updateWallets} />

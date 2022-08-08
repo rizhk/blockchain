@@ -28,6 +28,8 @@ import {
   Menu,
   ListItemIcon,
   ListItemText,
+  Snackbar,
+  Alert,
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import type { Wallet } from 'types/portfolio/wallet';
@@ -39,6 +41,8 @@ import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import React from 'react';
 import { Trash as TrashIcon } from 'icons/trash';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+
 interface WalletListProps {
   wallets: Wallet[];
   walletsCount: number;
@@ -111,6 +115,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
   };
 
   const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -129,6 +134,13 @@ export const WalletList: FC<WalletListProps> = (props) => {
           </Button>
         </Grid>
       </Grid>
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={copied}
+        autoHideDuration={2000}
+        onClose={() => setCopied(false)}
+        message="Copied to clipboard"
+      />
       <Card sx={{ maxWidth: 816 }}>
         <Scrollbar>
           <Table sx={{ maxWidth: 816 }}>
@@ -163,7 +175,17 @@ export const WalletList: FC<WalletListProps> = (props) => {
                         <Typography>{wallet.name}</Typography>
                       </TableCell>
                       <TableCell>
-                        <Typography>{primitivesUtils.getShortTxnId(wallet.address)}</Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <Typography sx={{ pr: 2 }}>{primitivesUtils.getShortTxnId(wallet.address)}</Typography>
+                          <Button
+                            onClick={() => {
+                              navigator.clipboard.writeText(wallet.address);
+                              setCopied(true);
+                            }}
+                          >
+                            <ContentCopyIcon />
+                          </Button>
+                        </Box>
                       </TableCell>
                       <TableCell>
                         {wallet.fiat_currency}{' '}
