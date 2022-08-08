@@ -111,7 +111,6 @@ export const EditWalletDialog: FC<EditWalletDialogProps> = (props) => {
 
   return (
     <form noValidate onSubmit={formik.handleSubmit}>
-      {props.wallet}
       <BootstrapDialog onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.open}>
         <BootstrapDialogTitle id="customized-dialog-title" onClose={props.handleClose}></BootstrapDialogTitle>
         <DialogContent>
