@@ -71,7 +71,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
   const [currentTransactionId, setCurrentTransactionId] = useState<string>();
 
   const currentTransaction = useMemo(() => {
-    const txn = transactionHistory.filter(({ id }) => {
+    const txn = transactionHistory?.filter(({ id }) => {
       return id === currentTransactionId;
     });
     return txn?.length > 0 ? txn[0] : undefined;
@@ -140,7 +140,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
               </TableCell>
             </TableRow>
           )}
-          {transactionHistory.map((transaction, index) => {
+          {transactionHistory?.map((transaction, index) => {
             const typeIcon = transaction.type.toLowerCase() === 'in' ? <MoneyReceive /> : <MoneySend />;
             return (
               <Fragment key={transaction.id}>

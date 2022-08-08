@@ -5,8 +5,7 @@ export const useClientPagination = <T, F>(data: T[], initialFilters?: F) => {
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [filters, setFilters] = useState<F | undefined>(initialFilters || undefined);
   const [currentData, setCurrentData] = useState<T[]>([]);
-  const count = data.length;
-
+  const count = data?.length;
   const applyFilters = (data: T[], filters?: F): T[] => {
     if (!filters) return data;
     return data.filter((item) => {
@@ -15,7 +14,7 @@ export const useClientPagination = <T, F>(data: T[], initialFilters?: F) => {
   };
 
   const applyPagination = (data: T[], page: number, rowsPerPage: number): T[] =>
-    data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+    data?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   const getCurrentData = () => {
     const filtered = applyFilters(data, filters);
@@ -34,6 +33,10 @@ export const useClientPagination = <T, F>(data: T[], initialFilters?: F) => {
   useEffect(() => {
     setCurrentData(getCurrentData());
   }, [page, JSON.stringify(filters), JSON.stringify(data)]);
+
+  useEffect(() => {
+    setPage(0);
+  }, [JSON.stringify(data)]);
 
   return {
     currentData,

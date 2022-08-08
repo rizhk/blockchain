@@ -5,10 +5,12 @@ import {
   AssetsResponse,
   CreateUserTagResponse,
   GetUserTagsResponse,
+  ITransactionHistoryFilters,
   TransactionHistory,
   TransactionHistoryResponse,
   WalletResponse,
 } from 'types/portfolio';
+import { format } from 'date-fns-tz';
 
 class PortfolioApi extends BaseApi {
   async exportTransactionHistory(body: {}, options: { defaultErrorMessage: string }): Promise<AttachmentApiResponse> {
@@ -25,10 +27,18 @@ class PortfolioApi extends BaseApi {
     data.timestamp = new Date().toISOString();
     return data;
   }
-  async getAllTransactionHistory(options: { defaultErrorMessage: string }): Promise<TransactionHistoryResponse> {
+  async getAllTransactionHistory(
+    options: { defaultErrorMessage: string },
+    filters: ITransactionHistoryFilters = { sort: 'DESC' },
+  ): Promise<TransactionHistoryResponse> {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
-
-    var result = await fetch(PortfolioApiEndPoints.GetAllTransactionHistory, {
+    const filterParams = {
+      sort: filters.sort,
+      ...(filters.start_date ? { start_date: format(filters.start_date, 'yyyy-MM-dd') } : {}),
+      ...(filters.end_date ? { end_date: format(filters.end_date, 'yyyy-MM-dd') } : {}),
+      ...(filters.wallet ? { wallet: filters.wallet } : {}),
+    };
+    var result = await fetch(`${PortfolioApiEndPoints.GetAllTransactionHistory}?${new URLSearchParams(filterParams)}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
