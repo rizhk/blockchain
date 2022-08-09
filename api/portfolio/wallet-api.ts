@@ -18,10 +18,8 @@ type EditWalletArgs = {
   walletId: string;
   networkId: string;
   address: string;
-  data: Partial<Omit<Wallet, 'id' | 'address' | 'type'>>;
+  name: string;
 };
-type EditWalletParams = { network_id: string; address: string } & Partial<Omit<Wallet, 'id' | 'address' | 'type'>>;
-
 class WalletApi extends BaseApi {
   async create(
     {
@@ -55,11 +53,11 @@ class WalletApi extends BaseApi {
     return data;
   }
 
-  async patch({ walletId, networkId, address, data }: EditWalletArgs, options: { defaultErrorMessage: string }) {
+  async patch({ walletId, networkId, address, name }: EditWalletArgs, options: { defaultErrorMessage: string }) {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
 
-    const req: EditWalletParams = {
-      ...data,
+    const req = {
+      name,
       network_id: networkId,
       address,
     };

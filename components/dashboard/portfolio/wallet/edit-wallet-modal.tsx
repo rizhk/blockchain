@@ -78,19 +78,12 @@ export const EditWalletDialog: FC<EditWalletDialogProps> = (props) => {
     }),
     onSubmit: async (values, helpers): Promise<void> => {
       try {
-        const networks = await walletApi.getNetworks();
-        // todo fix network id matching, data was not given in wallet list
-        const networkId = networks.find((network) => network.name === props.wallet.type)?.network_id;
-        if (networkId == null) {
-          throw new Error(`Network ${props.wallet.type} not found`);
-        }
-
         const { error, message } = await walletApi.patch(
           {
             walletId: props.wallet.id,
-            networkId,
+            networkId: props.wallet.type,
             address: props.wallet.address,
-            data: { name: values.name },
+            name: values.name,
           },
           { defaultErrorMessage: t('portfolio.walletList.failToPatch') },
         );
