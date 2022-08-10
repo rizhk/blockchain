@@ -14,6 +14,13 @@ type CreateWalletRequest = {
   address: string;
 };
 
+type EditWalletArgs = {
+  walletId: string;
+  networkId: string;
+  address: string;
+  name: string;
+};
+
 class WalletApi extends BaseApi {
   async create(
     {
@@ -45,6 +52,27 @@ class WalletApi extends BaseApi {
     });
     var data = (await this.handleFetchResponse(result, { ...options })) as CreateWalletResponse;
     return data;
+  }
+
+  async patch({ walletId, networkId, address, name }: EditWalletArgs, options: { defaultErrorMessage: string }) {
+    const accessToken = globalThis.localStorage.getItem('accessToken') || '';
+
+    const req = {
+      name,
+      network_id: networkId,
+      address,
+    };
+
+    var response = await fetch(`${PortfolioApiEndPoints.Wallet}/${walletId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authentication: accessToken,
+      },
+      body: JSON.stringify(req),
+    });
+    const result = (await this.handleFetchResponse(response, { ...options })) as CreateWalletResponse;
+    return result;
   }
 
   getNetworks(): Promise<BlockchainNetwork[]> {

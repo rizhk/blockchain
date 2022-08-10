@@ -7,13 +7,29 @@ import { gtm } from 'lib/gtm';
 import { useMounted } from 'hooks/use-mounted';
 import { walletApi } from 'api/portfolio/wallet-api';
 import { Wallet } from 'types/portfolio/wallet';
-import { WalletList } from 'components/dashboard/portfolio/wallet/wallet-list';
-import { Box, Button, Container, Grid, Modal, Typography } from '@mui/material';
+import { WalletList, ListAction } from 'components/dashboard/portfolio/wallet/wallet-list';
+import { Alert, Box, Button, Collapse, Container, Grid, Modal, Typography } from '@mui/material';
 import { AddWalletDialog } from 'components/dashboard/portfolio/wallet/add-wallet-modal';
+import { useTranslation } from 'react-i18next';
+
+const listActionAlertTranslationKey = (action: ListAction) => {
+  switch (action) {
+    case ListAction.ADD:
+      return 'portfolio.walletList.addSuccess';
+    case ListAction.EDIT:
+      return 'portfolio.walletList.editSuccess';
+    case ListAction.DELETE:
+      return 'portfolio.walletList.deleteSuccess';
+  }
+};
 
 const Wallets: NextPage = () => {
   const isMounted = useMounted();
+  const { t } = useTranslation();
+
   const [wallets, setWallets] = useState<Wallet[]>([]);
+  const [open, setOpen] = useState(false);
+  const [recentAction, setRecentAction] = useState<ListAction>();
 
   useEffect(() => {
     gtm.push({ event: 'page_view' });
@@ -32,8 +48,13 @@ const Wallets: NextPage = () => {
     }
   }, [isMounted]);
 
-  const updateWallets = (updateWallets: any): void => {
+  const updateWallets = (updateWallets: any, action: ListAction = ListAction.EDIT): void => {
+    setRecentAction(action);
+    setOpen(true);
     setWallets(updateWallets);
+    setTimeout(() => {
+      setOpen(false);
+    }, 3000);
   };
 
   return (
@@ -45,10 +66,17 @@ const Wallets: NextPage = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          py: 8,
+          py: 4,
         }}
       >
-        <WalletList wallets={wallets} walletsCount={wallets?.length | 0} parentCallback={updateWallets} />
+        <Collapse in={open && recentAction != null}>
+          <Alert icon={false} severity="success">
+            {t(listActionAlertTranslationKey(recentAction!))}
+          </Alert>
+        </Collapse>
+        <Box sx={{ py: 4 }}>
+          <WalletList wallets={wallets} walletsCount={wallets?.length | 0} parentCallback={updateWallets} />
+        </Box>
         <Container>
           <Grid container>
             <AddWalletDialog parentCallback={updateWallets} />
