@@ -1,22 +1,19 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import Typography from '@mui/material/Typography';
-import { Box, DialogActions, FormHelperText, Grid, MenuItem, TextField } from '@mui/material';
-import * as Yup from 'yup';
-import { useFormik } from 'formik';
-import { NetworkSelector } from 'components/dashboard/network/network-selector';
-import { walletApi } from 'api/portfolio/wallet-api';
-import { useMounted } from 'hooks/use-mounted';
-import { BlockchainNetwork } from 'types/blockchain/network';
-import { Wallet } from 'types/portfolio/wallet';
 import { LoadingButton } from '@mui/lab';
+import { Box, DialogActions, FormHelperText, InputAdornment, TextField } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import IconButton from '@mui/material/IconButton';
+import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import { walletApi } from 'api/portfolio/wallet-api';
+import { useFormik } from 'formik';
+import * as React from 'react';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Wallet } from 'types/portfolio/wallet';
+import * as Yup from 'yup';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -31,7 +28,6 @@ export interface DialogTitleProps {
   id: string;
   children?: React.ReactNode;
   onClose: () => void;
-  parentCallback: Wallet[];
 }
 
 const BootstrapDialogTitle = (props: DialogTitleProps) => {
@@ -58,44 +54,15 @@ const BootstrapDialogTitle = (props: DialogTitleProps) => {
   );
 };
 
-export const AddWalletDialog: FC = (
-  props: JSX.IntrinsicAttributes & React.ClassAttributes<HTMLFormElement> & React.FormHTMLAttributes<HTMLFormElement>,
-) => {
+interface EditWalletDialogProps {
+  open: boolean;
+  handleClose: () => void;
+  wallet: Wallet;
+  parentCallback: (wallet: Wallet[]) => void;
+}
+
+export const EditWalletDialog: FC<EditWalletDialogProps> = (props) => {
   const { t } = useTranslation();
-
-  const isMounted = useMounted();
-  const [networks, setNetworks] = React.useState<BlockchainNetwork[]>([]);
-
-  const getNetworks = React.useCallback(async () => {
-    try {
-      const data = await walletApi.getNetworks();
-
-      if (isMounted()) {
-        setNetworks(data);
-        if (data.length) {
-          changeWalletType({ target: { value: data[0].network_id } });
-        }
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }, [isMounted]);
-
-  React.useEffect(() => {
-    getNetworks();
-  }, []);
-
-  const changeWalletType = (event: { target: { value: any } }) => {
-    formik.setFieldValue('walletType', event.target.value);
-  };
-
-  const changeNetworkId = (event: { target: { value: any } }) => {
-    formik.setFieldValue('networkId', event.target.value);
-  };
-
-  const handleAddressChange = (event: { target: { value: any } }) => {
-    formik.setFieldValue('walletAddress', event.target.value);
-  };
 
   const handleNameChange = (event: { target: { value: any } }) => {
     formik.setFieldValue('name', event.target.value);
@@ -103,26 +70,22 @@ export const AddWalletDialog: FC = (
 
   const formik = useFormik({
     initialValues: {
-      walletType: '',
-      networkId: '',
-      walletAddress: '',
-      name: '',
+      name: props.wallet.name,
       submit: null,
     },
     validationSchema: Yup.object({
-      walletType: Yup.string().required(t('portfolio.walletList.selectWalletType')),
-      walletAddress: Yup.string().required(t('portfolio.walletList.walletAddressRequired')),
       name: Yup.string().required(t('portfolio.walletList.walletNameRequired')),
     }),
     onSubmit: async (values, helpers): Promise<void> => {
       try {
-        const { error, message } = await walletApi.create(
+        const { error, message } = await walletApi.patch(
           {
-            networkId: values.walletType,
-            walletAddress: values.walletAddress,
+            walletId: props.wallet.id,
+            networkId: props.wallet.type,
+            address: props.wallet.address,
             name: values.name,
           },
-          { defaultErrorMessage: t('portfolio.walletList.failToCreate') },
+          { defaultErrorMessage: t('portfolio.walletList.failToPatch') },
         );
 
         if (!error) {
@@ -149,7 +112,7 @@ export const AddWalletDialog: FC = (
               mb: 2,
             }}
           >
-            {t('portfolio.walletList.addWallet')}
+            {t('portfolio.walletList.editWallet')}
           </Typography>
           <TextField
             sx={{
@@ -157,29 +120,18 @@ export const AddWalletDialog: FC = (
               mb: 2,
             }}
             fullWidth
-            select
             id="create-wallet-network"
             label={t('portfolio.walletList.walletType')}
-            value={formik.values.walletType}
-            error={Boolean(formik.touched.walletType && formik.errors.walletType)}
-            helperText={formik.touched.walletType && formik.errors.walletType}
-            onChange={changeWalletType}
-          >
-            {networks.map((n) => (
-              <MenuItem key={n.network_id} value={n.network_id} selected={formik.values.walletType == n.network_id}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                  }}
-                >
-                  <img src={`/static/crypto/color/${n.icon_tag}.svg`} height="30" />
-                  <Typography sx={{ pl: 1 }}>{n.name}</Typography>
-                </Box>
-              </MenuItem>
-            ))}
-          </TextField>
+            value={props.wallet.type}
+            disabled
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <img src={`/static/crypto/color/${props.wallet.icon_tag}.svg`} height="30" width="30" />
+                </InputAdornment>
+              ),
+            }}
+          />
           <TextField
             sx={{
               mt: 2,
@@ -188,10 +140,8 @@ export const AddWalletDialog: FC = (
             fullWidth
             id="create-wallet-address"
             label={t('portfolio.walletList.walletAddress')}
-            value={formik.values.walletAddress}
-            error={Boolean(formik.touched.walletAddress && formik.errors.walletAddress)}
-            helperText={formik.touched.walletAddress && formik.errors.walletAddress}
-            onChange={handleAddressChange}
+            value={props.wallet.address}
+            disabled
           />
           <TextField
             sx={{
@@ -221,7 +171,7 @@ export const AddWalletDialog: FC = (
             type="submit"
             variant="contained"
           >
-            {t('portfolio.walletList.add')}
+            {t('portfolio.walletList.edit')}
           </LoadingButton>
         </DialogActions>
       </BootstrapDialog>
