@@ -141,6 +141,7 @@ export const EditWalletDialog: FC<EditWalletDialogProps> = (props) => {
             id="create-wallet-address"
             label={t('portfolio.walletList.walletAddress')}
             value={props.wallet.address}
+            color="warning"
             disabled
           />
           <TextField
