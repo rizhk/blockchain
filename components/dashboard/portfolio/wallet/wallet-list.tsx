@@ -41,17 +41,25 @@ import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import React from 'react';
 import { Trash as TrashIcon } from 'icons/trash';
+import EditIcon from '@mui/icons-material/Edit';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { EditWalletDialog } from './edit-wallet-modal';
+
+export enum ListAction {
+  ADD,
+  EDIT,
+  DELETE,
+}
 
 interface WalletListProps {
   wallets: Wallet[];
   walletsCount: number;
-  parentCallback: (wallets: Wallet[]) => void;
+  parentCallback: (wallets: Wallet[], action?: ListAction) => void;
 }
 
 interface MoreMenuProps {
-  onDelete: (id: string) => void;
-  onEdit: (id: string) => void;
+  onDelete: () => void;
+  onEdit: () => void;
 }
 
 const MoreMenu: FC<MoreMenuProps> = (props) => {
@@ -90,7 +98,13 @@ const MoreMenu: FC<MoreMenuProps> = (props) => {
           vertical: 'top',
         }}
       >
-        <MenuItem onClick={() => props.onDelete('')}>
+        <MenuItem onClick={() => props.onEdit()}>
+          <ListItemIcon>
+            <EditIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Edit" />
+        </MenuItem>
+        <MenuItem onClick={() => props.onDelete()}>
           <ListItemIcon>
             <TrashIcon fontSize="small" />
           </ListItemIcon>
@@ -114,23 +128,36 @@ export const WalletList: FC<WalletListProps> = (props) => {
     }
   };
 
-  const [open, setOpen] = useState(false);
+  const [addOpen, setAddOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleAddClick = () => {
+    setAddOpen(true);
   };
-  const handleClose = () => {
-    setOpen(false);
+  const handleAddClose = () => {
+    setAddOpen(false);
+  };
+
+  const [editOpen, setEditOpen] = useState(false);
+  const [editWallet, setEditWallet] = useState<Wallet | null>();
+  const handleEditClick = (wallet: Wallet) => {
+    setEditWallet(wallet);
+    setEditOpen(true);
+  };
+  const handleEditClose = () => {
+    setEditOpen(false);
+    setEditWallet(null);
   };
 
   return (
     <Container maxWidth="xl">
       <Grid container sx={{ maxWidth: 816 }}>
         <Grid item sx={{ mb: 2, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Typography variant="h6">My Wallets ({walletsCount | 0})</Typography>
-          <Button color="info" variant="contained" onClick={handleClickOpen}>
-            Add
+          <Typography variant="h6">
+            {t('portfolio.walletList.myWallets')} ({walletsCount | 0})
+          </Typography>
+          <Button color="info" variant="contained" onClick={handleAddClick}>
+            {t('portfolio.walletList.add')}
           </Button>
         </Grid>
       </Grid>
@@ -139,17 +166,17 @@ export const WalletList: FC<WalletListProps> = (props) => {
         open={copied}
         autoHideDuration={2000}
         onClose={() => setCopied(false)}
-        message="Copied to clipboard"
+        message={t('portfolio.walletList.copied')}
       />
       <Card sx={{ maxWidth: 816 }}>
         <Scrollbar>
           <Table sx={{ maxWidth: 816 }}>
             <TableHead>
               <TableRow>
-                <TableCell width="15%">TYPE</TableCell>
-                <TableCell width="30%">NICKNAME</TableCell>
-                <TableCell width="22%">Address</TableCell>
-                <TableCell width="23%">Net worth (USD)</TableCell>
+                <TableCell width="15%">{t('portfolio.walletList.type')}</TableCell>
+                <TableCell width="30%">{t('portfolio.walletList.nickname')}</TableCell>
+                <TableCell width="22%">{t('portfolio.walletList.address')}</TableCell>
+                <TableCell width="23%">{t('portfolio.walletList.netWorth')}</TableCell>
                 <TableCell width="10%" align="right"></TableCell>
               </TableRow>
             </TableHead>
@@ -194,7 +221,17 @@ export const WalletList: FC<WalletListProps> = (props) => {
                         )}
                       </TableCell>
                       <TableCell sx={{ display: 'flex', alignItems: 'center' }} align="right">
-                        <MoreMenu onDelete={(id) => {}} onEdit={(id) => {}} />
+                        <MoreMenu
+                          onDelete={async () => {
+                            const success = await walletApi.remove(wallet.id);
+
+                            if (success) {
+                              const NewWallets = wallets.filter((item) => item.id !== wallet.id);
+                              props.parentCallback(NewWallets, ListAction.DELETE);
+                            }
+                          }}
+                          onEdit={() => handleEditClick(wallet)}
+                        />
                       </TableCell>
                     </TableRow>
                   </Fragment>
@@ -213,7 +250,19 @@ export const WalletList: FC<WalletListProps> = (props) => {
           rowsPerPageOptions={[5, 10, 25]}
         />
       </Card>
-      <AddWalletDialog open={open} handleClose={handleClose} parentCallback={props.parentCallback} />
+      <AddWalletDialog
+        open={addOpen}
+        handleClose={handleAddClose}
+        parentCallback={(wallet: Wallet[]) => props.parentCallback(wallet, ListAction.ADD)}
+      />
+      {editWallet != null && (
+        <EditWalletDialog
+          wallet={editWallet}
+          open={editOpen}
+          handleClose={handleEditClose}
+          parentCallback={(wallet: Wallet[]) => props.parentCallback(wallet, ListAction.EDIT)}
+        />
+      )}
     </Container>
   );
 };
