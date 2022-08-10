@@ -7,14 +7,29 @@ import { gtm } from 'lib/gtm';
 import { useMounted } from 'hooks/use-mounted';
 import { walletApi } from 'api/portfolio/wallet-api';
 import { Wallet } from 'types/portfolio/wallet';
-import { WalletList } from 'components/dashboard/portfolio/wallet/wallet-list';
+import { WalletList, ListAction } from 'components/dashboard/portfolio/wallet/wallet-list';
 import { Alert, Box, Button, Collapse, Container, Grid, Modal, Typography } from '@mui/material';
 import { AddWalletDialog } from 'components/dashboard/portfolio/wallet/add-wallet-modal';
+import { useTranslation } from 'react-i18next';
+
+const listActionAlertTranslationKey = (action: ListAction) => {
+  switch (action) {
+    case ListAction.ADD:
+      return 'portfolio.walletList.addSuccess';
+    case ListAction.EDIT:
+      return 'portfolio.walletList.editSuccess';
+    case ListAction.DELETE:
+      return 'portfolio.walletList.deleteSuccess';
+  }
+};
 
 const Wallets: NextPage = () => {
   const isMounted = useMounted();
+  const { t } = useTranslation();
+
   const [wallets, setWallets] = useState<Wallet[]>([]);
   const [open, setOpen] = useState(false);
+  const [recentAction, setRecentAction] = useState<ListAction>();
 
   useEffect(() => {
     gtm.push({ event: 'page_view' });
@@ -33,7 +48,8 @@ const Wallets: NextPage = () => {
     }
   }, [isMounted]);
 
-  const updateWallets = (updateWallets: any): void => {
+  const updateWallets = (updateWallets: any, action: ListAction = ListAction.EDIT): void => {
+    setRecentAction(action);
     setOpen(true);
     setWallets(updateWallets);
     setTimeout(() => {
@@ -53,9 +69,9 @@ const Wallets: NextPage = () => {
           py: 4,
         }}
       >
-        <Collapse in={open}>
+        <Collapse in={open && recentAction != null}>
           <Alert icon={false} severity="success">
-            You have successfully added a new wallet.
+            {t(listActionAlertTranslationKey(recentAction!))}
           </Alert>
         </Collapse>
         <Box sx={{ py: 4 }}>
