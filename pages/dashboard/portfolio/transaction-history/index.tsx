@@ -115,8 +115,11 @@ const TransactionHistoryPage: NextPage = () => {
       return { label: to_name, value: to };
     }) || []),
   ];
-  // TODO should filter unique by value but there are many unnamed wallets
-  const uniqueWalletOptions = [...new Map(walletOptions.map((item) => [item['label'], item])).values()];
+  // TODO remove unnamed wallet, will call backend to get wallet list
+  const tempOptions = [...new Map(walletOptions.map((item) => [item['label'], item])).values()];
+  const uniqueWalletOptions = tempOptions.filter(({ label }) => {
+    return label.toLowerCase() !== 'unnamed';
+  });
 
   return (
     <>
