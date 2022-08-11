@@ -20,6 +20,7 @@ export interface ITransactionHistoryDetailsProps {
   openDrawer: boolean;
   transactionHistory: TransactionHistory | undefined;
   getTransactionHistory: () => void;
+  setTransactionHistoryTag: (txnId: string, tag_name: string) => void;
 }
 
 export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps> = ({
@@ -27,6 +28,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
   openDrawer,
   transactionHistory,
   getTransactionHistory,
+  setTransactionHistoryTag,
 }) => {
   const { t } = useTranslation();
   const handleCloseDrawer = () => {
@@ -68,7 +70,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
       variant="temporary"
     >
       <AddTagModal
-        getTransactionHistory={getTransactionHistory}
+        setTransactionHistoryTag={setTransactionHistoryTag}
         tag={transactionHistory?.tag_name}
         txnId={transactionHistory?.id}
         isShowing={isAddTagShowing}

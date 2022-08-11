@@ -52,6 +52,7 @@ interface TransactionHistoryTableProps {
   transactionHistory: TransactionHistory[];
   rowsPerPage: number;
   getTransactionHistory: () => void;
+  setTransactionHistoryTag: (txnId: string, tag_name: string) => void;
 }
 
 export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
@@ -62,6 +63,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
   transactionHistory = [],
   rowsPerPage,
   getTransactionHistory,
+  setTransactionHistoryTag,
 }) => {
   const { t } = useTranslation();
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -95,7 +97,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
   return (
     <>
       <AddTagModal
-        getTransactionHistory={getTransactionHistory}
+        setTransactionHistoryTag={setTransactionHistoryTag}
         tag={currentTransaction?.tag_name}
         txnId={currentTransaction?.id}
         isShowing={isAddTagShowing}
@@ -205,7 +207,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                       )}
                     </Typography>
                   </TableCell>
-                  <TableCell sx={{ maxWidth: '100px' }}>
+                  <TableCell sx={{ maxWidth: '150px' }}>
                     <Typography display="inline" variant="caption" sx={{ color: 'text.secondary' }}>
                       {transaction.tag_name ? (
                         <Chip
@@ -292,6 +294,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
         rowsPerPageOptions={[10, 25, 50]}
       />
       <TransactionHistoryDetails
+        setTransactionHistoryTag={setTransactionHistoryTag}
         openDrawer={openDrawer}
         setOpenDrawer={setOpenDrawer}
         transactionHistory={currentTransaction}
