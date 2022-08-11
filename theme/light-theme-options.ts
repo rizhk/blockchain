@@ -134,8 +134,17 @@ export const lightThemeOptions: ThemeOptions = {
             opacity: 1,
             color: text.secondary,
           },
+          '&.Mui-disabled': {
+            borderColor: neutral[400],
+            color: neutral[400],
+            '-webkit-text-fill-color': neutral[400],
+          },
         },
         root: {
+          '&.Mui-disabled': {
+            borderColor: neutral[400],
+            color: neutral[400],
+          },
           color: text.primary,
         },
       },
@@ -144,6 +153,11 @@ export const lightThemeOptions: ThemeOptions = {
       styleOverrides: {
         root: {
           color: text.primary,
+          '&.Mui-disabled': {
+            borderColor: neutral[400],
+            color: neutral[400],
+            '-webkit-text-fill-color': neutral[400],
+          },
         },
       },
     },
