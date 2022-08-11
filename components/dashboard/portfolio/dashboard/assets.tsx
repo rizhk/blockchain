@@ -96,11 +96,12 @@ export const Assets: React.FC<IAssetsProps> = ({}) => {
     alpha('#B9BDDF', 0.2),
   ];
 
-  const chartDataSeries = filteredData?.items?.map(({ name, balance }, index) => {
+  const chartDataSeries = filteredData?.items?.map(({ name, balance, symbol }, index) => {
     return {
       color: chartBaseColors[index],
       data: primitivesUtils.roundDownToTwo(balance),
       name,
+      symbol,
     };
   });
 
