@@ -220,7 +220,7 @@ const TransactionHistoryPage: NextPage = () => {
             value={filter?.sort}
             options={[
               { label: 'Newest', value: 'DESC' },
-              { label: 'Earliest', value: 'ASC' },
+              { label: 'Oldest', value: 'ASC' },
             ]}
           />
           <DatePicker
