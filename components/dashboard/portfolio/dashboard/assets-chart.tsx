@@ -46,5 +46,5 @@ export const AssetsChart: React.FC<IAssetsChartProps> = ({ data }) => {
     },
   };
   const chartSeries = data?.series?.map((item) => item.data) || [];
-  return <Chart height={240} options={chartOptions} series={chartSeries} type="pie" />;
+  return <Chart height={220} options={chartOptions} series={chartSeries} type="pie" />;
 };
