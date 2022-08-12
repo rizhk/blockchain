@@ -20,6 +20,7 @@ export interface ITransactionHistoryDetailsProps {
   openDrawer: boolean;
   transactionHistory: TransactionHistory | undefined;
   getTransactionHistory: () => void;
+  setTransactionHistoryTag: (txnId: string, tag_name: string) => void;
 }
 
 export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps> = ({
@@ -27,6 +28,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
   openDrawer,
   transactionHistory,
   getTransactionHistory,
+  setTransactionHistoryTag,
 }) => {
   const { t } = useTranslation();
   const handleCloseDrawer = () => {
@@ -68,7 +70,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
       variant="temporary"
     >
       <AddTagModal
-        getTransactionHistory={getTransactionHistory}
+        setTransactionHistoryTag={setTransactionHistoryTag}
         tag={transactionHistory?.tag_name}
         txnId={transactionHistory?.id}
         isShowing={isAddTagShowing}
@@ -118,7 +120,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
                     {t('portfolio.transHis.incoming')}
                   </Typography>
                 ) : (
-                  <Typography variant="body2" color="success.main">
+                  <Typography variant="body2" color="error.main">
                     {t('portfolio.transHis.outgoing')}
                   </Typography>
                 )}
@@ -170,12 +172,12 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
             </Grid>
             <Grid item xs={8}>
               <Typography display="inline" variant="subtitle2">
-                {primitivesUtils.roundDownToTwo(parseFloat(transactionHistory?.crypto_amount))}{' '}
+                {primitivesUtils.convertCurrencyDisplay(parseFloat(transactionHistory?.crypto_amount))}{' '}
                 {transactionHistory?.token_symbol}
               </Typography>{' '}
-              {primitivesUtils.roundDownToTwo(parseFloat(transactionHistory?.crypto_amount_fiat)) > 0 && (
+              {primitivesUtils.convertCurrencyDisplay(parseFloat(transactionHistory?.crypto_amount_fiat)) > 0 && (
                 <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                  {primitivesUtils.roundDownToTwo(parseFloat(transactionHistory?.crypto_amount_fiat))} USD
+                  {primitivesUtils.convertCurrencyDisplay(parseFloat(transactionHistory?.crypto_amount_fiat))} USD
                 </Typography>
               )}
             </Grid>

@@ -25,8 +25,10 @@ import { LoadingButton } from '@mui/lab';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { recaptchaConfig } from 'config';
 import { RecaptchaField } from './recaptcha-field';
+import { useTranslation } from 'react-i18next';
 
 const Login: NextPage = () => {
+  const { t } = useTranslation();
   const isMounted = useMounted();
   const router = useRouter();
   const { login } = useAuth();
@@ -207,7 +209,7 @@ const Login: NextPage = () => {
                   src={'/static/auth/login-banner.png'}
                 />
                 <Typography color="primary.contrastText" variant="h5" mt={7}>
-                  Track and manage all your fiat and crypto conversions, payments and recievables in one place.{' '}
+                  {t('login.heroTitle1')}
                 </Typography>
               </Box>
             </Grid>

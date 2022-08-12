@@ -5,6 +5,7 @@ export interface ITransactionHistoryFilters {
   sort?: string;
   start_date?: Date | undefined;
   end_date?: Date | undefined;
+  keyword?: string;
 }
 
 export interface IAssetFilters {
@@ -17,10 +18,14 @@ export interface TransactionHistoryResponse extends BaseApiResponse {
   items: TransactionHistory[];
 }
 
+export interface UpdateTransactionHistoryResponse extends BaseApiResponse {
+  item: TransactionHistory;
+}
 export interface TransactionHistory {
   uid: string;
   id: string;
-  data_type: string;
+  wallet_id: string;
+  module: string;
   hash: string;
   blockchain_network: string;
   block_hash: string;
