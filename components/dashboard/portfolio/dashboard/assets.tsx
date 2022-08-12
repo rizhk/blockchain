@@ -96,12 +96,12 @@ export const Assets: React.FC<IAssetsProps> = ({}) => {
     alpha('#B9BDDF', 0.2),
   ];
 
-  const chartDataSeries = filteredData?.items?.map(({ name, balance, fiat_value, symbol }, index) => {
+  const chartDataSeries = filteredData?.items?.map(({ name, balance, fiat_value, fiat_currency, symbol }, index) => {
     return {
       color: chartBaseColors[index],
       data: primitivesUtils.roundDownToTwo(fiat_value),
       name,
-      symbol: symbol + ' ' + primitivesUtils.convertCurrencyDisplay(balance),
+      symbol: symbol + ' ' + fiat_currency + ' ' + primitivesUtils.convertCurrencyDisplay(balance),
     };
   });
 
@@ -170,7 +170,7 @@ export const Assets: React.FC<IAssetsProps> = ({}) => {
                     <Grid item flex="0 1 auto" component={AssetsChart} data={chartData} />
                     <Grid item container>
                       <Grid container item flex="1 1 auto" alignItems="flex-end" flexWrap="nowrap" sx={{ py: 1 }}>
-                        <Grid item flex="1 1 33%">
+                        <Grid item flex="1 1 40%">
                           <Typography variant="overline" sx={{ textTransform: 'none', lineHeight: 0.25 }}>
                             Total
                           </Typography>
@@ -180,10 +180,10 @@ export const Assets: React.FC<IAssetsProps> = ({}) => {
                             {primitivesUtils.convertCurrencyDisplay(filteredData?.total_bal as string)}
                           </Typography>
                         </Grid>
-                        <Grid item flex="1 1 33%">
+                        <Grid item flex="1 1 30%">
                           <Typography variant="overline">BALANCE</Typography>
                         </Grid>
-                        <Grid item flex="1 1 33%">
+                        <Grid item flex="1 1 30%">
                           <Typography variant="overline">USD AMOUNT</Typography>
                         </Grid>
                       </Grid>
@@ -198,7 +198,7 @@ export const Assets: React.FC<IAssetsProps> = ({}) => {
                             flexWrap="nowrap"
                             sx={{ borderTop: '1px solid #E6E8F0', py: 2 }}
                           >
-                            <Grid container item flex="1 1 33%" alignItems="center">
+                            <Grid container item flex="1 1 40%" alignItems="center">
                               <Grid item component={Dot} sx={{ color: [chartBaseColors[index]] }} />
                               <Grid
                                 item
@@ -212,12 +212,12 @@ export const Assets: React.FC<IAssetsProps> = ({}) => {
                                 </Typography>
                               </Grid>
                             </Grid>
-                            <Grid item flex="1 1 33%">
+                            <Grid item flex="1 1 30%">
                               <Typography variant="caption">
                                 {item.symbol} {primitivesUtils.convertCurrencyDisplay(item.balance)}
                               </Typography>
                             </Grid>
-                            <Grid item flex="1 1 33%">
+                            <Grid item flex="1 1 30%">
                               <Typography variant="caption">
                                 {item.fiat_currency} {primitivesUtils.convertCurrencyDisplay(item.fiat_value)}
                               </Typography>
