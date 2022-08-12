@@ -3,6 +3,13 @@ export const en = {
     overview: {
       xRateError: 'Failed to get exchange rate.',
     },
+    login: {
+      heroTitle1: 'Track and monitor your crypto across all your wallets in one place.',
+    },
+    signup: {
+      heroTitle1:
+        'Easiest way to make sense of your businesses or personal crypto holdings + export the data to make your accountants job 10X faster.',
+    },
     portfolio: {
       head: 'Portfolio',
       title: 'Portfolio',

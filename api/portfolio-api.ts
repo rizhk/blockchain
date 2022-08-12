@@ -8,6 +8,7 @@ import {
   ITransactionHistoryFilters,
   TransactionHistory,
   TransactionHistoryResponse,
+  UpdateTransactionHistoryResponse,
   WalletResponse,
 } from 'types/portfolio';
 import { format } from 'date-fns-tz';
@@ -37,6 +38,7 @@ class PortfolioApi extends BaseApi {
       ...(filters.start_date ? { start_date: format(filters.start_date, 'yyyy-MM-dd') } : {}),
       ...(filters.end_date ? { end_date: format(filters.end_date, 'yyyy-MM-dd') } : {}),
       ...(filters.wallet ? { wallet: filters.wallet } : {}),
+      ...(filters.keyword ? { keyword: filters.keyword } : {}),
     };
     var result = await fetch(`${PortfolioApiEndPoints.GetAllTransactionHistory}?${new URLSearchParams(filterParams)}`, {
       method: 'GET',
@@ -95,7 +97,7 @@ class PortfolioApi extends BaseApi {
   async updateTransaction(
     body: { tag_id?: string; note?: string; txnId: string },
     options: { defaultErrorMessage: string },
-  ): Promise<TransactionHistoryResponse> {
+  ): Promise<UpdateTransactionHistoryResponse> {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
 
     var result = await fetch(`${PortfolioApiEndPoints.UpdateTransaction}/${body.txnId}`, {
@@ -106,9 +108,9 @@ class PortfolioApi extends BaseApi {
       },
       body: JSON.stringify(body),
     });
-    var data = (await this.handleFetchResponse<TransactionHistoryResponse>(result, {
+    var data = (await this.handleFetchResponse<UpdateTransactionHistoryResponse>(result, {
       ...options,
-    })) as TransactionHistoryResponse;
+    })) as UpdateTransactionHistoryResponse;
     return data;
   }
   async getAllWallets(options: { defaultErrorMessage: string }): Promise<WalletResponse> {

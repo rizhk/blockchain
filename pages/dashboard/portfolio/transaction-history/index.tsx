@@ -40,17 +40,21 @@ import ExportTransactionHistoryModal from 'components/dashboard/portfolio/transa
 import { DataDisplay } from 'components/common/data-display';
 import { SingleSelect } from 'components/single-select';
 import { DatePicker } from 'components/common/date-picker';
+import { primitivesUtils } from 'utils/primitives-utils';
 
 const TransactionHistoryPage: NextPage = () => {
   const isMounted = useMounted();
   const { t } = useTranslation();
-  const [transactionHistory, setTransactionHistory] = useState<TransactionHistory[]>([]);
+  const [transactionHistory, setTransactionHistory] = useState<{ items: TransactionHistory[]; shouldRefresh: boolean }>(
+    { items: [], shouldRefresh: true },
+  );
   const theme = useTheme();
   const { isExportTransactionHistoryShowing, toggleExportTransactionHistory } = useExportTransactionHistoryModal();
   const [filter, setFilter] = useState<ITransactionHistoryFilters>({
     sort: 'DESC',
     start_date: undefined,
     end_date: undefined,
+    keyword: undefined,
   });
 
   const { data, loading, error, trigger } = useFetch(() => {
@@ -85,11 +89,23 @@ const TransactionHistoryPage: NextPage = () => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    setTransactionHistory(data?.items || []);
+    setTransactionHistory({ shouldRefresh: true, items: data?.items || [] });
   }, [JSON.stringify(data)]);
 
-  const { currentData, count, onPageChange, onRowsPerPageChange, page, rowsPerPage } =
-    useClientPagination(transactionHistory);
+  const setTransactionHistoryTag = (txnId: string, tag_name: string) => {
+    setTransactionHistory((previous) => {
+      const { items, shouldRefresh } = previous;
+      const { item, index } = primitivesUtils.getItemInArrayByKey(items, 'id', txnId);
+      if (item === undefined || index === undefined) return previous;
+      const updatedItem = { ...item, tag_name };
+      return { shouldRefresh: false, items: primitivesUtils.replaceItemInArrayByIndex(items, index, updatedItem) };
+    });
+  };
+
+  const { currentData, count, onPageChange, onRowsPerPageChange, page, rowsPerPage } = useClientPagination(
+    transactionHistory.items,
+    transactionHistory.shouldRefresh,
+  );
 
   useEffect(() => {
     gtm.push({ event: 'page_view' });
@@ -99,12 +115,20 @@ const TransactionHistoryPage: NextPage = () => {
 
   const handleQueryChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setQueryValue(event.target.value);
+    if (event.target.value.length >= 3) {
+      setFilter((preFilter) => {
+        return { ...preFilter, keyword: event.target.value };
+      });
+    }
   };
 
   const handleQueryKeyup = (event: KeyboardEvent<HTMLInputElement>): void => {
-    // if (event.code === 'Enter' && queryValue) {
-    //   const [queryValue, setQueryValue] = useState<string>('');
-    // }
+    setQueryValue(queryValue);
+    if (event.code === 'Enter') {
+      setFilter((preFilter) => {
+        return { ...preFilter, keyword: queryValue };
+      });
+    }
   };
 
   const walletOptions = [
@@ -115,8 +139,11 @@ const TransactionHistoryPage: NextPage = () => {
       return { label: to_name, value: to };
     }) || []),
   ];
-  // TODO should filter unique by value but there are many unnamed wallets
-  const uniqueWalletOptions = [...new Map(walletOptions.map((item) => [item['label'], item])).values()];
+  // TODO remove unnamed wallet, will call backend to get wallet list
+  const tempOptions = [...new Map(walletOptions.map((item) => [item['label'], item])).values()];
+  const uniqueWalletOptions = tempOptions.filter(({ label }) => {
+    return label.toLowerCase() !== 'unnamed';
+  });
 
   return (
     <>
@@ -171,31 +198,33 @@ const TransactionHistoryPage: NextPage = () => {
       </Box>
       <Card sx={{ mx: 3, mb: 3 }}>
         {/* TODO: PP-349 FN - adding filter option*/}
-        {/* <Box
-          sx={{
-            alignItems: 'center',
-            display: 'flex',
-            p: 1.5,
-          }}
-        >
-          <SearchIcon fontSize="small" />
+        {
           <Box
             sx={{
-              flexGrow: 1,
-              ml: 3,
+              alignItems: 'center',
+              display: 'flex',
+              p: 1.5,
             }}
           >
-            <Input
-              sx={{ 'input::placeholder': { fontSize: '0.875rem', fontWeight: 400, lineHeight: 1.57 } }}
-              disableUnderline
-              fullWidth
-              onChange={handleQueryChange}
-              onKeyUp={handleQueryKeyup}
-              placeholder="Enter a keyword"
-              value={queryValue}
-            />
+            <SearchIcon fontSize="small" />
+            <Box
+              sx={{
+                flexGrow: 1,
+                ml: 3,
+              }}
+            >
+              <Input
+                sx={{ 'input::placeholder': { fontSize: '0.875rem', fontWeight: 400, lineHeight: 1.57 } }}
+                disableUnderline
+                fullWidth
+                onChange={handleQueryChange}
+                onKeyUp={handleQueryKeyup}
+                placeholder="Enter a keyword"
+                value={queryValue}
+              />
+            </Box>
           </Box>
-        </Box> */}
+        }
         <Divider />
         <Box
           sx={{
@@ -220,7 +249,7 @@ const TransactionHistoryPage: NextPage = () => {
             value={filter?.sort}
             options={[
               { label: 'Newest', value: 'DESC' },
-              { label: 'Earliest', value: 'ASC' },
+              { label: 'Oldest', value: 'ASC' },
             ]}
           />
           <DatePicker
@@ -246,6 +275,7 @@ const TransactionHistoryPage: NextPage = () => {
         </Box>
         <DataDisplay isLoading={loading} error={error} defaultLoaderOptions={{ height: '80vh', width: '100%' }}>
           <TransactionHistoryTable
+            setTransactionHistoryTag={setTransactionHistoryTag}
             getTransactionHistory={() => trigger()}
             transactionHistory={currentData}
             count={count}
