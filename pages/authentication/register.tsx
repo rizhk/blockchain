@@ -32,8 +32,10 @@ import { tokenToString } from 'typescript';
 import { RecaptchaField } from './recaptcha-field';
 import { recaptchaConfig } from 'config';
 import ReCAPTCHA from 'react-google-recaptcha';
+import { useTranslation } from 'react-i18next';
 
 const Register: NextPage = () => {
+  const { t } = useTranslation();
   const isMounted = useMounted();
   const router = useRouter();
   const { register } = useAuth();
@@ -224,7 +226,7 @@ const Register: NextPage = () => {
                   src={'/static/auth/register-banner.png'}
                 />
                 <Typography color="primary.contrastText" variant="h5" mt={7}>
-                  Easiest way to on-ramp and off-ramp crypto currency for you and your business while earning tokens.
+                  {t('signup.heroTitle1')}
                 </Typography>
               </Box>
             </Grid>
