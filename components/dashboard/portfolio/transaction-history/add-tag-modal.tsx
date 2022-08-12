@@ -34,10 +34,10 @@ export interface IAddTagModalProps {
   hide: () => void;
   tag: string | undefined;
   txnId: string | undefined;
-  getTransactionHistory: () => void;
+  setTransactionHistoryTag: (txnId: string, tag_name: string) => void;
 }
 
-const AddTagModal = ({ isShowing, hide, tag, txnId, getTransactionHistory }: IAddTagModalProps): JSX.Element => {
+const AddTagModal = ({ isShowing, hide, tag, txnId, setTransactionHistoryTag }: IAddTagModalProps): JSX.Element => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -69,6 +69,7 @@ const AddTagModal = ({ isShowing, hide, tag, txnId, getTransactionHistory }: IAd
     isSuccess: isSetTagSuccess,
     loading: isSettingTag,
     error: setTagError,
+    data: setTagData,
     mutate: setTransactionTag,
   } = useMutation((body: { txnId: string; tag_id: string }) => {
     return portfolioApi.updateTransaction(body, {
@@ -99,7 +100,7 @@ const AddTagModal = ({ isShowing, hide, tag, txnId, getTransactionHistory }: IAd
 
   React.useEffect(() => {
     if (isSetTagSuccess) {
-      getTransactionHistory();
+      setTransactionHistoryTag(setTagData?.item?.id as string, setTagData?.item?.tag_name as string);
       handleClose();
     }
   }, [isSetTagSuccess]);

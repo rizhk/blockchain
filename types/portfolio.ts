@@ -17,10 +17,14 @@ export interface TransactionHistoryResponse extends BaseApiResponse {
   items: TransactionHistory[];
 }
 
+export interface UpdateTransactionHistoryResponse extends BaseApiResponse {
+  item: TransactionHistory;
+}
 export interface TransactionHistory {
   uid: string;
   id: string;
-  data_type: string;
+  wallet_id: string;
+  module: string;
   hash: string;
   blockchain_network: string;
   block_hash: string;
