@@ -20,6 +20,7 @@ type EditWalletArgs = {
   address: string;
   name: string;
 };
+
 class WalletApi extends BaseApi {
   async create(
     {
