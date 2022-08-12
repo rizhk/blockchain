@@ -38,6 +38,7 @@ class PortfolioApi extends BaseApi {
       ...(filters.start_date ? { start_date: format(filters.start_date, 'yyyy-MM-dd') } : {}),
       ...(filters.end_date ? { end_date: format(filters.end_date, 'yyyy-MM-dd') } : {}),
       ...(filters.wallet ? { wallet: filters.wallet } : {}),
+      ...(filters.keyword ? { keyword: filters.keyword } : {}),
     };
     var result = await fetch(`${PortfolioApiEndPoints.GetAllTransactionHistory}?${new URLSearchParams(filterParams)}`, {
       method: 'GET',
