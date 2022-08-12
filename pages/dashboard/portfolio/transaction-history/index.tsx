@@ -54,6 +54,7 @@ const TransactionHistoryPage: NextPage = () => {
     sort: 'DESC',
     start_date: undefined,
     end_date: undefined,
+    keyword: undefined,
   });
 
   const { data, loading, error, trigger } = useFetch(() => {
@@ -114,12 +115,20 @@ const TransactionHistoryPage: NextPage = () => {
 
   const handleQueryChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setQueryValue(event.target.value);
+    if (event.target.value.length >= 3) {
+      setFilter((preFilter) => {
+        return { ...preFilter, keyword: event.target.value };
+      });
+    }
   };
 
   const handleQueryKeyup = (event: KeyboardEvent<HTMLInputElement>): void => {
-    // if (event.code === 'Enter' && queryValue) {
-    //   const [queryValue, setQueryValue] = useState<string>('');
-    // }
+    setQueryValue(queryValue);
+    if (event.code === 'Enter') {
+      setFilter((preFilter) => {
+        return { ...preFilter, keyword: queryValue };
+      });
+    }
   };
 
   const walletOptions = [
@@ -189,31 +198,33 @@ const TransactionHistoryPage: NextPage = () => {
       </Box>
       <Card sx={{ mx: 3, mb: 3 }}>
         {/* TODO: PP-349 FN - adding filter option*/}
-        {/* <Box
-          sx={{
-            alignItems: 'center',
-            display: 'flex',
-            p: 1.5,
-          }}
-        >
-          <SearchIcon fontSize="small" />
+        {
           <Box
             sx={{
-              flexGrow: 1,
-              ml: 3,
+              alignItems: 'center',
+              display: 'flex',
+              p: 1.5,
             }}
           >
-            <Input
-              sx={{ 'input::placeholder': { fontSize: '0.875rem', fontWeight: 400, lineHeight: 1.57 } }}
-              disableUnderline
-              fullWidth
-              onChange={handleQueryChange}
-              onKeyUp={handleQueryKeyup}
-              placeholder="Enter a keyword"
-              value={queryValue}
-            />
+            <SearchIcon fontSize="small" />
+            <Box
+              sx={{
+                flexGrow: 1,
+                ml: 3,
+              }}
+            >
+              <Input
+                sx={{ 'input::placeholder': { fontSize: '0.875rem', fontWeight: 400, lineHeight: 1.57 } }}
+                disableUnderline
+                fullWidth
+                onChange={handleQueryChange}
+                onKeyUp={handleQueryKeyup}
+                placeholder="Enter a keyword"
+                value={queryValue}
+              />
+            </Box>
           </Box>
-        </Box> */}
+        }
         <Divider />
         <Box
           sx={{

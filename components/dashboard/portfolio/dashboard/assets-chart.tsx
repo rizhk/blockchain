@@ -36,7 +36,7 @@ export const AssetsChart: React.FC<IAssetsChartProps> = ({ data }) => {
       enabled: true,
       custom: function ({ series, seriesIndex, dataPointIndex, w }) {
         var item = data?.series?.[seriesIndex];
-        return `<div style="padding: 4px">${item.symbol} ${primitivesUtils.convertCurrencyDisplay(item.data)}</div>`;
+        return `<div style="padding: 4px">${item.symbol}</div>`;
       },
     },
     colors: data?.series?.map((item) => item.color) || [],
@@ -46,5 +46,5 @@ export const AssetsChart: React.FC<IAssetsChartProps> = ({ data }) => {
     },
   };
   const chartSeries = data?.series?.map((item) => item.data) || [];
-  return <Chart height={200} options={chartOptions} series={chartSeries} type="pie" />;
+  return <Chart height={240} options={chartOptions} series={chartSeries} type="pie" />;
 };
