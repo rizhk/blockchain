@@ -35,16 +35,18 @@ import Image from 'next/image';
 import { Dot } from 'icons/dot';
 import Link from 'next/link';
 
-export interface IAssetsProps {}
+export interface IAssetsProps {
+  lastUpdatedDt: Date;
+}
 
-export const Assets: React.FC<IAssetsProps> = ({}) => {
+export const Assets: React.FC<IAssetsProps> = ({ lastUpdatedDt }) => {
   const { t } = useTranslation();
 
   const { data, loading, error, trigger } = useFetch(() => {
     return portfolioApi.getUserAssets({
       defaultErrorMessage: t('portfolio.dashboard.getAssetsError'),
     });
-  }, []);
+  }, [lastUpdatedDt]);
 
   const [filter, setFilter] = React.useState<IAssetFilters>({ desc: true });
 
@@ -113,26 +115,26 @@ export const Assets: React.FC<IAssetsProps> = ({}) => {
     <>
       <Grid container flexDirection="row" width="100%">
         <Grid item>
-          <Typography sx={{ mb: 3 }} variant="h6">
-            {`${t('portfolio.dashboard.assets')}`}
-          </Typography>
+          <Typography sx={{ mb: 3 }} variant="h6"></Typography>
         </Grid>
         <DataDisplay isLoading={loading} error={error} defaultLoaderOptions={{ height: '400px', width: '100%' }}>
           <Grid item flex="1 1 100%">
             <Card>
               <CardContent sx={{ p: 0 }}>
-                {/* <Grid container justifyContent="space-between">
+                <Grid container justifyContent="space-between" alignItems="center">
+                  <Typography sx={{ pl: 4 }} variant="overline">{`${t('portfolio.dashboard.assets')}`}</Typography>
                   <Box
                     sx={{
                       position: 'relative',
                       alignItems: 'center',
                       display: 'flex',
                       flexWrap: 'wrap',
+                      pr: 4,
                       py: 2,
-                      px: 2,
                     }}
                   >
                     <SingleSelect
+                      small
                       shouldShowClearButton
                       onChange={handleChangeWallet}
                       label={t('portfolio.dashboard.allWallets')}
@@ -145,15 +147,19 @@ export const Assets: React.FC<IAssetsProps> = ({}) => {
                           };
                         }) || []
                       }
+                      labelProps={{ variant: 'overline', textTransform: 'none' }}
                     />
                     <SingleSelect
+                      small
                       shouldShowClearButton
                       onChange={handleChangeStatus}
                       label={t('portfolio.dashboard.status')}
                       value={filter?.status as string}
                       options={[{ value: 'Completed', label: 'Completed' }]}
+                      labelProps={{ variant: 'overline', textTransform: 'none' }}
                     />
                     <SingleSelect
+                      small
                       onChange={handleChangeSorting}
                       label={t('portfolio.dashboard.mostRecent')}
                       value={filter.desc}
@@ -161,12 +167,13 @@ export const Assets: React.FC<IAssetsProps> = ({}) => {
                         { value: true, label: t('portfolio.dashboard.mostRecent') },
                         { value: false, label: t('portfolio.dashboard.earliest') },
                       ]}
+                      labelProps={{ variant: 'overline', textTransform: 'none' }}
                     />
                   </Box>
                 </Grid>
-                <Divider sx={{ m: 0, p: 0 }} /> */}
+                <Divider sx={{ m: 0, p: 0 }} />
                 {data?.items && data?.items.length > 0 ? (
-                  <Grid container flexWrap="nowrap" sx={{ py: 2 }} alignItems="center">
+                  <Grid container spacing={2} flexWrap="nowrap" sx={{ px: 4, py: 2 }} alignItems="center">
                     <Grid item flex="0 1 auto" component={AssetsChart} data={chartData} />
                     <Grid item container>
                       <Grid container item flex="1 1 auto" alignItems="flex-end" flexWrap="nowrap" sx={{ py: 1 }}>
@@ -229,19 +236,24 @@ export const Assets: React.FC<IAssetsProps> = ({}) => {
                   </Grid>
                 ) : (
                   <Grid container alignItems="center" justifyContent="center">
-                    <Typography
-                      sx={{ mx: 4, mt: 10, mb: 4, maxWidth: '400px' }}
+                    <Grid
+                      item
+                      component={Typography}
+                      flex="1 1 100%"
+                      sx={{ mx: 4, mt: 8, mb: 4, maxWidth: '400px' }}
                       display="block"
                       textAlign="center"
                       variant="ctaText1"
                     >
                       {t('portfolio.dashboard.noAssetCtaText')}
-                    </Typography>
-                    <Link href="/dashboard/portfolio/wallet/" passHref>
-                      <Button type="button" variant="contained" color="primary" sx={{ mb: 12 }}>
-                        {t('portfolio.dashboard.addWalletNow')}
-                      </Button>
-                    </Link>
+                    </Grid>
+                    <Grid container item flex="1 1 100%" justifyContent="center">
+                      <Link href="/dashboard/portfolio/wallet/" passHref>
+                        <Button type="button" variant="contained" color="primary" sx={{ mb: 8 }}>
+                          {t('portfolio.dashboard.addWalletNow')}
+                        </Button>
+                      </Link>
+                    </Grid>
                   </Grid>
                 )}
               </CardContent>

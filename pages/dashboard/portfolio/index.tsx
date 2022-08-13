@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { RecentTransactions } from 'components/dashboard/portfolio/dashboard/recent-transactions';
 import { MyWallets } from 'components/dashboard/portfolio/dashboard/my-wallets';
 import { Assets } from 'components/dashboard/portfolio/dashboard/assets';
+import { Refresh } from '@mui/icons-material';
 
 const Portfolio: NextPage = () => {
   const isMounted = useMounted();
@@ -20,6 +21,11 @@ const Portfolio: NextPage = () => {
   useEffect(() => {
     gtm.push({ event: 'page_view' });
   }, []);
+
+  const [lastUpdatedDt, setLastUpdatedDt] = useState(new Date());
+  const handleUpdateData = () => {
+    setLastUpdatedDt(new Date());
+  };
 
   return (
     <>
@@ -37,16 +43,40 @@ const Portfolio: NextPage = () => {
         }}
       >
         <Container maxWidth="xl">
+          <Grid container spacing={3} justifyContent="space-between" alignItems="center">
+            <Grid item>
+              <Typography variant="h6">{t('portfolio.dashboard.porfolioNetWorth')}: 172,636,829 USD</Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="caption2" sx={{ fontSize: '0.7rem', pr: 2 }}>
+                {t('portfolio.dashboard.dataLastUpdated')} 52 seconds ago
+              </Typography>{' '}
+              <Typography
+                onClick={handleUpdateData}
+                variant="caption2"
+                sx={{ color: 'primary.main', textDecoration: 'underline', cursor: 'pointer' }}
+              >
+                {t('portfolio.dashboard.updateDataNow')}
+              </Typography>{' '}
+              <Typography
+                onClick={handleUpdateData}
+                variant="caption2"
+                sx={{ color: 'primary.main', cursor: 'pointer', verticalAlign: 'bottom' }}
+              >
+                <Refresh sx={{ fontSize: '0.75rem' }} />
+              </Typography>
+            </Grid>
+          </Grid>
           <Grid container spacing={3} flexWrap="nowrap">
-            <Grid container item flexDirection="column" flex="1 1 65%">
+            <Grid container item flexDirection="column" flex="1 1 60%">
               {/* <Box sx={{ height: '400px', width: '400px' }}></Box> */}
               {/* <Box sx={{ mb: 6 }}></Box> */}
-              <Assets />
+              <Assets lastUpdatedDt={lastUpdatedDt} />
             </Grid>
-            <Grid container item flexDirection="column" flex="1 1 35%">
-              <MyWallets />
+            <Grid container item flexDirection="column" flex="1 1 40%">
+              <MyWallets lastUpdatedDt={lastUpdatedDt} />
               <Box sx={{ mb: 6 }}></Box>
-              <RecentTransactions />
+              <RecentTransactions lastUpdatedDt={lastUpdatedDt} />
             </Grid>
           </Grid>
         </Container>
