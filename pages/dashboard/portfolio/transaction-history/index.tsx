@@ -235,12 +235,18 @@ const TransactionHistoryPage: NextPage = () => {
             px: 1,
           }}
         >
-          <SingleSelect<string>
+          {/* <SingleSelect<string>
             shouldShowClearButton
             onChange={handleChangeWallet}
             label="All Wallets"
             value={filter?.wallet}
             options={uniqueWalletOptions}
+          /> */}
+          <MultiSelect
+            label="All Wallets"
+            onChange={handleChangeWallet}
+            options={uniqueWalletOptions}
+            value={filter?.wallet ?? []}
           />
           <SingleSelect<string>
             onChange={handleChangeNewest}

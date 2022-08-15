@@ -33,14 +33,18 @@ class PortfolioApi extends BaseApi {
     filters: ITransactionHistoryFilters = { sort: 'DESC' },
   ): Promise<TransactionHistoryResponse> {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
-    const filterParams = {
+    const filterParams = new URLSearchParams({
       sort: filters.sort,
       ...(filters.start_date ? { start_date: format(filters.start_date, 'yyyy-MM-dd') } : {}),
       ...(filters.end_date ? { end_date: format(filters.end_date, 'yyyy-MM-dd') } : {}),
-      ...(filters.wallet ? { wallet: filters.wallet } : {}),
       ...(filters.keyword ? { keyword: filters.keyword } : {}),
-    };
-    var result = await fetch(`${PortfolioApiEndPoints.GetAllTransactionHistory}?${new URLSearchParams(filterParams)}`, {
+    });
+    if (filters.wallet) {
+      filters.wallet?.forEach((w) => {
+        filterParams.append('wallet', w);
+      });
+    }
+    var result = await fetch(`${PortfolioApiEndPoints.GetAllTransactionHistory}?${filterParams}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
