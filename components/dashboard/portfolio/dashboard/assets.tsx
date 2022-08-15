@@ -36,7 +36,7 @@ import { Dot } from 'icons/dot';
 import Link from 'next/link';
 
 export interface IAssetsProps {
-  lastUpdatedDt: Date;
+  lastUpdatedDt: Date | undefined;
 }
 
 export const Assets: React.FC<IAssetsProps> = ({ lastUpdatedDt }) => {

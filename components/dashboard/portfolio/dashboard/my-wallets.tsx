@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { Divider } from 'components/common/divider';
 
 export interface IMyWalletsProps {
-  lastUpdatedDt: Date;
+  lastUpdatedDt: Date | undefined;
 }
 
 export const MyWallets: React.FC<IMyWalletsProps> = ({ lastUpdatedDt }) => {

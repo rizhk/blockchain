@@ -38,6 +38,8 @@ export const en = {
         noAssetCtaText:
           'Once your wallets have been connected, you will see  the asset allocation across all of your wallets here.',
         addWalletNow: 'Add a wallet now',
+        getWalletSyncStatusError: 'Failed to get wallet sync status',
+        requestWalletSyncError: 'Failed to create a new sync request',
       },
       transHis: {
         head: 'Transaction History',

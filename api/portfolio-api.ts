@@ -5,6 +5,7 @@ import {
   AssetsResponse,
   CreateUserTagResponse,
   GetUserTagsResponse,
+  GetWalletSyncStatusResponse,
   ITransactionHistoryFilters,
   TransactionHistory,
   TransactionHistoryResponse,
@@ -149,6 +150,36 @@ class PortfolioApi extends BaseApi {
     var data = (await this.handleFetchResponse<AssetsResponse>(result, {
       ...options,
     })) as AssetsResponse;
+    return data;
+  }
+  async getWalletSyncStatus(options: { defaultErrorMessage: string }): Promise<GetWalletSyncStatusResponse> {
+    const accessToken = globalThis.localStorage.getItem('accessToken') || '';
+
+    var result = await fetch(PortfolioApiEndPoints.GetWalletSyncStatus, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authentication: accessToken,
+      },
+    });
+    var data = (await this.handleFetchResponse<GetWalletSyncStatusResponse>(result, {
+      ...options,
+    })) as GetWalletSyncStatusResponse;
+    return data;
+  }
+  async requestWalletSync(options: { defaultErrorMessage: string }): Promise<BaseApiResponse> {
+    const accessToken = globalThis.localStorage.getItem('accessToken') || '';
+
+    var result = await fetch(PortfolioApiEndPoints.RequestWalletSync, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authentication: accessToken,
+      },
+    });
+    var data = (await this.handleFetchResponse<BaseApiResponse>(result, {
+      ...options,
+    })) as BaseApiResponse;
     return data;
   }
 }
