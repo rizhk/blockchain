@@ -34,10 +34,10 @@ export interface IAddNoteModalProps {
   hide: () => void;
   note: string | undefined;
   txnId: string | undefined;
-  getTransactionHistory: () => void;
+  setTransactionHistoryNote: (txnId: string, note: string) => void;
 }
 
-const AddNoteModal = ({ isShowing, hide, note, txnId, getTransactionHistory }: IAddNoteModalProps): JSX.Element => {
+const AddNoteModal = ({ isShowing, hide, note, txnId, setTransactionHistoryNote }: IAddNoteModalProps): JSX.Element => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -53,6 +53,7 @@ const AddNoteModal = ({ isShowing, hide, note, txnId, getTransactionHistory }: I
     loading: isSettingNote,
     error: setNoteError,
     mutate: setTransactionNote,
+    data: setNoteData,
   } = useMutation((body: { txnId: string; note: string }) => {
     return portfolioApi.updateTransaction(body, {
       defaultErrorMessage: t('portfolio.transHis.setNoteError'),
@@ -75,7 +76,7 @@ const AddNoteModal = ({ isShowing, hide, note, txnId, getTransactionHistory }: I
 
   React.useEffect(() => {
     if (isSetNoteSuccess) {
-      getTransactionHistory();
+      setTransactionHistoryNote(setNoteData?.item?.id as string, setNoteData?.item?.note as string);
       handleClose();
     }
   }, [isSetNoteSuccess]);

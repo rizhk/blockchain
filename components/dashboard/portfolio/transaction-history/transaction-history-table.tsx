@@ -53,6 +53,7 @@ interface TransactionHistoryTableProps {
   rowsPerPage: number;
   getTransactionHistory: () => void;
   setTransactionHistoryTag: (txnId: string, tag_name: string) => void;
+  setTransactionHistoryNote: (txnId: string, note: string) => void;
 }
 
 export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
@@ -64,6 +65,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
   rowsPerPage,
   getTransactionHistory,
   setTransactionHistoryTag,
+  setTransactionHistoryNote,
 }) => {
   const { t } = useTranslation();
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -104,7 +106,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
         hide={toggleAddTag}
       />
       <AddNoteModal
-        getTransactionHistory={getTransactionHistory}
+        setTransactionHistoryNote={setTransactionHistoryNote}
         note={currentTransaction?.note}
         txnId={currentTransaction?.id}
         isShowing={isAddNoteShowing}
@@ -295,6 +297,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
       />
       <TransactionHistoryDetails
         setTransactionHistoryTag={setTransactionHistoryTag}
+        setTransactionHistoryNote={setTransactionHistoryNote}
         openDrawer={openDrawer}
         setOpenDrawer={setOpenDrawer}
         transactionHistory={currentTransaction}
