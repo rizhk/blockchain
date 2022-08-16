@@ -232,7 +232,14 @@ export const Assets: React.FC<IAssetsProps> = ({ lastUpdatedDt }) => {
                               <Grid
                                 item
                                 component={() => {
-                                  return <Image width="20" height="20" alt={item.symbol} src={item.icon} />;
+                                  return (
+                                    <Image
+                                      width="20"
+                                      height="20"
+                                      alt={item.symbol}
+                                      src={item.icon === '' ? '/static/crypto/color/eth.svg' : item.icon}
+                                    />
+                                  );
                                 }}
                               />
                               <Grid item>
