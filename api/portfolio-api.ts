@@ -42,7 +42,7 @@ class PortfolioApi extends BaseApi {
     });
     if (filters.wallet) {
       filters.wallet?.forEach((w) => {
-        filterParams.append('wallet', w);
+        filterParams.append('wallet[]', w);
       });
     }
     var result = await fetch(`${PortfolioApiEndPoints.GetAllTransactionHistory}?${filterParams}`, {
