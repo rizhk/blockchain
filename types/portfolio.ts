@@ -1,7 +1,7 @@
 import { BaseApiResponse } from './response';
 
 export interface ITransactionHistoryFilters {
-  wallet?: string;
+  wallet?: string[];
   sort?: string;
   start_date?: Date | undefined;
   end_date?: Date | undefined;
