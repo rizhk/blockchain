@@ -75,7 +75,7 @@ const Portfolio: NextPage = () => {
         <Container maxWidth="xl">
           <Grid container spacing={3} justifyContent="space-between" alignItems="center">
             <Grid item>
-              <Typography variant="h6">{t('portfolio.dashboard.porfolioNetWorth')}: 172,636,829 USD</Typography>
+              {/* <Typography variant="h6">{t('portfolio.dashboard.porfolioNetWorth')}: 172,636,829 USD</Typography> */}
             </Grid>
             <Grid item>
               <Typography variant="caption2" sx={{ fontSize: '0.7rem', pr: 2 }}>

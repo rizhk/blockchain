@@ -122,7 +122,9 @@ export const Assets: React.FC<IAssetsProps> = ({ lastUpdatedDt }) => {
             <Card>
               <CardContent sx={{ p: 0 }}>
                 <Grid container justifyContent="space-between" alignItems="center">
-                  <Typography sx={{ pl: 4 }} variant="overline">{`${t('portfolio.dashboard.assets')}`}</Typography>
+                  <Typography sx={{ pl: 3, pt: 1.5, pb: 1.2 }} variant="overline">{`${t(
+                    'portfolio.dashboard.assets',
+                  )}`}</Typography>
                   <Box
                     sx={{
                       position: 'relative',
@@ -133,7 +135,7 @@ export const Assets: React.FC<IAssetsProps> = ({ lastUpdatedDt }) => {
                       py: 2,
                     }}
                   >
-                    <SingleSelect
+                    {/* <SingleSelect
                       small
                       shouldShowClearButton
                       onChange={handleChangeWallet}
@@ -168,7 +170,7 @@ export const Assets: React.FC<IAssetsProps> = ({ lastUpdatedDt }) => {
                         { value: false, label: t('portfolio.dashboard.earliest') },
                       ]}
                       labelProps={{ variant: 'overline', textTransform: 'none' }}
-                    />
+                    /> */}
                   </Box>
                 </Grid>
                 <Divider sx={{ m: 0, p: 0 }} />

@@ -32,7 +32,7 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({ lastUpd
             <Card>
               <CardContent sx={{ p: 0 }}>
                 <Grid container justifyContent="space-between" alignItems="center">
-                  <Grid item component={Typography} variant="overline" sx={{ pl: 4 }}>
+                  <Grid item component={Typography} variant="overline" sx={{ px: 3, pt: 1.2, pb: 1 }}>
                     {t('portfolio.dashboard.recentTrans')}
                   </Grid>
                   <Typography sx={{ pr: 4, py: 2 }} variant="textLink1" color="secondary.main">
@@ -47,7 +47,7 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({ lastUpd
                     {data?.items.map(
                       ({ id, from_name, to_name, crypto_amount, token_symbol, type, crypto_amount_fiat }) => {
                         return (
-                          <Grid sx={{ px: 4, py: 2 }} container key={id}>
+                          <Grid sx={{ px: 3, pt: 1.2, pb: 0.8 }} container key={id}>
                             <Grid container item>
                               <Grid component={Typography} variant="body1" flex="1 1 auto">
                                 {type.toLowerCase() == 'in' ? (
