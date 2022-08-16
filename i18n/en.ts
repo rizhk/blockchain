@@ -14,11 +14,14 @@ export const en = {
       head: 'Portfolio',
       title: 'Portfolio',
       dashboard: {
+        porfolioNetWorth: 'Your portfolio net worth',
+        updateDataNow: 'Update data now',
+        dataLastUpdated: 'Data last updated',
         recentTrans: 'Recent transactions',
         vewAllTrans: 'View all transactions',
         incoming: 'Incoming',
         outgoing: 'Outgoing',
-        totalWalletBal: 'Total wallet balance',
+        total: 'Total',
         viewAllWallets: 'View all wallets',
         addWallet: 'Add wallet',
         myWallets: 'MY WALLETS',
@@ -35,6 +38,8 @@ export const en = {
         noAssetCtaText:
           'Once your wallets have been connected, you will see  the asset allocation across all of your wallets here.',
         addWalletNow: 'Add a wallet now',
+        getWalletSyncStatusError: 'Failed to get wallet sync status',
+        requestWalletSyncError: 'Failed to create a new sync request',
       },
       transHis: {
         head: 'Transaction History',

@@ -7,10 +7,13 @@ import { useTranslation } from 'react-i18next';
 import { primitivesUtils } from 'utils/primitives-utils';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Divider } from 'components/common/divider';
 
-export interface IMyWalletsProps {}
+export interface IMyWalletsProps {
+  lastUpdatedDt: Date | undefined;
+}
 
-export const MyWallets: React.FC<IMyWalletsProps> = ({}) => {
+export const MyWallets: React.FC<IMyWalletsProps> = ({ lastUpdatedDt }) => {
   const { t } = useTranslation();
 
   const { data, loading, error, trigger } = useFetch(() => {
@@ -20,7 +23,7 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({}) => {
         defaultErrorMessage: t('portfolio.dashboard.getMyWalletsError'),
       },
     );
-  }, []);
+  }, [lastUpdatedDt]);
 
   const totalBalance = React.useMemo(() => {
     if (!data?.items) return 0;
@@ -32,38 +35,26 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({}) => {
   return (
     <>
       <Grid container flexDirection="row" width="100%">
-        <Grid item>
-          <Typography sx={{ mb: 3 }} variant="h6">
-            {`${t('portfolio.dashboard.totalWalletBal')}: `}{' '}
-            <Typography display="inline" variant="h6" color="secondary.main">
-              ${primitivesUtils.convertCurrencyDisplay(totalBalance)}
-            </Typography>
-          </Typography>
-        </Grid>
         <DataDisplay isLoading={loading} error={error} defaultLoaderOptions={{ height: '400px', width: '100%' }}>
           <Grid item flex="1 1 100%">
             <Card>
-              <CardContent sx={{ m: 2 }}>
-                <Grid container justifyContent="space-between">
-                  <Grid item component={Typography} variant="overline" sx={{ margin: '0 auto 0 0' }}>
+              <CardContent sx={{ p: 0 }}>
+                <Grid container justifyContent="space-between" alignItems="center">
+                  <Grid item component={Typography} variant="overline" sx={{ pl: 4 }}>
                     {t('portfolio.dashboard.myWallets')}
                   </Grid>
-                  {/* <Grid
-                    item
-                    component={Link}
-                    href="/dashboard/portfolio/wallet"
-                    variant="textLink1"
-                    color="secondary.main"
-                    sx={{ textDecoration: 'underline ' }}
-                  >
-                    {t('portfolio.dashboard.addWallet')}
-                  </Grid> */}
+                  <Typography sx={{ pr: 4, py: 2 }} variant="textLink1" color="secondary.main">
+                    <Link href="/dashboard/portfolio/wallet" passHref>
+                      {t('portfolio.dashboard.addWallet')}
+                    </Link>
+                  </Typography>
                 </Grid>
+                <Divider sx={{ m: 0, p: 0 }} />
                 {data?.items && data.items.length > 0 ? (
                   <>
                     {data?.items?.map(({ id, type, name, icon_tag, address, fiat_value, fiat_currency }) => {
                       return (
-                        <Grid spacing={3} container key={id}>
+                        <Grid sx={{ px: 4, py: 2 }} container key={id}>
                           <Grid container item flexWrap="nowrap" alignItems="center">
                             <Grid component={Typography} variant="body1" flex="0 0 auto" sx={{ mr: 2 }}>
                               <Image src={`/static/crypto/color/${icon_tag}.svg`} height="30" width="30" />{' '}
@@ -86,33 +77,46 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({}) => {
                         </Grid>
                       );
                     })}
-                    <Link href="/dashboard/portfolio/wallet/" passHref>
-                      <Typography
-                        sx={{ m: 2, cursor: 'pointer' }}
-                        display="block"
-                        textAlign="center"
-                        variant="textLink1"
-                        color="secondary.main"
-                      >
-                        {t('portfolio.dashboard.viewAllWallets')}
+                    <Grid sx={{ px: 4, py: 2 }} container justifyContent="space-between" alignItems="center">
+                      <Link href="/dashboard/portfolio/wallet/" passHref>
+                        <Typography
+                          sx={{ cursor: 'pointer' }}
+                          display="block"
+                          textAlign="center"
+                          variant="textLink1"
+                          color="secondary.main"
+                        >
+                          {t('portfolio.dashboard.viewAllWallets')}
+                        </Typography>
+                      </Link>
+                      <Typography variant="body1">
+                        {`${t('portfolio.dashboard.total')}: `}
+                        <Typography display="inline" variant="body1" color="secondary.main">
+                          ${primitivesUtils.convertCurrencyDisplay(totalBalance)}
+                        </Typography>
                       </Typography>
-                    </Link>
+                    </Grid>
                   </>
                 ) : (
                   <Grid container alignItems="center" justifyContent="center">
-                    <Typography
+                    <Grid
+                      item
+                      component={Typography}
+                      flex="1 1 100%"
                       sx={{ mx: 2, my: 4, maxWidth: '300px' }}
                       display="block"
                       textAlign="center"
                       variant="ctaText1"
                     >
                       {t('portfolio.dashboard.noWalletCtaText')}
-                    </Typography>
-                    <Link href="/dashboard/portfolio/wallet/" passHref>
-                      <Button type="button" variant="contained" color="primary" sx={{ mb: 8 }}>
-                        {t('portfolio.dashboard.addWalletNow')}
-                      </Button>
-                    </Link>
+                    </Grid>
+                    <Grid container item flex="1 1 100%" justifyContent="center">
+                      <Link href="/dashboard/portfolio/wallet/" passHref>
+                        <Button type="button" variant="contained" color="primary" sx={{ mb: 4 }}>
+                          {t('portfolio.dashboard.addWalletNow')}
+                        </Button>
+                      </Link>
+                    </Grid>
                   </Grid>
                 )}
               </CardContent>

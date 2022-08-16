@@ -95,3 +95,8 @@ export interface Asset {
   fiat_value: string;
   fiat_currency: string;
 }
+
+export interface GetWalletSyncStatusResponse extends BaseApiResponse {
+  last_updated_at: string;
+  status: string;
+}

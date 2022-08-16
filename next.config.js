@@ -17,7 +17,7 @@ module.exports = withTM({
     includePaths: [path.join(__dirname, 'styles')],
   },
   images: {
-    domains: ['static.alchemyapi.io', 'etherscan.io'],
+    domains: ['static.alchemyapi.io', 'etherscan.io', 'app.picante.io'],
   },
   webpack(config) {
     config.module.rules.push({
