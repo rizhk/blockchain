@@ -127,7 +127,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
             <TableCell>{t('portfolio.transHis.from')}</TableCell>
             <TableCell>{t('portfolio.transHis.to')}</TableCell>
             <TableCell>{t('portfolio.transHis.amount')}</TableCell>
-            <TableCell>{t('portfolio.transHis.fees')}</TableCell>
+            {/* <TableCell>{t('portfolio.transHis.fees')}</TableCell> */}
             <TableCell>{t('portfolio.transHis.total')}</TableCell>
             <TableCell>{t('portfolio.transHis.tag')}</TableCell>
             <TableCell>{t('portfolio.transHis.note')}</TableCell>
@@ -187,17 +187,17 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                       </Typography>
                     )}
                   </TableCell>
-                  <TableCell>
-                    <Typography display="inline" variant="subtitle2">
-                      {primitivesUtils.convertCurrencyDisplay(transaction.gas_used)} {'ETH'}
-                      {/*//TODO: hardcore for now, transaction should provide a native token symbol */}
-                    </Typography>
-                    <br />
-                    <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                      {'USD '}
-                      {primitivesUtils.convertCurrencyDisplay(transaction.gas_fiat)}
-                    </Typography>
-                  </TableCell>
+                  {/* <TableCell> */}
+                  {/* <Typography display="inline" variant="subtitle2"> */}
+                  {/* {primitivesUtils.convertCurrencyDisplay(transaction.gas_used)} {'ETH'} */}
+                  {/* //TODO: hardcore for now, transaction should provide a native token symbol */}
+                  {/* </Typography> */}
+                  {/* <br /> */}
+                  {/* <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}> */}
+                  {/* {'USD '} */}
+                  {/* {primitivesUtils.convertCurrencyDisplay(transaction.gas_fiat)} */}
+                  {/* </Typography> */}
+                  {/* </TableCell> */}
                   <TableCell sx={{ maxWidth: '150px' }}>
                     <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
                       {'USD '}
