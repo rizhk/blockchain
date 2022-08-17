@@ -88,8 +88,27 @@ const TransactionHistoryPage: NextPage = () => {
   };
   const [open, setOpen] = useState(false);
 
+  const [wallets, setWallets] = useState([]);
+
   useEffect(() => {
     setTransactionHistory({ shouldRefresh: true, items: data?.items || [] });
+
+    const getWallets = async () => {
+      const walletResult = await portfolioApi.getAllWallets({
+        defaultErrorMessage: t('portfolio.transHis.getWalletsError'),
+      });
+
+      setWallets(
+        walletResult?.items.map((w) => {
+          return {
+            label: w.name,
+            value: w.id,
+          };
+        }) ?? [],
+      );
+    };
+
+    getWallets();
   }, [JSON.stringify(data)]);
 
   const setTransactionHistoryTag = (txnId: string, tag_name: string) => {
@@ -140,20 +159,6 @@ const TransactionHistoryPage: NextPage = () => {
       });
     }
   };
-
-  const walletOptions = [
-    ...(data?.items?.map(({ from_name, from }) => {
-      return { label: from_name, value: from };
-    }) || []),
-    ...(data?.items?.map(({ to_name, to }) => {
-      return { label: to_name, value: to };
-    }) || []),
-  ];
-  // TODO remove unnamed wallet, will call backend to get wallet list
-  const tempOptions = [...new Map(walletOptions.map((item) => [item['label'], item])).values()];
-  const uniqueWalletOptions = tempOptions.filter(({ label }) => {
-    return label.toLowerCase() !== 'unnamed';
-  });
 
   return (
     <>
@@ -255,7 +260,7 @@ const TransactionHistoryPage: NextPage = () => {
           <MultiSelect
             label="All Wallets"
             onChange={handleChangeWallet}
-            options={uniqueWalletOptions}
+            options={wallets}
             value={filter?.wallet ?? []}
           />
           <SingleSelect<string>
