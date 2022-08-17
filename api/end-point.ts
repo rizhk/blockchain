@@ -27,8 +27,8 @@ export const PicanteApi = {
 export const PortfolioApiEndPoints = {
   ExportTransactionHistory: PicanteApiHost + '/v1/portfolio/export/transaction',
   GetAllTransactionHistory: PicanteApiHost + '/v1/portfolio/transaction',
-  GetUserTags: PicanteApiHost + '/v1/portfolio/accouting/tag',
-  CreateTransactionTag: PicanteApiHost + '/v1/portfolio/accouting/tag',
+  GetUserTags: PicanteApiHost + '/v1/portfolio/accounting/tag',
+  CreateTransactionTag: PicanteApiHost + '/v1/portfolio/accounting/tag',
   UpdateTransaction: PicanteApiHost + '/v1/portfolio/transaction',
   GetAllWallets: PicanteApiHost + '/v1/portfolio/wallet',
   GetUserAssets: PicanteApiHost + '/v1/portfolio/assets',
