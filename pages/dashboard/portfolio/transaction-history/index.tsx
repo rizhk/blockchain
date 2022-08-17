@@ -233,7 +233,7 @@ const TransactionHistoryPage: NextPage = () => {
                 fullWidth
                 onChange={handleQueryChange}
                 onKeyUp={handleQueryKeyup}
-                placeholder="Search by wallet address or note"
+                placeholder={t('portfolio.transHis.search')}
                 value={queryValue}
               />
             </Box>
