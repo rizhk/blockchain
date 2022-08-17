@@ -94,6 +94,7 @@ export const en = {
         save: 'Save',
         connectWalletToSeeTxn: 'Connect a wallet to begin seeing your transactions.',
         search: 'Search by wallet address or note',
+        all: 'All Wallets',
       },
       walletList: {
         myWallets: 'My Wallets',
