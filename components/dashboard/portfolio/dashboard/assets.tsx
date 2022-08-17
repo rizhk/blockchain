@@ -96,6 +96,26 @@ export const Assets: React.FC<IAssetsProps> = ({ lastUpdatedDt }) => {
     alpha(theme.palette.primary.dark, 0.2),
     alpha('#828DF8', 0.2),
     alpha('#B9BDDF', 0.2),
+    alpha(theme.palette.secondary.main, 1),
+    alpha(theme.palette.secondary.dark, 1),
+    alpha(theme.palette.secondary.main, 0.9),
+    alpha(theme.palette.secondary.dark, 0.9),
+    alpha(theme.palette.secondary.main, 0.8),
+    alpha(theme.palette.secondary.dark, 0.8),
+    alpha(theme.palette.secondary.main, 0.7),
+    alpha(theme.palette.secondary.dark, 0.7),
+    alpha(theme.palette.secondary.main, 0.6),
+    alpha(theme.palette.secondary.dark, 0.6),
+    alpha(theme.palette.secondary.main, 0.5),
+    alpha(theme.palette.secondary.dark, 0.5),
+    alpha(theme.palette.secondary.main, 0.4),
+    alpha(theme.palette.secondary.dark, 0.4),
+    alpha(theme.palette.secondary.main, 0.3),
+    alpha(theme.palette.secondary.dark, 0.3),
+    alpha(theme.palette.secondary.main, 0.2),
+    alpha(theme.palette.secondary.dark, 0.2),
+    alpha(theme.palette.secondary.main, 0.1),
+    alpha(theme.palette.secondary.dark, 0.1),
   ];
 
   const chartDataSeries = filteredData?.items?.map(({ name, balance, fiat_value, fiat_currency, symbol }, index) => {
@@ -212,7 +232,14 @@ export const Assets: React.FC<IAssetsProps> = ({ lastUpdatedDt }) => {
                               <Grid
                                 item
                                 component={() => {
-                                  return <Image width="20" height="20" alt={item.symbol} src={item.icon} />;
+                                  return (
+                                    <Image
+                                      width="20"
+                                      height="20"
+                                      alt={item.symbol}
+                                      src={item.icon === '' ? '/static/crypto/color/eth.svg' : item.icon}
+                                    />
+                                  );
                                 }}
                               />
                               <Grid item>

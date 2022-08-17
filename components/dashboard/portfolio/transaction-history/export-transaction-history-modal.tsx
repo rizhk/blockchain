@@ -12,6 +12,8 @@ import {
   MenuItem,
   TextField,
   FormControl,
+  FormHelperText,
+  Alert,
 } from '@mui/material';
 import { portfolioApi } from 'api/portfolio-api';
 import { Divider } from 'components/common/divider';
@@ -53,10 +55,7 @@ const ExportTransactionHistoryModal = ({ isShowing, hide }: IExportTransactionHi
   };
 
   const { data, loading, error, resetError, trigger } = useFetch(() => {
-    return portfolioApi.exportTransactionHistory(
-      {},
-      { defaultErrorMessage: t('transaction.withdrawTransactionError') },
-    );
+    return portfolioApi.exportTransactionHistory({}, { defaultErrorMessage: t('transaction.exportTransactionError') });
   });
 
   useEffect(() => {
@@ -109,6 +108,12 @@ const ExportTransactionHistoryModal = ({ isShowing, hide }: IExportTransactionHi
         </Grid>
         <Grid justifyContent="space-between" alignItems="center" container item xs={12}>
           <Box flex="1 1 100%" sx={{ mt: 2 }}></Box>
+          {error && !loading && (
+            <Grid item flex="1 1 100%" sx={{ mb: 2 }}>
+              <Alert severity="error">{error}</Alert>
+            </Grid>
+          )}
+
           <Typography onClick={hide} variant="caption2" sx={{ textDecoration: 'underline', cursor: 'pointer' }}>
             {t('portfolio.transHis.cancel')}
           </Typography>

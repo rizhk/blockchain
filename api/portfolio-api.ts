@@ -24,7 +24,10 @@ class PortfolioApi extends BaseApi {
         'Content-Type': 'application/json',
         Authentication: accessToken,
       },
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
     });
+
     var data = (await this.handleFetchResponse(result, { ...options })) as AttachmentApiResponse;
     data.timestamp = new Date().toISOString();
     return data;
@@ -51,6 +54,8 @@ class PortfolioApi extends BaseApi {
         'Content-Type': 'application/json',
         Authentication: accessToken,
       },
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
     });
     var data = (await this.handleFetchResponse<TransactionHistoryResponse>(result, {
       ...options,
@@ -74,6 +79,8 @@ class PortfolioApi extends BaseApi {
         'Content-Type': 'application/json',
         Authentication: accessToken,
       },
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
     });
     var data = (await this.handleFetchResponse<GetUserTagsResponse>(result, {
       ...options,
@@ -93,6 +100,8 @@ class PortfolioApi extends BaseApi {
         Authentication: accessToken,
       },
       body: JSON.stringify(body),
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
     });
     var data = (await this.handleFetchResponse<CreateUserTagResponse>(result, {
       ...options,
@@ -112,6 +121,8 @@ class PortfolioApi extends BaseApi {
         Authentication: accessToken,
       },
       body: JSON.stringify(body),
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
     });
     var data = (await this.handleFetchResponse<UpdateTransactionHistoryResponse>(result, {
       ...options,
@@ -127,6 +138,8 @@ class PortfolioApi extends BaseApi {
         'Content-Type': 'application/json',
         Authentication: accessToken,
       },
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
     });
     var data = (await this.handleFetchResponse<WalletResponse>(result, {
       ...options,
@@ -150,6 +163,8 @@ class PortfolioApi extends BaseApi {
         'Content-Type': 'application/json',
         Authentication: accessToken,
       },
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
     });
     var data = (await this.handleFetchResponse<AssetsResponse>(result, {
       ...options,
@@ -165,6 +180,8 @@ class PortfolioApi extends BaseApi {
         'Content-Type': 'application/json',
         Authentication: accessToken,
       },
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
     });
     var data = (await this.handleFetchResponse<GetWalletSyncStatusResponse>(result, {
       ...options,
@@ -180,6 +197,8 @@ class PortfolioApi extends BaseApi {
         'Content-Type': 'application/json',
         Authentication: accessToken,
       },
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
     });
     var data = (await this.handleFetchResponse<BaseApiResponse>(result, {
       ...options,

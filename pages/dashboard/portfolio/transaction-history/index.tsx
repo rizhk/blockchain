@@ -102,6 +102,16 @@ const TransactionHistoryPage: NextPage = () => {
     });
   };
 
+  const setTransactionHistoryNote = (txnId: string, note: string) => {
+    setTransactionHistory((previous) => {
+      const { items, shouldRefresh } = previous;
+      const { item, index } = primitivesUtils.getItemInArrayByKey(items, 'id', txnId);
+      if (item === undefined || index === undefined) return previous;
+      const updatedItem = { ...item, note };
+      return { shouldRefresh: false, items: primitivesUtils.replaceItemInArrayByIndex(items, index, updatedItem) };
+    });
+  };
+
   const { currentData, count, onPageChange, onRowsPerPageChange, page, rowsPerPage } = useClientPagination(
     transactionHistory.items,
     transactionHistory.shouldRefresh,
@@ -281,6 +291,7 @@ const TransactionHistoryPage: NextPage = () => {
         <DataDisplay isLoading={loading} error={error} defaultLoaderOptions={{ height: '80vh', width: '100%' }}>
           <TransactionHistoryTable
             setTransactionHistoryTag={setTransactionHistoryTag}
+            setTransactionHistoryNote={setTransactionHistoryNote}
             getTransactionHistory={() => trigger()}
             transactionHistory={currentData}
             count={count}

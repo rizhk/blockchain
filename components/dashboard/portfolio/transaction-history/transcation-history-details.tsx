@@ -21,6 +21,7 @@ export interface ITransactionHistoryDetailsProps {
   transactionHistory: TransactionHistory | undefined;
   getTransactionHistory: () => void;
   setTransactionHistoryTag: (txnId: string, tag_name: string) => void;
+  setTransactionHistoryNote: (txnId: string, note: string) => void;
 }
 
 export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps> = ({
@@ -29,6 +30,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
   transactionHistory,
   getTransactionHistory,
   setTransactionHistoryTag,
+  setTransactionHistoryNote,
 }) => {
   const { t } = useTranslation();
   const handleCloseDrawer = () => {
@@ -77,7 +79,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
         hide={toggleAddTag}
       />
       <AddNoteModal
-        getTransactionHistory={getTransactionHistory}
+        setTransactionHistoryNote={setTransactionHistoryNote}
         note={transactionHistory?.note}
         txnId={transactionHistory?.id}
         isShowing={isAddNoteShowing}
@@ -367,6 +369,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
                         display: 'flex',
                         alignItems: 'center',
                         cursor: 'pointer',
+                        mt: 1,
                       }}
                     >
                       {t('portfolio.transHis.editNote')}
