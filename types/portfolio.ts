@@ -1,7 +1,7 @@
 import { BaseApiResponse } from './response';
 
 export interface ITransactionHistoryFilters {
-  wallet?: string;
+  wallet?: string[];
   sort?: string;
   start_date?: Date | undefined;
   end_date?: Date | undefined;
@@ -94,4 +94,9 @@ export interface Asset {
   balance: string;
   fiat_value: string;
   fiat_currency: string;
+}
+
+export interface GetWalletSyncStatusResponse extends BaseApiResponse {
+  last_updated_at: string;
+  status: string;
 }

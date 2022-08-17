@@ -53,6 +53,7 @@ interface TransactionHistoryTableProps {
   rowsPerPage: number;
   getTransactionHistory: () => void;
   setTransactionHistoryTag: (txnId: string, tag_name: string) => void;
+  setTransactionHistoryNote: (txnId: string, note: string) => void;
 }
 
 export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
@@ -64,6 +65,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
   rowsPerPage,
   getTransactionHistory,
   setTransactionHistoryTag,
+  setTransactionHistoryNote,
 }) => {
   const { t } = useTranslation();
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -104,7 +106,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
         hide={toggleAddTag}
       />
       <AddNoteModal
-        getTransactionHistory={getTransactionHistory}
+        setTransactionHistoryNote={setTransactionHistoryNote}
         note={currentTransaction?.note}
         txnId={currentTransaction?.id}
         isShowing={isAddNoteShowing}
@@ -127,7 +129,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
             <TableCell>{t('portfolio.transHis.from')}</TableCell>
             <TableCell>{t('portfolio.transHis.to')}</TableCell>
             <TableCell>{t('portfolio.transHis.amount')}</TableCell>
-            <TableCell>{t('portfolio.transHis.fees')}</TableCell>
+            {/* <TableCell>{t('portfolio.transHis.fees')}</TableCell> */}
             <TableCell>{t('portfolio.transHis.total')}</TableCell>
             <TableCell>{t('portfolio.transHis.tag')}</TableCell>
             <TableCell>{t('portfolio.transHis.note')}</TableCell>
@@ -187,17 +189,17 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                       </Typography>
                     )}
                   </TableCell>
-                  <TableCell>
-                    <Typography display="inline" variant="subtitle2">
-                      {primitivesUtils.convertCurrencyDisplay(transaction.gas_used)} {'ETH'}
-                      {/*//TODO: hardcore for now, transaction should provide a native token symbol */}
-                    </Typography>
-                    <br />
-                    <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                      {'USD '}
-                      {primitivesUtils.convertCurrencyDisplay(transaction.gas_fiat)}
-                    </Typography>
-                  </TableCell>
+                  {/* <TableCell> */}
+                  {/* <Typography display="inline" variant="subtitle2"> */}
+                  {/* {primitivesUtils.convertCurrencyDisplay(transaction.gas_used)} {'ETH'} */}
+                  {/* //TODO: hardcore for now, transaction should provide a native token symbol */}
+                  {/* </Typography> */}
+                  {/* <br /> */}
+                  {/* <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}> */}
+                  {/* {'USD '} */}
+                  {/* {primitivesUtils.convertCurrencyDisplay(transaction.gas_fiat)} */}
+                  {/* </Typography> */}
+                  {/* </TableCell> */}
                   <TableCell sx={{ maxWidth: '150px' }}>
                     <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
                       {'USD '}
@@ -295,6 +297,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
       />
       <TransactionHistoryDetails
         setTransactionHistoryTag={setTransactionHistoryTag}
+        setTransactionHistoryNote={setTransactionHistoryNote}
         openDrawer={openDrawer}
         setOpenDrawer={setOpenDrawer}
         transactionHistory={currentTransaction}

@@ -5,6 +5,7 @@ import {
   AssetsResponse,
   CreateUserTagResponse,
   GetUserTagsResponse,
+  GetWalletSyncStatusResponse,
   ITransactionHistoryFilters,
   TransactionHistory,
   TransactionHistoryResponse,
@@ -23,7 +24,10 @@ class PortfolioApi extends BaseApi {
         'Content-Type': 'application/json',
         Authentication: accessToken,
       },
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
     });
+
     var data = (await this.handleFetchResponse(result, { ...options })) as AttachmentApiResponse;
     data.timestamp = new Date().toISOString();
     return data;
@@ -33,19 +37,25 @@ class PortfolioApi extends BaseApi {
     filters: ITransactionHistoryFilters = { sort: 'DESC' },
   ): Promise<TransactionHistoryResponse> {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
-    const filterParams = {
+    const filterParams = new URLSearchParams({
       sort: filters.sort,
       ...(filters.start_date ? { start_date: format(filters.start_date, 'yyyy-MM-dd') } : {}),
       ...(filters.end_date ? { end_date: format(filters.end_date, 'yyyy-MM-dd') } : {}),
-      ...(filters.wallet ? { wallet: filters.wallet } : {}),
       ...(filters.keyword ? { keyword: filters.keyword } : {}),
-    };
-    var result = await fetch(`${PortfolioApiEndPoints.GetAllTransactionHistory}?${new URLSearchParams(filterParams)}`, {
+    });
+    if (filters.wallet) {
+      filters.wallet?.forEach((w) => {
+        filterParams.append('wallet[]', w);
+      });
+    }
+    var result = await fetch(`${PortfolioApiEndPoints.GetAllTransactionHistory}?${filterParams}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Authentication: accessToken,
       },
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
     });
     var data = (await this.handleFetchResponse<TransactionHistoryResponse>(result, {
       ...options,
@@ -69,6 +79,8 @@ class PortfolioApi extends BaseApi {
         'Content-Type': 'application/json',
         Authentication: accessToken,
       },
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
     });
     var data = (await this.handleFetchResponse<GetUserTagsResponse>(result, {
       ...options,
@@ -88,6 +100,8 @@ class PortfolioApi extends BaseApi {
         Authentication: accessToken,
       },
       body: JSON.stringify(body),
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
     });
     var data = (await this.handleFetchResponse<CreateUserTagResponse>(result, {
       ...options,
@@ -107,6 +121,8 @@ class PortfolioApi extends BaseApi {
         Authentication: accessToken,
       },
       body: JSON.stringify(body),
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
     });
     var data = (await this.handleFetchResponse<UpdateTransactionHistoryResponse>(result, {
       ...options,
@@ -122,6 +138,8 @@ class PortfolioApi extends BaseApi {
         'Content-Type': 'application/json',
         Authentication: accessToken,
       },
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
     });
     var data = (await this.handleFetchResponse<WalletResponse>(result, {
       ...options,
@@ -145,10 +163,46 @@ class PortfolioApi extends BaseApi {
         'Content-Type': 'application/json',
         Authentication: accessToken,
       },
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
     });
     var data = (await this.handleFetchResponse<AssetsResponse>(result, {
       ...options,
     })) as AssetsResponse;
+    return data;
+  }
+  async getWalletSyncStatus(options: { defaultErrorMessage: string }): Promise<GetWalletSyncStatusResponse> {
+    const accessToken = globalThis.localStorage.getItem('accessToken') || '';
+
+    var result = await fetch(PortfolioApiEndPoints.GetWalletSyncStatus, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authentication: accessToken,
+      },
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
+    });
+    var data = (await this.handleFetchResponse<GetWalletSyncStatusResponse>(result, {
+      ...options,
+    })) as GetWalletSyncStatusResponse;
+    return data;
+  }
+  async requestWalletSync(options: { defaultErrorMessage: string }): Promise<BaseApiResponse> {
+    const accessToken = globalThis.localStorage.getItem('accessToken') || '';
+
+    var result = await fetch(PortfolioApiEndPoints.RequestWalletSync, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authentication: accessToken,
+      },
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
+    });
+    var data = (await this.handleFetchResponse<BaseApiResponse>(result, {
+      ...options,
+    })) as BaseApiResponse;
     return data;
   }
 }

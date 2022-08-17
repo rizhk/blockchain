@@ -88,8 +88,27 @@ const TransactionHistoryPage: NextPage = () => {
   };
   const [open, setOpen] = useState(false);
 
+  const [wallets, setWallets] = useState([]);
+
   useEffect(() => {
     setTransactionHistory({ shouldRefresh: true, items: data?.items || [] });
+
+    const getWallets = async () => {
+      const walletResult = await portfolioApi.getAllWallets({
+        defaultErrorMessage: t('portfolio.transHis.getWalletsError'),
+      });
+
+      setWallets(
+        walletResult?.items.map((w) => {
+          return {
+            label: w.name,
+            value: w.address,
+          };
+        }) ?? [],
+      );
+    };
+
+    getWallets();
   }, [JSON.stringify(data)]);
 
   const setTransactionHistoryTag = (txnId: string, tag_name: string) => {
@@ -98,6 +117,16 @@ const TransactionHistoryPage: NextPage = () => {
       const { item, index } = primitivesUtils.getItemInArrayByKey(items, 'id', txnId);
       if (item === undefined || index === undefined) return previous;
       const updatedItem = { ...item, tag_name };
+      return { shouldRefresh: false, items: primitivesUtils.replaceItemInArrayByIndex(items, index, updatedItem) };
+    });
+  };
+
+  const setTransactionHistoryNote = (txnId: string, note: string) => {
+    setTransactionHistory((previous) => {
+      const { items, shouldRefresh } = previous;
+      const { item, index } = primitivesUtils.getItemInArrayByKey(items, 'id', txnId);
+      if (item === undefined || index === undefined) return previous;
+      const updatedItem = { ...item, note };
       return { shouldRefresh: false, items: primitivesUtils.replaceItemInArrayByIndex(items, index, updatedItem) };
     });
   };
@@ -130,20 +159,6 @@ const TransactionHistoryPage: NextPage = () => {
       });
     }
   };
-
-  const walletOptions = [
-    ...(data?.items?.map(({ from_name, from }) => {
-      return { label: from_name, value: from };
-    }) || []),
-    ...(data?.items?.map(({ to_name, to }) => {
-      return { label: to_name, value: to };
-    }) || []),
-  ];
-  // TODO remove unnamed wallet, will call backend to get wallet list
-  const tempOptions = [...new Map(walletOptions.map((item) => [item['label'], item])).values()];
-  const uniqueWalletOptions = tempOptions.filter(({ label }) => {
-    return label.toLowerCase() !== 'unnamed';
-  });
 
   return (
     <>
@@ -218,7 +233,7 @@ const TransactionHistoryPage: NextPage = () => {
                 fullWidth
                 onChange={handleQueryChange}
                 onKeyUp={handleQueryKeyup}
-                placeholder="Enter a keyword"
+                placeholder="Search by wallet address or note"
                 value={queryValue}
               />
             </Box>
@@ -235,12 +250,18 @@ const TransactionHistoryPage: NextPage = () => {
             px: 1,
           }}
         >
-          <SingleSelect<string>
+          {/* <SingleSelect<string>
             shouldShowClearButton
             onChange={handleChangeWallet}
             label="All Wallets"
             value={filter?.wallet}
             options={uniqueWalletOptions}
+          /> */}
+          <MultiSelect
+            label="All Wallets"
+            onChange={handleChangeWallet}
+            options={wallets}
+            value={filter?.wallet ?? []}
           />
           <SingleSelect<string>
             onChange={handleChangeNewest}
@@ -275,6 +296,7 @@ const TransactionHistoryPage: NextPage = () => {
         <DataDisplay isLoading={loading} error={error} defaultLoaderOptions={{ height: '80vh', width: '100%' }}>
           <TransactionHistoryTable
             setTransactionHistoryTag={setTransactionHistoryTag}
+            setTransactionHistoryNote={setTransactionHistoryNote}
             getTransactionHistory={() => trigger()}
             transactionHistory={currentData}
             count={count}

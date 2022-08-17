@@ -1,7 +1,18 @@
 import { useRef, useState } from 'react';
 import type { ChangeEvent, FC } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Button, Checkbox, Divider, FormControlLabel, Menu, MenuItem, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Checkbox,
+  Divider,
+  FormControlLabel,
+  Menu,
+  MenuItem,
+  SxProps,
+  Theme,
+  Typography,
+} from '@mui/material';
 import { ChevronDown as ChevronDownIcon } from '../icons/chevron-down';
 
 interface SingleSelectProps<T> {
@@ -10,10 +21,12 @@ interface SingleSelectProps<T> {
   options: { label: string; value: T }[];
   value: T | undefined;
   shouldShowClearButton?: boolean;
+  labelProps?: React.ComponentProps<typeof Typography>;
+  small?: boolean;
 }
 
 export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElement = (props) => {
-  const { label, onChange, options, value, shouldShowClearButton = false, ...other } = props;
+  const { small = false, labelProps, label, onChange, options, value, shouldShowClearButton = false, ...other } = props;
   const anchorRef = useRef<HTMLButtonElement | null>(null);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [selectedLabel, setSelectedLabel] = useState(label);
@@ -47,9 +60,10 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
         endIcon={<ChevronDownIcon fontSize="small" />}
         onClick={handleOpenMenu}
         ref={anchorRef}
+        sx={[small && { py: 0 }]}
         {...other}
       >
-        {selectedLabel}
+        <Typography {...labelProps}>{selectedLabel}</Typography>
       </Button>
       <Menu
         anchorEl={anchorRef.current}
