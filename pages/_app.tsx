@@ -24,6 +24,7 @@ import { gtm } from '../lib/gtm';
 import { store } from '../store';
 import { createTheme } from '../theme';
 import { createEmotionCache } from '../utils/create-emotion-cache';
+import { hotjar } from 'react-hotjar';
 import '../i18n/i18n';
 import 'styles/globals.scss';
 
@@ -45,6 +46,10 @@ const App: FC<EnhancedAppProps> = (props) => {
 
   useEffect(() => {
     gtm.initialize(gtmConfig);
+
+    if (typeof process.env.NEXT_PUBLIC_HOTJAR_ID !== 'undefined' && process.env.NEXT_PUBLIC_HOTJAR_SV !== 'undefined') {
+      hotjar.initialize(Number(process.env.NEXT_PUBLIC_HOTJAR_ID!), Number(process.env.NEXT_PUBLIC_HOTJAR_SV!));
+    }
   }, []);
 
   return (

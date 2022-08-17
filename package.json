@@ -84,6 +84,7 @@
     "react-dropzone": "^11.2.4",
     "react-google-recaptcha": "^2.1.0",
     "react-hot-toast": "^2.2.0",
+    "react-hotjar": "^5.0.0",
     "react-i18next": "^11.15.3",
     "react-lazy-load-image-component": "^1.5.4",
     "react-markdown": "^8.0.0",
