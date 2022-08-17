@@ -199,7 +199,7 @@ export const Assets: React.FC<IAssetsProps> = ({ lastUpdatedDt }) => {
                     <Grid item flex="0 1 auto" component={AssetsChart} data={chartData} />
                     <Grid item container>
                       <Grid container item flex="1 1 auto" alignItems="flex-end" flexWrap="nowrap" sx={{ py: 1 }}>
-                        <Grid item flex="1 1 40%">
+                        <Grid item flex="1 1 45%">
                           <Typography variant="overline" sx={{ textTransform: 'none', lineHeight: 0.25 }}>
                             Total
                           </Typography>
@@ -209,10 +209,10 @@ export const Assets: React.FC<IAssetsProps> = ({ lastUpdatedDt }) => {
                             {primitivesUtils.convertCurrencyDisplay(filteredData?.total_bal as string)}
                           </Typography>
                         </Grid>
-                        <Grid item flex="1 1 30%">
+                        <Grid item flex="1 1 27.5%">
                           <Typography variant="overline">BALANCE</Typography>
                         </Grid>
-                        <Grid item flex="1 1 30%">
+                        <Grid item flex="1 1 27.5%">
                           <Typography variant="overline">USD AMOUNT</Typography>
                         </Grid>
                       </Grid>
@@ -227,7 +227,7 @@ export const Assets: React.FC<IAssetsProps> = ({ lastUpdatedDt }) => {
                             flexWrap="nowrap"
                             sx={{ borderTop: '1px solid #E6E8F0', py: 2 }}
                           >
-                            <Grid container item flex="1 1 40%" alignItems="center">
+                            <Grid container item flex="1 1 45%" alignItems="center">
                               <Grid item component={Dot} sx={{ color: [chartBaseColors[index]] }} />
                               <Grid
                                 item
@@ -248,12 +248,12 @@ export const Assets: React.FC<IAssetsProps> = ({ lastUpdatedDt }) => {
                                 </Typography>
                               </Grid>
                             </Grid>
-                            <Grid item flex="1 1 30%">
+                            <Grid item flex="1 1 27.5%">
                               <Typography variant="caption">
                                 {item.symbol} {primitivesUtils.convertCurrencyDisplay(item.balance)}
                               </Typography>
                             </Grid>
-                            <Grid item flex="1 1 30%">
+                            <Grid item flex="1 1 27.5%">
                               <Typography variant="caption">
                                 {item.fiat_currency} {primitivesUtils.convertCurrencyDisplay(item.fiat_value)}
                               </Typography>
