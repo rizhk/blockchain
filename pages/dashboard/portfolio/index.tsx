@@ -121,12 +121,12 @@ const Portfolio: NextPage = () => {
             </Grid>
           </Grid>
           <Grid container spacing={3} flexWrap="nowrap">
-            <Grid container item flexDirection="column" flex="1 1 60%">
+            <Grid container item flexDirection="column" flex="1 1 65%">
               {/* <Box sx={{ height: '400px', width: '400px' }}></Box> */}
               {/* <Box sx={{ mb: 6 }}></Box> */}
               <Assets lastUpdatedDt={lastUpdatedDt} />
             </Grid>
-            <Grid container item flexDirection="column" flex="1 1 40%">
+            <Grid container item flexDirection="column" flex="1 1 35%">
               <MyWallets lastUpdatedDt={lastUpdatedDt} />
               <Box sx={{ mb: 6 }}></Box>
               <RecentTransactions lastUpdatedDt={lastUpdatedDt} />
