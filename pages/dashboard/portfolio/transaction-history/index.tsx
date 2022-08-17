@@ -102,7 +102,7 @@ const TransactionHistoryPage: NextPage = () => {
         walletResult?.items.map((w) => {
           return {
             label: w.name,
-            value: w.id,
+            value: w.address,
           };
         }) ?? [],
       );
