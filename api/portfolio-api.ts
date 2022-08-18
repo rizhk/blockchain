@@ -42,10 +42,17 @@ class PortfolioApi extends BaseApi {
       ...(filters.start_date ? { start_date: format(filters.start_date, 'yyyy-MM-dd') } : {}),
       ...(filters.end_date ? { end_date: format(filters.end_date, 'yyyy-MM-dd') } : {}),
       ...(filters.keyword ? { keyword: filters.keyword } : {}),
+      ...(filters.type ? { type: filters.type } : {}),
+      ...(filters.status != undefined ? { status: filters.status } : {}),
     });
     if (filters.wallet) {
       filters.wallet?.forEach((w) => {
         filterParams.append('wallet[]', w);
+      });
+    }
+    if (filters.tag) {
+      filters.tag?.forEach((w) => {
+        filterParams.append('tag[]', w);
       });
     }
     var result = await fetch(`${PortfolioApiEndPoints.GetAllTransactionHistory}?${filterParams}`, {
