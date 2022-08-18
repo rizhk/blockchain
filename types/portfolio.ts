@@ -6,6 +6,9 @@ export interface ITransactionHistoryFilters {
   start_date?: Date | undefined;
   end_date?: Date | undefined;
   keyword?: string;
+  tag?: string[];
+  type?: string;
+  status?: number;
 }
 
 export interface IAssetFilters {

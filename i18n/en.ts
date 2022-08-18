@@ -93,6 +93,8 @@ export const en = {
         getTransactionsError: 'Failed to get transactions, please try again later.',
         save: 'Save',
         connectWalletToSeeTxn: 'Connect a wallet to begin seeing your transactions.',
+        search: 'Search by wallet address or note',
+        all: 'All Wallets',
       },
       walletList: {
         myWallets: 'My Wallets',
