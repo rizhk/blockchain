@@ -10,12 +10,12 @@ import Link from 'next/link';
 import { Divider } from 'components/common/divider';
 
 export interface IRecentTransactionsProps {
-  lastUpdatedDt: Date | undefined;
+  updatedSince: string | null;
   loading: boolean;
   noWallet: boolean;
 }
 
-export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({ lastUpdatedDt, loading, noWallet }) => {
+export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({ updatedSince, loading, noWallet }) => {
   const { t } = useTranslation();
 
   const {
@@ -30,7 +30,7 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({ lastUpd
         defaultErrorMessage: t('portfolio.dashboard.getRecentTransactionError'),
       },
     );
-  }, [lastUpdatedDt]);
+  }, [updatedSince]);
   return (
     <>
       <Grid container flexDirection="row" width="100%">
@@ -53,7 +53,35 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({ lastUpd
                   </Typography>
                 </Grid>
                 <Divider sx={{ m: 0, p: 0 }} />
-                {data?.items && data.items.length > 0 && !noWallet ? (
+                {/* no wallet or transaction have no data */}
+                {noWallet ||
+                (!noWallet && data?.items === undefined) ||
+                (!noWallet && data?.items && data?.items.length === 0) ? (
+                  <Grid container alignItems="center" justifyContent="center">
+                    <Grid
+                      item
+                      component={Typography}
+                      flex="1 1 100%"
+                      sx={{ mx: 2, my: 4, maxWidth: '300px' }}
+                      display="block"
+                      textAlign="center"
+                      variant="ctaText1"
+                    >
+                      {noWallet
+                        ? t('portfolio.dashboard.noWalletTransCtaText')
+                        : t('portfolio.dashboard.hasWalletNoTransCtaText')}
+                    </Grid>
+                    <Grid container item flex="1 1 100%" justifyContent="center">
+                      <Link href="/dashboard/portfolio/wallet/" passHref>
+                        <Button type="button" variant="contained" color="primary" sx={{ mb: 4 }}>
+                          {t('portfolio.dashboard.addWalletNow')}
+                        </Button>
+                      </Link>
+                    </Grid>
+                  </Grid>
+                ) : null}
+                {/* has wallet and transaction have data */}
+                {!noWallet && data?.items && data?.items.length > 0 ? (
                   <>
                     {data?.items.map(
                       ({ id, from_name, to_name, crypto_amount, token_symbol, type, crypto_amount_fiat }) => {
@@ -105,28 +133,7 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({ lastUpd
                       </Typography>
                     </Link>
                   </>
-                ) : (
-                  <Grid container alignItems="center" justifyContent="center">
-                    <Grid
-                      item
-                      component={Typography}
-                      flex="1 1 100%"
-                      sx={{ mx: 2, my: 4, maxWidth: '300px' }}
-                      display="block"
-                      textAlign="center"
-                      variant="ctaText1"
-                    >
-                      {t('portfolio.dashboard.noTransactionCtaText')}
-                    </Grid>
-                    <Grid container item flex="1 1 100%" justifyContent="center">
-                      <Link href="/dashboard/portfolio/wallet/" passHref>
-                        <Button type="button" variant="contained" color="primary" sx={{ mb: 4 }}>
-                          {t('portfolio.dashboard.addWalletNow')}
-                        </Button>
-                      </Link>
-                    </Grid>
-                  </Grid>
-                )}
+                ) : null}
               </CardContent>
             </Card>
           </Grid>

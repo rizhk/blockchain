@@ -34,7 +34,8 @@ export const en = {
         status: 'Status',
         allWallets: 'All wallets',
         noWalletCtaText: 'Connect a wallet to begin tracking your assets.',
-        noTransactionCtaText: 'Connect a wallet to begin seeing your recent transactions.',
+        hasWalletNoTransCtaText: `Your wallet doesn't seem to have any transactions. Please add another wallet.`,
+        noWalletTransCtaText: 'Connect a wallet to begin seeing your recent transactions.',
         noAssetCtaText:
           'Once your wallets have been connected, you will see  the asset allocation across all of your wallets here.',
         addWalletNow: 'Add a wallet now',
@@ -95,6 +96,7 @@ export const en = {
         getTransactionsError: 'Failed to get transactions, please try again later.',
         save: 'Save',
         connectWalletToSeeTxn: 'Connect a wallet to begin seeing your transactions.',
+        connectedWithNoTransaction: `Your wallet doesn't seem to have any transactions. Please add another wallet.`,
         search: 'Search by wallet address or note',
         all: 'All Wallets',
       },

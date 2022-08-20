@@ -41,10 +41,26 @@ import { DataDisplay } from 'components/common/data-display';
 import { SingleSelect } from 'components/single-select';
 import { DatePicker } from 'components/common/date-picker';
 import { primitivesUtils } from 'utils/primitives-utils';
+import { WalletSync } from 'components/dashboard/portfolio/wallet/wallet-sync';
+import { useWalletData } from 'hooks/use-wallet-data';
 
 const TransactionHistoryPage: NextPage = () => {
   const isMounted = useMounted();
   const { t } = useTranslation();
+
+  const {
+    walletsData,
+    getAllWalletsIsLoading,
+    requestWalletSyncIsLoading,
+    getWalletSyncStatusIsLoading,
+    getWalletSyncStatusData,
+    requestWalletSync,
+    updatedSince,
+    requestWalletSyncError,
+    getAllWalletsError,
+    getWalletSyncStatusError,
+  } = useWalletData();
+
   const [transactionHistory, setTransactionHistory] = useState<{ items: TransactionHistory[]; shouldRefresh: boolean }>(
     { items: [], shouldRefresh: true },
   );
@@ -213,31 +229,35 @@ const TransactionHistoryPage: NextPage = () => {
       >
         <Container maxWidth="xl">
           <Box sx={{ mb: 4 }}>
-            <Grid container justifyContent="space-between" spacing={3}>
-              <Grid item>
-                <Typography variant="h4">{t('portfolio.transHis.head')}</Typography>
+            <Grid container justifyContent="space-between" spacing={3} flexWrap="nowrap">
+              <Grid item component={Typography} minWidth="fit-content" variant="h4">
+                {t('portfolio.transHis.head')}
               </Grid>
-              <Grid
-                item
-                sx={{
-                  alignItems: 'center',
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  m: -1,
-                }}
-              >
-                <Button
-                  sx={{
-                    px: 3,
-                    py: 1.5,
-                    mx: 2,
-                  }}
-                  color="info"
-                  variant="contained"
-                  onClick={() => toggleExportTransactionHistory()}
-                >
-                  {t('portfolio.transHis.exportData')}
-                </Button>
+              <Grid flex="0 0 fit-content" container item flexWrap="nowrap" alignItems="center">
+                <Grid
+                  container
+                  item
+                  justifyContent="flex-end"
+                  component={WalletSync}
+                  walletsData={walletsData}
+                  requestWalletSync={requestWalletSync}
+                  getWalletSyncStatusData={getWalletSyncStatusData}
+                  getWalletSyncStatusIsLoading={getWalletSyncStatusIsLoading}
+                  requestWalletSyncIsLoading={requestWalletSyncIsLoading}
+                  updatedSince={updatedSince}
+                  requestWalletSyncError={requestWalletSyncError}
+                  getWalletSyncStatusError={getWalletSyncStatusError}
+                />
+                <Grid item minWidth="fit-content">
+                  <Button
+                    sx={{ ml: 2 }}
+                    color="info"
+                    variant="contained"
+                    onClick={() => toggleExportTransactionHistory()}
+                  >
+                    {t('portfolio.transHis.exportData')}
+                  </Button>
+                </Grid>
               </Grid>
             </Grid>
           </Box>
@@ -337,8 +357,13 @@ const TransactionHistoryPage: NextPage = () => {
             ]}
           />
         </Box>
-        <DataDisplay isLoading={loading} error={error} defaultLoaderOptions={{ height: '80vh', width: '100%' }}>
+        <DataDisplay
+          isLoading={loading || getAllWalletsIsLoading}
+          error={error}
+          defaultLoaderOptions={{ height: '80vh', width: '100%' }}
+        >
           <TransactionHistoryTable
+            noWallet={walletsData?.noWallet}
             setTransactionHistoryTag={setTransactionHistoryTag}
             setTransactionHistoryNote={setTransactionHistoryNote}
             getTransactionHistory={() => trigger()}

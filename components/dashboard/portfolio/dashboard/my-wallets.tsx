@@ -10,12 +10,12 @@ import Link from 'next/link';
 import { Divider } from 'components/common/divider';
 
 export interface IMyWalletsProps {
-  lastUpdatedDt: Date | undefined;
+  updatedSince: string | null;
   loading: boolean;
   noWallet: boolean;
 }
 
-export const MyWallets: React.FC<IMyWalletsProps> = ({ lastUpdatedDt, loading, noWallet }) => {
+export const MyWallets: React.FC<IMyWalletsProps> = ({ updatedSince, loading, noWallet }) => {
   const { t } = useTranslation();
 
   const {
@@ -30,7 +30,7 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({ lastUpdatedDt, loading, n
         defaultErrorMessage: t('portfolio.dashboard.getMyWalletsError'),
       },
     );
-  }, [lastUpdatedDt]);
+  }, [updatedSince]);
 
   const totalBalance = React.useMemo(() => {
     if (!data?.items) return 0;

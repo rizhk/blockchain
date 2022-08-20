@@ -72,6 +72,13 @@ export interface CreateUserTagResponse extends BaseApiResponse {
 export interface WalletResponse extends BaseApiResponse {
   items: Wallet[];
 }
+
+export interface WalletData {
+  noWallet: boolean;
+  networth?: number;
+  wallet?: Wallet[];
+}
+
 export interface Wallet {
   id: string;
   type: string;

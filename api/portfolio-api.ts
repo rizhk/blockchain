@@ -64,7 +64,6 @@ class PortfolioApi extends BaseApi {
     }).catch(() => {
       throw new Error(options.defaultErrorMessage);
     });
-    debugger;
     var data = await this.handleFetchResponse<TransactionHistoryResponse>(result, {
       ...options,
     });
@@ -205,13 +204,18 @@ class PortfolioApi extends BaseApi {
         'Content-Type': 'application/json',
         Authentication: accessToken,
       },
-    }).catch(() => {
+    }).catch((error) => {
       throw new Error(options.defaultErrorMessage);
     });
-    var data = await this.handleFetchResponse<BaseApiResponse>(result, {
-      ...options,
-    });
-    return data;
+    try {
+      var data = await this.handleFetchResponse<BaseApiResponse>(result, {
+        ...options,
+      });
+      return data;
+    } catch (error) {
+      if (error?.message === 'Data synchronization is already in progress') return { error: false };
+      throw error;
+    }
   }
 }
 
