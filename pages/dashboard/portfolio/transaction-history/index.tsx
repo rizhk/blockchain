@@ -99,7 +99,7 @@ const TransactionHistoryPage: NextPage = () => {
       });
 
       setWallets(
-        walletResult?.items.map((w) => {
+        walletResult?.items?.map((w) => {
           return {
             label: w.name,
             value: w.address,

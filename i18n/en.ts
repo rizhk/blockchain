@@ -40,6 +40,8 @@ export const en = {
         addWalletNow: 'Add a wallet now',
         getWalletSyncStatusError: 'Failed to get wallet sync status',
         requestWalletSyncError: 'Failed to create a new sync request',
+        fetchingLatestData: 'Fetching latest data',
+        getNetWorthError: 'Failed to get wallet net worth',
       },
       transHis: {
         head: 'Transaction History',

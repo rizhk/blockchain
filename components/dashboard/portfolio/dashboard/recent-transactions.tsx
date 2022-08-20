@@ -11,12 +11,19 @@ import { Divider } from 'components/common/divider';
 
 export interface IRecentTransactionsProps {
   lastUpdatedDt: Date | undefined;
+  loading: boolean;
+  noWallet: boolean;
 }
 
-export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({ lastUpdatedDt }) => {
+export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({ lastUpdatedDt, loading, noWallet }) => {
   const { t } = useTranslation();
 
-  const { data, loading, error, trigger } = useFetch(() => {
+  const {
+    data,
+    loading: getLatestNTranscationHistoryLoading,
+    error,
+    trigger,
+  } = useFetch(() => {
     return portfolioApi.getLatestNTranscationHistory(
       { latestN: 3 },
       {
@@ -27,7 +34,11 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({ lastUpd
   return (
     <>
       <Grid container flexDirection="row" width="100%">
-        <DataDisplay isLoading={loading} error={error} defaultLoaderOptions={{ height: '100px', width: '100%' }}>
+        <DataDisplay
+          isLoading={getLatestNTranscationHistoryLoading || loading}
+          error={error}
+          defaultLoaderOptions={{ height: '100px', width: '100%' }}
+        >
           <Grid item flex="1 1 100%">
             <Card>
               <CardContent sx={{ p: 0 }}>
@@ -42,7 +53,7 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({ lastUpd
                   </Typography>
                 </Grid>
                 <Divider sx={{ m: 0, p: 0 }} />
-                {data?.items && data.items.length > 0 ? (
+                {data?.items && data.items.length > 0 && !noWallet ? (
                   <>
                     {data?.items.map(
                       ({ id, from_name, to_name, crypto_amount, token_symbol, type, crypto_amount_fiat }) => {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { Box, Button, Container, Grid, Typography } from '@mui/material';
@@ -17,6 +17,8 @@ import useFetch from 'hooks/use-fetch';
 import { portfolioApi } from 'api/portfolio-api';
 import { formatDistanceToNow } from 'date-fns';
 import useMutation from 'hooks/use-mutation';
+import { walletApi } from 'api/wallet-api';
+import { primitivesUtils } from 'utils/primitives-utils';
 
 const Portfolio: NextPage = () => {
   const isMounted = useMounted();
@@ -31,16 +33,6 @@ const Portfolio: NextPage = () => {
     requestWalletSync({});
   };
 
-  const { data } = useFetch(() => {
-    return portfolioApi.getWalletSyncStatus({ defaultErrorMessage: t('portfolio.dashboard.getWalletSyncStatusError') });
-  }, []);
-
-  useEffect(() => {
-    if (!data?.last_updated_at || data?.status?.toLowerCase() !== 'completed') return;
-    console.log('Setting', data.last_updated_at);
-    setLastUpdatedDt(new Date(data.last_updated_at));
-  }, [JSON.stringify(data)]);
-
   const {
     mutate: requestWalletSync,
     data: requestWalletSyncData,
@@ -53,9 +45,28 @@ const Portfolio: NextPage = () => {
     });
   });
 
-  let UpdateSyncStatus = undefined;
-  if (!requestWalletSyncIsSuccess && requestWalletSyncError) UpdateSyncStatus = requestWalletSyncError;
-  if (requestWalletSyncIsSuccess && requestWalletSyncData?.message) UpdateSyncStatus = requestWalletSyncData.message;
+  const { data: getWalletSyncStatusData } = useFetch(() => {
+    return portfolioApi.getWalletSyncStatus({ defaultErrorMessage: t('portfolio.dashboard.getWalletSyncStatusError') });
+  }, [JSON.stringify(requestWalletSyncData)]);
+
+  useEffect(() => {
+    if (!getWalletSyncStatusData?.last_updated_at || getWalletSyncStatusData?.status?.toLowerCase() !== 'completed')
+      return;
+    console.log('Setting', getWalletSyncStatusData.last_updated_at);
+    setLastUpdatedDt(new Date(getWalletSyncStatusData.last_updated_at));
+  }, [JSON.stringify(getWalletSyncStatusData)]);
+
+  const { data: getAllWalletsData, loading: getAllWalletsLoading } = useFetch(() => {
+    return portfolioApi.getAllWallets({ defaultErrorMessage: t('portfolio.dashboard.getNetWorthError') });
+  }, []);
+
+  const wallet = useMemo(() => {
+    if (!getAllWalletsData?.items?.length || getAllWalletsData?.items?.length === 0) return { noWallet: true };
+    const networth = getAllWalletsData?.items.reduce((sum, wallet) => {
+      return parseFloat(wallet?.fiat_value || '0') + sum;
+    }, 0);
+    return { noWallet: false, networth };
+  }, [JSON.stringify(getAllWalletsData)]);
 
   return (
     <>
@@ -73,63 +84,75 @@ const Portfolio: NextPage = () => {
         }}
       >
         <Container maxWidth="xl">
-          <Grid container spacing={3} justifyContent="space-between" alignItems="center">
-            <Grid item>
-              {/* <Typography variant="h6">{t('portfolio.dashboard.porfolioNetWorth')}: 172,636,829 USD</Typography> */}
-            </Grid>
-            <Grid item>
-              <Typography variant="caption2" sx={{ fontSize: '0.7rem', pr: 2 }}>
-                {lastUpdatedDt
-                  ? `${t('portfolio.dashboard.dataLastUpdated')} ${formatDistanceToNow(lastUpdatedDt)} ago`
-                  : null}
-              </Typography>{' '}
-              <Typography
-                onClick={handleUpdateData}
-                variant="caption2"
-                sx={[
-                  !requestWalletSyncData?.message && { textDecoration: 'underline', cursor: 'pointer' },
-                  !!requestWalletSyncData?.message && { pointerEvents: 'none' },
-                  { color: 'primary.main' },
-                ]}
-              >
-                {UpdateSyncStatus && !requestWalletSyncIsLoading
-                  ? UpdateSyncStatus
-                  : t('portfolio.dashboard.updateDataNow')}
-              </Typography>{' '}
-              <Typography
-                onClick={handleUpdateData}
-                variant="caption2"
-                sx={{ color: 'primary.main', cursor: 'pointer', verticalAlign: 'bottom' }}
-              >
-                <Refresh
-                  sx={[
-                    { fontSize: '0.75rem' },
-                    requestWalletSyncIsLoading && {
-                      animation: 'spin 0.5s linear infinite',
-                      '@keyframes spin': {
-                        '0%': {
-                          transform: 'rotate(0deg)',
-                        },
-                        '100%': {
-                          transform: 'rotate(360deg)',
+          {!wallet?.noWallet && (
+            <Grid container spacing={3} justifyContent="space-between" alignItems="center">
+              <Grid item>
+                <Typography variant="h6">
+                  {t('portfolio.dashboard.porfolioNetWorth')}:{' '}
+                  {primitivesUtils.convertCurrencyDisplay(wallet?.networth || 0)} USD
+                </Typography>
+              </Grid>
+              <Grid item>
+                {getWalletSyncStatusData?.status?.toUpperCase() === 'IN_PROGRESS' && (
+                  <Typography variant="caption2" sx={[{ color: 'primary.main', pr: 0.5 }]}>
+                    {t('portfolio.dashboard.fetchingLatestData')}
+                  </Typography>
+                )}
+                {getWalletSyncStatusData?.status?.toUpperCase() === 'COMPLETED' && (
+                  <>
+                    <Typography variant="caption2" sx={{ fontSize: '0.7rem', pr: 2 }}>
+                      {lastUpdatedDt
+                        ? `${t('portfolio.dashboard.dataLastUpdated')} ${formatDistanceToNow(lastUpdatedDt)} ago`
+                        : null}
+                    </Typography>
+                    <Typography
+                      onClick={handleUpdateData}
+                      variant="caption2"
+                      sx={[{ textDecoration: 'underline', cursor: 'pointer', color: 'primary.main', pr: 0.5 }]}
+                    >
+                      {t('portfolio.dashboard.updateDataNow')}
+                    </Typography>
+                  </>
+                )}
+                <Typography
+                  onClick={handleUpdateData}
+                  variant="caption2"
+                  sx={{ color: 'primary.main', cursor: 'pointer', verticalAlign: 'bottom' }}
+                >
+                  <Refresh
+                    sx={[
+                      { fontSize: '0.75rem' },
+                      requestWalletSyncIsLoading && {
+                        animation: 'spin 0.5s linear infinite',
+                        '@keyframes spin': {
+                          '0%': {
+                            transform: 'rotate(0deg)',
+                          },
+                          '100%': {
+                            transform: 'rotate(360deg)',
+                          },
                         },
                       },
-                    },
-                  ]}
-                />
-              </Typography>
+                    ]}
+                  />
+                </Typography>
+              </Grid>
             </Grid>
-          </Grid>
+          )}
           <Grid container spacing={3} flexWrap="nowrap">
             <Grid container item flexDirection="column" flex="1 1 65%">
               {/* <Box sx={{ height: '400px', width: '400px' }}></Box> */}
               {/* <Box sx={{ mb: 6 }}></Box> */}
-              <Assets lastUpdatedDt={lastUpdatedDt} />
+              <Assets lastUpdatedDt={lastUpdatedDt} loading={getAllWalletsLoading} noWallet={wallet?.noWallet} />
             </Grid>
             <Grid container item flexDirection="column" flex="1 1 35%">
-              <MyWallets lastUpdatedDt={lastUpdatedDt} />
+              <MyWallets lastUpdatedDt={lastUpdatedDt} loading={getAllWalletsLoading} noWallet={wallet?.noWallet} />
               <Box sx={{ mb: 6 }}></Box>
-              <RecentTransactions lastUpdatedDt={lastUpdatedDt} />
+              <RecentTransactions
+                lastUpdatedDt={lastUpdatedDt}
+                loading={getAllWalletsLoading}
+                noWallet={wallet?.noWallet}
+              />
             </Grid>
           </Grid>
         </Container>
