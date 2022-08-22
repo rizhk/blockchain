@@ -28,7 +28,7 @@ class PortfolioApi extends BaseApi {
       throw new Error(options.defaultErrorMessage);
     });
 
-    var data = (await this.handleFetchResponse(result, { ...options })) as AttachmentApiResponse;
+    var data = await this.handleFetchAttachmentResponse(result, { ...options });
     data.timestamp = new Date().toISOString();
     return data;
   }
@@ -64,9 +64,9 @@ class PortfolioApi extends BaseApi {
     }).catch(() => {
       throw new Error(options.defaultErrorMessage);
     });
-    var data = (await this.handleFetchResponse<TransactionHistoryResponse>(result, {
+    var data = await this.handleFetchResponse<TransactionHistoryResponse>(result, {
       ...options,
-    })) as TransactionHistoryResponse;
+    });
     return data;
   }
   async getLatestNTranscationHistory(
@@ -89,9 +89,9 @@ class PortfolioApi extends BaseApi {
     }).catch(() => {
       throw new Error(options.defaultErrorMessage);
     });
-    var data = (await this.handleFetchResponse<GetUserTagsResponse>(result, {
+    var data = await this.handleFetchResponse<GetUserTagsResponse>(result, {
       ...options,
-    })) as GetUserTagsResponse;
+    });
     return data;
   }
   async createTransactionTag(
@@ -110,9 +110,9 @@ class PortfolioApi extends BaseApi {
     }).catch(() => {
       throw new Error(options.defaultErrorMessage);
     });
-    var data = (await this.handleFetchResponse<CreateUserTagResponse>(result, {
+    var data = await this.handleFetchResponse<CreateUserTagResponse>(result, {
       ...options,
-    })) as CreateUserTagResponse;
+    });
     return data;
   }
   async updateTransaction(
@@ -131,9 +131,9 @@ class PortfolioApi extends BaseApi {
     }).catch(() => {
       throw new Error(options.defaultErrorMessage);
     });
-    var data = (await this.handleFetchResponse<UpdateTransactionHistoryResponse>(result, {
+    var data = await this.handleFetchResponse<UpdateTransactionHistoryResponse>(result, {
       ...options,
-    })) as UpdateTransactionHistoryResponse;
+    });
     return data;
   }
   async getAllWallets(options: { defaultErrorMessage: string }): Promise<WalletResponse> {
@@ -148,9 +148,9 @@ class PortfolioApi extends BaseApi {
     }).catch(() => {
       throw new Error(options.defaultErrorMessage);
     });
-    var data = (await this.handleFetchResponse<WalletResponse>(result, {
+    var data = await this.handleFetchResponse<WalletResponse>(result, {
       ...options,
-    })) as WalletResponse;
+    });
     return data;
   }
   async getFirstNWallets(
@@ -173,9 +173,9 @@ class PortfolioApi extends BaseApi {
     }).catch(() => {
       throw new Error(options.defaultErrorMessage);
     });
-    var data = (await this.handleFetchResponse<AssetsResponse>(result, {
+    var data = await this.handleFetchResponse<AssetsResponse>(result, {
       ...options,
-    })) as AssetsResponse;
+    });
     return data;
   }
   async getWalletSyncStatus(options: { defaultErrorMessage: string }): Promise<GetWalletSyncStatusResponse> {
@@ -190,9 +190,9 @@ class PortfolioApi extends BaseApi {
     }).catch(() => {
       throw new Error(options.defaultErrorMessage);
     });
-    var data = (await this.handleFetchResponse<GetWalletSyncStatusResponse>(result, {
+    var data = await this.handleFetchResponse<GetWalletSyncStatusResponse>(result, {
       ...options,
-    })) as GetWalletSyncStatusResponse;
+    });
     return data;
   }
   async requestWalletSync(options: { defaultErrorMessage: string }): Promise<BaseApiResponse> {
@@ -204,13 +204,18 @@ class PortfolioApi extends BaseApi {
         'Content-Type': 'application/json',
         Authentication: accessToken,
       },
-    }).catch(() => {
+    }).catch((error) => {
       throw new Error(options.defaultErrorMessage);
     });
-    var data = (await this.handleFetchResponse<BaseApiResponse>(result, {
-      ...options,
-    })) as BaseApiResponse;
-    return data;
+    try {
+      var data = await this.handleFetchResponse<BaseApiResponse>(result, {
+        ...options,
+      });
+      return data;
+    } catch (error) {
+      if (error?.message === 'Data synchronization is already in progress') return { error: false };
+      throw error;
+    }
   }
 }
 

@@ -1,8 +1,10 @@
 import { DependencyList, useEffect, useState } from 'react';
 import { useMounted } from './use-mounted';
 
-declare type MutateFunction<TData, TVariables> = (...args: Parameters<MutationFunction<TData, TVariables>>) => void;
-declare type UseMutateFunction<TData, TVariables> = {
+export declare type MutateFunction<TData, TVariables> = (
+  ...args: Parameters<MutationFunction<TData, TVariables>>
+) => void;
+export declare type UseMutateFunction<TData, TVariables> = {
   data: TData | undefined;
   error: any;
   loading: boolean;
@@ -29,6 +31,7 @@ export default function useMutation<TData, TVariables>(
       if (isMounted()) {
         setLoading(true);
         setIsSuccess(false);
+        if (error) resetError();
       }
       const fetchPromise = mutateFn(params);
       const isPromise = fetchPromise instanceof Promise;
@@ -36,7 +39,6 @@ export default function useMutation<TData, TVariables>(
       const response = await fetchPromise;
       if (isMounted()) {
         setData(response);
-        if (error) resetError();
         setIsSuccess(true);
       }
     } catch (err: any) {

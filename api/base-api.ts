@@ -5,12 +5,28 @@ export class BaseApi {
   async handleFetchResponse<T extends BaseApiResponse>(
     result: any,
     options: { defaultErrorMessage: string },
-  ): Promise<T | AttachmentApiResponse> {
+  ): Promise<T> {
     const { defaultErrorMessage } = options;
     let body = undefined;
     try {
       const contentType = result.headers.get('content-type');
       if (contentType && contentType.indexOf('application/json') !== -1) body = (await result.json()) as T;
+    } catch (ex) {
+      throw new Error(defaultErrorMessage);
+    }
+    if (!body) throw new Error(defaultErrorMessage);
+    var { error, message } = body;
+    if (error) throw new Error(message);
+    return body;
+  }
+  async handleFetchAttachmentResponse(
+    result: any,
+    options: { defaultErrorMessage: string },
+  ): Promise<AttachmentApiResponse> {
+    const { defaultErrorMessage } = options;
+    let body = undefined;
+    try {
+      const contentType = result.headers.get('content-type');
       if (contentType && contentType.indexOf('text/csv') !== -1) {
         var blob = await result.blob();
         if (!blob) body = undefined;

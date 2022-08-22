@@ -54,6 +54,7 @@ interface TransactionHistoryTableProps {
   getTransactionHistory: () => void;
   setTransactionHistoryTag: (txnId: string, tag_name: string) => void;
   setTransactionHistoryNote: (txnId: string, note: string) => void;
+  noWallet: boolean;
 }
 
 export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
@@ -66,6 +67,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
   getTransactionHistory,
   setTransactionHistoryTag,
   setTransactionHistoryNote,
+  noWallet,
 }) => {
   const { t } = useTranslation();
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -137,10 +139,17 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {count === 0 && (
+          {noWallet && (
             <TableRow>
               <TableCell colSpan={10}>
                 <Typography align="center"> {t('portfolio.transHis.connectWalletToSeeTxn')}</Typography>
+              </TableCell>
+            </TableRow>
+          )}
+          {!noWallet && count === 0 && (
+            <TableRow>
+              <TableCell colSpan={10}>
+                <Typography align="center">{t('portfolio.transHis.connectedWithNoTransaction')}</Typography>
               </TableCell>
             </TableRow>
           )}
