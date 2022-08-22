@@ -124,42 +124,42 @@ const TransactionHistoryPage: NextPage = () => {
 
   const [tags, setTags] = useState<{ label: string; value: string }[]>([]);
 
+  const getWallets = async () => {
+    const walletResult = await portfolioApi.getAllWallets({
+      defaultErrorMessage: t('portfolio.transHis.getWalletsError'),
+    });
+
+    setWallets(
+      walletResult?.items?.map((w) => {
+        return {
+          label: w.name,
+          value: w.address,
+        };
+      }) ?? [],
+    );
+  };
+
+  const getTags = async () => {
+    const result = await portfolioApi.getUserTags({ defaultErrorMessage: t('portfolio.transHis.getUserTagsError') });
+
+    setTags(
+      result?.items.map((r) => {
+        return {
+          label: r.name,
+          value: r.id,
+        };
+      }) ?? [],
+    );
+  };
+
   useEffect(() => {
     setTransactionHistory({ shouldRefresh: true, items: data?.items || [] });
-
-    const getWallets = async () => {
-      const walletResult = await portfolioApi.getAllWallets({
-        defaultErrorMessage: t('portfolio.transHis.getWalletsError'),
-      });
-
-      setWallets(
-        walletResult?.items?.map((w) => {
-          return {
-            label: w.name,
-            value: w.address,
-          };
-        }) ?? [],
-      );
-    };
-
-    const getTags = async () => {
-      const result = await portfolioApi.getUserTags({ defaultErrorMessage: t('portfolio.transHis.getUserTagsError') });
-
-      setTags(
-        result?.items.map((r) => {
-          return {
-            label: r.name,
-            value: r.id,
-          };
-        }) ?? [],
-      );
-    };
-
     getWallets();
     getTags();
   }, [JSON.stringify(data)]);
 
   const setTransactionHistoryTag = (txnId: string, tag_name: string) => {
+    getTags();
     setTransactionHistory((previous) => {
       const { items, shouldRefresh } = previous;
       const { item, index } = primitivesUtils.getItemInArrayByKey(items, 'id', txnId);
