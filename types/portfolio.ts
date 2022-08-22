@@ -48,6 +48,7 @@ export interface TransactionHistory {
   token_symbol: string;
   tag_name: string;
   note: string;
+  status: string;
   CreatedAt: string;
   UpdatedAt: string;
 }

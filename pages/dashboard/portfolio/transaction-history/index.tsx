@@ -309,6 +309,15 @@ const TransactionHistoryPage: NextPage = () => {
             value={filter?.wallet ?? []}
           />
           <SingleSelect<string>
+            onChange={handleChangeType}
+            label="All types"
+            value={filter?.type}
+            options={[
+              { label: 'Incoming', value: 'in' },
+              { label: 'Outgoing', value: 'out' },
+            ]}
+          />
+          <SingleSelect<string>
             onChange={handleChangeNewest}
             label="Newest"
             value={filter?.sort}
@@ -338,15 +347,7 @@ const TransactionHistoryPage: NextPage = () => {
             }}
           />
           <MultiSelect label="Tags" onChange={handleChangeTag} options={tags} value={filter?.tag ?? []} />
-          <SingleSelect<string>
-            onChange={handleChangeType}
-            label="Type"
-            value={filter?.type}
-            options={[
-              { label: 'Incoming', value: 'in' },
-              { label: 'Outgoing', value: 'out' },
-            ]}
-          />
+
           <SingleSelect<string>
             onChange={handleChangeStatus}
             label="Status"

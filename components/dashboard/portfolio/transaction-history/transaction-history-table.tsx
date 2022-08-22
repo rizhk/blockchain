@@ -135,6 +135,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
             <TableCell>{t('portfolio.transHis.total')}</TableCell>
             <TableCell>{t('portfolio.transHis.tag')}</TableCell>
             <TableCell>{t('portfolio.transHis.note')}</TableCell>
+            <TableCell>{t('portfolio.transHis.status')}</TableCell>
             <TableCell></TableCell>
           </TableRow>
         </TableHead>
@@ -277,6 +278,25 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                         {t('portfolio.transHis.addNote')}
                       </Typography>
                     )}
+                  </TableCell>
+                  <TableCell sx={{ maxWidth: '150px' }}>
+                    <Typography
+                      display="inline"
+                      variant="caption"
+                      sx={{
+                        cursor: 'pointer',
+                        WebkitBoxOrient: 'vertical',
+                        WebkitLineClamp: 2,
+                        display: '-webkit-box',
+                        color: 'text.secondary',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        maxHeight: '3rem',
+                        lineHeight: '1.5rem',
+                      }}
+                    >
+                      {transaction.status == '0' ? 'Success' : 'Failure'}
+                    </Typography>
                   </TableCell>
                   <TableCell align="right">
                     <Typography
