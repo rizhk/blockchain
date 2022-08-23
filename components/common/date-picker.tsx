@@ -39,14 +39,20 @@ export const DatePicker: React.FC<IDatePickerProps> = ({ label, handleDateChange
           inputFormat="dd/MM/yyyy"
           value={value || null}
           onChange={handleDateChange}
-          renderInput={({ InputProps, ...params }) => (
+          renderInput={({ inputProps, InputProps, ...params }) => (
             <TextField
               {...params}
               variant="outlined"
+              size="small"
+              inputProps={{
+                ...inputProps,
+                sx: { px: 1 },
+              }}
               InputProps={{
                 ...InputProps,
+                sx: { pr: 1, fontSize: '0.75rem' },
                 endAdornment: (
-                  <Box sx={{ cursor: 'pointer' }}>
+                  <Box sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
                     {/* <Clear sx={{ visibility: value ? 'visible' : 'hidden' }} onClick={handleClear} /> */}
                     <Calendar fontSize="small" onClick={() => setOpen(true)} />
                   </Box>
