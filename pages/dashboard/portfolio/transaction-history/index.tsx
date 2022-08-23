@@ -124,42 +124,42 @@ const TransactionHistoryPage: NextPage = () => {
 
   const [tags, setTags] = useState<{ label: string; value: string }[]>([]);
 
+  const getWallets = async () => {
+    const walletResult = await portfolioApi.getAllWallets({
+      defaultErrorMessage: t('portfolio.transHis.getWalletsError'),
+    });
+
+    setWallets(
+      walletResult?.items?.map((w) => {
+        return {
+          label: w.name,
+          value: w.address,
+        };
+      }) ?? [],
+    );
+  };
+
+  const getTags = async () => {
+    const result = await portfolioApi.getUserTags({ defaultErrorMessage: t('portfolio.transHis.getUserTagsError') });
+
+    setTags(
+      result?.items.map((r) => {
+        return {
+          label: r.name,
+          value: r.id,
+        };
+      }) ?? [],
+    );
+  };
+
   useEffect(() => {
     setTransactionHistory({ shouldRefresh: true, items: data?.items || [] });
-
-    const getWallets = async () => {
-      const walletResult = await portfolioApi.getAllWallets({
-        defaultErrorMessage: t('portfolio.transHis.getWalletsError'),
-      });
-
-      setWallets(
-        walletResult?.items?.map((w) => {
-          return {
-            label: w.name,
-            value: w.address,
-          };
-        }) ?? [],
-      );
-    };
-
-    const getTags = async () => {
-      const result = await portfolioApi.getUserTags({ defaultErrorMessage: t('portfolio.transHis.getUserTagsError') });
-
-      setTags(
-        result?.items.map((r) => {
-          return {
-            label: r.name,
-            value: r.id,
-          };
-        }) ?? [],
-      );
-    };
-
     getWallets();
     getTags();
   }, [JSON.stringify(data)]);
 
   const setTransactionHistoryTag = (txnId: string, tag_name: string) => {
+    getTags();
     setTransactionHistory((previous) => {
       const { items, shouldRefresh } = previous;
       const { item, index } = primitivesUtils.getItemInArrayByKey(items, 'id', txnId);
@@ -309,12 +309,32 @@ const TransactionHistoryPage: NextPage = () => {
             value={filter?.wallet ?? []}
           />
           <SingleSelect<string>
+            onChange={handleChangeType}
+            label="All types"
+            value={filter?.type}
+            options={[
+              { label: 'Incoming', value: 'in' },
+              { label: 'Outgoing', value: 'out' },
+            ]}
+          />
+          <SingleSelect<string>
             onChange={handleChangeNewest}
             label="Newest"
             value={filter?.sort}
             options={[
               { label: 'Newest', value: 'DESC' },
               { label: 'Oldest', value: 'ASC' },
+            ]}
+          />
+          <MultiSelect label="Tags" onChange={handleChangeTag} options={tags} value={filter?.tag ?? []} />
+
+          <SingleSelect<string>
+            onChange={handleChangeStatus}
+            label="Status"
+            value={filter?.status}
+            options={[
+              { label: 'Success', value: 0 },
+              { label: 'Failure', value: 1 },
             ]}
           />
           <DatePicker
@@ -336,25 +356,6 @@ const TransactionHistoryPage: NextPage = () => {
                 return { ...preFilter, end_date: undefined };
               });
             }}
-          />
-          <MultiSelect label="Tags" onChange={handleChangeTag} options={tags} value={filter?.tag ?? []} />
-          <SingleSelect<string>
-            onChange={handleChangeType}
-            label="Type"
-            value={filter?.type}
-            options={[
-              { label: 'Incoming', value: 'in' },
-              { label: 'Outgoing', value: 'out' },
-            ]}
-          />
-          <SingleSelect<string>
-            onChange={handleChangeStatus}
-            label="Status"
-            value={filter?.status}
-            options={[
-              { label: 'Success', value: 0 },
-              { label: 'Failure', value: 1 },
-            ]}
           />
         </Box>
         <DataDisplay

@@ -135,6 +135,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
             <TableCell>{t('portfolio.transHis.total')}</TableCell>
             <TableCell>{t('portfolio.transHis.tag')}</TableCell>
             <TableCell>{t('portfolio.transHis.note')}</TableCell>
+            <TableCell>{t('portfolio.transHis.status')}</TableCell>
             <TableCell></TableCell>
           </TableRow>
         </TableHead>
@@ -275,6 +276,47 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                         sx={{ cursor: 'pointer', color: 'primary.main', textDecoration: 'underline' }}
                       >
                         {t('portfolio.transHis.addNote')}
+                      </Typography>
+                    )}
+                  </TableCell>
+                  <TableCell sx={{ maxWidth: '150px' }}>
+                    {transaction.status == '1' ? (
+                      <Typography
+                        display="inline"
+                        variant="caption"
+                        sx={{
+                          cursor: 'pointer',
+                          WebkitBoxOrient: 'vertical',
+                          WebkitLineClamp: 2,
+                          display: '-webkit-box',
+                          color: '#00C9A7',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          maxHeight: '3rem',
+                          lineHeight: '140%',
+                          fontWeight: 600,
+                        }}
+                      >
+                        Success
+                      </Typography>
+                    ) : (
+                      <Typography
+                        display="inline"
+                        variant="caption"
+                        sx={{
+                          cursor: 'pointer',
+                          WebkitBoxOrient: 'vertical',
+                          WebkitLineClamp: 2,
+                          display: '-webkit-box',
+                          color: '#EB5757',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          maxHeight: '3rem',
+                          lineHeight: '140%',
+                          fontWeight: 600,
+                        }}
+                      >
+                        Failure
                       </Typography>
                     )}
                   </TableCell>

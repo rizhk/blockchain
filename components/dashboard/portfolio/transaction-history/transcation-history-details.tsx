@@ -8,6 +8,7 @@ import { useAddNoteModal, useAddTagModal } from 'hooks/use-portfolio-modal';
 import { ChevronLeft } from 'icons/chevron-left';
 import { ExitApp } from 'icons/exit-app';
 import { SuccessTick } from 'icons/success-tick';
+import { ExclamationCircle } from 'icons/exclamation-circle';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { TransactionHistory } from 'types/portfolio';
@@ -232,23 +233,44 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
               <Typography variant="body2">{`${t('portfolio.transHis.status')}:`}</Typography>
             </Grid>
             <Grid item xs={8}>
-              <Typography
-                variant="body2"
-                display="flex"
-                width="min-content"
-                alignItems="center"
-                sx={{
-                  fontWeight: 600,
-                  px: 1,
-                  py: 0.5,
-                  backgroundColor: '#E5F9F6',
-                  color: '#00C9A7',
-                  borderRadius: '4px',
-                }}
-              >
-                <SuccessTick sx={{ fontSize: '0.725rem', mr: 1 }} />
-                Success
-              </Typography>
+              {transactionHistory?.status == '1' && (
+                <Typography
+                  variant="body2"
+                  display="flex"
+                  width="min-content"
+                  alignItems="center"
+                  sx={{
+                    fontWeight: 600,
+                    px: 2,
+                    py: 0.5,
+                    backgroundColor: '#E5F9F6',
+                    color: '#00C9A7',
+                    borderRadius: '4px',
+                  }}
+                >
+                  <SuccessTick sx={{ fontSize: '0.725rem', mr: 0.5 }} />
+                  Success
+                </Typography>
+              )}
+              {transactionHistory?.status == '0' && (
+                <Typography
+                  variant="body2"
+                  display="flex"
+                  width="min-content"
+                  alignItems="center"
+                  sx={{
+                    fontWeight: 600,
+                    px: 2,
+                    py: 0.5,
+                    backgroundColor: '#F9E5E5',
+                    color: '#C90000',
+                    borderRadius: '4px',
+                  }}
+                >
+                  <ExclamationCircle sx={{ fontSize: '1rem', mr: 0.5 }} />
+                  Failed
+                </Typography>
+              )}
             </Grid>
           </Grid>
           <Grid container item>
