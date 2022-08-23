@@ -9,6 +9,7 @@ import {
   FormControlLabel,
   Menu,
   MenuItem,
+  Radio,
   SxProps,
   Theme,
   Typography,
@@ -63,7 +64,7 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
         sx={[small && { py: 0 }]}
         {...other}
       >
-        <Typography {...labelProps}>{selectedLabel}</Typography>
+        {selectedLabel}
       </Button>
       <Menu
         anchorEl={anchorRef.current}
@@ -71,19 +72,43 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
         open={openMenu}
         PaperProps={{ style: { width: 250 } }}
       >
+        <MenuItem>
+          <FormControlLabel
+            control={<Radio color="primary" checked={!value} onChange={handleClear} />}
+            label={label}
+            sx={{
+              flexGrow: 1,
+              mr: 0,
+            }}
+          />
+        </MenuItem>
+        <Divider />
         {options.map((option) => (
-          <MenuItem key={JSON.stringify(option.value)} onClick={() => handleChange(option.label, option.value)}>
-            <Typography variant={option.value === value ? 'h6' : 'body1'}>{option.label}</Typography>
+          <MenuItem key={JSON.stringify(option.value)}>
+            <FormControlLabel
+              control={
+                <Radio
+                  color="primary"
+                  checked={value == option.value}
+                  onChange={(_) => handleChange(option.label, option.value)}
+                />
+              }
+              label={option.label}
+              sx={{
+                flexGrow: 1,
+                mr: 0,
+              }}
+            />
           </MenuItem>
         ))}
-        {shouldShowClearButton && (
+        {/* {shouldShowClearButton && (
           <Box>
             <Divider />
             <MenuItem onClick={handleClear}>
               <Typography variant="body2">Clear selection</Typography>
             </MenuItem>
           </Box>
-        )}
+        )} */}
       </Menu>
     </Box>
   );

@@ -64,6 +64,10 @@ const TransactionHistoryPage: NextPage = () => {
   const [transactionHistory, setTransactionHistory] = useState<{ items: TransactionHistory[]; shouldRefresh: boolean }>(
     { items: [], shouldRefresh: true },
   );
+  const [wallets, setWallets] = useState<{ label: string; value: string }[]>([]);
+
+  const [tags, setTags] = useState<{ label: string; value: string }[]>([]);
+
   const theme = useTheme();
   const { isExportTransactionHistoryShowing, toggleExportTransactionHistory } = useExportTransactionHistoryModal();
   const [filter, setFilter] = useState<ITransactionHistoryFilters>({
@@ -119,10 +123,6 @@ const TransactionHistoryPage: NextPage = () => {
   };
 
   const [open, setOpen] = useState(false);
-
-  const [wallets, setWallets] = useState<{ label: string; value: string }[]>([]);
-
-  const [tags, setTags] = useState<{ label: string; value: string }[]>([]);
 
   const getWallets = async () => {
     const walletResult = await portfolioApi.getAllWallets({
@@ -294,68 +294,82 @@ const TransactionHistoryPage: NextPage = () => {
         <Divider />
         <Box
           sx={{
-            position: 'relative',
             alignItems: 'center',
+            justifyContent: 'space-between',
             display: 'flex',
-            flexWrap: 'wrap',
-            py: 3,
-            px: 1,
+            pr: 4,
           }}
         >
-          <MultiSelect
-            label={t('portfolio.transHis.all')}
-            onChange={handleChangeWallet}
-            options={wallets}
-            value={filter?.wallet ?? []}
-          />
-          <SingleSelect<string>
-            onChange={handleChangeType}
-            label="All types"
-            value={filter?.type}
-            options={[
-              { label: 'Incoming', value: 'in' },
-              { label: 'Outgoing', value: 'out' },
-            ]}
-          />
+          <Box
+            sx={{
+              position: 'relative',
+              alignItems: 'center',
+              display: 'flex',
+              flexWrap: 'wrap',
+              py: 3,
+              px: 1,
+            }}
+          >
+            <MultiSelect
+              label={t('portfolio.transHis.all')}
+              onChange={handleChangeWallet}
+              options={wallets}
+              value={filter?.wallet ?? wallets.map((w) => w.value)}
+            />
+            <SingleSelect<string>
+              onChange={handleChangeType}
+              label={t('portfolio.transHis.types')}
+              value={filter?.type}
+              options={[
+                { label: t('portfolio.transHis.incoming'), value: 'in' },
+                { label: t('portfolio.transHis.outgoing'), value: 'out' },
+              ]}
+            />
+            <SingleSelect<string>
+              onChange={handleChangeStatus}
+              label={t('portfolio.transHis.statuses')}
+              value={filter?.status}
+              options={[
+                { label: t('portfolio.transHis.success'), value: '1' },
+                { label: t('portfolio.transHis.failed'), value: '0' },
+              ]}
+            />
+            <MultiSelect
+              label={t('portfolio.transHis.tags')}
+              onChange={handleChangeTag}
+              options={tags}
+              value={filter?.tag ?? []}
+            />
+
+            <DatePicker
+              label={t('portfolio.transHis.from').toUpperCase()}
+              value={filter?.start_date}
+              handleDateChange={handleChangeFromDate}
+              handleClear={() => {
+                setFilter((preFilter) => {
+                  return { ...preFilter, start_date: undefined };
+                });
+              }}
+            />
+            <DatePicker
+              label={t('portfolio.transHis.to').toUpperCase()}
+              value={filter?.end_date}
+              handleDateChange={handleChangeToDate}
+              handleClear={() => {
+                setFilter((preFilter) => {
+                  return { ...preFilter, end_date: undefined };
+                });
+              }}
+            />
+          </Box>
           <SingleSelect<string>
             onChange={handleChangeNewest}
-            label="Newest"
-            value={filter?.sort}
+            label={t('portfolio.transHis.sortBy')}
+            value={filter?.sort ?? 'DESC'}
             options={[
-              { label: 'Newest', value: 'DESC' },
-              { label: 'Oldest', value: 'ASC' },
+              { label: t('portfolio.transHis.newest'), value: 'DESC' },
+              { label: t('portfolio.transHis.oldest'), value: 'ASC' },
             ]}
-          />
-          <MultiSelect label="Tags" onChange={handleChangeTag} options={tags} value={filter?.tag ?? []} />
-
-          <SingleSelect<string>
-            onChange={handleChangeStatus}
-            label="Status"
-            value={filter?.status}
-            options={[
-              { label: 'Success', value: 1 },
-              { label: 'Failed', value: 0 },
-            ]}
-          />
-          <DatePicker
-            label={t('portfolio.transHis.from').toUpperCase()}
-            value={filter?.start_date}
-            handleDateChange={handleChangeFromDate}
-            handleClear={() => {
-              setFilter((preFilter) => {
-                return { ...preFilter, start_date: undefined };
-              });
-            }}
-          />
-          <DatePicker
-            label={t('portfolio.transHis.to').toUpperCase()}
-            value={filter?.end_date}
-            handleDateChange={handleChangeToDate}
-            handleClear={() => {
-              setFilter((preFilter) => {
-                return { ...preFilter, end_date: undefined };
-              });
-            }}
           />
         </Box>
         <DataDisplay

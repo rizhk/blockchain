@@ -8,7 +8,7 @@ export interface ITransactionHistoryFilters {
   keyword?: string;
   tag?: string[];
   type?: string;
-  status?: number;
+  status?: string;
 }
 
 export interface IAssetFilters {
