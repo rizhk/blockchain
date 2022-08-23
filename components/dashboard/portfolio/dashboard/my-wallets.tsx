@@ -10,20 +10,27 @@ import Link from 'next/link';
 import { Divider } from 'components/common/divider';
 
 export interface IMyWalletsProps {
-  lastUpdatedDt: Date | undefined;
+  updatedSince: string | null;
+  loading: boolean;
+  noWallet: boolean;
 }
 
-export const MyWallets: React.FC<IMyWalletsProps> = ({ lastUpdatedDt }) => {
+export const MyWallets: React.FC<IMyWalletsProps> = ({ updatedSince, loading, noWallet }) => {
   const { t } = useTranslation();
 
-  const { data, loading, error, trigger } = useFetch(() => {
+  const {
+    data,
+    loading: getFirstNWalletsLoading,
+    error,
+    trigger,
+  } = useFetch(() => {
     return portfolioApi.getFirstNWallets(
       { latestN: 5 },
       {
         defaultErrorMessage: t('portfolio.dashboard.getMyWalletsError'),
       },
     );
-  }, [lastUpdatedDt]);
+  }, [updatedSince]);
 
   const totalBalance = React.useMemo(() => {
     if (!data?.items) return 0;
@@ -35,7 +42,11 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({ lastUpdatedDt }) => {
   return (
     <>
       <Grid container flexDirection="row" width="100%">
-        <DataDisplay isLoading={loading} error={error} defaultLoaderOptions={{ height: '400px', width: '100%' }}>
+        <DataDisplay
+          isLoading={getFirstNWalletsLoading || loading}
+          error={error}
+          defaultLoaderOptions={{ height: '400px', width: '100%' }}
+        >
           <Grid item flex="1 1 100%">
             <Card>
               <CardContent sx={{ p: 0 }}>
@@ -50,7 +61,7 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({ lastUpdatedDt }) => {
                   </Typography>
                 </Grid>
                 <Divider sx={{ m: 0, p: 0 }} />
-                {data?.items && data.items.length > 0 ? (
+                {data?.items && data.items.length > 0 && !noWallet ? (
                   <>
                     {data?.items?.map(({ id, type, name, icon_tag, address, fiat_value, fiat_currency }) => {
                       return (

@@ -5,7 +5,7 @@ on:
     branches:
       - stag
       - hotfix/**
-      - releases/**
+      - release/**
 jobs:
   stag:
     runs-on: ubuntu-latest

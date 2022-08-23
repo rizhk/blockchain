@@ -7,6 +7,7 @@ export const en = {
       heroTitle1: 'Track and monitor your crypto across all your wallets in one place.',
     },
     signup: {
+      pageTitle1: 'Sign up and start tracking your crypto assets today.',
       heroTitle1:
         'Easiest way to make sense of your businesses or personal crypto holdings + export the data to make your accountants job 10X faster.',
     },
@@ -34,12 +35,15 @@ export const en = {
         status: 'Status',
         allWallets: 'All wallets',
         noWalletCtaText: 'Connect a wallet to begin tracking your assets.',
-        noTransactionCtaText: 'Connect a wallet to begin seeing your recent transactions.',
+        hasWalletNoTransCtaText: `Your wallet doesn't seem to have any transactions. Please add another wallet.`,
+        noWalletTransCtaText: 'Connect a wallet to begin seeing your recent transactions.',
         noAssetCtaText:
           'Once your wallets have been connected, you will see  the asset allocation across all of your wallets here.',
         addWalletNow: 'Add a wallet now',
         getWalletSyncStatusError: 'Failed to get wallet sync status',
         requestWalletSyncError: 'Failed to create a new sync request',
+        fetchingLatestData: 'Fetching latest data',
+        getNetWorthError: 'Failed to get wallet net worth',
       },
       transHis: {
         head: 'Transaction History',
@@ -93,6 +97,7 @@ export const en = {
         getTransactionsError: 'Failed to get transactions, please try again later.',
         save: 'Save',
         connectWalletToSeeTxn: 'Connect a wallet to begin seeing your transactions.',
+        connectedWithNoTransaction: `Your wallet doesn't seem to have any transactions. Please add another wallet.`,
         search: 'Search by wallet address or note',
         all: 'All Wallets',
       },

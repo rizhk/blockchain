@@ -110,7 +110,7 @@ const Register: NextPage = () => {
                 <Box>
                   <img width={184} src={'/static/logo.png'} />
                   <Typography variant="h4" my={3}>
-                    Sign up and start accepting crypto payments today.
+                    {t('signup.pageTitle1')}
                   </Typography>
                   <FormikProvider value={formik}>
                     <form noValidate onSubmit={formik.handleSubmit}>

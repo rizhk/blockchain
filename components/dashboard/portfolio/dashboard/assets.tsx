@@ -36,17 +36,24 @@ import { Dot } from 'icons/dot';
 import Link from 'next/link';
 
 export interface IAssetsProps {
-  lastUpdatedDt: Date | undefined;
+  updatedSince: string | null;
+  loading: boolean;
+  noWallet: boolean;
 }
 
-export const Assets: React.FC<IAssetsProps> = ({ lastUpdatedDt }) => {
+export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet }) => {
   const { t } = useTranslation();
 
-  const { data, loading, error, trigger } = useFetch(() => {
+  const {
+    data,
+    loading: getUserAssetsLoading,
+    error,
+    trigger,
+  } = useFetch(() => {
     return portfolioApi.getUserAssets({
       defaultErrorMessage: t('portfolio.dashboard.getAssetsError'),
     });
-  }, [lastUpdatedDt]);
+  }, [updatedSince]);
 
   const [filter, setFilter] = React.useState<IAssetFilters>({ desc: true });
 
@@ -137,7 +144,11 @@ export const Assets: React.FC<IAssetsProps> = ({ lastUpdatedDt }) => {
         <Grid item>
           <Typography sx={{ mb: 3 }} variant="h6"></Typography>
         </Grid>
-        <DataDisplay isLoading={loading} error={error} defaultLoaderOptions={{ height: '400px', width: '100%' }}>
+        <DataDisplay
+          isLoading={getUserAssetsLoading || loading}
+          error={error}
+          defaultLoaderOptions={{ height: '400px', width: '100%' }}
+        >
           <Grid item flex="1 1 100%">
             <Card>
               <CardContent sx={{ p: 0 }}>
@@ -194,11 +205,45 @@ export const Assets: React.FC<IAssetsProps> = ({ lastUpdatedDt }) => {
                   </Box>
                 </Grid>
                 <Divider sx={{ m: 0, p: 0 }} />
-                {data?.items && data?.items.length > 0 ? (
-                  <Grid container spacing={2} flexWrap="nowrap" sx={{ px: 4, py: 2 }} alignItems="center">
+                {/* no wallet or assets have no data */}
+                {noWallet ||
+                (!noWallet && data?.items === undefined) ||
+                (!noWallet && data?.items && data?.items.length === 0) ? (
+                  <Grid container alignItems="center" justifyContent="center">
+                    <Grid
+                      item
+                      component={Typography}
+                      flex="1 1 100%"
+                      sx={{ mx: 4, mt: 8, mb: 4, maxWidth: '400px' }}
+                      display="block"
+                      textAlign="center"
+                      variant="ctaText1"
+                    >
+                      {t('portfolio.dashboard.noAssetCtaText')}
+                    </Grid>
+                    <Grid container item flex="1 1 100%" justifyContent="center">
+                      <Link href="/dashboard/portfolio/wallet/" passHref>
+                        <Button type="button" variant="contained" color="primary" sx={{ mb: 8 }}>
+                          {t('portfolio.dashboard.addWalletNow')}
+                        </Button>
+                      </Link>
+                    </Grid>
+                  </Grid>
+                ) : null}
+                {/* has wallet and assets have data */}
+                {!noWallet && data?.items && data?.items.length > 0 ? (
+                  <Grid container columnSpacing={2} flexWrap="nowrap" sx={{ px: 4, py: 2 }} alignItems="flex-start">
                     <Grid item flex="0 1 auto" component={AssetsChart} data={chartData} />
                     <Grid item container>
-                      <Grid container item flex="1 1 auto" alignItems="flex-end" flexWrap="nowrap" sx={{ py: 1 }}>
+                      <Grid
+                        columnSpacing={0.5}
+                        container
+                        item
+                        flex="1 1 auto"
+                        alignItems="flex-end"
+                        flexWrap="nowrap"
+                        sx={{ py: 1 }}
+                      >
                         <Grid item flex="1 1 45%">
                           <Typography variant="overline" sx={{ textTransform: 'none', lineHeight: 0.25 }}>
                             Total
@@ -219,6 +264,7 @@ export const Assets: React.FC<IAssetsProps> = ({ lastUpdatedDt }) => {
                       {filteredData?.items?.map((item, index) => {
                         return (
                           <Grid
+                            columnSpacing={0.5}
                             key={item.name}
                             container
                             item
@@ -237,7 +283,7 @@ export const Assets: React.FC<IAssetsProps> = ({ lastUpdatedDt }) => {
                                       width="20"
                                       height="20"
                                       alt={item.symbol}
-                                      src={item.icon === '' ? '/static/crypto/color/eth.svg' : item.icon}
+                                      src={item.icon === '' ? '/static/crypto/default/erc-20.svg' : item.icon}
                                     />
                                   );
                                 }}
@@ -263,28 +309,7 @@ export const Assets: React.FC<IAssetsProps> = ({ lastUpdatedDt }) => {
                       })}
                     </Grid>
                   </Grid>
-                ) : (
-                  <Grid container alignItems="center" justifyContent="center">
-                    <Grid
-                      item
-                      component={Typography}
-                      flex="1 1 100%"
-                      sx={{ mx: 4, mt: 8, mb: 4, maxWidth: '400px' }}
-                      display="block"
-                      textAlign="center"
-                      variant="ctaText1"
-                    >
-                      {t('portfolio.dashboard.noAssetCtaText')}
-                    </Grid>
-                    <Grid container item flex="1 1 100%" justifyContent="center">
-                      <Link href="/dashboard/portfolio/wallet/" passHref>
-                        <Button type="button" variant="contained" color="primary" sx={{ mb: 8 }}>
-                          {t('portfolio.dashboard.addWalletNow')}
-                        </Button>
-                      </Link>
-                    </Grid>
-                  </Grid>
-                )}
+                ) : null}
               </CardContent>
             </Card>
           </Grid>

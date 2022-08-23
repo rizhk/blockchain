@@ -28,6 +28,7 @@ export interface TransactionHistory {
   uid: string;
   id: string;
   wallet_id: string;
+  wallet_name: string;
   module: string;
   hash: string;
   blockchain_network: string;
@@ -48,6 +49,7 @@ export interface TransactionHistory {
   token_symbol: string;
   tag_name: string;
   note: string;
+  status: string;
   CreatedAt: string;
   UpdatedAt: string;
 }
@@ -72,6 +74,13 @@ export interface CreateUserTagResponse extends BaseApiResponse {
 export interface WalletResponse extends BaseApiResponse {
   items: Wallet[];
 }
+
+export interface WalletData {
+  noWallet: boolean;
+  networth?: number;
+  wallet?: Wallet[];
+}
+
 export interface Wallet {
   id: string;
   type: string;
