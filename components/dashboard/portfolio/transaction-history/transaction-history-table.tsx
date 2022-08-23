@@ -296,7 +296,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                           lineHeight: '140%',
                         }}
                       >
-                        Success
+                        {t('portfolio.transHis.success')}
                       </Typography>
                     ) : (
                       <Typography
@@ -314,7 +314,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                           lineHeight: '140%',
                         }}
                       >
-                        Failed
+                        {t('portfolio.transHis.failed')}
                       </Typography>
                     )}
                   </TableCell>

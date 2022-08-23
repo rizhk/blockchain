@@ -249,7 +249,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
                   }}
                 >
                   <SuccessTick sx={{ fontSize: '0.725rem', mr: 0.5 }} />
-                  Success
+                  {t('portfolio.transHis.success')}
                 </Typography>
               )}
               {transactionHistory?.status == '0' && (
@@ -268,7 +268,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
                   }}
                 >
                   <ExclamationCircle sx={{ fontSize: '1rem', mr: 0.5 }} />
-                  Failed
+                  {t('portfolio.transHis.failed')}
                 </Typography>
               )}
             </Grid>
