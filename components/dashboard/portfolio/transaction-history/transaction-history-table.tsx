@@ -289,11 +289,12 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                           WebkitBoxOrient: 'vertical',
                           WebkitLineClamp: 2,
                           display: '-webkit-box',
-                          color: 'background: #00C9A7',
+                          color: '#00C9A7',
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
                           maxHeight: '3rem',
-                          lineHeight: '1.5rem',
+                          lineHeight: '140%',
+                          fontWeight: 600,
                         }}
                       >
                         Success
@@ -307,11 +308,12 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                           WebkitBoxOrient: 'vertical',
                           WebkitLineClamp: 2,
                           display: '-webkit-box',
-                          color: 'background: #EB5757',
+                          color: '#EB5757',
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
                           maxHeight: '3rem',
-                          lineHeight: '1.5rem',
+                          lineHeight: '140%',
+                          fontWeight: 600,
                         }}
                       >
                         Failure
