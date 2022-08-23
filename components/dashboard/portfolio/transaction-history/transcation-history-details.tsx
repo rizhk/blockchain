@@ -233,7 +233,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
               <Typography variant="body2">{`${t('portfolio.transHis.status')}:`}</Typography>
             </Grid>
             <Grid item xs={8}>
-              {transactionHistory?.status == '0' && (
+              {transactionHistory?.status == '1' && (
                 <Typography
                   variant="body2"
                   display="flex"
@@ -252,7 +252,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
                   Success
                 </Typography>
               )}
-              {transactionHistory?.status == '1' && (
+              {transactionHistory?.status == '0' && (
                 <Typography
                   variant="body2"
                   display="flex"

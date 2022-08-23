@@ -326,6 +326,17 @@ const TransactionHistoryPage: NextPage = () => {
               { label: 'Oldest', value: 'ASC' },
             ]}
           />
+          <MultiSelect label="Tags" onChange={handleChangeTag} options={tags} value={filter?.tag ?? []} />
+
+          <SingleSelect<string>
+            onChange={handleChangeStatus}
+            label="Status"
+            value={filter?.status}
+            options={[
+              { label: 'Success', value: 0 },
+              { label: 'Failure', value: 1 },
+            ]}
+          />
           <DatePicker
             label={t('portfolio.transHis.from').toUpperCase()}
             value={filter?.start_date}
@@ -345,17 +356,6 @@ const TransactionHistoryPage: NextPage = () => {
                 return { ...preFilter, end_date: undefined };
               });
             }}
-          />
-          <MultiSelect label="Tags" onChange={handleChangeTag} options={tags} value={filter?.tag ?? []} />
-
-          <SingleSelect<string>
-            onChange={handleChangeStatus}
-            label="Status"
-            value={filter?.status}
-            options={[
-              { label: 'Success', value: 0 },
-              { label: 'Failure', value: 1 },
-            ]}
           />
         </Box>
         <DataDisplay
