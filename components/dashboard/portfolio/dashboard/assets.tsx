@@ -283,7 +283,7 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
                                       width="20"
                                       height="20"
                                       alt={item.symbol}
-                                      src={item.icon === '' ? '/static/crypto/color/eth.svg' : item.icon}
+                                      src={item.icon === '' ? '/static/crypto/default/erc-20.svg' : item.icon}
                                     />
                                   );
                                 }}
