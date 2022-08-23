@@ -113,6 +113,7 @@ export const en = {
         sortBy: 'Sort by',
         newest: 'Newest',
         oldest: 'Oldest',
+        time: 'All time',
       },
       walletList: {
         myWallets: 'My Wallets',

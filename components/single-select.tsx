@@ -24,6 +24,7 @@ interface SingleSelectProps<T> {
   shouldShowClearButton?: boolean;
   labelProps?: React.ComponentProps<typeof Typography>;
   small?: boolean;
+  additionalComponent?: React.ReactElement;
 }
 
 export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElement = (props) => {
@@ -70,7 +71,7 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
         anchorEl={anchorRef.current}
         onClose={handleCloseMenu}
         open={openMenu}
-        PaperProps={{ style: { width: 250 } }}
+        PaperProps={{ style: { width: 280 } }}
       >
         <MenuItem>
           <FormControlLabel
@@ -101,6 +102,7 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
             />
           </MenuItem>
         ))}
+        <Box sx={{ px: 1 }}>{props.additionalComponent}</Box>
         {/* {shouldShowClearButton && (
           <Box>
             <Divider />
