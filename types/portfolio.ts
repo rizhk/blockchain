@@ -28,6 +28,7 @@ export interface TransactionHistory {
   uid: string;
   id: string;
   wallet_id: string;
+  wallet_name: string;
   module: string;
   hash: string;
   blockchain_network: string;

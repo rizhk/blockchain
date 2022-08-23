@@ -333,8 +333,8 @@ const TransactionHistoryPage: NextPage = () => {
             label="Status"
             value={filter?.status}
             options={[
-              { label: 'Success', value: 0 },
-              { label: 'Failure', value: 1 },
+              { label: 'Success', value: 1 },
+              { label: 'Failed', value: 0 },
             ]}
           />
           <DatePicker

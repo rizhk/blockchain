@@ -63,7 +63,7 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
         sx={[small && { py: 0 }]}
         {...other}
       >
-        {selectedLabel}
+        <Typography {...labelProps}>{selectedLabel}</Typography>
       </Button>
       <Menu
         anchorEl={anchorRef.current}

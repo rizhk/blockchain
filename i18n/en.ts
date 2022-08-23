@@ -7,6 +7,7 @@ export const en = {
       heroTitle1: 'Track and monitor your crypto across all your wallets in one place.',
     },
     signup: {
+      pageTitle1: 'Sign up and start tracking your crypto assets today.',
       heroTitle1:
         'Easiest way to make sense of your businesses or personal crypto holdings + export the data to make your accountants job 10X faster.',
     },

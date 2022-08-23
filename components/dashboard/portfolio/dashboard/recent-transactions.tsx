@@ -83,44 +83,44 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({ updated
                 {/* has wallet and transaction have data */}
                 {!noWallet && data?.items && data?.items.length > 0 ? (
                   <>
-                    {data?.items.map(
-                      ({ id, from_name, to_name, crypto_amount, token_symbol, type, crypto_amount_fiat }) => {
-                        return (
-                          <Grid sx={{ px: 3, pt: 1.2, pb: 0.8 }} container key={id}>
-                            <Grid container item>
-                              <Grid component={Typography} variant="body1" flex="1 1 auto">
-                                {type.toLowerCase() == 'in' ? (
-                                  <Typography>{from_name}</Typography>
-                                ) : (
-                                  <Typography>{to_name}</Typography>
-                                )}
-                              </Grid>
-                              <Grid component={Typography} variant="subtitle1" flex="0 1 35%">
-                                {primitivesUtils.convertCurrencyDisplay(crypto_amount)}{' '}
-                                <TokenSymbolDisplay display="inline" name={token_symbol} />
-                              </Grid>
+                    {data?.items.map(({ id, wallet_name, crypto_amount, token_symbol, type, crypto_amount_fiat }) => {
+                      return (
+                        <Grid sx={{ px: 3, pt: 1.2, pb: 0.8 }} container key={id}>
+                          <Grid container item>
+                            <Grid component={Typography} variant="body1" flex="1 1 auto">
+                              <Typography>{wallet_name}</Typography>
                             </Grid>
-                            <Grid container item>
-                              <Grid flex="1 1 auto">
-                                {type.toLowerCase() === 'in' ? (
-                                  <Typography variant="body1" color="success.main">
-                                    {t('portfolio.dashboard.incoming')}
-                                  </Typography>
-                                ) : (
-                                  <Typography variant="body1" color="error.main">
-                                    {t('portfolio.dashboard.outgoing')}
-                                  </Typography>
-                                )}{' '}
-                              </Grid>
-                              <Grid component={Typography} variant="subtitle1" flex="0 1 35%" color="text.secondary">
-                                {'USD '}
-                                {primitivesUtils.convertCurrencyDisplay(crypto_amount_fiat)}
-                              </Grid>
+                            <Grid component={Typography} variant="subtitle1" flex="0 1 35%" textAlign="right">
+                              {primitivesUtils.convertCurrencyDisplay(crypto_amount)}{' '}
+                              <TokenSymbolDisplay display="inline" name={token_symbol} />
                             </Grid>
                           </Grid>
-                        );
-                      },
-                    )}
+                          <Grid container item>
+                            <Grid flex="1 1 auto">
+                              {type.toLowerCase() === 'in' ? (
+                                <Typography variant="body1" color="success.main">
+                                  {t('portfolio.dashboard.incoming')}
+                                </Typography>
+                              ) : (
+                                <Typography variant="body1" color="error.main">
+                                  {t('portfolio.dashboard.outgoing')}
+                                </Typography>
+                              )}{' '}
+                            </Grid>
+                            <Grid
+                              component={Typography}
+                              variant="subtitle1"
+                              flex="0 1 35%"
+                              color="text.secondary"
+                              textAlign="right"
+                            >
+                              {'USD '}
+                              {primitivesUtils.convertCurrencyDisplay(crypto_amount_fiat)}
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      );
+                    })}
                     <Link href="/dashboard/portfolio/transaction-history/" passHref>
                       <Typography
                         sx={{ m: 2, cursor: 'pointer' }}

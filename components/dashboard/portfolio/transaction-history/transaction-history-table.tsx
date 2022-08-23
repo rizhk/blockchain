@@ -283,7 +283,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                     {transaction.status == '1' ? (
                       <Typography
                         display="inline"
-                        variant="caption"
+                        variant="body2"
                         sx={{
                           cursor: 'pointer',
                           WebkitBoxOrient: 'vertical',
@@ -294,7 +294,6 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                           textOverflow: 'ellipsis',
                           maxHeight: '3rem',
                           lineHeight: '140%',
-                          fontWeight: 600,
                         }}
                       >
                         Success
@@ -302,7 +301,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                     ) : (
                       <Typography
                         display="inline"
-                        variant="caption"
+                        variant="body2"
                         sx={{
                           cursor: 'pointer',
                           WebkitBoxOrient: 'vertical',
@@ -313,10 +312,9 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                           textOverflow: 'ellipsis',
                           maxHeight: '3rem',
                           lineHeight: '140%',
-                          fontWeight: 600,
                         }}
                       >
-                        Failure
+                        Failed
                       </Typography>
                     )}
                   </TableCell>
