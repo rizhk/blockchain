@@ -280,23 +280,43 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                     )}
                   </TableCell>
                   <TableCell sx={{ maxWidth: '150px' }}>
-                    <Typography
-                      display="inline"
-                      variant="caption"
-                      sx={{
-                        cursor: 'pointer',
-                        WebkitBoxOrient: 'vertical',
-                        WebkitLineClamp: 2,
-                        display: '-webkit-box',
-                        color: 'text.secondary',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        maxHeight: '3rem',
-                        lineHeight: '1.5rem',
-                      }}
-                    >
-                      {transaction.status == '0' ? 'Success' : 'Failure'}
-                    </Typography>
+                    {transaction.status == '1' ? (
+                      <Typography
+                        display="inline"
+                        variant="caption"
+                        sx={{
+                          cursor: 'pointer',
+                          WebkitBoxOrient: 'vertical',
+                          WebkitLineClamp: 2,
+                          display: '-webkit-box',
+                          color: 'background: #00C9A7',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          maxHeight: '3rem',
+                          lineHeight: '1.5rem',
+                        }}
+                      >
+                        Success
+                      </Typography>
+                    ) : (
+                      <Typography
+                        display="inline"
+                        variant="caption"
+                        sx={{
+                          cursor: 'pointer',
+                          WebkitBoxOrient: 'vertical',
+                          WebkitLineClamp: 2,
+                          display: '-webkit-box',
+                          color: 'background: #EB5757',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          maxHeight: '3rem',
+                          lineHeight: '1.5rem',
+                        }}
+                      >
+                        Failure
+                      </Typography>
+                    )}
                   </TableCell>
                   <TableCell align="right">
                     <Typography
