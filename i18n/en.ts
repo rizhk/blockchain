@@ -3,6 +3,7 @@ export const en = {
     components: {
       multiSelect: {
         selectAll: 'Select All',
+        confirm: 'Confirm',
       },
     },
     overview: {
@@ -114,6 +115,7 @@ export const en = {
         newest: 'Newest',
         oldest: 'Oldest',
         time: 'All time',
+        confirm: 'Confirm',
       },
       walletList: {
         myWallets: 'My Wallets',

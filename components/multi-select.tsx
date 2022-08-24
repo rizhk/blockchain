@@ -106,7 +106,7 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
               handleCloseMenu();
             }}
           >
-            Confirm
+            {t('components.multiSelect.confirm')}
           </Button>
         </MenuItem>
       </Menu>

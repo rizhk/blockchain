@@ -122,8 +122,6 @@ const TransactionHistoryPage: NextPage = () => {
     });
   };
 
-  const [open, setOpen] = useState(false);
-
   const getWallets = async () => {
     const walletResult = await portfolioApi.getAllWallets({
       defaultErrorMessage: t('portfolio.transHis.getWalletsError'),
@@ -206,6 +204,31 @@ const TransactionHistoryPage: NextPage = () => {
         return { ...preFilter, keyword: queryValue };
       });
     }
+  };
+
+  const [range, setRange] = useState<string>();
+
+  const handleChangeRange = (value: any | undefined) => {
+    setRange(value);
+    let date = new Date();
+
+    if (value == '30d') {
+      date.setDate(date.getDate() - 30);
+      handleChangeFromDate(date);
+    }
+    if (value == '60d') {
+      date.setDate(date.getDate() - 60);
+      handleChangeFromDate(date);
+    }
+    if (value == '6m') {
+      date.setMonth(date.getMonth() - 6);
+      handleChangeFromDate(date);
+    }
+    if (value == '1y') {
+      date.setFullYear(date.getFullYear() - 1);
+    }
+
+    handleChangeToDate(new Date());
   };
 
   return (
@@ -340,26 +363,45 @@ const TransactionHistoryPage: NextPage = () => {
               options={tags}
               value={filter?.tag ?? []}
             />
-
-            <DatePicker
-              label={t('portfolio.transHis.from').toUpperCase()}
-              value={filter?.start_date}
-              handleDateChange={handleChangeFromDate}
-              handleClear={() => {
-                setFilter((preFilter) => {
-                  return { ...preFilter, start_date: undefined };
-                });
-              }}
-            />
-            <DatePicker
-              label={t('portfolio.transHis.to').toUpperCase()}
-              value={filter?.end_date}
-              handleDateChange={handleChangeToDate}
-              handleClear={() => {
-                setFilter((preFilter) => {
-                  return { ...preFilter, end_date: undefined };
-                });
-              }}
+            <SingleSelect<string>
+              onChange={handleChangeRange}
+              label={t('portfolio.transHis.time')}
+              value={range}
+              options={[
+                { label: 'Last 30 days', value: '30d' },
+                { label: 'Last 90 days', value: '90d' },
+                { label: 'Last 6 months', value: '6m' },
+                { label: 'Last year', value: '1y' },
+                { label: 'Customer date range', value: 'c' },
+              ]}
+              additionalComponent={
+                range == 'c' ? (
+                  <Box sx={{ display: 'flex' }}>
+                    <DatePicker
+                      label={t('portfolio.transHis.from').toUpperCase()}
+                      value={filter?.start_date}
+                      handleDateChange={handleChangeFromDate}
+                      handleClear={() => {
+                        setFilter((preFilter) => {
+                          return { ...preFilter, start_date: undefined };
+                        });
+                      }}
+                    />
+                    <DatePicker
+                      label={t('portfolio.transHis.to').toUpperCase()}
+                      value={filter?.end_date}
+                      handleDateChange={handleChangeToDate}
+                      handleClear={() => {
+                        setFilter((preFilter) => {
+                          return { ...preFilter, end_date: undefined };
+                        });
+                      }}
+                    />
+                  </Box>
+                ) : (
+                  <Box></Box>
+                )
+              }
             />
           </Box>
           <SingleSelect<string>

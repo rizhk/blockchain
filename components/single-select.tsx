@@ -15,6 +15,7 @@ import {
   Typography,
 } from '@mui/material';
 import { ChevronDown as ChevronDownIcon } from '../icons/chevron-down';
+import { useTranslation } from 'react-i18next';
 
 interface SingleSelectProps<T> {
   label: string;
@@ -32,6 +33,7 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
   const anchorRef = useRef<HTMLButtonElement | null>(null);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [selectedLabel, setSelectedLabel] = useState(label);
+  const [selected, setSelected] = useState(value);
 
   const handleOpenMenu = (): void => {
     setOpenMenu(true);
@@ -44,16 +46,22 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
   };
 
   const handleChange = (label: string, val: typeof value): void => {
-    onChange(val);
+    setSelected(val);
     setSelectedLabel(label);
-    handleCloseMenu();
+    onChange(val);
+    if (!props.additionalComponent) {
+      handleCloseMenu();
+    }
   };
 
   const handleClear = () => {
+    setSelected(undefined);
     onChange(undefined);
     setSelectedLabel(label);
     handleCloseMenu();
   };
+
+  const { t } = useTranslation();
 
   return (
     <Box>
@@ -90,7 +98,7 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
               control={
                 <Radio
                   color="primary"
-                  checked={value == option.value}
+                  checked={selected == option.value}
                   onChange={(_) => handleChange(option.label, option.value)}
                 />
               }
@@ -103,6 +111,22 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
           </MenuItem>
         ))}
         <Box sx={{ px: 1 }}>{props.additionalComponent}</Box>
+        {props.additionalComponent && (
+          <Box sx={{ pt: 1 }}>
+            <Divider />
+            <Box sx={{ display: 'flex', justifyContent: 'end', px: 2, py: 1 }}>
+              <Button
+                variant="contained"
+                color="info"
+                onClick={() => {
+                  handleCloseMenu();
+                }}
+              >
+                {t('components.multiSelect.confirm')}
+              </Button>
+            </Box>
+          </Box>
+        )}
         {/* {shouldShowClearButton && (
           <Box>
             <Divider />
