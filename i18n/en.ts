@@ -1,5 +1,10 @@
 export const en = {
   translation: {
+    components: {
+      multiSelect: {
+        selectAll: 'Select All',
+      },
+    },
     overview: {
       xRateError: 'Failed to get exchange rate.',
     },
@@ -100,6 +105,14 @@ export const en = {
         connectedWithNoTransaction: `Your wallet doesn't seem to have any transactions. Please add another wallet.`,
         search: 'Search by wallet address or note',
         all: 'All Wallets',
+        types: 'All Types',
+        statuses: 'All Statuses',
+        tags: 'All Tags',
+        success: 'Success',
+        failed: 'Failed',
+        sortBy: 'Sort by',
+        newest: 'Newest',
+        oldest: 'Oldest',
       },
       walletList: {
         myWallets: 'My Wallets',
