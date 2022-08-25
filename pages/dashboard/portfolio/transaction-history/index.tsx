@@ -59,6 +59,7 @@ const TransactionHistoryPage: NextPage = () => {
     requestWalletSyncError,
     getAllWalletsError,
     getWalletSyncStatusError,
+    walletSyncStatus,
   } = useWalletData();
 
   const [transactionHistory, setTransactionHistory] = useState<{ items: TransactionHistory[]; shouldRefresh: boolean }>(
@@ -223,10 +224,15 @@ const TransactionHistoryPage: NextPage = () => {
       <Box
         component="main"
         sx={{
-          pt: 8,
+          pt: 4,
           pb: 4,
         }}
       >
+        {!walletsData?.noWallet && count > 0 && walletSyncStatus.isInProgress && (
+          <Grid sx={{ px: 3, py: 2, mb: 4, color: 'primary.main', backgroundColor: 'rgba(80, 72, 229, 0.1)' }}>
+            <Typography variant="body1">{t('portfolio.transHis.dataSyncInProgress')}</Typography>
+          </Grid>
+        )}
         <Container maxWidth="xl">
           <Box sx={{ mb: 4 }}>
             <Grid container justifyContent="space-between" spacing={3} flexWrap="nowrap">
@@ -239,6 +245,7 @@ const TransactionHistoryPage: NextPage = () => {
                   item
                   justifyContent="flex-end"
                   component={WalletSync}
+                  walletSyncStatus={walletSyncStatus}
                   walletsData={walletsData}
                   requestWalletSync={requestWalletSync}
                   getWalletSyncStatusData={getWalletSyncStatusData}
@@ -364,6 +371,7 @@ const TransactionHistoryPage: NextPage = () => {
           defaultLoaderOptions={{ height: '80vh', width: '100%' }}
         >
           <TransactionHistoryTable
+            walletSyncStatus={walletSyncStatus}
             noWallet={walletsData?.noWallet}
             setTransactionHistoryTag={setTransactionHistoryTag}
             setTransactionHistoryNote={setTransactionHistoryNote}

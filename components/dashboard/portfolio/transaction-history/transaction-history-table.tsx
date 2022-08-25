@@ -35,7 +35,7 @@ import { ArrowRight } from '@mui/icons-material';
 import { ArrowNarrowRight } from 'icons/arrow-narrow-right';
 import { ChevronRight } from 'icons/chevron-right';
 import { TransactionHistoryDetails } from './transcation-history-details';
-import { TransactionHistory } from 'types/portfolio';
+import { TransactionHistory, WalletSyncStatus } from 'types/portfolio';
 import { MoneyReceive } from 'icons/money-receive';
 import { MoneySend } from 'icons/money-send';
 import { format } from 'date-fns-tz';
@@ -55,6 +55,7 @@ interface TransactionHistoryTableProps {
   setTransactionHistoryTag: (txnId: string, tag_name: string) => void;
   setTransactionHistoryNote: (txnId: string, note: string) => void;
   noWallet: boolean;
+  walletSyncStatus: WalletSyncStatus;
 }
 
 export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
@@ -68,6 +69,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
   setTransactionHistoryTag,
   setTransactionHistoryNote,
   noWallet,
+  walletSyncStatus,
 }) => {
   const { t } = useTranslation();
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -142,15 +144,22 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
         <TableBody>
           {noWallet && (
             <TableRow>
-              <TableCell colSpan={10}>
+              <TableCell colSpan={10} height="400px">
                 <Typography align="center"> {t('portfolio.transHis.connectWalletToSeeTxn')}</Typography>
               </TableCell>
             </TableRow>
           )}
-          {!noWallet && count === 0 && (
+          {!noWallet && count === 0 && (walletSyncStatus.isCompleted || walletSyncStatus.isNotTriggered) && (
             <TableRow>
-              <TableCell colSpan={10}>
+              <TableCell colSpan={10} height="400px">
                 <Typography align="center">{t('portfolio.transHis.connectedWithNoTransaction')}</Typography>
+              </TableCell>
+            </TableRow>
+          )}
+          {!noWallet && count === 0 && walletSyncStatus.isInProgress && (
+            <TableRow>
+              <TableCell colSpan={10} height="400px">
+                <Typography align="center">{t('portfolio.transHis.connectedLoadingTransaction')}</Typography>
               </TableCell>
             </TableRow>
           )}
@@ -189,8 +198,12 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                   </TableCell>
                   <TableCell sx={{ maxWidth: '150px' }}>
                     <Typography display="block" variant="subtitle2">
-                      {primitivesUtils.convertCurrencyDisplay(transaction.crypto_amount)}{' '}
-                      <TokenSymbolDisplay display="inline-block" variant="subtitle2" name={transaction.token_symbol} />
+                      <TokenSymbolDisplay
+                        amt={transaction.crypto_amount}
+                        display="inline-block"
+                        variant="subtitle2"
+                        name={transaction.token_symbol}
+                      />
                     </Typography>
                     {parseFloat(transaction.crypto_amount_fiat) > 0 && (
                       <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>

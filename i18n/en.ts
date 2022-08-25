@@ -19,8 +19,18 @@ export const en = {
     portfolio: {
       head: 'Portfolio',
       title: 'Portfolio',
+      assets: {
+        token: 'Token',
+        marketPrice: 'Market price',
+        balance: 'Balance',
+        getAssetsError: 'Failed to get assets',
+        head: 'All assets',
+        exportData: 'Export data',
+        connectWalletToSeeAssets: 'Connect a wallet to begin tracking your assets.',
+        connectedWithNoAssets: `Once your wallets have been connected, you will see the asset allocation across all of your wallets here.`,
+      },
       dashboard: {
-        porfolioNetWorth: 'Your portfolio net worth',
+        portfolioNetWorth: 'Your portfolio net worth',
         updateDataNow: 'Update data now',
         dataLastUpdated: 'Data last updated',
         recentTrans: 'Recent transactions',
@@ -28,7 +38,9 @@ export const en = {
         incoming: 'Incoming',
         outgoing: 'Outgoing',
         total: 'Total',
+        totalAssets: 'Total assets',
         viewAllWallets: 'View all wallets',
+        viewAllAssets: 'View all assets',
         addWallet: 'Add wallet',
         myWallets: 'MY WALLETS',
         getRecentTransactionError: 'Failed to get recent transactions',
@@ -43,7 +55,7 @@ export const en = {
         hasWalletNoTransCtaText: `Your wallet doesn't seem to have any transactions. Please add another wallet.`,
         noWalletTransCtaText: 'Connect a wallet to begin seeing your recent transactions.',
         noAssetCtaText:
-          'Once your wallets have been connected, you will see  the asset allocation across all of your wallets here.',
+          'Once your wallets have been connected, you will see the asset allocation across all of your wallets here.',
         addWalletNow: 'Add a wallet now',
         getWalletSyncStatusError: 'Failed to get wallet sync status',
         requestWalletSyncError: 'Failed to create a new sync request',
@@ -101,8 +113,12 @@ export const en = {
         setTagError: 'Failed to change tag, please try again later.',
         getTransactionsError: 'Failed to get transactions, please try again later.',
         save: 'Save',
+        dataSyncInProgress:
+          'The latest data is being fetched from the blockchain. You will be notified when your data has been updated.',
         connectWalletToSeeTxn: 'Connect a wallet to begin seeing your transactions.',
         connectedWithNoTransaction: `Your wallet doesn't seem to have any transactions. Please add another wallet.`,
+        connectedLoadingTransaction:
+          'You data is being loaded, this may take a few minutes. Please check back again later.',
         search: 'Search by wallet address or note',
         all: 'All Wallets',
         types: 'All Types',

@@ -8,7 +8,7 @@ import { useWalletData } from 'hooks/use-wallet-data';
 import * as React from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GetWalletSyncStatusResponse, WalletData } from 'types/portfolio';
+import { GetWalletSyncStatusResponse, WalletData, WalletSyncStatus } from 'types/portfolio';
 import { BaseApiResponse } from 'types/response';
 import { primitivesUtils } from 'utils/primitives-utils';
 
@@ -22,6 +22,7 @@ export interface IWalletSyncProps {
   requestWalletSyncError: string | undefined;
   getWalletSyncStatusError: string | undefined;
   containerProps?: Omit<React.ComponentProps<typeof Grid>, 'component'>;
+  walletSyncStatus: WalletSyncStatus;
 }
 
 export const WalletSync: React.FC<IWalletSyncProps> = ({
@@ -34,6 +35,7 @@ export const WalletSync: React.FC<IWalletSyncProps> = ({
   requestWalletSyncError,
   getWalletSyncStatusError,
   containerProps,
+  walletSyncStatus,
 }) => {
   const { t } = useTranslation();
 
@@ -41,18 +43,46 @@ export const WalletSync: React.FC<IWalletSyncProps> = ({
     requestWalletSync({});
   };
 
+  const RefreshButton = (
+    <Typography
+      display="flex"
+      {...(walletSyncStatus.isInProgress ? {} : { onClick: handleUpdateData, style: { cursor: 'pointer' } })}
+      variant="caption2"
+      sx={{ color: 'primary.main', verticalAlign: 'bottom' }}
+    >
+      <Refresh
+        sx={[
+          { fontSize: '0.75rem' },
+          requestWalletSyncIsLoading && {
+            animation: 'spin 0.5s linear infinite',
+            '@keyframes spin': {
+              '0%': {
+                transform: 'rotate(0deg)',
+              },
+              '100%': {
+                transform: 'rotate(360deg)',
+              },
+            },
+          },
+        ]}
+      />
+    </Typography>
+  );
+
   return (
     <>
       {!walletsData?.noWallet && (
         <>
           <Grid container item alignItems="center" {...containerProps}>
-            {getWalletSyncStatusData?.status?.toUpperCase() === 'IN_PROGRESS' && (
-              <Typography variant="caption2" sx={[{ color: 'primary.main', pr: 0.5 }]}>
-                {t('portfolio.dashboard.fetchingLatestData')}
-              </Typography>
+            {walletSyncStatus.isInProgress && (
+              <>
+                <Typography variant="caption2" sx={[{ color: 'primary.main', pr: 0.5 }]}>
+                  {t('portfolio.dashboard.fetchingLatestData')}
+                </Typography>{' '}
+                {RefreshButton}
+              </>
             )}
-            {getWalletSyncStatusData?.status?.toUpperCase() === 'COMPLETED' ||
-            getWalletSyncStatusData?.status === undefined ? (
+            {walletSyncStatus.isCompleted || walletSyncStatus.isNotTriggered ? (
               <>
                 <Typography variant="caption2" sx={{ fontSize: '0.7rem', pr: 2 }}>
                   {updatedSince}
@@ -65,29 +95,7 @@ export const WalletSync: React.FC<IWalletSyncProps> = ({
                 >
                   {t('portfolio.dashboard.updateDataNow')}
                 </Typography>{' '}
-                <Typography
-                  display="flex"
-                  onClick={handleUpdateData}
-                  variant="caption2"
-                  sx={{ color: 'primary.main', cursor: 'pointer', verticalAlign: 'bottom' }}
-                >
-                  <Refresh
-                    sx={[
-                      { fontSize: '0.75rem' },
-                      requestWalletSyncIsLoading && {
-                        animation: 'spin 0.5s linear infinite',
-                        '@keyframes spin': {
-                          '0%': {
-                            transform: 'rotate(0deg)',
-                          },
-                          '100%': {
-                            transform: 'rotate(360deg)',
-                          },
-                        },
-                      },
-                    ]}
-                  />
-                </Typography>
+                {RefreshButton}
                 {requestWalletSyncError && <Alert severity="error">{requestWalletSyncError}</Alert>}
               </>
             ) : null}

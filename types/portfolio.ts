@@ -94,7 +94,8 @@ export interface Wallet {
 }
 
 export interface AssetsResponse extends BaseApiResponse {
-  total_bal: string;
+  item_count: number;
+  total_bal: number;
   total_bal_symbol: string;
   items: Asset[];
 }
@@ -103,12 +104,20 @@ export interface Asset {
   icon: string;
   name: string;
   symbol: string;
-  balance: string;
-  fiat_value: string;
+  balance: number;
+  fiat_value: number;
   fiat_currency: string;
+  market_price_fiat: number;
+  market_price_currency: string;
 }
 
 export interface GetWalletSyncStatusResponse extends BaseApiResponse {
   last_updated_at: string;
   status: string;
+}
+
+export interface WalletSyncStatus {
+  isInProgress: boolean;
+  isCompleted: boolean;
+  isNotTriggered: boolean;
 }
