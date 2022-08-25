@@ -41,6 +41,7 @@ const Portfolio: NextPage = () => {
     requestWalletSyncError,
     getAllWalletsError,
     getWalletSyncStatusError,
+    walletSyncStatus,
   } = useWalletData();
 
   return (
@@ -62,8 +63,8 @@ const Portfolio: NextPage = () => {
           <Grid container justifyContent="space-between" spacing={3} flexWrap="nowrap">
             <Grid item minWidth="fit-content">
               <Typography variant="h6">
-                {t('portfolio.dashboard.porfolioNetWorth')}:{' '}
-                {primitivesUtils.convertCurrencyDisplay(walletsData?.networth || 0)} USD
+                {t('portfolio.dashboard.portfolioNetWorth')}: USD{' '}
+                {primitivesUtils.convertCurrencyDisplay(walletsData?.networth || 0)}
               </Typography>
             </Grid>
             <Grid
@@ -72,6 +73,7 @@ const Portfolio: NextPage = () => {
               item
               justifyContent="flex-end"
               component={WalletSync}
+              walletSyncStatus={walletSyncStatus}
               walletsData={walletsData}
               requestWalletSync={requestWalletSync}
               getWalletSyncStatusData={getWalletSyncStatusData}

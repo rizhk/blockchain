@@ -3,7 +3,7 @@ import * as React from 'react';
 import { primitivesUtils } from 'utils/primitives-utils';
 
 export interface ITokenSymbolDisplayProps extends React.ComponentProps<typeof Typography> {
-  amt: string;
+  amt: string | number;
   name: string;
 }
 
@@ -28,12 +28,12 @@ export const TokenSymbolDisplay: React.FC<ITokenSymbolDisplayProps> = ({ amt, na
       {trimmed ? (
         <Tooltip title={name}>
           <Typography {...rest}>
-            {amt} {tokenSymbol}...
+            {primitivesUtils.convertCurrencyDisplay(amt)} {tokenSymbol}...
           </Typography>
         </Tooltip>
       ) : (
         <Typography {...rest}>
-          {amt} {tokenSymbol}
+          {primitivesUtils.convertCurrencyDisplay(amt)} {tokenSymbol}
         </Typography>
       )}
     </>

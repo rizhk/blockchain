@@ -91,8 +91,7 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({ updated
                               <Typography>{wallet_name}</Typography>
                             </Grid>
                             <Grid component={Typography} variant="subtitle1" flex="0 1 35%" textAlign="right">
-                              {primitivesUtils.convertCurrencyDisplay(crypto_amount)}{' '}
-                              <TokenSymbolDisplay display="inline" name={token_symbol} />
+                              <TokenSymbolDisplay amt={crypto_amount} display="inline" name={token_symbol} />
                             </Grid>
                           </Grid>
                           <Grid container item>
@@ -123,9 +122,9 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({ updated
                     })}
                     <Link href="/dashboard/portfolio/transaction-history/" passHref>
                       <Typography
-                        sx={{ m: 2, cursor: 'pointer' }}
+                        sx={{ px: 3, py: 2, cursor: 'pointer' }}
                         display="block"
-                        textAlign="center"
+                        textAlign="left"
                         variant="textLink1"
                         color="secondary.main"
                       >

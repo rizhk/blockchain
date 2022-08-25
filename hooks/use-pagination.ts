@@ -1,6 +1,6 @@
 import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 
-export const useClientPagination = <T, F>(data: T[], shouldRefresh: boolean, initialFilters?: F) => {
+export const useClientPagination = <T, F>(data: T[], shouldRefresh = true, initialFilters?: F) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [filters, setFilters] = useState<F | undefined>(initialFilters || undefined);

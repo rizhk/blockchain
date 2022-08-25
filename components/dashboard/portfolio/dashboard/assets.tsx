@@ -34,6 +34,7 @@ import { AssetsChart } from './assets-chart';
 import Image from 'next/image';
 import { Dot } from 'icons/dot';
 import Link from 'next/link';
+import { TokenSymbolDisplay } from 'components/common/wallet-name-display';
 
 export interface IAssetsProps {
   updatedSince: string | null;
@@ -80,6 +81,15 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
     return { ...data, items };
   }, [JSON.stringify(data), JSON.stringify(filter)]);
 
+  const tableDisplayData = React.useMemo(() => {
+    if (!filteredData?.items) return filteredData;
+    var tempItems = filteredData.items.filter(({ fiat_value }) => {
+      return fiat_value > 0;
+    });
+    var top7Items = tempItems.slice(0, 7);
+    return { ...data, items: top7Items };
+  }, [JSON.stringify(filteredData)]);
+
   const theme = useTheme();
 
   const chartBaseColors = [
@@ -125,14 +135,16 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
     alpha(theme.palette.secondary.dark, 0.1),
   ];
 
-  const chartDataSeries = filteredData?.items?.map(({ name, balance, fiat_value, fiat_currency, symbol }, index) => {
-    return {
-      color: chartBaseColors[index],
-      data: primitivesUtils.roundDownToTwo(fiat_value),
-      name,
-      symbol: symbol + ' ' + fiat_currency + ' ' + primitivesUtils.convertCurrencyDisplay(balance),
-    };
-  });
+  const chartDataSeries = (filteredData?.items || []).map(
+    ({ name, balance, fiat_value, fiat_currency, symbol }, index) => {
+      return {
+        color: chartBaseColors[index],
+        data: primitivesUtils.roundDownToTwo(fiat_value),
+        name,
+        symbol: symbol + ' ' + fiat_currency + ' ' + primitivesUtils.convertCurrencyDisplay(balance),
+      };
+    },
+  );
 
   const chartData = {
     series: chartDataSeries,
@@ -232,83 +244,102 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
                 ) : null}
                 {/* has wallet and assets have data */}
                 {!noWallet && data?.items && data?.items.length > 0 ? (
-                  <Grid container columnSpacing={2} flexWrap="nowrap" sx={{ px: 4, py: 2 }} alignItems="flex-start">
-                    <Grid item flex="0 1 auto" component={AssetsChart} data={chartData} />
-                    <Grid item container>
-                      <Grid
-                        columnSpacing={0.5}
-                        container
-                        item
-                        flex="1 1 auto"
-                        alignItems="flex-end"
-                        flexWrap="nowrap"
-                        sx={{ py: 1 }}
-                      >
-                        <Grid item flex="1 1 45%">
-                          <Typography variant="overline" sx={{ textTransform: 'none', lineHeight: 0.25 }}>
-                            Total
-                          </Typography>
-                          <br />
-                          <Typography variant="overline" display="inline-block" color="secondary.main">
-                            {data?.total_bal_symbol}{' '}
-                            {primitivesUtils.convertCurrencyDisplay(filteredData?.total_bal as string)}
-                          </Typography>
+                  <>
+                    <Grid container columnSpacing={2} flexWrap="nowrap" sx={{ px: 4, py: 2 }} alignItems="flex-start">
+                      <Grid item flex="0 1 auto" component={AssetsChart} data={chartData} />
+                      <Grid item container>
+                        <Grid
+                          columnSpacing={0.5}
+                          container
+                          item
+                          flex="1 1 auto"
+                          alignItems="flex-end"
+                          flexWrap="nowrap"
+                          sx={{ py: 1 }}
+                        >
+                          <Grid item flex="1 1 45%">
+                            <Typography variant="overline" sx={{ textTransform: 'none', lineHeight: 0.25 }}>
+                              Total
+                            </Typography>
+                            <br />
+                            <Typography variant="overline" display="inline-block" color="secondary.main">
+                              {data?.total_bal_symbol}{' '}
+                              {primitivesUtils.convertCurrencyDisplay(filteredData?.total_bal || 0)}
+                            </Typography>
+                          </Grid>
+                          <Grid item flex="1 1 27.5%">
+                            <Typography variant="overline">BALANCE</Typography>
+                          </Grid>
+                          <Grid item flex="1 1 27.5%">
+                            <Typography variant="overline">USD AMOUNT</Typography>
+                          </Grid>
                         </Grid>
-                        <Grid item flex="1 1 27.5%">
-                          <Typography variant="overline">BALANCE</Typography>
-                        </Grid>
-                        <Grid item flex="1 1 27.5%">
-                          <Typography variant="overline">USD AMOUNT</Typography>
-                        </Grid>
-                      </Grid>
-                      {filteredData?.items?.map((item, index) => {
-                        return (
-                          <Grid
-                            columnSpacing={0.5}
-                            key={item.name}
-                            container
-                            item
-                            flex="1 1 auto"
-                            alignItems="center"
-                            flexWrap="nowrap"
-                            sx={{ borderTop: '1px solid #E6E8F0', py: 2 }}
-                          >
-                            <Grid container item flex="1 1 45%" alignItems="center">
-                              <Grid item component={Dot} sx={{ color: [chartBaseColors[index]] }} />
-                              <Grid
-                                item
-                                component={() => {
-                                  return (
-                                    <Image
-                                      width="20"
-                                      height="20"
-                                      alt={item.symbol}
-                                      src={item.icon === '' ? '/static/crypto/default/erc-20.svg' : item.icon}
-                                    />
-                                  );
-                                }}
-                              />
-                              <Grid item>
-                                <Typography sx={{ pl: 1 }} variant="caption">
-                                  {item.name}
+                        {tableDisplayData?.items?.map((item, index) => {
+                          return (
+                            <Grid
+                              columnSpacing={0.5}
+                              key={item.name}
+                              container
+                              item
+                              flex="1 1 auto"
+                              alignItems="center"
+                              flexWrap="nowrap"
+                              sx={{ borderTop: '1px solid #E6E8F0', py: 2 }}
+                            >
+                              <Grid container item flex="1 1 45%" alignItems="center">
+                                <Grid item component={Dot} sx={{ color: [chartBaseColors[index]] }} />
+                                <Grid
+                                  item
+                                  component={() => {
+                                    return (
+                                      <Image
+                                        width="20"
+                                        height="20"
+                                        alt={item.symbol}
+                                        src={item.icon === '' ? '/static/crypto/default/erc-20.svg' : item.icon}
+                                      />
+                                    );
+                                  }}
+                                />
+                                <Grid item>
+                                  <Typography sx={{ pl: 1 }} variant="caption">
+                                    {item.name}
+                                  </Typography>
+                                </Grid>
+                              </Grid>
+                              <Grid item flex="1 1 27.5%">
+                                <TokenSymbolDisplay amt={item.balance} name={item.symbol} variant="caption" />
+                              </Grid>
+                              <Grid item flex="1 1 27.5%">
+                                <Typography variant="caption">
+                                  {item.fiat_currency} {primitivesUtils.convertCurrencyDisplay(item.fiat_value)}
                                 </Typography>
                               </Grid>
                             </Grid>
-                            <Grid item flex="1 1 27.5%">
-                              <Typography variant="caption">
-                                {item.symbol} {primitivesUtils.convertCurrencyDisplay(item.balance)}
-                              </Typography>
-                            </Grid>
-                            <Grid item flex="1 1 27.5%">
-                              <Typography variant="caption">
-                                {item.fiat_currency} {primitivesUtils.convertCurrencyDisplay(item.fiat_value)}
-                              </Typography>
-                            </Grid>
-                          </Grid>
-                        );
-                      })}
+                          );
+                        })}
+                      </Grid>
                     </Grid>
-                  </Grid>
+                    <Grid sx={{ px: 3, py: 2 }} container justifyContent="space-between" alignItems="center">
+                      <Link href="/dashboard/portfolio/assets/" passHref>
+                        <Typography
+                          sx={{ cursor: 'pointer' }}
+                          display="block"
+                          textAlign="center"
+                          variant="textLink1"
+                          color="secondary.main"
+                        >
+                          {t('portfolio.dashboard.viewAllAssets')}
+                        </Typography>
+                      </Link>
+                      <Typography variant="body1">
+                        {`${t('portfolio.dashboard.totalAssets')}: `}
+                        <Typography display="inline" variant="body1" color="secondary.main">
+                          {data?.item_count}
+                        </Typography>
+                      </Typography>
+                    </Grid>
+                  </>
                 ) : null}
               </CardContent>
             </Card>
