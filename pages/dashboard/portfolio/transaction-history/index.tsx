@@ -230,10 +230,7 @@ const TransactionHistoryPage: NextPage = () => {
       >
         {!walletsData?.noWallet && count > 0 && walletSyncStatus.isInProgress && (
           <Grid sx={{ px: 3, py: 2, mb: 4, color: 'primary.main', backgroundColor: 'rgba(80, 72, 229, 0.1)' }}>
-            <Typography variant="body1">
-              The latest data is being feteched from the blockchain. You will be notified when your data has been
-              updated.
-            </Typography>
+            <Typography variant="body1">{t('portfolio.transHis.dataSyncInProgress')}</Typography>
           </Grid>
         )}
         <Container maxWidth="xl">

@@ -113,6 +113,8 @@ export const en = {
         setTagError: 'Failed to change tag, please try again later.',
         getTransactionsError: 'Failed to get transactions, please try again later.',
         save: 'Save',
+        dataSyncInProgress:
+          'The latest data is being fetched from the blockchain. You will be notified when your data has been updated.',
         connectWalletToSeeTxn: 'Connect a wallet to begin seeing your transactions.',
         connectedWithNoTransaction: `Your wallet doesn't seem to have any transactions. Please add another wallet.`,
         connectedLoadingTransaction:
