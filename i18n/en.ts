@@ -22,10 +22,12 @@ export const en = {
       assets: {
         token: 'Token',
         marketPrice: 'Market price',
-        balance: 'Balance',
+        marketPriceTooltip: 'The current market price of your tokens.',
         getAssetsError: 'Failed to get assets',
+        rateNotAvailable: 'Rate not available',
         head: 'All assets',
         exportData: 'Export data',
+        yourBalance: 'Your balance',
         connectWalletToSeeAssets: 'Connect a wallet to begin tracking your assets.',
         connectedWithNoAssets: `Once your wallets have been connected, you will see the asset allocation across all of your wallets here.`,
       },
