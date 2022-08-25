@@ -116,6 +116,11 @@ export const en = {
         oldest: 'Oldest',
         time: 'All time',
         confirm: 'Confirm',
+        last30d: 'Last 30 days',
+        last90d: 'Last 90 days',
+        last6m: 'Last 6 months',
+        lastYr: 'Last Year',
+        custom: 'Custom Date Range',
       },
       walletList: {
         myWallets: 'My Wallets',

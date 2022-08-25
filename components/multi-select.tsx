@@ -9,7 +9,7 @@ interface MultiSelectProps {
   label: string;
   onChange?: (value: any[]) => void; // Same as type as the value received above
   options: { label: string; value: unknown }[];
-  value: any[]; // This should accept string[], number[] or boolean[]
+  value: any[] | undefined; // This should accept string[], number[] or boolean[]
 }
 
 export const MultiSelect: FC<MultiSelectProps> = (props) => {
@@ -17,6 +17,7 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
   const anchorRef = useRef<HTMLButtonElement | null>(null);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [newVal, setNewVal] = useState<any[]>(value);
+  const [selectedLabel, setSelectedLabel] = useState(label);
 
   const handleOpenMenu = (): void => {
     setOpenMenu(true);
@@ -29,16 +30,20 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    let newValue = [...value];
+    let newValue = [...newVal];
 
     if (event.target.checked) {
-      for (const v of event.target.value.split(',')) {
-        if (!newValue.find((n) => n == v)) {
-          newValue.push(v);
-        }
+      if (event.target.value.includes(',')) {
+        newValue = event.target.value.split(',');
+      } else {
+        newValue.push(event.target.value);
       }
     } else {
-      newValue = newValue.filter((item) => !event.target.value.split(',').find((v) => v == item));
+      if (event.target.value.includes(',')) {
+        newValue = [];
+      } else {
+        newValue = newValue.filter((item) => event.target.value != item);
+      }
     }
 
     setNewVal(newValue);
@@ -55,7 +60,7 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
         ref={anchorRef}
         {...other}
       >
-        {label}
+        {selectedLabel.length > 20 ? selectedLabel.substring(0, 20) + '...' : selectedLabel}
       </Button>
       <Menu
         anchorEl={anchorRef.current}
@@ -103,6 +108,16 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
             color="info"
             onClick={() => {
               onChange?.(newVal);
+              if (newVal.length == options.length) {
+                setSelectedLabel(label);
+              } else {
+                setSelectedLabel(
+                  options
+                    .filter((o) => newVal.find((n) => n == o.value))
+                    .map((o) => o.label)
+                    .join(', '),
+                );
+              }
               handleCloseMenu();
             }}
           >

@@ -26,10 +26,21 @@ interface SingleSelectProps<T> {
   labelProps?: React.ComponentProps<typeof Typography>;
   small?: boolean;
   additionalComponent?: React.ReactElement;
+  hideAll?: boolean;
 }
 
 export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElement = (props) => {
-  const { small = false, labelProps, label, onChange, options, value, shouldShowClearButton = false, ...other } = props;
+  const {
+    small = false,
+    labelProps,
+    label,
+    onChange,
+    options,
+    value,
+    shouldShowClearButton = false,
+    hideAll = false,
+    ...other
+  } = props;
   const anchorRef = useRef<HTMLButtonElement | null>(null);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [selectedLabel, setSelectedLabel] = useState(label);
@@ -81,26 +92,32 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
         open={openMenu}
         PaperProps={{ style: { width: 280 } }}
       >
-        <MenuItem>
-          <FormControlLabel
-            control={<Radio color="primary" checked={!value} onChange={handleClear} />}
-            label={label}
-            sx={{
-              flexGrow: 1,
-              mr: 0,
-            }}
-          />
-        </MenuItem>
-        <Divider />
+        {!hideAll && (
+          <MenuItem>
+            <FormControlLabel
+              control={<Checkbox color="primary" checked={!value} onChange={handleClear} />}
+              label={label}
+              sx={{
+                flexGrow: 1,
+                mr: 0,
+              }}
+            />
+          </MenuItem>
+        )}
+        {!hideAll && <Divider />}
         {options.map((option) => (
           <MenuItem key={JSON.stringify(option.value)}>
             <FormControlLabel
               control={
-                <Radio
-                  color="primary"
-                  checked={selected == option.value}
-                  onChange={(_) => handleChange(option.label, option.value)}
-                />
+                !hideAll ? (
+                  <Checkbox
+                    color="primary"
+                    checked={selected == option.value}
+                    onChange={(_) => handleChange(option.label, option.value)}
+                  />
+                ) : (
+                  <Box sx={{ px: 1 }}></Box>
+                )
               }
               label={option.label}
               sx={{
@@ -110,23 +127,7 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
             />
           </MenuItem>
         ))}
-        <Box sx={{ px: 1 }}>{props.additionalComponent}</Box>
-        {props.additionalComponent && (
-          <Box sx={{ pt: 1 }}>
-            <Divider />
-            <Box sx={{ display: 'flex', justifyContent: 'end', px: 2, py: 1 }}>
-              <Button
-                variant="contained"
-                color="info"
-                onClick={() => {
-                  handleCloseMenu();
-                }}
-              >
-                {t('components.multiSelect.confirm')}
-              </Button>
-            </Box>
-          </Box>
-        )}
+        <Box>{props.additionalComponent}</Box>
         {/* {shouldShowClearButton && (
           <Box>
             <Divider />

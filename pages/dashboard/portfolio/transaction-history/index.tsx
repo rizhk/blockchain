@@ -75,6 +75,8 @@ const TransactionHistoryPage: NextPage = () => {
     start_date: undefined,
     end_date: undefined,
     keyword: undefined,
+    tag: [],
+    wallet: [],
   });
 
   const { data, loading, error, trigger } = useFetch(() => {
@@ -337,7 +339,7 @@ const TransactionHistoryPage: NextPage = () => {
               label={t('portfolio.transHis.all')}
               onChange={handleChangeWallet}
               options={wallets}
-              value={filter?.wallet ?? wallets.map((w) => w.value)}
+              value={filter?.wallet}
             />
             <SingleSelect<string>
               onChange={handleChangeType}
@@ -361,42 +363,44 @@ const TransactionHistoryPage: NextPage = () => {
               label={t('portfolio.transHis.tags')}
               onChange={handleChangeTag}
               options={tags}
-              value={filter?.tag ?? []}
+              value={filter?.tag}
             />
             <SingleSelect<string>
               onChange={handleChangeRange}
               label={t('portfolio.transHis.time')}
               value={range}
               options={[
-                { label: 'Last 30 days', value: '30d' },
-                { label: 'Last 90 days', value: '90d' },
-                { label: 'Last 6 months', value: '6m' },
-                { label: 'Last year', value: '1y' },
-                { label: 'Customer date range', value: 'c' },
+                { label: t('portfolio.transHis.last30d'), value: '30d' },
+                { label: t('portfolio.transHis.last90d'), value: '90d' },
+                { label: t('portfolio.transHis.last6m'), value: '6m' },
+                { label: t('portfolio.transHis.lastYr'), value: '1y' },
+                { label: t('portfolio.transHis.custom'), value: 'c' },
               ]}
               additionalComponent={
                 range == 'c' ? (
-                  <Box sx={{ display: 'flex' }}>
-                    <DatePicker
-                      label={t('portfolio.transHis.from').toUpperCase()}
-                      value={filter?.start_date}
-                      handleDateChange={handleChangeFromDate}
-                      handleClear={() => {
-                        setFilter((preFilter) => {
-                          return { ...preFilter, start_date: undefined };
-                        });
-                      }}
-                    />
-                    <DatePicker
-                      label={t('portfolio.transHis.to').toUpperCase()}
-                      value={filter?.end_date}
-                      handleDateChange={handleChangeToDate}
-                      handleClear={() => {
-                        setFilter((preFilter) => {
-                          return { ...preFilter, end_date: undefined };
-                        });
-                      }}
-                    />
+                  <Box>
+                    <Box sx={{ px: 1, display: 'flex' }}>
+                      <DatePicker
+                        label={t('portfolio.transHis.from').toUpperCase()}
+                        value={filter?.start_date}
+                        handleDateChange={handleChangeFromDate}
+                        handleClear={() => {
+                          setFilter((preFilter) => {
+                            return { ...preFilter, start_date: undefined };
+                          });
+                        }}
+                      />
+                      <DatePicker
+                        label={t('portfolio.transHis.to').toUpperCase()}
+                        value={filter?.end_date}
+                        handleDateChange={handleChangeToDate}
+                        handleClear={() => {
+                          setFilter((preFilter) => {
+                            return { ...preFilter, end_date: undefined };
+                          });
+                        }}
+                      />
+                    </Box>
                   </Box>
                 ) : (
                   <Box></Box>
@@ -408,6 +412,7 @@ const TransactionHistoryPage: NextPage = () => {
             onChange={handleChangeNewest}
             label={t('portfolio.transHis.sortBy')}
             value={filter?.sort ?? 'DESC'}
+            hideAll
             options={[
               { label: t('portfolio.transHis.newest'), value: 'DESC' },
               { label: t('portfolio.transHis.oldest'), value: 'ASC' },
