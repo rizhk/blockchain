@@ -58,17 +58,8 @@ const AssetsPage: NextPage = () => {
     gtm.push({ event: 'page_view' });
   }, []);
 
-  const tableDisplayData = React.useMemo(() => {
-    if (!data?.items) return data;
-    var tempItems = data.items.filter(({ fiat_value }) => {
-      return fiat_value > 0;
-    });
-    var top7Items = tempItems.slice(0, 7);
-    return { ...data, items: top7Items };
-  }, [JSON.stringify(data)]);
-
   const { currentData, count, onPageChange, onRowsPerPageChange, page, rowsPerPage } = useClientPagination(
-    tableDisplayData?.items || [],
+    data?.items || [],
   );
 
   return (

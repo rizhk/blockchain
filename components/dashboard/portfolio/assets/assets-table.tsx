@@ -9,6 +9,7 @@ import {
   TablePagination,
   TableRow,
   TextField,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -19,6 +20,7 @@ import { MoneySend } from 'icons/money-send';
 import { format } from 'date-fns-tz';
 import { TokenSymbolDisplay } from 'components/common/wallet-name-display';
 import Image from 'next/image';
+import { QuestionMarkCircle } from 'icons/question-mark-circle';
 
 interface AssetsTableProps {
   onPageChange: (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => void;
@@ -47,8 +49,15 @@ export const AssetsTable: FC<AssetsTableProps> = ({
         <TableHead>
           <TableRow>
             <TableCell>{t('portfolio.assets.token')}</TableCell>
-            <TableCell>{t('portfolio.assets.marketPrice')}</TableCell>
-            <TableCell>{t('portfolio.assets.balance')}</TableCell>
+            <TableCell>
+              <Grid container alignItems="center">
+                <span>{t('portfolio.assets.marketPrice')}</span>
+                <Tooltip title={t('portfolio.assets.marketPriceTooltip')}>
+                  <QuestionMarkCircle sx={{ mt: 1, ml: 0.5 }} />
+                </Tooltip>
+              </Grid>
+            </TableCell>
+            <TableCell>{t('portfolio.assets.yourBalance')}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -101,7 +110,13 @@ export const AssetsTable: FC<AssetsTableProps> = ({
                     <TokenSymbolDisplay amt={asset.balance} name={asset.symbol} display="inline" variant="subtitle2" />
                     <br />
                     <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                      {asset.fiat_currency} {primitivesUtils.convertCurrencyDisplay(asset.fiat_value)}
+                      {asset.fiat_value > 0 ? (
+                        <>
+                          {asset.fiat_currency} {primitivesUtils.convertCurrencyDisplay(asset.fiat_value)}
+                        </>
+                      ) : (
+                        <>{t('portfolio.assets.rateNotAvailable')}</>
+                      )}
                     </Typography>
                   </TableCell>
                 </TableRow>
