@@ -9,11 +9,13 @@ import {
   FormControlLabel,
   Menu,
   MenuItem,
+  Radio,
   SxProps,
   Theme,
   Typography,
 } from '@mui/material';
 import { ChevronDown as ChevronDownIcon } from '../icons/chevron-down';
+import { useTranslation } from 'react-i18next';
 
 interface SingleSelectProps<T> {
   label: string;
@@ -23,13 +25,26 @@ interface SingleSelectProps<T> {
   shouldShowClearButton?: boolean;
   labelProps?: React.ComponentProps<typeof Typography>;
   small?: boolean;
+  additionalComponent?: React.ReactElement;
+  hideAll?: boolean;
 }
 
 export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElement = (props) => {
-  const { small = false, labelProps, label, onChange, options, value, shouldShowClearButton = false, ...other } = props;
+  const {
+    small = false,
+    labelProps,
+    label,
+    onChange,
+    options,
+    value,
+    shouldShowClearButton = false,
+    hideAll = false,
+    ...other
+  } = props;
   const anchorRef = useRef<HTMLButtonElement | null>(null);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [selectedLabel, setSelectedLabel] = useState(label);
+  const [selected, setSelected] = useState(value);
 
   const handleOpenMenu = (): void => {
     setOpenMenu(true);
@@ -42,16 +57,22 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
   };
 
   const handleChange = (label: string, val: typeof value): void => {
-    onChange(val);
+    setSelected(val);
     setSelectedLabel(label);
-    handleCloseMenu();
+    onChange(val);
+    if (!props.additionalComponent) {
+      handleCloseMenu();
+    }
   };
 
   const handleClear = () => {
+    setSelected(undefined);
     onChange(undefined);
     setSelectedLabel(label);
     handleCloseMenu();
   };
+
+  const { t } = useTranslation();
 
   return (
     <Box>
@@ -63,27 +84,58 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
         sx={[small && { py: 0 }]}
         {...other}
       >
-        <Typography {...labelProps}>{selectedLabel}</Typography>
+        {selectedLabel}
       </Button>
       <Menu
         anchorEl={anchorRef.current}
         onClose={handleCloseMenu}
         open={openMenu}
-        PaperProps={{ style: { width: 250 } }}
+        PaperProps={{ style: { width: 280 } }}
       >
+        {!hideAll && (
+          <MenuItem>
+            <FormControlLabel
+              control={<Checkbox color="primary" checked={!value} onChange={handleClear} />}
+              label={label}
+              sx={{
+                flexGrow: 1,
+                mr: 0,
+              }}
+            />
+          </MenuItem>
+        )}
+        {!hideAll && <Divider />}
         {options.map((option) => (
-          <MenuItem key={JSON.stringify(option.value)} onClick={() => handleChange(option.label, option.value)}>
-            <Typography variant={option.value === value ? 'h6' : 'body1'}>{option.label}</Typography>
+          <MenuItem key={JSON.stringify(option.value)}>
+            <FormControlLabel
+              control={
+                !hideAll ? (
+                  <Checkbox
+                    color="primary"
+                    checked={selected == option.value}
+                    onChange={(_) => handleChange(option.label, option.value)}
+                  />
+                ) : (
+                  <Box sx={{ px: 1 }}></Box>
+                )
+              }
+              label={option.label}
+              sx={{
+                flexGrow: 1,
+                mr: 0,
+              }}
+            />
           </MenuItem>
         ))}
-        {shouldShowClearButton && (
+        <Box>{props.additionalComponent}</Box>
+        {/* {shouldShowClearButton && (
           <Box>
             <Divider />
             <MenuItem onClick={handleClear}>
               <Typography variant="body2">Clear selection</Typography>
             </MenuItem>
           </Box>
-        )}
+        )} */}
       </Menu>
     </Box>
   );

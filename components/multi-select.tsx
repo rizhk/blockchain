@@ -1,20 +1,23 @@
 import { useRef, useState } from 'react';
 import type { ChangeEvent, FC } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Checkbox, FormControlLabel, Menu, MenuItem } from '@mui/material';
+import { Button, Checkbox, Divider, FormControlLabel, Menu, MenuItem } from '@mui/material';
 import { ChevronDown as ChevronDownIcon } from '../icons/chevron-down';
+import { useTranslation } from 'react-i18next';
 
 interface MultiSelectProps {
   label: string;
   onChange?: (value: any[]) => void; // Same as type as the value received above
   options: { label: string; value: unknown }[];
-  value: any[]; // This should accept string[], number[] or boolean[]
+  value: any[] | undefined; // This should accept string[], number[] or boolean[]
 }
 
 export const MultiSelect: FC<MultiSelectProps> = (props) => {
   const { label, onChange, options, value = [], ...other } = props;
   const anchorRef = useRef<HTMLButtonElement | null>(null);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
+  const [newVal, setNewVal] = useState<any[]>(value);
+  const [selectedLabel, setSelectedLabel] = useState(label);
 
   const handleOpenMenu = (): void => {
     setOpenMenu(true);
@@ -27,16 +30,26 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    let newValue = [...value];
+    let newValue = [...newVal];
 
     if (event.target.checked) {
-      newValue.push(event.target.value);
+      if (event.target.value.includes(',')) {
+        newValue = event.target.value.split(',');
+      } else {
+        newValue.push(event.target.value);
+      }
     } else {
-      newValue = newValue.filter((item) => item !== event.target.value);
+      if (event.target.value.includes(',')) {
+        newValue = [];
+      } else {
+        newValue = newValue.filter((item) => event.target.value != item);
+      }
     }
 
-    onChange?.(newValue);
+    setNewVal(newValue);
   };
+
+  const { t } = useTranslation();
 
   return (
     <>
@@ -47,7 +60,7 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
         ref={anchorRef}
         {...other}
       >
-        {label}
+        {selectedLabel.length > 20 ? selectedLabel.substring(0, 20) + '...' : selectedLabel}
       </Button>
       <Menu
         anchorEl={anchorRef.current}
@@ -55,10 +68,31 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
         open={openMenu}
         PaperProps={{ style: { width: 250 } }}
       >
+        <MenuItem>
+          <FormControlLabel
+            control={
+              <Checkbox
+                color="primary"
+                checked={newVal.length == options.length}
+                onChange={handleChange}
+                value={options.map((o) => o.value)}
+                indeterminate={newVal.length > 0 && newVal.length < options.length}
+              />
+            }
+            label={label}
+            sx={{
+              flexGrow: 1,
+              mr: 0,
+            }}
+          />
+        </MenuItem>
+        <Divider />
         {options.map((option) => (
           <MenuItem key={option.label}>
             <FormControlLabel
-              control={<Checkbox checked={value.includes(option.value)} onChange={handleChange} value={option.value} />}
+              control={
+                <Checkbox checked={newVal.includes(option.value)} onChange={handleChange} value={option.value} />
+              }
               label={option.label}
               sx={{
                 flexGrow: 1,
@@ -67,6 +101,29 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
             />
           </MenuItem>
         ))}
+        <Divider />
+        <MenuItem sx={{ display: 'flex', justifyContent: 'end' }}>
+          <Button
+            variant="contained"
+            color="info"
+            onClick={() => {
+              onChange?.(newVal);
+              if (newVal.length == options.length) {
+                setSelectedLabel(label);
+              } else {
+                setSelectedLabel(
+                  options
+                    .filter((o) => newVal.find((n) => n == o.value))
+                    .map((o) => o.label)
+                    .join(', '),
+                );
+              }
+              handleCloseMenu();
+            }}
+          >
+            {t('components.multiSelect.confirm')}
+          </Button>
+        </MenuItem>
       </Menu>
     </>
   );
