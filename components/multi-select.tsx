@@ -68,7 +68,7 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
         open={openMenu}
         PaperProps={{ style: { width: 250 } }}
       >
-        <MenuItem>
+        <MenuItem sx={{ py: 0 }}>
           <FormControlLabel
             control={
               <Checkbox
@@ -83,12 +83,13 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
             sx={{
               flexGrow: 1,
               mr: 0,
+              p: 0,
             }}
           />
         </MenuItem>
         <Divider />
         {options.map((option) => (
-          <MenuItem key={option.label}>
+          <MenuItem sx={{ py: 0 }} key={option.label}>
             <FormControlLabel
               control={
                 <Checkbox checked={newVal.includes(option.value)} onChange={handleChange} value={option.value} />
@@ -97,6 +98,7 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
               sx={{
                 flexGrow: 1,
                 mr: 0,
+                p: 0,
               }}
             />
           </MenuItem>
