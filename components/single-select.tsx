@@ -92,37 +92,39 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
         open={openMenu}
         PaperProps={{ style: { width: 280 } }}
       >
-        {!hideAll && (
-          <MenuItem>
-            <FormControlLabel
-              control={<Checkbox color="primary" checked={!value} onChange={handleClear} />}
-              label={label}
-              sx={{
-                flexGrow: 1,
-                mr: 0,
-              }}
-            />
-          </MenuItem>
-        )}
-        {!hideAll && <Divider />}
+        <MenuItem sx={{ py: 0 }}>
+          <FormControlLabel
+            control={
+              !hideAll ? (
+                <Checkbox color="primary" checked={!value} onChange={handleClear} />
+              ) : (
+                <Box sx={{ px: 1 }}></Box>
+              )
+            }
+            label={label}
+            sx={{
+              flexGrow: 1,
+              mr: 0,
+              p: 0,
+            }}
+          />
+        </MenuItem>
+        <Divider />
         {options.map((option) => (
-          <MenuItem key={JSON.stringify(option.value)}>
+          <MenuItem sx={{ py: 0 }} key={JSON.stringify(option.value)}>
             <FormControlLabel
               control={
-                !hideAll ? (
-                  <Checkbox
-                    color="primary"
-                    checked={selected == option.value}
-                    onChange={(_) => handleChange(option.label, option.value)}
-                  />
-                ) : (
-                  <Box sx={{ px: 1 }}></Box>
-                )
+                <Checkbox
+                  color="primary"
+                  checked={selected == option.value}
+                  onChange={(_) => handleChange(option.label, option.value)}
+                />
               }
               label={option.label}
               sx={{
                 flexGrow: 1,
                 mr: 0,
+                p: 0,
               }}
             />
           </MenuItem>
