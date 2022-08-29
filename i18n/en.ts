@@ -6,6 +6,18 @@ export const en = {
         confirm: 'Confirm',
       },
     },
+    common: {
+      options: {
+        time: 'All time',
+        last30d: 'Last 30 days',
+        last90d: 'Last 90 days',
+        last6m: 'Last 6 months',
+        lastYr: 'Last Year',
+        custom: 'Custom Date Range',
+        from: 'From',
+        to: 'To',
+      },
+    },
     overview: {
       xRateError: 'Failed to get exchange rate.',
     },
@@ -26,7 +38,7 @@ export const en = {
         marketPriceTooltip: 'The current market price of your tokens.',
         getAssetsError: 'Failed to get assets',
         rateNotAvailable: 'Rate not available',
-        head: 'All assets',
+        head: 'Portfolio',
         exportData: 'Export data',
         yourBalance: 'Your balance',
         connectWalletToSeeAssets: 'Connect a wallet to begin tracking your assets.',
@@ -57,6 +69,7 @@ export const en = {
         noWalletCtaText: 'Connect a wallet to begin tracking your assets.',
         hasWalletNoTransCtaText: `Your wallet doesn't seem to have any transactions. Please add another wallet.`,
         noWalletTransCtaText: 'Connect a wallet to begin seeing your recent transactions.',
+        noWalletActivitiesCtaText: 'Connect a wallet to begin seeing your wallet activities.',
         noAssetCtaText:
           'Once your wallets have been connected, you will see the asset allocation across all of your wallets here.',
         addWalletNow: 'Add a wallet now',
@@ -64,6 +77,7 @@ export const en = {
         requestWalletSyncError: 'Failed to create a new sync request',
         fetchingLatestData: 'Fetching latest data',
         getNetWorthError: 'Failed to get wallet net worth',
+        walletActivities: 'Wallet activities',
       },
       transHis: {
         head: 'Transaction History',

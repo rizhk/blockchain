@@ -11,6 +11,9 @@ import { WalletList, ListAction } from 'components/dashboard/portfolio/wallet/wa
 import { Alert, Box, Button, Collapse, Container, Grid, Modal, Typography } from '@mui/material';
 import { AddWalletDialog } from 'components/dashboard/portfolio/wallet/add-wallet-modal';
 import { useTranslation } from 'react-i18next';
+import useFetch from 'hooks/use-fetch';
+import { portfolioApi } from 'api/portfolio-api';
+import { DataDisplay } from 'components/common/data-display';
 
 const listActionAlertTranslationKey = (action: ListAction) => {
   switch (action) {
@@ -33,20 +36,29 @@ const Wallets: NextPage = () => {
 
   useEffect(() => {
     gtm.push({ event: 'page_view' });
-    getWallets();
   }, []);
 
-  const getWallets = useCallback(async () => {
-    try {
-      const data = await walletApi.getItems();
+  // const getWallets = useCallback(async () => {
+  //   try {
+  //     const data = await walletApi.getItems();
 
-      if (isMounted()) {
-        setWallets(data);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }, [isMounted]);
+  //     if (isMounted()) {
+  //       setWallets(data);
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // }, [isMounted]);
+
+  const { data, loading, error, trigger } = useFetch(() => {
+    return portfolioApi.getAllWallets({
+      defaultErrorMessage: t('portfolio.wallets.getAllWalletsError'),
+    });
+  }, []);
+
+  useEffect(() => {
+    setWallets(data?.items ?? []);
+  }, [JSON.stringify(data)]);
 
   const updateWallets = (updateWallets: any, action: ListAction = ListAction.EDIT): void => {
     setRecentAction(action);
@@ -74,8 +86,10 @@ const Wallets: NextPage = () => {
             {t(listActionAlertTranslationKey(recentAction!))}
           </Alert>
         </Collapse>
-        <Box sx={{ py: 4 }}>
-          <WalletList wallets={wallets} walletsCount={wallets?.length | 0} parentCallback={updateWallets} />
+        <Box sx={{ py: 4, px: 3 }}>
+          <DataDisplay isLoading={loading} error={error} defaultLoaderOptions={{ height: '400px', width: '100%' }}>
+            <WalletList wallets={wallets} walletsCount={wallets?.length | 0} parentCallback={updateWallets} />
+          </DataDisplay>
         </Box>
         <Container>
           <Grid container>

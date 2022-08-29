@@ -116,6 +116,21 @@ export interface GetWalletSyncStatusResponse extends BaseApiResponse {
   status: string;
 }
 
+export interface IWalletActivitiesFilters {
+  wallet?: string[];
+  start_date?: Date | undefined;
+  end_date?: Date | undefined;
+}
+
+export interface GetWalletActivitiesResponse extends BaseApiResponse {
+  item_count: number;
+  currency: string;
+  money_in_fiat: number;
+  money_out_fiat: number;
+  total_wallet_value: number;
+  profit_and_loss: string;
+}
+
 export interface WalletSyncStatus {
   isInProgress: boolean;
   isCompleted: boolean;

@@ -48,7 +48,11 @@ export const AssetsTable: FC<AssetsTableProps> = ({
       <Table sx={{ maxWidth: 1200 }}>
         <TableHead>
           <TableRow>
-            <TableCell>{t('portfolio.assets.token')}</TableCell>
+            <TableCell>
+              <Typography sx={{ ml: 2 }} variant="overline">
+                {t('portfolio.assets.token')}
+              </Typography>
+            </TableCell>
             <TableCell>
               <Grid container alignItems="center">
                 <span>{t('portfolio.assets.marketPrice')}</span>
@@ -80,7 +84,7 @@ export const AssetsTable: FC<AssetsTableProps> = ({
               <Fragment key={asset.name}>
                 <TableRow hover key={asset.name}>
                   <TableCell sx={{ maxWidth: '140px' }}>
-                    <Grid container item flex="1 1 45%" alignItems="center">
+                    <Grid sx={{ ml: 2 }} container item flex="1 1 45%" alignItems="center">
                       <Grid
                         item
                         component={() => {

@@ -74,13 +74,13 @@ const AssetsPage: NextPage = () => {
         component="main"
         sx={{
           pt: 8,
-          pb: 4,
+          pb: 2,
         }}
       >
-        <Container maxWidth="xl">
+        <Grid maxWidth="xl">
           <Box sx={{ mb: 4 }}>
-            <Grid container justifyContent="space-between" spacing={3} flexWrap="nowrap">
-              <Grid item component={Typography} minWidth="fit-content" variant="h4">
+            <Grid container justifyContent="space-between" flexWrap="nowrap">
+              <Grid item component={Typography} minWidth="fit-content" variant="h4" sx={{ px: 4 }}>
                 {t('portfolio.assets.head')}
               </Grid>
               {/* TODO Export assets */}
@@ -93,9 +93,9 @@ const AssetsPage: NextPage = () => {
               </Grid> */}
             </Grid>
           </Box>
-        </Container>
+        </Grid>
       </Box>
-      <Card sx={{ mx: 3, mb: 3 }}>
+      <Card sx={{ mx: 4, mb: 3 }}>
         <DataDisplay
           isLoading={getUserAssetsLoading || getAllWalletsIsLoading}
           error={error}

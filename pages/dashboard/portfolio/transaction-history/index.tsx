@@ -223,12 +223,17 @@ const TransactionHistoryPage: NextPage = () => {
       date.setDate(date.getDate() - 60);
       handleChangeFromDate(date);
     }
+    if (value == '90d') {
+      date.setDate(date.getDate() - 90);
+      handleChangeFromDate(date);
+    }
     if (value == '6m') {
       date.setMonth(date.getMonth() - 6);
       handleChangeFromDate(date);
     }
     if (value == '1y') {
       date.setFullYear(date.getFullYear() - 1);
+      handleChangeFromDate(date);
     }
 
     handleChangeToDate(new Date());
