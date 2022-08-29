@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 
 interface SingleSelectProps<T> {
   label: string;
+  defaultSelectedLabel: string | undefined;
   onChange: (value: T | undefined) => void;
   options: { label: string; value: T }[];
   value: T | undefined;
@@ -34,6 +35,7 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
     small = false,
     labelProps,
     label,
+    defaultSelectedLabel,
     onChange,
     options,
     value,
@@ -43,7 +45,7 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
   } = props;
   const anchorRef = useRef<HTMLButtonElement | null>(null);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
-  const [selectedLabel, setSelectedLabel] = useState(label);
+  const [selectedLabel, setSelectedLabel] = useState(defaultSelectedLabel ?? label);
   const [selected, setSelected] = useState(value);
 
   const handleOpenMenu = (): void => {

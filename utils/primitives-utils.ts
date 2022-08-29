@@ -67,5 +67,27 @@ class PrimitivesUtils {
     });
     return { item, index };
   };
+  getStartEndDateByRange(range: string | undefined): { startDate: Date | undefined; endDate: Date | undefined } {
+    if (!range) return { startDate: undefined, endDate: undefined };
+    let date = new Date();
+
+    if (range == '30d') {
+      date.setDate(date.getDate() - 30);
+    }
+    if (range == '60d') {
+      date.setDate(date.getDate() - 60);
+    }
+    if (range == '90d') {
+      date.setDate(date.getDate() - 90);
+    }
+    if (range == '6m') {
+      date.setMonth(date.getMonth() - 6);
+    }
+    if (range == '1y') {
+      date.setFullYear(date.getFullYear() - 1);
+    }
+
+    return { startDate: date, endDate: new Date() };
+  }
 }
 export const primitivesUtils = new PrimitivesUtils();

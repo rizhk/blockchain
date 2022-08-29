@@ -63,9 +63,12 @@ export const WalletActivities: React.FC<IWalletActivitiesProps> = ({ updatedSinc
     });
   };
 
+  const defaultRange = '30d';
+  const { startDate: defaultStartDate, endDate: defaultEndDate } = primitivesUtils.getStartEndDateByRange(defaultRange);
+
   const [filter, setFilter] = React.useState<IWalletActivitiesFilters>({
-    start_date: undefined,
-    end_date: undefined,
+    start_date: defaultStartDate,
+    end_date: defaultEndDate,
     wallet: undefined,
   });
 
@@ -100,7 +103,12 @@ export const WalletActivities: React.FC<IWalletActivitiesProps> = ({ updatedSinc
                     options={walletOption}
                     value={filter?.wallet}
                   />
-                  <DatePickerSelect handleChangeDates={handleChangeDates} />
+                  <DatePickerSelect
+                    handleChangeDates={handleChangeDates}
+                    defaultStartDate={defaultStartDate}
+                    defaultEndDate={defaultEndDate}
+                    defaultRange={defaultRange}
+                  />
                 </Grid>
               </Grid>
               <Divider sx={{ m: 0, p: 0 }} />
