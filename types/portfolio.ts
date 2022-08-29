@@ -115,6 +115,7 @@ export interface GetWalletSyncStatusResponse extends BaseApiResponse {
   last_updated_at: string;
   status: string;
 }
+
 export interface IWalletActivitiesFilters {
   wallet?: string[];
   start_date?: Date | undefined;
