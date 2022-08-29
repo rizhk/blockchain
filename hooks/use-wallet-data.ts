@@ -2,7 +2,7 @@ import { portfolioApi } from 'api/portfolio-api';
 import { formatDistanceToNow } from 'date-fns';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { WalletData } from 'types/portfolio';
+import { WalletData, WalletSyncStatus } from 'types/portfolio';
 import useFetch from './use-fetch';
 import useMutation from './use-mutation';
 
@@ -64,6 +64,14 @@ export const useWalletData = () => {
   }, [JSON.stringify(lastUpdatedDt)]);
   //#endregion
 
+  const walletSyncStatus: WalletSyncStatus = useMemo(() => {
+    return {
+      isInProgress: getWalletSyncStatusData?.status?.toUpperCase() === 'IN_PROGRESS',
+      isCompleted: getWalletSyncStatusData?.status?.toUpperCase() === 'COMPLETED',
+      isNotTriggered: getWalletSyncStatusData?.status === undefined,
+    };
+  }, [JSON.stringify(getWalletSyncStatusData)]);
+
   return {
     requestWalletSyncError,
     getAllWalletsError,
@@ -76,5 +84,6 @@ export const useWalletData = () => {
     requestWalletSyncData: requestWalletSyncData,
     requestWalletSync,
     updatedSince,
+    walletSyncStatus,
   };
 };

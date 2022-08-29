@@ -5,8 +5,10 @@ import {
   AssetsResponse,
   CreateUserTagResponse,
   GetUserTagsResponse,
+  GetWalletActivitiesResponse,
   GetWalletSyncStatusResponse,
   ITransactionHistoryFilters,
+  IWalletActivitiesFilters,
   TransactionHistory,
   TransactionHistoryResponse,
   UpdateTransactionHistoryResponse,
@@ -216,6 +218,34 @@ class PortfolioApi extends BaseApi {
       if (error?.message === 'Data synchronization is already in progress') return { error: false };
       throw error;
     }
+  }
+  async getUserWalletActivities(
+    options: { defaultErrorMessage: string },
+    filters: IWalletActivitiesFilters | undefined,
+  ): Promise<GetWalletActivitiesResponse> {
+    const accessToken = globalThis.localStorage.getItem('accessToken') || '';
+    const filterParams = new URLSearchParams({
+      ...(filters?.start_date ? { start_date: format(filters.start_date, 'yyyy-MM-dd') } : {}),
+      ...(filters?.end_date ? { end_date: format(filters.end_date, 'yyyy-MM-dd') } : {}),
+    });
+    if (filters?.wallet) {
+      filters.wallet?.forEach((w) => {
+        filterParams.append('wallet[]', w);
+      });
+    }
+    var result = await fetch(`${PortfolioApiEndPoints.GetUserWalletActivities}?${filterParams}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authentication: accessToken,
+      },
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
+    });
+    var data = await this.handleFetchResponse<GetWalletActivitiesResponse>(result, {
+      ...options,
+    });
+    return data;
   }
 }
 

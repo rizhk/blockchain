@@ -41,6 +41,8 @@ import { useAuth } from 'hooks/use-auth';
 import { Briefcase } from 'icons/briefcase';
 import { PortfolioFilled } from 'icons/portfolio-filled';
 import { Portfolio as PortfolioIcon } from 'icons/portfolio';
+import { CategoryFilled } from 'icons/category-filled';
+import { Category as CategoryIcon } from 'icons/category';
 interface DashboardSidebarProps {
   onClose?: () => void;
   open?: boolean;
@@ -62,7 +64,6 @@ interface Section {
 
 const getSections = (t: TFunction): Section[] => [
   {
-    title: t('menu.portfolio'),
     items: [
       // {
       //   title: t('menu.overview'),
@@ -72,8 +73,14 @@ const getSections = (t: TFunction): Section[] => [
       // },
       {
         title: t('menu.overview'),
-        icon: <PortfolioIcon fontSize="small" />,
+        icon: <CategoryIcon fontSize="small" />,
         path: '/dashboard/portfolio',
+        iconFilled: <CategoryFilled fontSize="small" />,
+      },
+      {
+        title: t('menu.portfolio'),
+        icon: <PortfolioIcon fontSize="small" />,
+        path: '/dashboard/portfolio/assets',
         iconFilled: <PortfolioFilled fontSize="small" />,
       },
       {

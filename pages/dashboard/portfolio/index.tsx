@@ -21,6 +21,7 @@ import { walletApi } from 'api/wallet-api';
 import { primitivesUtils } from 'utils/primitives-utils';
 import { useWalletData } from 'hooks/use-wallet-data';
 import { WalletSync } from 'components/dashboard/portfolio/wallet/wallet-sync';
+import { WalletActivities } from 'components/dashboard/portfolio/dashboard/wallet-activities';
 
 const Portfolio: NextPage = () => {
   const isMounted = useMounted();
@@ -41,6 +42,7 @@ const Portfolio: NextPage = () => {
     requestWalletSyncError,
     getAllWalletsError,
     getWalletSyncStatusError,
+    walletSyncStatus,
   } = useWalletData();
 
   return (
@@ -62,8 +64,8 @@ const Portfolio: NextPage = () => {
           <Grid container justifyContent="space-between" spacing={3} flexWrap="nowrap">
             <Grid item minWidth="fit-content">
               <Typography variant="h6">
-                {t('portfolio.dashboard.porfolioNetWorth')}:{' '}
-                {primitivesUtils.convertCurrencyDisplay(walletsData?.networth || 0)} USD
+                {t('portfolio.dashboard.portfolioNetWorth')}: USD{' '}
+                {primitivesUtils.convertCurrencyDisplay(walletsData?.networth || 0)}
               </Typography>
             </Grid>
             <Grid
@@ -72,6 +74,7 @@ const Portfolio: NextPage = () => {
               item
               justifyContent="flex-end"
               component={WalletSync}
+              walletSyncStatus={walletSyncStatus}
               walletsData={walletsData}
               requestWalletSync={requestWalletSync}
               getWalletSyncStatusData={getWalletSyncStatusData}
@@ -84,8 +87,13 @@ const Portfolio: NextPage = () => {
           </Grid>
           <Grid container spacing={3} flexWrap="nowrap">
             <Grid container item flexDirection="column" flex="1 1 65%">
-              {/* <Box sx={{ height: '400px', width: '400px' }}></Box> */}
-              {/* <Box sx={{ mb: 6 }}></Box> */}
+              <WalletActivities
+                updatedSince={updatedSince}
+                loading={getAllWalletsIsLoading}
+                noWallet={walletsData?.noWallet}
+                wallets={walletsData?.wallet}
+              />
+              <Box sx={{ mb: 6 }}></Box>
               <Assets updatedSince={updatedSince} loading={getAllWalletsIsLoading} noWallet={walletsData?.noWallet} />
             </Grid>
             <Grid container item flexDirection="column" flex="1 1 35%">

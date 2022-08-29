@@ -1,5 +1,23 @@
 export const en = {
   translation: {
+    components: {
+      multiSelect: {
+        selectAll: 'Select All',
+        confirm: 'Confirm',
+      },
+    },
+    common: {
+      options: {
+        time: 'All time',
+        last30d: 'Last 30 days',
+        last90d: 'Last 90 days',
+        last6m: 'Last 6 months',
+        lastYr: 'Last Year',
+        custom: 'Custom Date Range',
+        from: 'From',
+        to: 'To',
+      },
+    },
     overview: {
       xRateError: 'Failed to get exchange rate.',
     },
@@ -14,8 +32,20 @@ export const en = {
     portfolio: {
       head: 'Portfolio',
       title: 'Portfolio',
+      assets: {
+        token: 'Token',
+        marketPrice: 'Market price',
+        marketPriceTooltip: 'The current market price of your tokens.',
+        getAssetsError: 'Failed to get assets',
+        rateNotAvailable: 'Rate not available',
+        head: 'Portfolio',
+        exportData: 'Export data',
+        yourBalance: 'Your balance',
+        connectWalletToSeeAssets: 'Connect a wallet to begin tracking your assets.',
+        connectedWithNoAssets: `Once your wallets have been connected, you will see the asset allocation across all of your wallets here.`,
+      },
       dashboard: {
-        porfolioNetWorth: 'Your portfolio net worth',
+        portfolioNetWorth: 'Your portfolio net worth',
         updateDataNow: 'Update data now',
         dataLastUpdated: 'Data last updated',
         recentTrans: 'Recent transactions',
@@ -23,7 +53,9 @@ export const en = {
         incoming: 'Incoming',
         outgoing: 'Outgoing',
         total: 'Total',
+        totalAssets: 'Total assets',
         viewAllWallets: 'View all wallets',
+        viewAllAssets: 'View all assets',
         addWallet: 'Add wallet',
         myWallets: 'MY WALLETS',
         getRecentTransactionError: 'Failed to get recent transactions',
@@ -37,13 +69,15 @@ export const en = {
         noWalletCtaText: 'Connect a wallet to begin tracking your assets.',
         hasWalletNoTransCtaText: `Your wallet doesn't seem to have any transactions. Please add another wallet.`,
         noWalletTransCtaText: 'Connect a wallet to begin seeing your recent transactions.',
+        noWalletActivitiesCtaText: 'Connect a wallet to begin seeing your wallet activities.',
         noAssetCtaText:
-          'Once your wallets have been connected, you will see  the asset allocation across all of your wallets here.',
+          'Once your wallets have been connected, you will see the asset allocation across all of your wallets here.',
         addWalletNow: 'Add a wallet now',
         getWalletSyncStatusError: 'Failed to get wallet sync status',
         requestWalletSyncError: 'Failed to create a new sync request',
         fetchingLatestData: 'Fetching latest data',
         getNetWorthError: 'Failed to get wallet net worth',
+        walletActivities: 'Wallet activities',
       },
       transHis: {
         head: 'Transaction History',
@@ -96,10 +130,29 @@ export const en = {
         setTagError: 'Failed to change tag, please try again later.',
         getTransactionsError: 'Failed to get transactions, please try again later.',
         save: 'Save',
+        dataSyncInProgress:
+          'The latest data is being fetched from the blockchain. You will be notified when your data has been updated.',
         connectWalletToSeeTxn: 'Connect a wallet to begin seeing your transactions.',
         connectedWithNoTransaction: `Your wallet doesn't seem to have any transactions. Please add another wallet.`,
+        connectedLoadingTransaction:
+          'You data is being loaded, this may take a few minutes. Please check back again later.',
         search: 'Search by wallet address or note',
         all: 'All Wallets',
+        types: 'All Types',
+        statuses: 'All Statuses',
+        tags: 'All Tags',
+        success: 'Success',
+        failed: 'Failed',
+        sortBy: 'Sort by',
+        newest: 'Newest',
+        oldest: 'Oldest',
+        time: 'All time',
+        confirm: 'Confirm',
+        last30d: 'Last 30 days',
+        last90d: 'Last 90 days',
+        last6m: 'Last 6 months',
+        lastYr: 'Last Year',
+        custom: 'Custom Date Range',
       },
       walletList: {
         myWallets: 'My Wallets',

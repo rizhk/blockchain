@@ -150,7 +150,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
   };
 
   return (
-    <Container maxWidth="xl">
+    <Grid maxWidth="xl">
       <Grid container sx={{ maxWidth: 816 }}>
         <Grid item sx={{ mb: 2, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Typography variant="h6">
@@ -263,6 +263,6 @@ export const WalletList: FC<WalletListProps> = (props) => {
           parentCallback={(wallet: Wallet[]) => props.parentCallback(wallet, ListAction.EDIT)}
         />
       )}
-    </Container>
+    </Grid>
   );
 };

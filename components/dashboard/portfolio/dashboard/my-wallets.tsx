@@ -88,7 +88,7 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({ updatedSince, loading, no
                         </Grid>
                       );
                     })}
-                    <Grid sx={{ px: 4, py: 2 }} container justifyContent="space-between" alignItems="center">
+                    <Grid sx={{ px: 3, py: 2 }} container justifyContent="space-between" alignItems="center">
                       <Link href="/dashboard/portfolio/wallet/" passHref>
                         <Typography
                           sx={{ cursor: 'pointer' }}
@@ -103,7 +103,7 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({ updatedSince, loading, no
                       <Typography variant="body1">
                         {`${t('portfolio.dashboard.total')}: `}
                         <Typography display="inline" variant="body1" color="secondary.main">
-                          ${primitivesUtils.convertCurrencyDisplay(totalBalance)}
+                          USD {primitivesUtils.convertCurrencyDisplay(totalBalance)}
                         </Typography>
                       </Typography>
                     </Grid>
