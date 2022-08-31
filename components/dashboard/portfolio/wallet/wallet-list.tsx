@@ -220,7 +220,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
                           primitivesUtils.roundDownToTwo(parseFloat(wallet.fiat_value)),
                         )}
                       </TableCell>
-                      <TableCell sx={{ display: 'flex', alignItems: 'center' }} align="right">
+                      <TableCell align="right">
                         <MoreMenu
                           onDelete={async () => {
                             const success = await walletApi.remove(wallet.id);

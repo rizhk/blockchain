@@ -63,9 +63,12 @@ export const WalletActivities: React.FC<IWalletActivitiesProps> = ({ updatedSinc
     });
   };
 
+  const defaultRange = '30d';
+  const { startDate: defaultStartDate, endDate: defaultEndDate } = primitivesUtils.getStartEndDateByRange(defaultRange);
+
   const [filter, setFilter] = React.useState<IWalletActivitiesFilters>({
-    start_date: undefined,
-    end_date: undefined,
+    start_date: defaultStartDate,
+    end_date: defaultEndDate,
     wallet: undefined,
   });
 
@@ -100,7 +103,12 @@ export const WalletActivities: React.FC<IWalletActivitiesProps> = ({ updatedSinc
                     options={walletOption}
                     value={filter?.wallet}
                   />
-                  <DatePickerSelect handleChangeDates={handleChangeDates} />
+                  <DatePickerSelect
+                    handleChangeDates={handleChangeDates}
+                    defaultStartDate={defaultStartDate}
+                    defaultEndDate={defaultEndDate}
+                    defaultRange={defaultRange}
+                  />
                 </Grid>
               </Grid>
               <Divider sx={{ m: 0, p: 0 }} />
@@ -145,7 +153,8 @@ export const WalletActivities: React.FC<IWalletActivitiesProps> = ({ updatedSinc
                         Total wallet value
                       </Grid>
                     </Grid>
-                    <Grid container flexDirection="column" flex="fit-content">
+                    {/*Hide PL untill backend apply the new formula */
+                    /* <Grid container flexDirection="column" flex="fit-content">
                       <Grid item component={Typography} variant="body1" sx={{ mt: 2, fontSize: '18px' }}>
                         {data?.profit_and_loss}
                         {data?.profit_and_loss !== 'N/A' && <>%</>}
@@ -153,7 +162,7 @@ export const WalletActivities: React.FC<IWalletActivitiesProps> = ({ updatedSinc
                       <Grid item component={Typography} variant="caption" sx={{ mb: 2 }}>
                         P/L
                       </Grid>
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                 ) : (
                   <Grid container alignItems="center" justifyContent="center">

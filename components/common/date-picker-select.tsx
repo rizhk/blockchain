@@ -2,11 +2,13 @@ import { Box } from '@mui/system';
 import { SingleSelect } from 'components/single-select';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
+import { primitivesUtils } from 'utils/primitives-utils';
 import { DatePicker } from './date-picker';
 
 export interface IDatePickerSelectProps {
   defaultStartDate?: Date;
   defaultEndDate?: Date;
+  defaultRange?: string;
   label?: string;
   handleChangeDates: (fromDate: Date | undefined, toDate: Date | undefined) => void;
 }
@@ -14,37 +16,34 @@ export interface IDatePickerSelectProps {
 export const DatePickerSelect: React.FC<IDatePickerSelectProps> = ({
   defaultStartDate,
   defaultEndDate,
+  defaultRange,
   handleChangeDates,
   label,
 }) => {
   const { t } = useTranslation();
-  const [range, setRange] = React.useState<string>();
+  const [range, setRange] = React.useState<string | undefined>(defaultRange);
   const [dates, setDates] = React.useState<{ startDate: Date | undefined; endDate: Date | undefined }>({
     startDate: defaultStartDate,
     endDate: defaultEndDate,
   });
 
+  const rangeOptions = [
+    { label: t('common.options.last30d'), value: '30d' },
+    { label: t('common.options.last90d'), value: '90d' },
+    { label: t('common.options.last6m'), value: '6m' },
+    { label: t('common.options.lastYr'), value: '1y' },
+    { label: t('common.options.custom'), value: 'c' },
+  ];
+
+  const displayLabel = defaultRange
+    ? primitivesUtils.getItemInArrayByKey(rangeOptions, 'value', defaultRange)?.item?.label
+    : undefined;
+
   const handleChangeRange = (value: any | undefined) => {
     setRange(value);
-    let date = new Date();
+    const { startDate, endDate } = primitivesUtils.getStartEndDateByRange(value);
 
-    if (value == '30d') {
-      date.setDate(date.getDate() - 30);
-    }
-    if (value == '60d') {
-      date.setDate(date.getDate() - 60);
-    }
-    if (value == '90d') {
-      date.setDate(date.getDate() - 90);
-    }
-    if (value == '6m') {
-      date.setMonth(date.getMonth() - 6);
-    }
-    if (value == '1y') {
-      date.setFullYear(date.getFullYear() - 1);
-    }
-
-    setDates({ startDate: date, endDate: new Date() });
+    setDates({ startDate: startDate, endDate: endDate });
   };
 
   const handleClearStartDate = () => {
@@ -76,7 +75,8 @@ export const DatePickerSelect: React.FC<IDatePickerSelectProps> = ({
   return (
     <SingleSelect<string>
       onChange={handleChangeRange}
-      label={label ?? t('common.options.time')}
+      defaultSelectedLabel={displayLabel}
+      label={t('common.options.time')}
       value={range}
       options={[
         { label: t('common.options.last30d'), value: '30d' },
@@ -96,7 +96,7 @@ export const DatePickerSelect: React.FC<IDatePickerSelectProps> = ({
                 handleClear={handleClearStartDate}
               />
               <DatePicker
-                label={t('common.transHis.to').toUpperCase()}
+                label={t('common.options.to').toUpperCase()}
                 value={dates.endDate}
                 handleDateChange={handleChangeToDate}
                 handleClear={handleClearEndDate}
