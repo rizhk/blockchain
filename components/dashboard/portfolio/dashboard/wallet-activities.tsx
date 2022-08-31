@@ -153,7 +153,8 @@ export const WalletActivities: React.FC<IWalletActivitiesProps> = ({ updatedSinc
                         Total wallet value
                       </Grid>
                     </Grid>
-                    <Grid container flexDirection="column" flex="fit-content">
+                    {/*Hide PL untill backend apply the new formula */
+                    /* <Grid container flexDirection="column" flex="fit-content">
                       <Grid item component={Typography} variant="body1" sx={{ mt: 2, fontSize: '18px' }}>
                         {data?.profit_and_loss}
                         {data?.profit_and_loss !== 'N/A' && <>%</>}
@@ -161,7 +162,7 @@ export const WalletActivities: React.FC<IWalletActivitiesProps> = ({ updatedSinc
                       <Grid item component={Typography} variant="caption" sx={{ mb: 2 }}>
                         P/L
                       </Grid>
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                 ) : (
                   <Grid container alignItems="center" justifyContent="center">
