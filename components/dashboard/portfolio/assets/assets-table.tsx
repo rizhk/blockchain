@@ -120,7 +120,7 @@ export const AssetsTable: FC<AssetsTableProps> = ({
                           color: '#00C9A7',
                         }}
                       >
-                        {primitivesUtils.convertCurrencyDisplay(asset.price_change_24h * 100)}
+                        {primitivesUtils.convertCurrencyDisplay(asset.price_change_24h)}
                         {'%'}
                       </Typography>
                     ) : (
@@ -131,7 +131,7 @@ export const AssetsTable: FC<AssetsTableProps> = ({
                           color: '#EB5757',
                         }}
                       >
-                        {primitivesUtils.convertCurrencyDisplay(asset.price_change_24h * 100)}
+                        {primitivesUtils.convertCurrencyDisplay(asset.price_change_24h)}
                         {'%'}
                       </Typography>
                     )}
