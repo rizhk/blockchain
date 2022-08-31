@@ -99,12 +99,12 @@ const TransactionHistoryPage: NextPage = () => {
       return { ...preFilter, sort: value };
     });
   };
-  const handleChangeFromDate = (newValue: Date) => {
+  const handleChangeFromDate = (newValue?: Date) => {
     setFilter((preFilter) => {
       return { ...preFilter, start_date: newValue };
     });
   };
-  const handleChangeToDate = (newValue: Date) => {
+  const handleChangeToDate = (newValue?: Date) => {
     setFilter((preFilter) => {
       return { ...preFilter, end_date: newValue };
     });
@@ -214,6 +214,13 @@ const TransactionHistoryPage: NextPage = () => {
   const handleChangeRange = (value: any | undefined) => {
     setRange(value);
     let date = new Date();
+
+    if (!value) {
+      handleChangeFromDate(undefined);
+      handleChangeToDate(undefined);
+
+      return;
+    }
 
     if (value == '30d') {
       date.setDate(date.getDate() - 30);

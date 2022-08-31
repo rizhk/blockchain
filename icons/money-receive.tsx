@@ -1,24 +1,9 @@
 import { createSvgIcon } from '@mui/material/utils';
 
 export const MoneyReceive = createSvgIcon(
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-    <path
-      d="M9.49958 13.7502C9.48911 14.2037 9.65915 14.6428 9.9723 14.971C10.2855 15.2991 10.7161 15.4895 11.1696 15.5002H13.0496C13.2453 15.4952 13.4381 15.4516 13.617 15.3719C13.7958 15.2922 13.9572 15.1781 14.0919 15.036C14.2266 14.8939 14.3319 14.7266 14.4019 14.5437C14.4718 14.3608 14.505 14.166 14.4996 13.9702C14.5408 13.6492 14.4628 13.3243 14.2803 13.057C14.0978 12.7897 13.8236 12.5987 13.5096 12.5202L10.4996 11.4702C10.1848 11.3932 9.9096 11.2025 9.72686 10.9348C9.54413 10.6672 9.46674 10.3415 9.50958 10.0202C9.50147 9.62576 9.64912 9.24398 9.92052 8.9576C10.1919 8.67122 10.5652 8.5033 10.9596 8.49023H12.8396C13.2931 8.50098 13.7237 8.69136 14.0369 9.01952C14.35 9.34768 14.52 9.78675 14.5096 10.2402"
-      stroke="#14B8A6"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path d="M12 7.5V16.5" stroke="#14B8A6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    <path
-      d="M22 12C22 13.9778 21.4135 15.9112 20.3147 17.5557C19.2159 19.2002 17.6541 20.4819 15.8268 21.2388C13.9996 21.9957 11.9889 22.1937 10.0491 21.8079C8.10929 21.422 6.32746 20.4696 4.92894 19.0711C3.53041 17.6725 2.578 15.8907 2.19215 13.9509C1.8063 12.0111 2.00433 10.0004 2.76121 8.17317C3.51809 6.3459 4.79981 4.78412 6.4443 3.6853C8.08879 2.58649 10.0222 2 12 2"
-      stroke="#14B8A6"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path d="M17 3V7H21" stroke="#14B8A6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M22 2L17 7" stroke="#14B8A6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7 9V17H15" stroke="#828DF8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M17 7L7 17" stroke="#828DF8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
   </svg>,
   'MoneyReceive',
 );
