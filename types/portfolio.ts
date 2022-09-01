@@ -104,7 +104,6 @@ export interface Asset {
   icon: string;
   name: string;
   symbol: string;
-  price_change_24h: number;
   balance: number;
   fiat_value: number;
   fiat_currency: string;

@@ -104,12 +104,12 @@ const MoreMenu: FC<MoreMenuProps> = (props) => {
           </ListItemIcon>
           <ListItemText primary="Edit" />
         </MenuItem>
-        {/* <MenuItem onClick={() => props.onDelete()}>
+        <MenuItem onClick={() => props.onDelete()}>
           <ListItemIcon>
             <TrashIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText primary="Delete" />
-        </MenuItem> */}
+        </MenuItem>
       </Menu>
     </Fragment>
   );
