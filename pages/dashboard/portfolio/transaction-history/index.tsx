@@ -246,6 +246,22 @@ const TransactionHistoryPage: NextPage = () => {
     handleChangeToDate(new Date());
   };
 
+  const [tagOption, setTagOption] = useState<string>('all');
+
+  const handleChangeTagOption = (value: string) => {
+    setTagOption(value);
+
+    if (value == 'all') {
+      handleChangeTag(null);
+    }
+    if (value == 'tagged') {
+      handleChangeTag(tags.map((t) => t.value));
+    }
+    if (value == 'untagged') {
+      handleChangeTag([]);
+    }
+  };
+
   return (
     <>
       <ExportTransactionHistoryModal
@@ -383,6 +399,13 @@ const TransactionHistoryPage: NextPage = () => {
               onChange={handleChangeTag}
               options={tags}
               value={filter?.tag}
+              upperOptions={[
+                { label: t('portfolio.transHis.allTagUntag'), value: 'all' },
+                { label: t('portfolio.transHis.allTagged'), value: 'tagged' },
+                { label: t('portfolio.transHis.allUntagged'), value: 'untagged' },
+              ]}
+              onUpperChange={handleChangeTagOption}
+              upperValue={tagOption}
             />
             <SingleSelect<string>
               onChange={handleChangeRange}

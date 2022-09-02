@@ -154,6 +154,9 @@ export const en = {
         last6m: 'Last 6 months',
         lastYr: 'Last Year',
         custom: 'Custom Date Range',
+        allTagUntag: 'all tagged & untagged',
+        allTagged: 'all tagged',
+        allUntagged: 'all untagged',
       },
       walletList: {
         myWallets: 'My Wallets',
