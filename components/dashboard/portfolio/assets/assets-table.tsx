@@ -61,7 +61,15 @@ export const AssetsTable: FC<AssetsTableProps> = ({
                 </Tooltip>
               </Grid>
             </TableCell>
-            <TableCell>{t('portfolio.assets.changein24')}</TableCell>
+            <TableCell>{t('portfolio.assets.changeIn24')}</TableCell>
+            <TableCell>
+              <Grid container alignItems="center">
+                <span>{t('portfolio.assets.volumeIn24')}</span>
+                <Tooltip title={t('portfolio.assets.volumeIn24Tooltip')}>
+                  <QuestionMarkCircle sx={{ mt: 1, ml: 0.5 }} />
+                </Tooltip>
+              </Grid>
+            </TableCell>
             <TableCell>{t('portfolio.assets.yourBalance')}</TableCell>
           </TableRow>
         </TableHead>
@@ -135,6 +143,17 @@ export const AssetsTable: FC<AssetsTableProps> = ({
                         {'%'}
                       </Typography>
                     )}
+                  </TableCell>
+                  <TableCell>
+                    <Typography display="inline" variant="subtitle2">
+                      {asset.volume_24h > 0 ? (
+                        <>
+                          {asset.market_price_currency} {primitivesUtils.convertCurrencyDisplay(asset.volume_24h)}
+                        </>
+                      ) : (
+                        <>{t('common.notAvailable')}</>
+                      )}
+                    </Typography>
                   </TableCell>
                   <TableCell>
                     <TokenSymbolDisplay amt={asset.balance} name={asset.symbol} display="inline" variant="subtitle2" />
