@@ -7,6 +7,7 @@ export const en = {
       },
     },
     common: {
+      notAvailable: 'N/A',
       options: {
         time: 'All time',
         last30d: 'Last 30 days',
