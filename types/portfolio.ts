@@ -110,6 +110,7 @@ export interface Asset {
   fiat_currency: string;
   market_price_fiat: number;
   market_price_currency: string;
+  volume_24h: number;
 }
 
 export interface GetWalletSyncStatusResponse extends BaseApiResponse {
