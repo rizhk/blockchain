@@ -40,6 +40,7 @@ export const en = {
         rateNotAvailable: 'Rate not available',
         head: 'Portfolio',
         exportData: 'Export data',
+        changein24: '24H Change',
         yourBalance: 'Your balance',
         connectWalletToSeeAssets: 'Connect a wallet to begin tracking your assets.',
         connectedWithNoAssets: `Once your wallets have been connected, you will see the asset allocation across all of your wallets here.`,
@@ -153,6 +154,9 @@ export const en = {
         last6m: 'Last 6 months',
         lastYr: 'Last Year',
         custom: 'Custom Date Range',
+        allTagUntag: 'all tagged & untagged',
+        allTagged: 'all tagged',
+        allUntagged: 'all untagged',
       },
       walletList: {
         myWallets: 'My Wallets',

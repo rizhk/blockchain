@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ChangeEvent, FC } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Checkbox, Divider, FormControlLabel, Menu, MenuItem } from '@mui/material';
@@ -10,14 +10,23 @@ interface MultiSelectProps {
   onChange?: (value: any[]) => void; // Same as type as the value received above
   options: { label: string; value: unknown }[];
   value: any[] | undefined; // This should accept string[], number[] or boolean[]
+  upperOptions?: { label: string; value: unknown }[];
+  onUpperChange?: (value: any) => void;
+  upperValue?: any | undefined;
 }
 
 export const MultiSelect: FC<MultiSelectProps> = (props) => {
-  const { label, onChange, options, value = [], ...other } = props;
+  const { label, onChange, options, value = [], upperOptions, onUpperChange, upperValue, ...other } = props;
   const anchorRef = useRef<HTMLButtonElement | null>(null);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [newVal, setNewVal] = useState<any[]>(value);
   const [selectedLabel, setSelectedLabel] = useState(label);
+
+  useEffect(() => {
+    if (value && value.length != newVal.length) {
+      setNewVal(value);
+    }
+  }, [value, value?.length]);
 
   const handleOpenMenu = (): void => {
     setOpenMenu(true);
@@ -68,31 +77,59 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
         open={openMenu}
         PaperProps={{ style: { width: 250 } }}
       >
-        <MenuItem sx={{ py: 0 }}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                color="primary"
-                checked={newVal.length == options.length}
-                onChange={handleChange}
-                value={options.map((o) => o.value)}
-                indeterminate={newVal.length > 0 && newVal.length < options.length}
+        {!upperOptions && (
+          <MenuItem sx={{ py: 0 }}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  color="primary"
+                  checked={newVal.length == options.length}
+                  onChange={handleChange}
+                  value={options.map((o) => o.value)}
+                  indeterminate={newVal.length > 0 && newVal.length < options.length}
+                />
+              }
+              label={label}
+              sx={{
+                flexGrow: 1,
+                mr: 0,
+                p: 0,
+              }}
+            />
+          </MenuItem>
+        )}
+        {upperOptions &&
+          upperOptions.map((option) => (
+            <MenuItem sx={{ py: 0 }} key={option.label}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={upperValue == option.value}
+                    onChange={(_) => {
+                      if (onUpperChange) {
+                        onUpperChange(option.value);
+                        setSelectedLabel(option.label);
+                        handleCloseMenu();
+                      }
+                    }}
+                    value={option.value}
+                  />
+                }
+                label={option.label}
+                sx={{
+                  flexGrow: 1,
+                  mr: 0,
+                  p: 0,
+                }}
               />
-            }
-            label={label}
-            sx={{
-              flexGrow: 1,
-              mr: 0,
-              p: 0,
-            }}
-          />
-        </MenuItem>
+            </MenuItem>
+          ))}
         <Divider />
         {options.map((option) => (
           <MenuItem sx={{ py: 0 }} key={option.label}>
             <FormControlLabel
               control={
-                <Checkbox checked={newVal.includes(option.value)} onChange={handleChange} value={option.value} />
+                <Checkbox checked={newVal?.includes(option.value)} onChange={handleChange} value={option.value} />
               }
               label={option.label}
               sx={{
@@ -115,7 +152,7 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
               } else {
                 setSelectedLabel(
                   options
-                    .filter((o) => newVal.find((n) => n == o.value))
+                    .filter((o) => newVal?.find((n) => n == o.value))
                     .map((o) => o.label)
                     .join(', '),
                 );

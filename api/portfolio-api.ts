@@ -56,6 +56,10 @@ class PortfolioApi extends BaseApi {
       filters.tag?.forEach((w) => {
         filterParams.append('tag[]', w);
       });
+
+      if (!filters.tag.length) {
+        filterParams.append('tag[]', '');
+      }
     }
     var result = await fetch(`${PortfolioApiEndPoints.GetAllTransactionHistory}?${filterParams}`, {
       method: 'GET',
