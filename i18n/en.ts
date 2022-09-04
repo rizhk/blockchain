@@ -62,6 +62,7 @@ export const en = {
         viewAllAssets: 'View all assets',
         addWallet: 'Add wallet',
         myWallets: 'MY WALLETS',
+        getWalletActivitiesError: 'Failed to get wallet activities',
         getRecentTransactionError: 'Failed to get recent transactions',
         getMyWalletsError: 'Failed to get my wallets',
         getAssetsError: 'Failed to get assets',
@@ -82,6 +83,8 @@ export const en = {
         fetchingLatestData: 'Fetching latest data',
         getNetWorthError: 'Failed to get wallet net worth',
         walletActivities: 'Wallet activities',
+        trends: 'Trends',
+        noTrendsCtaText: 'Connect a wallet to begin seeing data.',
       },
       transHis: {
         head: 'Transaction History',

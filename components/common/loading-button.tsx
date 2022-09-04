@@ -10,12 +10,12 @@ export const LoadingButton: React.FC<ILoadingButtonProps> = ({ isBlocking = true
   useEffect(() => {
     if (isBlocking && loading) {
       document.body.style.pointerEvents = 'none';
-      return;
-    }
-    if (isBlocking && !loading) {
+    } else if (isBlocking && !loading) {
       document.body.style.pointerEvents = 'unset';
-      return;
     }
+    return () => {
+      document.body.style.pointerEvents = 'unset';
+    };
   }, [loading]);
 
   useEffect(() => {
