@@ -47,7 +47,7 @@ export const WalletActivities: React.FC<IWalletActivitiesProps> = ({ updatedSinc
     return wallets.map((w) => {
       return {
         label: w.name,
-        value: w.id,
+        value: w.address,
       };
     });
   }, [JSON.stringify(wallets)]);
