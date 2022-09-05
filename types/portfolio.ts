@@ -11,12 +11,6 @@ export interface ITransactionHistoryFilters {
   status?: string;
 }
 
-export interface IAssetFilters {
-  wallet?: string;
-  desc: boolean;
-  status?: string;
-}
-
 export interface TransactionHistoryResponse extends BaseApiResponse {
   items: TransactionHistory[];
 }
@@ -137,4 +131,8 @@ export interface WalletSyncStatus {
   isInProgress: boolean;
   isCompleted: boolean;
   isNotTriggered: boolean;
+}
+
+export interface IAssetsFilters {
+  wallet?: string[];
 }

@@ -167,10 +167,18 @@ class PortfolioApi extends BaseApi {
     if (data?.items) data.items = data.items.slice(0, body.latestN);
     return data;
   }
-  async getUserAssets(options: { defaultErrorMessage: string }): Promise<AssetsResponse> {
+  async getUserAssets(
+    options: { defaultErrorMessage: string },
+    filters: IWalletActivitiesFilters | undefined,
+  ): Promise<AssetsResponse> {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
-
-    var result = await fetch(PortfolioApiEndPoints.GetUserAssets, {
+    const filterParams = new URLSearchParams();
+    if (filters?.wallet) {
+      filters.wallet?.forEach((w) => {
+        filterParams.append('wallet[]', w);
+      });
+    }
+    var result = await fetch(`${PortfolioApiEndPoints.GetUserAssets}?${filterParams}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
