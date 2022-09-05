@@ -25,25 +25,28 @@ import { Divider } from 'components/common/divider';
 import { MultiSelect } from 'components/multi-select';
 import { SingleSelect } from 'components/single-select';
 import useFetch from 'hooks/use-fetch';
-import { filter } from 'lodash';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { IAssetFilters } from 'types/portfolio';
+import { IAssetFilters, IAssetsFilters, Wallet } from 'types/portfolio';
 import { primitivesUtils } from 'utils/primitives-utils';
 import { AssetsChart } from './assets-chart';
 import Image from 'next/image';
 import { Dot } from 'icons/dot';
 import Link from 'next/link';
 import { TokenSymbolDisplay } from 'components/common/wallet-name-display';
+import { useMemo } from 'react';
 
 export interface IAssetsProps {
   updatedSince: string | null;
   loading: boolean;
   noWallet: boolean;
+  wallets: Wallet[] | undefined;
 }
 
-export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet }) => {
+export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet, wallets }) => {
   const { t } = useTranslation();
+
+  const [filter, setFilter] = React.useState<IAssetsFilters>({ desc: true });
 
   const {
     data,
@@ -51,44 +54,27 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
     error,
     trigger,
   } = useFetch(() => {
-    return portfolioApi.getUserAssets({
-      defaultErrorMessage: t('portfolio.dashboard.getAssetsError'),
-    });
-  }, [updatedSince]);
+    return portfolioApi.getUserAssets(
+      {
+        defaultErrorMessage: t('portfolio.dashboard.getAssetsError'),
+      },
+      filter,
+    );
+  }, [updatedSince, JSON.stringify(filter)]);
 
-  const [filter, setFilter] = React.useState<IAssetFilters>({ desc: true });
-
-  const handleChangeWallet = (value: string | undefined) => {
+  const handleChangeWallet = (value: any | undefined) => {
     setFilter((preFilter) => {
       return { ...preFilter, wallet: value };
     });
   };
-  const handleChangeStatus = (value: string | undefined) => {
-    setFilter((preFilter) => {
-      return { ...preFilter, status: value };
-    });
-  };
-  const handleChangeSorting = (value: boolean | undefined) => {
-    setFilter((preFilter) => {
-      return { ...preFilter, desc: value === undefined ? true : value };
-    });
-  };
-  const filteredData = React.useMemo(() => {
-    if (!data?.items) return data;
-    var items = data.items.filter(({ name }) => {
-      return !filter?.wallet || name === filter.wallet;
-    });
-    return { ...data, items };
-  }, [JSON.stringify(data), JSON.stringify(filter)]);
-
   const tableDisplayData = React.useMemo(() => {
-    if (!filteredData?.items) return filteredData;
-    var tempItems = filteredData.items.filter(({ fiat_value }) => {
+    if (!data?.items) return data;
+    var tempItems = data.items.filter(({ fiat_value }) => {
       return fiat_value > 0;
     });
     var top7Items = tempItems.slice(0, 7);
     return { ...data, items: top7Items };
-  }, [JSON.stringify(filteredData)]);
+  }, [JSON.stringify(data), JSON.stringify(filter)]);
 
   const theme = useTheme();
 
@@ -135,20 +121,28 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
     alpha(theme.palette.secondary.dark, 0.1),
   ];
 
-  const chartDataSeries = (filteredData?.items || []).map(
-    ({ name, balance, fiat_value, fiat_currency, symbol }, index) => {
-      return {
-        color: chartBaseColors[index],
-        data: primitivesUtils.roundDownToTwo(fiat_value),
-        name,
-        symbol: symbol + ' ' + fiat_currency + ' ' + primitivesUtils.convertCurrencyDisplay(balance),
-      };
-    },
-  );
+  const chartDataSeries = (data?.items || []).map(({ name, balance, fiat_value, fiat_currency, symbol }, index) => {
+    return {
+      color: chartBaseColors[index],
+      data: primitivesUtils.roundDownToTwo(fiat_value),
+      name,
+      symbol: symbol + ' ' + fiat_currency + ' ' + primitivesUtils.convertCurrencyDisplay(balance),
+    };
+  });
 
   const chartData = {
     series: chartDataSeries,
   };
+
+  const walletOption = useMemo(() => {
+    if (!wallets) return [];
+    return wallets.map((w) => {
+      return {
+        label: w.name,
+        value: w.id,
+      };
+    });
+  }, [JSON.stringify(wallets)]);
 
   return (
     <>
@@ -174,46 +168,16 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
                       alignItems: 'center',
                       display: 'flex',
                       flexWrap: 'wrap',
-                      pr: 4,
+                      pr: 2,
                       py: 2,
                     }}
                   >
-                    {/* <SingleSelect
-                      small
-                      shouldShowClearButton
+                    <MultiSelect
+                      label={t('portfolio.transHis.all')}
                       onChange={handleChangeWallet}
-                      label={t('portfolio.dashboard.allWallets')}
-                      value={filter?.wallet as string}
-                      options={
-                        data?.items?.map(({ name }) => {
-                          return {
-                            value: name,
-                            label: name,
-                          };
-                        }) || []
-                      }
-                      labelProps={{ variant: 'overline', textTransform: 'none' }}
+                      options={walletOption}
+                      value={filter?.wallet}
                     />
-                    <SingleSelect
-                      small
-                      shouldShowClearButton
-                      onChange={handleChangeStatus}
-                      label={t('portfolio.dashboard.status')}
-                      value={filter?.status as string}
-                      options={[{ value: 'Completed', label: 'Completed' }]}
-                      labelProps={{ variant: 'overline', textTransform: 'none' }}
-                    />
-                    <SingleSelect
-                      small
-                      onChange={handleChangeSorting}
-                      label={t('portfolio.dashboard.mostRecent')}
-                      value={filter.desc}
-                      options={[
-                        { value: true, label: t('portfolio.dashboard.mostRecent') },
-                        { value: false, label: t('portfolio.dashboard.earliest') },
-                      ]}
-                      labelProps={{ variant: 'overline', textTransform: 'none' }}
-                    /> */}
                   </Box>
                 </Grid>
                 <Divider sx={{ m: 0, p: 0 }} />
@@ -263,8 +227,7 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
                             </Typography>
                             <br />
                             <Typography variant="overline" display="inline-block" color="secondary.main">
-                              {data?.total_bal_symbol}{' '}
-                              {primitivesUtils.convertCurrencyDisplay(filteredData?.total_bal || 0)}
+                              {data?.total_bal_symbol} {primitivesUtils.convertCurrencyDisplay(data?.total_bal || 0)}
                             </Typography>
                           </Grid>
                           <Grid item flex="1 1 27.5%">

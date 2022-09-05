@@ -43,6 +43,7 @@ const PasswordReset: NextPage = () => {
     }),
     onSubmit: async (values, helpers): Promise<void> => {
       if (recaptchaRef.current) {
+        recaptchaRef.current.reset();
         var recaptchaToken = await recaptchaRef.current.executeAsync();
       }
       try {

@@ -26,7 +26,7 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
     if (value && value.length != newVal.length) {
       setNewVal(value);
     }
-  }, [value, value?.length]);
+  }, [JSON.stringify(value), value?.length]);
 
   const handleOpenMenu = (): void => {
     setOpenMenu(true);

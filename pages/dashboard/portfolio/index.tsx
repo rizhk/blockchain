@@ -94,7 +94,12 @@ const Portfolio: NextPage = () => {
                 wallets={walletsData?.wallet}
               />
               <Box sx={{ mb: 6 }}></Box>
-              <Assets updatedSince={updatedSince} loading={getAllWalletsIsLoading} noWallet={walletsData?.noWallet} />
+              <Assets
+                updatedSince={updatedSince}
+                loading={getAllWalletsIsLoading}
+                noWallet={walletsData?.noWallet}
+                wallets={walletsData?.wallet}
+              />
             </Grid>
             <Grid container item flexDirection="column" flex="1 1 35%">
               <MyWallets
