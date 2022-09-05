@@ -139,7 +139,7 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
     return wallets.map((w) => {
       return {
         label: w.name,
-        value: w.address,
+        value: w.id,
       };
     });
   }, [JSON.stringify(wallets)]);
