@@ -147,9 +147,7 @@ export const AssetsTable: FC<AssetsTableProps> = ({
                   <TableCell>
                     <Typography display="inline" variant="subtitle2">
                       {asset.volume_24h > 0 ? (
-                        <>
-                          {asset.market_price_currency} {primitivesUtils.convertCurrencyDisplay(asset.volume_24h)}
-                        </>
+                        <>{primitivesUtils.convertFiatAmountDisplay(asset.volume_24h)}</>
                       ) : (
                         <>{t('common.notAvailable')}</>
                       )}
