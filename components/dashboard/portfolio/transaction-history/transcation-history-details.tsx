@@ -175,12 +175,9 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
             </Grid>
             <Grid item xs={8}>
               <Typography display="inline" variant="subtitle2">
-                {primitivesUtils.convertCryptoAmountDisplay(
-                  parseFloat(transactionHistory?.crypto_amount),
-                  transactionHistory?.token_symbol,
-                )}
+                {transactionHistory?.crypto_amount + ' ' + transactionHistory?.token_symbol}
               </Typography>{' '}
-              {primitivesUtils.convertFiatAmountDisplay(parseFloat(transactionHistory?.crypto_amount_fiat)) > 0 && (
+              {parseFloat(transactionHistory?.crypto_amount_fiat) > 0 && (
                 <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
                   {primitivesUtils.convertFiatAmountDisplay(parseFloat(transactionHistory?.crypto_amount_fiat))}
                 </Typography>
