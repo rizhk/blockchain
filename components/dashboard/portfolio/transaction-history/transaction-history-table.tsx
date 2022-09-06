@@ -226,7 +226,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                     <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
                       {primitivesUtils.convertFiatAmountDisplay(
                         parseFloat(transaction.crypto_amount_fiat) + parseFloat(transaction.gas_fiat),
-                        true,
+                        false,
                       )}
                     </Typography>
                   </TableCell>

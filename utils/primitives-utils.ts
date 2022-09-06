@@ -38,18 +38,18 @@ class PrimitivesUtils {
   }
   convertPercentageDisplay(value: string | number, shouldRoundUp: boolean = false): string {
     //TODO variable on dollar sign when we support multiple currency
-    return this.thousandSeparator(shouldRoundUp ? this.roundDownToTwo(value) : this.roundUpToTwo(value)) as string;
+    return this.thousandSeparator(shouldRoundUp ? this.roundUpToTwo(value) : this.roundDownToTwo(value)) as string;
   }
   convertCryptoAmountDisplay(value: string | number, tokenSymbol: string, shouldRoundUp: boolean = false): string {
     //TODO variable on dollar sign when we support multiple currency
-    return (this.thousandSeparator(shouldRoundUp ? this.roundDownToTwo(value) : this.roundUpToTwo(value)) +
+    return (this.thousandSeparator(shouldRoundUp ? this.roundUpToTwo(value) : this.roundDownToTwo(value)) +
       ' ' +
       tokenSymbol) as string;
   }
   convertFiatAmountDisplay(value: string | number, shouldRoundUp: boolean = false): string {
     //TODO variable on dollar sign when we support multiple currency
     return ('$' +
-      this.thousandSeparator(shouldRoundUp ? this.roundDownToTwo(value) : this.roundUpToTwo(value))) as string;
+      this.thousandSeparator(shouldRoundUp ? this.roundUpToTwo(value) : this.roundDownToTwo(value))) as string;
   }
   removeItemInArrayByIndex<TItem>(array: TItem[], index: number): TItem[] {
     return [...array.slice(0, index), ...array.slice(index + 1)];
