@@ -139,7 +139,6 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
                 {transactionHistory?.from_name}
               </Typography>{' '}
               <Typography display="inline" variant="body2" color="text.secondary" sx={{ wordWrap: 'break-word' }}>
-                {/* ({primitivesUtils.getShortTxnId(transactionHistory?.from)}) */}
                 {transactionHistory?.from}
               </Typography>
             </Grid>
@@ -153,7 +152,6 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
                 {transactionHistory?.to_name}
               </Typography>{' '}
               <Typography display="inline" variant="body2" color="text.secondary" sx={{ wordWrap: 'break-word' }}>
-                {/* ({primitivesUtils.getShortTxnId(transactionHistory?.to)}) */}
                 {transactionHistory?.to}
               </Typography>{' '}
             </Grid>
