@@ -9,7 +9,7 @@ export interface IOrderDetailsSummaryProps {
 
 const OrderDetailsSummary: React.FC<IOrderDetailsSummaryProps> = ({ txn }) => {
   let tokenAmt = primitivesUtils.thousandSeparator(primitivesUtils.roundDownToTwo(txn?.token_amt));
-  let fiatAmt = primitivesUtils.thousandSeparator(primitivesUtils.roundDownToTwo(txn?.fiat_amt));
+  let fiatAmt = primitivesUtils.convertFiatAmountDisplay(txn?.fiat_amt);
   let paidAmount = undefined;
   let receivedAmount = undefined;
 

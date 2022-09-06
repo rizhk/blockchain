@@ -126,7 +126,7 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
       color: chartBaseColors[index],
       data: primitivesUtils.roundDownToTwo(fiat_value),
       name,
-      symbol: symbol + ' ' + fiat_currency + ' ' + primitivesUtils.convertCurrencyDisplay(balance),
+      symbol: symbol + ' ' + primitivesUtils.convertFiatAmountDisplay(balance),
     };
   });
 
@@ -221,13 +221,12 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
                           flexWrap="nowrap"
                           sx={{ py: 1 }}
                         >
-                          <Grid item flex="1 1 45%">
+                          <Grid item flex="1 1 45%" sx={{ justifyContent: 'space-between' }}>
                             <Typography variant="overline" sx={{ textTransform: 'none', lineHeight: 0.25 }}>
-                              Total
+                              Total:{' '}
                             </Typography>
-                            <br />
                             <Typography variant="overline" display="inline-block" color="secondary.main">
-                              {data?.total_bal_symbol} {primitivesUtils.convertCurrencyDisplay(data?.total_bal || 0)}
+                              {primitivesUtils.convertFiatAmountDisplay(data?.total_bal || 0)}
                             </Typography>
                           </Grid>
                           <Grid item flex="1 1 27.5%">
@@ -270,12 +269,12 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
                                   </Typography>
                                 </Grid>
                               </Grid>
-                              <Grid item flex="1 1 27.5%">
+                              <Grid item flex="1 1 27.5%" sx={{ mr: 3.5 }} textAlign="right">
                                 <TokenSymbolDisplay amt={item.balance} name={item.symbol} variant="caption" />
                               </Grid>
-                              <Grid item flex="1 1 27.5%">
+                              <Grid item flex="1 1 27.5%" sx={{ mr: 3.5 }} textAlign="right">
                                 <Typography variant="caption">
-                                  {item.fiat_currency} {primitivesUtils.convertCurrencyDisplay(item.fiat_value)}
+                                  {primitivesUtils.convertFiatAmountDisplay(item.fiat_value)}
                                 </Typography>
                               </Grid>
                             </Grid>

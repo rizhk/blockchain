@@ -64,7 +64,7 @@ export const OverviewCryptoWallet: FC = (props) => {
           </Grid>
           <Grid item md xs>
             <Typography textAlign="right" variant="h6">
-              {`USD ${primitivesUtils.convertCurrencyDisplay(5554.46)}`}
+              {`${primitivesUtils.convertFiatAmountDisplay(5554.46)}`}
             </Typography>
           </Grid>
         </Grid>
