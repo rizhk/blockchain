@@ -118,36 +118,36 @@ export const WalletActivities: React.FC<IWalletActivitiesProps> = ({ updatedSinc
                 defaultLoaderOptions={{ height: '80px', width: '100%' }}
               >
                 {!data?.error && !noWallet ? (
-                  <Grid container justifyContent="space-between" alignItems="center" flexWrap="nowrap">
-                    <Grid container flexDirection="column" flex="fit-content" sx={{ ml: 3 }}>
+                  <Grid container justifyContent="space-between" flexWrap="nowrap">
+                    <Grid container flexDirection="column" flex="1 1 33.3%" textAlign="center">
                       <Grid
                         item
                         component={Typography}
                         variant="body1"
                         sx={{ mt: 2, fontSize: '18px', color: 'success.main' }}
                       >
-                        {data?.currency} {primitivesUtils.convertCurrencyDisplay(data?.money_in_fiat || 0)}
+                        {primitivesUtils.convertFiatAmountDisplay(data?.money_in_fiat || 0)}
                       </Grid>
-                      <Grid item component={Typography} variant="caption" sx={{ mb: 2 }}>
+                      <Grid item component={Typography} variant="caption" sx={{ mb: 2 }} textAlign="center">
                         Total money in
                       </Grid>
                     </Grid>
-                    <Grid container flexDirection="column" flex="fit-content">
+                    <Grid container flexDirection="column" flex="1 1 33.3%" textAlign="center">
                       <Grid
                         item
                         component={Typography}
                         variant="body1"
                         sx={{ mt: 2, fontSize: '18px', color: 'secondary.main' }}
                       >
-                        {data?.currency} {primitivesUtils.convertCurrencyDisplay(data?.money_out_fiat || 0)}
+                        {primitivesUtils.convertFiatAmountDisplay(data?.money_out_fiat || 0)}
                       </Grid>
                       <Grid item component={Typography} variant="caption" sx={{ mb: 2 }}>
                         Total money out
                       </Grid>
                     </Grid>
-                    <Grid container flexDirection="column" flex="fit-content">
+                    <Grid container flexDirection="column" flex="1 1 33.3%" textAlign="center">
                       <Grid item component={Typography} variant="body1" sx={{ mt: 2, fontSize: '18px' }}>
-                        {data?.currency} {primitivesUtils.convertCurrencyDisplay(data?.total_wallet_value || 0)}
+                        {primitivesUtils.convertFiatAmountDisplay(data?.total_wallet_value || 0)}
                       </Grid>
                       <Grid item component={Typography} variant="caption" sx={{ mb: 2 }}>
                         Total wallet value

@@ -176,7 +176,9 @@ export const WalletList: FC<WalletListProps> = (props) => {
                 <TableCell width="15%">{t('portfolio.walletList.type')}</TableCell>
                 <TableCell width="30%">{t('portfolio.walletList.nickname')}</TableCell>
                 <TableCell width="22%">{t('portfolio.walletList.address')}</TableCell>
-                <TableCell width="23%">{t('portfolio.walletList.netWorth')}</TableCell>
+                <TableCell width="23%" align="center">
+                  {t('portfolio.walletList.netWorth')}
+                </TableCell>
                 <TableCell width="10%" align="right"></TableCell>
               </TableRow>
             </TableHead>
@@ -203,23 +205,21 @@ export const WalletList: FC<WalletListProps> = (props) => {
                       </TableCell>
                       <TableCell>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Typography sx={{ pr: 2 }}>{primitivesUtils.getShortTxnId(wallet.address)}</Typography>
+                          <Typography sx={{ pr: 0.5, minWidth: '120px' }}>
+                            {primitivesUtils.getShortTxnId(wallet.address)}
+                          </Typography>
                           <Button
                             onClick={() => {
                               navigator.clipboard.writeText(wallet.address);
                               setCopied(true);
                             }}
+                            sx={{ p: 0.5, minWidth: '48px' }}
                           >
                             <ContentCopyIcon />
                           </Button>
                         </Box>
                       </TableCell>
-                      <TableCell>
-                        {wallet.fiat_currency}{' '}
-                        {primitivesUtils.thousandSeparator(
-                          primitivesUtils.roundDownToTwo(parseFloat(wallet.fiat_value)),
-                        )}
-                      </TableCell>
+                      <TableCell align="right">{primitivesUtils.convertFiatAmountDisplay(wallet.fiat_value)}</TableCell>
                       <TableCell align="right">
                         <MoreMenu
                           onDelete={async () => {

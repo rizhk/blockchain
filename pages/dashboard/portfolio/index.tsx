@@ -64,8 +64,8 @@ const Portfolio: NextPage = () => {
           <Grid container justifyContent="space-between" spacing={3} flexWrap="nowrap">
             <Grid item minWidth="fit-content">
               <Typography variant="h6">
-                {t('portfolio.dashboard.portfolioNetWorth')}: USD{' '}
-                {primitivesUtils.convertCurrencyDisplay(walletsData?.networth || 0)}
+                {t('portfolio.dashboard.portfolioNetWorth')}
+                {primitivesUtils.convertFiatAmountDisplay(walletsData?.networth || 0)}
               </Typography>
             </Grid>
             <Grid

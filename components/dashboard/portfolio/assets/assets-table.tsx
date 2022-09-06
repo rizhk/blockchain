@@ -116,7 +116,7 @@ export const AssetsTable: FC<AssetsTableProps> = ({
                   </TableCell>
                   <TableCell>
                     <Typography display="inline" variant="subtitle2">
-                      {asset.market_price_currency} {primitivesUtils.convertCurrencyDisplay(asset.market_price_fiat)}
+                      {primitivesUtils.convertFiatAmountDisplay(asset.market_price_fiat)}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -128,7 +128,7 @@ export const AssetsTable: FC<AssetsTableProps> = ({
                           color: '#00C9A7',
                         }}
                       >
-                        {primitivesUtils.convertCurrencyDisplay(asset.price_change_24h)}
+                        {primitivesUtils.roundUpToTwo(asset.price_change_24h)}
                         {'%'}
                       </Typography>
                     ) : (
@@ -139,7 +139,7 @@ export const AssetsTable: FC<AssetsTableProps> = ({
                           color: '#EB5757',
                         }}
                       >
-                        {primitivesUtils.convertCurrencyDisplay(asset.price_change_24h)}
+                        {primitivesUtils.convertPercentageDisplay(asset.price_change_24h)}
                         {'%'}
                       </Typography>
                     )}
@@ -160,9 +160,7 @@ export const AssetsTable: FC<AssetsTableProps> = ({
                     <br />
                     <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
                       {asset.fiat_value > 0 ? (
-                        <>
-                          {asset.fiat_currency} {primitivesUtils.convertCurrencyDisplay(asset.fiat_value)}
-                        </>
+                        <>{primitivesUtils.convertFiatAmountDisplay(asset.fiat_value)}</>
                       ) : (
                         <>{t('portfolio.assets.rateNotAvailable')}</>
                       )}
