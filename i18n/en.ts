@@ -218,6 +218,17 @@ export const en = {
       help: 'Help',
       knowledgebase: 'Knowledgebase',
       news: 'News',
+      account: 'My account',
+    },
+    account: {
+      photo: 'Profile Photo',
+      displayName: 'display name',
+      changeName: 'Change your display name',
+      updatePassword: 'Update password',
+      currentPassword: 'Enter current password',
+      newPassword: 'Enter new password',
+      passwordAgain: 'Enter new password again',
+      save: 'Save',
     },
   },
 };
