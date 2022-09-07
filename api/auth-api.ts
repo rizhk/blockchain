@@ -27,7 +27,7 @@ class AuthApi {
               if (!data.error) {
                 resolve(data.token);
               } else {
-                reject(new Error('error'));
+                reject(new Error(data.message));
               }
             },
             (error) => {
@@ -89,7 +89,7 @@ class AuthApi {
                       if (!data.error) {
                         resolve(data.token);
                       } else {
-                        reject(new Error('error'));
+                        reject(new Error(data.message));
                       }
                     },
                     (error) => {

@@ -128,7 +128,7 @@ export const AssetsTable: FC<AssetsTableProps> = ({
                           color: '#00C9A7',
                         }}
                       >
-                        {primitivesUtils.roundUpToTwo(asset.price_change_24h)}
+                        {primitivesUtils.convertPercentageDisplay(asset.price_change_24h)}
                         {'%'}
                       </Typography>
                     ) : (
