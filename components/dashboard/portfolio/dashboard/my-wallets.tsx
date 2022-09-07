@@ -34,9 +34,7 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({ updatedSince, loading, no
 
   const totalBalance = React.useMemo(() => {
     if (!data?.items) return 0;
-    return data.items
-      .map((item) => primitivesUtils.roundDownToTwo(parseFloat(item.fiat_value)) || 0)
-      .reduce((prev, curr) => prev + curr, 0);
+    return data.items.map((item) => item.fiat_value).reduce((prev, curr) => prev + curr, 0);
   }, [JSON.stringify(data)]);
 
   return (

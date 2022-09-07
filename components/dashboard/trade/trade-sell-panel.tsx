@@ -96,7 +96,7 @@ export const SellPanel: FC = (props) => {
     var charge = (amountPay * picanteChargePercentage) / 100;
     setPicanteCharge(charge);
 
-    formik.setFieldValue('amountReceive', primitivesUtils.roundDownToTwo(receiveValue));
+    formik.setFieldValue('amountReceive', primitivesUtils.numberRounding(receiveValue));
 
     formik.setFieldValue('amountReward', 1);
   };
@@ -243,7 +243,7 @@ export const SellPanel: FC = (props) => {
               >
                 <>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 USDC = &#163;
-                  {primitivesUtils.roundDownToTwo(xRateData?.rate)} GBP (Estimated)
+                  {primitivesUtils.numberRounding(xRateData?.rate)} GBP (Estimated)
                 </>
               </DataDisplay>
             </Typography>
