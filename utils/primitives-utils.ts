@@ -12,7 +12,7 @@ class PrimitivesUtils {
     return `${this.getFirstNChars(str, 4)}...${this.getLastNChars(str, 4)}`;
   }
   numberRounding(number: number | string | undefined, shouldRoundUp: boolean = false) {
-    if (!number) return 0;
+    if (number == undefined) return number;
     var val: number = 0;
     if (typeof number === 'string') val = parseFloat(number);
     else val = number;
@@ -39,7 +39,7 @@ class PrimitivesUtils {
     }
   }
   percentageRounding(number: number | string | undefined, shouldRoundUp: boolean = false) {
-    if (!number) return 0;
+    if (number == undefined) return number;
     var val: number = 0;
     if (typeof number === 'string') val = parseFloat(number);
     else val = number;
