@@ -18,7 +18,7 @@ class PrimitivesUtils {
     else val = number;
 
     var dpVal: number;
-    if (number < 1) {
+    if (Math.abs(val) < 1) {
       dpVal = 8;
     } else {
       dpVal = 2;
@@ -27,9 +27,9 @@ class PrimitivesUtils {
       }
     }
 
-    if (number == 0) {
+    if (val == 0) {
       return val.toFixed(2);
-    } else if (number < 1) {
+    } else if (Math.abs(val) < 1) {
       return val.toFixed(dpVal);
     } else {
       return val
@@ -45,7 +45,7 @@ class PrimitivesUtils {
     else val = number;
 
     var dpVal: number;
-    if (number < 1) {
+    if (Math.abs(val) < 1) {
       dpVal = 4;
     } else {
       dpVal = 2;
@@ -54,9 +54,9 @@ class PrimitivesUtils {
       }
     }
 
-    if (number == 0) {
+    if (val == 0) {
       return val.toFixed(2);
-    } else if (number < 1) {
+    } else if (Math.abs(val) < 1) {
       return val.toFixed(dpVal);
     } else {
       return val
