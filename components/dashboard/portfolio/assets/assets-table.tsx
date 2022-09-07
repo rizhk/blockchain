@@ -129,7 +129,6 @@ export const AssetsTable: FC<AssetsTableProps> = ({
                         }}
                       >
                         {primitivesUtils.convertPercentageDisplay(asset.price_change_24h)}
-                        {'%'}
                       </Typography>
                     ) : (
                       <Typography
@@ -140,7 +139,6 @@ export const AssetsTable: FC<AssetsTableProps> = ({
                         }}
                       >
                         {primitivesUtils.convertPercentageDisplay(asset.price_change_24h)}
-                        {'%'}
                       </Typography>
                     )}
                   </TableCell>

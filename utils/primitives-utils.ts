@@ -23,7 +23,7 @@ class PrimitivesUtils {
     } else {
       dpVal = 2;
       if (shouldRoundUp) {
-        val = Math.ceil(((val + Number.EPSILON) * Math.pow(10, dpVal)) / Math.pow(10, dpVal));
+        val = Math.round(((val + Number.EPSILON) * Math.pow(10, dpVal)) / Math.pow(10, dpVal));
       }
     }
 
@@ -73,7 +73,7 @@ class PrimitivesUtils {
       .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
   convertPercentageDisplay(value: string | number, shouldRoundUp: boolean = false): string {
-    return this.percentageRounding(value, shouldRoundUp) as string;
+    return (this.percentageRounding(value, shouldRoundUp) + '%') as string;
   }
   convertCryptoAmountDisplay(value: string | number, tokenSymbol: string, shouldRoundUp: boolean = false): string {
     return (this.numberRounding(value, shouldRoundUp) + ' ' + tokenSymbol) as string;
