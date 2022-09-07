@@ -25,9 +25,19 @@ class PrimitivesUtils {
     else val = number;
     return Math.ceil((val + Number.EPSILON) * 100) / 100;
   }
-  roundUpUpToSixPlace(number: number | undefined) {
-    if (!number) return number;
-    return Math.ceil((number + Number.EPSILON) * 100000) / 100000;
+  roundDownToEight(number: number | string | undefined) {
+    if (!number) return 0;
+    var val: number = 0;
+    if (typeof number === 'string') val = parseFloat(number);
+    else val = number;
+    return Math.floor((val + Number.EPSILON) * 10000000) / 10000000;
+  }
+  roundUpToEight(number: number | string | undefined) {
+    if (!number) return 0;
+    var val: number = 0;
+    if (typeof number === 'string') val = parseFloat(number);
+    else val = number;
+    return Math.ceil((val + Number.EPSILON) * 10000000) / 10000000;
   }
   thousandSeparator(number: number | undefined) {
     if (number == undefined) return number;
@@ -42,14 +52,24 @@ class PrimitivesUtils {
   }
   convertCryptoAmountDisplay(value: string | number, tokenSymbol: string, shouldRoundUp: boolean = false): string {
     //TODO variable on dollar sign when we support multiple currency
-    return (this.thousandSeparator(shouldRoundUp ? this.roundUpToTwo(value) : this.roundDownToTwo(value)) +
-      ' ' +
-      tokenSymbol) as string;
+    if (value > 1) {
+      return (this.thousandSeparator(shouldRoundUp ? this.roundUpToTwo(value) : this.roundDownToTwo(value)) +
+        ' ' +
+        tokenSymbol) as string;
+    } else {
+      return (this.thousandSeparator(shouldRoundUp ? this.roundUpToEight(value) : this.roundUpToEight(value)) +
+        ' ' +
+        tokenSymbol) as string;
+    }
   }
   convertFiatAmountDisplay(value: string | number, shouldRoundUp: boolean = false): string {
     //TODO variable on dollar sign when we support multiple currency
-    return ('$' +
-      this.thousandSeparator(shouldRoundUp ? this.roundUpToTwo(value) : this.roundDownToTwo(value))) as string;
+    if (value > 1) {
+      return ('$' +
+        this.thousandSeparator(shouldRoundUp ? this.roundUpToTwo(value) : this.roundDownToTwo(value))) as string;
+    } else {
+      return ('$' + (shouldRoundUp ? this.roundUpToEight(value) : this.roundUpToEight(value))) as string;
+    }
   }
   removeItemInArrayByIndex<TItem>(array: TItem[], index: number): TItem[] {
     return [...array.slice(0, index), ...array.slice(index + 1)];
