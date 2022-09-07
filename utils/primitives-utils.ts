@@ -29,7 +29,7 @@ class PrimitivesUtils {
 
     if (val == 0) {
       return val.toFixed(2);
-    } else if (Math.abs(val) < 1) {
+    } else if (Math.abs(val) < 1.1) {
       return val.toFixed(dpVal);
     } else {
       return val
