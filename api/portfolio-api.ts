@@ -7,6 +7,7 @@ import {
   GetUserTagsResponse,
   GetWalletActivitiesResponse,
   GetWalletSyncStatusResponse,
+  IExportTransactionFilters,
   ITransactionHistoryFilters,
   IWalletActivitiesFilters,
   TransactionHistory,
@@ -17,10 +18,18 @@ import {
 import { format } from 'date-fns-tz';
 
 class PortfolioApi extends BaseApi {
-  async exportTransactionHistory(body: {}, options: { defaultErrorMessage: string }): Promise<AttachmentApiResponse> {
+  async exportTransactionHistory(
+    filters: IExportTransactionFilters,
+    options: { defaultErrorMessage: string },
+  ): Promise<AttachmentApiResponse> {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
 
-    var result = await fetch(PortfolioApiEndPoints.ExportTransactionHistory, {
+    const filterParams = new URLSearchParams({
+      ...(filters?.start_date ? { start_date: format(filters.start_date, 'yyyy-MM-dd') } : {}),
+      ...(filters?.end_date ? { end_date: format(filters.end_date, 'yyyy-MM-dd') } : {}),
+    });
+
+    var result = await fetch(`${PortfolioApiEndPoints.ExportTransactionHistory}?${filterParams}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
