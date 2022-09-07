@@ -124,7 +124,7 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
   const chartDataSeries = (data?.items || []).map(({ name, balance, fiat_value, fiat_currency, symbol }, index) => {
     return {
       color: chartBaseColors[index],
-      data: parseFloat(primitivesUtils.numberRounding(fiat_value).toString()),
+      data: fiat_value,
       name,
       symbol: symbol + ' ' + primitivesUtils.convertFiatAmountDisplay(balance),
     };

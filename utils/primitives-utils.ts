@@ -18,7 +18,7 @@ class PrimitivesUtils {
     else val = number;
 
     var dpVal: number;
-    if (Math.abs(val) < 1) {
+    if (Math.abs(val) < 1.1) {
       dpVal = 8;
     } else {
       dpVal = 2;
