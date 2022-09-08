@@ -28,6 +28,7 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({ updated
       { latestN: 3 },
       {
         defaultErrorMessage: t('portfolio.dashboard.getRecentTransactionError'),
+        limit: '3',
       },
     );
   }, [updatedSince]);
