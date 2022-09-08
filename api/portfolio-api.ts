@@ -44,9 +44,10 @@ class PortfolioApi extends BaseApi {
     return data;
   }
   async getAllTransactionHistory(
-    options: { defaultErrorMessage: string },
+    options: { defaultErrorMessage: string; limit: string },
     filters: ITransactionHistoryFilters = { sort: 'DESC' },
   ): Promise<TransactionHistoryResponse> {
+    const limit = options.limit;
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
     const filterParams = new URLSearchParams({
       sort: filters.sort,
@@ -70,6 +71,11 @@ class PortfolioApi extends BaseApi {
         filterParams.append('tag[]', '');
       }
     }
+
+    if (limit?.length > 0) {
+      filterParams.append('limit', limit);
+    }
+
     var result = await fetch(`${PortfolioApiEndPoints.GetAllTransactionHistory}?${filterParams}`, {
       method: 'GET',
       headers: {
@@ -86,9 +92,12 @@ class PortfolioApi extends BaseApi {
   }
   async getLatestNTranscationHistory(
     body: { latestN?: number },
-    options: { defaultErrorMessage: string },
+    options: { defaultErrorMessage: string; limit: string },
   ): Promise<TransactionHistoryResponse> {
-    const data = await this.getAllTransactionHistory({ defaultErrorMessage: options?.defaultErrorMessage });
+    const data = await this.getAllTransactionHistory({
+      defaultErrorMessage: options?.defaultErrorMessage,
+      limit: options?.limit,
+    });
     if (data?.items) data.items = data.items.slice(0, body.latestN);
     return data;
   }
