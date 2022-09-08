@@ -136,3 +136,8 @@ export interface WalletSyncStatus {
 export interface IAssetsFilters {
   wallet?: string[];
 }
+
+export interface IExportTransactionFilters {
+  start_date?: Date | undefined;
+  end_date?: Date | undefined;
+}

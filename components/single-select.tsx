@@ -7,9 +7,11 @@ import {
   Checkbox,
   Divider,
   FormControlLabel,
+  InputLabel,
   Menu,
   MenuItem,
   Radio,
+  Select,
   SxProps,
   Theme,
   Typography,
@@ -18,6 +20,8 @@ import { ChevronDown as ChevronDownIcon } from '../icons/chevron-down';
 import { useTranslation } from 'react-i18next';
 
 interface SingleSelectProps<T> {
+  isFormInput?: boolean;
+  labelValue?: T | undefined;
   label: string;
   defaultSelectedLabel: string | undefined;
   onChange: (value: T | undefined) => void;
@@ -32,6 +36,8 @@ interface SingleSelectProps<T> {
 
 export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElement = (props) => {
   const {
+    isFormInput = false,
+    labelValue,
     small = false,
     labelProps,
     label,
@@ -67,14 +73,86 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
     }
   };
 
-  const handleClear = () => {
-    setSelected(undefined);
-    onChange(undefined);
+  const handleClear = (label: string, val: typeof value) => {
+    setSelected(val);
+    onChange(val);
     setSelectedLabel(label);
     handleCloseMenu();
   };
 
+  const handleChangeSelect = (event: any) => {
+    setSelected(event.target.value);
+  };
+
   const { t } = useTranslation();
+
+  const MenuItems = (
+    <>
+      <MenuItem sx={{ py: 0 }} value={'abc' as any}>
+        <FormControlLabel
+          control={
+            !hideAll ? (
+              <Checkbox color="primary" checked={!value} onChange={() => handleClear(label, 'abc' as any)} />
+            ) : (
+              <Box sx={{ px: 1 }}></Box>
+            )
+          }
+          label={label}
+          sx={{
+            flexGrow: 1,
+            mr: 0,
+            p: 0,
+          }}
+        />
+      </MenuItem>
+      <Divider />
+      {options.map((option) => (
+        <MenuItem sx={{ py: 0 }} key={JSON.stringify(option.value)} value={option.value as any}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                color="primary"
+                checked={selected == option.value}
+                onChange={(_) => handleChange(option.label, option.value)}
+              />
+            }
+            label={option.label}
+            sx={{
+              flexGrow: 1,
+              mr: 0,
+              p: 0,
+            }}
+          />
+        </MenuItem>
+      ))}
+      <Box>{props.additionalComponent}</Box>
+      {/* {shouldShowClearButton && (
+          <Box>
+            <Divider />
+            <MenuItem onClick={handleClear}>
+              <Typography variant="body2">Clear selection</Typography>
+            </MenuItem>
+          </Box>
+        )} */}
+    </>
+  );
+
+  if (isFormInput) {
+    return (
+      <>
+        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <Select<typeof value>
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={selected}
+          label={'Age'}
+          onChange={handleChangeSelect}
+        >
+          {MenuItems}
+        </Select>
+      </>
+    );
+  }
 
   return (
     <Box>
@@ -94,52 +172,7 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
         open={openMenu}
         PaperProps={{ style: { width: 280 } }}
       >
-        <MenuItem sx={{ py: 0 }}>
-          <FormControlLabel
-            control={
-              !hideAll ? (
-                <Checkbox color="primary" checked={!value} onChange={handleClear} />
-              ) : (
-                <Box sx={{ px: 1 }}></Box>
-              )
-            }
-            label={label}
-            sx={{
-              flexGrow: 1,
-              mr: 0,
-              p: 0,
-            }}
-          />
-        </MenuItem>
-        <Divider />
-        {options.map((option) => (
-          <MenuItem sx={{ py: 0 }} key={JSON.stringify(option.value)}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  color="primary"
-                  checked={selected == option.value}
-                  onChange={(_) => handleChange(option.label, option.value)}
-                />
-              }
-              label={option.label}
-              sx={{
-                flexGrow: 1,
-                mr: 0,
-                p: 0,
-              }}
-            />
-          </MenuItem>
-        ))}
-        <Box>{props.additionalComponent}</Box>
-        {/* {shouldShowClearButton && (
-          <Box>
-            <Divider />
-            <MenuItem onClick={handleClear}>
-              <Typography variant="body2">Clear selection</Typography>
-            </MenuItem>
-          </Box>
-        )} */}
+        {MenuItems}
       </Menu>
     </Box>
   );
