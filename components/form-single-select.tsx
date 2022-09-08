@@ -13,16 +13,25 @@ interface FormSelectProps<T> {
   additionalComponent?: React.ReactElement;
   multiple?: boolean;
   topMenuItemOption?: { label: string; value: T };
+  menuItemValueToKeepMenuOpen?: T[];
 }
 
 export const FormSelect: <T>(props: FormSelectProps<T>) => React.ReactElement = (props) => {
-  const { id, small = false, label, onChange, options, value, multiple = false, topMenuItemOption } = props;
+  const {
+    id,
+    small = false,
+    label,
+    onChange,
+    options,
+    value,
+    multiple = false,
+    topMenuItemOption,
+    menuItemValueToKeepMenuOpen,
+  } = props;
   const [selected, setSelected] = useState(value);
 
-  const handleChangeSelect = (event: SelectChangeEvent<typeof value>) => {
-    const selectedValue = event.target.value as any;
-    setSelected(selectedValue);
-    const val = selectedValue == 'null' ? null : selectedValue;
+  const handleChange = (val: typeof value) => {
+    setSelected(val);
     onChange(val);
   };
 
@@ -37,8 +46,9 @@ export const FormSelect: <T>(props: FormSelectProps<T>) => React.ReactElement = 
         id={id?.toString()}
         value={selected}
         label={label}
-        onChange={handleChangeSelect}
-        onClick={(e) => e.stopPropagation()}
+        onChange={(e) => {
+          handleChange(e.target.value as typeof value);
+        }}
       >
         {topMenuItemOption && (
           <MenuItem sx={{ py: 0 }} key={JSON.stringify(topMenuItemOption.value)} value={topMenuItemOption.value as any}>
@@ -56,12 +66,15 @@ export const FormSelect: <T>(props: FormSelectProps<T>) => React.ReactElement = 
         {topMenuItemOption && <Divider />}
         {options.map((option) => (
           <MenuItem
-            onChange={(e) => {
-              e.stopPropagation();
+            onClickCapture={(e) => {
+              handleChange(option.value);
+              if (menuItemValueToKeepMenuOpen?.includes(option.value)) {
+                e.stopPropagation();
+              }
             }}
             sx={{ py: 0 }}
             key={JSON.stringify(option.value)}
-            value={option.value as any}
+            value={option.value as typeof value}
           >
             <FormControlLabel
               control={<Box sx={{ py: 3, px: 1 }}></Box>}
