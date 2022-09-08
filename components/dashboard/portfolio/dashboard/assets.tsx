@@ -150,37 +150,37 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
         <Grid item>
           <Typography sx={{ mb: 3 }} variant="h6"></Typography>
         </Grid>
-        <DataDisplay
-          isLoading={getUserAssetsLoading || loading}
-          error={error}
-          defaultLoaderOptions={{ height: '400px', width: '100%' }}
-        >
-          <Grid item flex="1 1 100%">
-            <Card>
-              <CardContent sx={{ p: 0 }}>
-                <Grid container justifyContent="space-between" alignItems="center">
-                  <Typography sx={{ pl: 3, pt: 1.5, pb: 1.2 }} variant="overline">{`${t(
-                    'portfolio.dashboard.assets',
-                  )}`}</Typography>
-                  <Box
-                    sx={{
-                      position: 'relative',
-                      alignItems: 'center',
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      pr: 2,
-                      py: 2,
-                    }}
-                  >
-                    <MultiSelect
-                      label={t('portfolio.transHis.all')}
-                      onChange={handleChangeWallet}
-                      options={walletOption}
-                      value={filter?.wallet}
-                    />
-                  </Box>
-                </Grid>
-                <Divider sx={{ m: 0, p: 0 }} />
+        <Grid item flex="1 1 100%">
+          <Card>
+            <CardContent sx={{ p: 0 }}>
+              <Grid container justifyContent="space-between" alignItems="center">
+                <Typography sx={{ pl: 3, pt: 1.5, pb: 1.2 }} variant="overline">{`${t(
+                  'portfolio.dashboard.assets',
+                )}`}</Typography>
+                <Box
+                  sx={{
+                    position: 'relative',
+                    alignItems: 'center',
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    pr: 2,
+                    py: 2,
+                  }}
+                >
+                  <MultiSelect
+                    label={t('portfolio.transHis.all')}
+                    onChange={handleChangeWallet}
+                    options={walletOption}
+                    value={filter?.wallet}
+                  />
+                </Box>
+              </Grid>
+              <Divider sx={{ m: 0, p: 0 }} />
+              <DataDisplay
+                isLoading={getUserAssetsLoading || loading}
+                error={error}
+                defaultLoaderOptions={{ height: '400px', width: '100%' }}
+              >
                 {/* no wallet or assets have no data */}
                 {noWallet ||
                 (!noWallet && data?.items === undefined) ||
@@ -303,10 +303,10 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
                     </Grid>
                   </>
                 ) : null}
-              </CardContent>
-            </Card>
-          </Grid>
-        </DataDisplay>
+              </DataDisplay>
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
     </>
   );

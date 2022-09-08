@@ -47,8 +47,9 @@ export const DatePickerSelect: React.FC<IDatePickerSelectProps> = ({
     : undefined;
 
   const handleChangeRange = (value: any | undefined) => {
-    setRange(value);
-    const { startDate, endDate } = primitivesUtils.getStartEndDateByRange(value);
+    const rangeVal = value === 'null' ? undefined : value;
+    setRange(rangeVal);
+    const { startDate, endDate } = primitivesUtils.getStartEndDateByRange(rangeVal);
 
     setDates({ startDate: startDate, endDate: endDate });
   };
@@ -87,6 +88,7 @@ export const DatePickerSelect: React.FC<IDatePickerSelectProps> = ({
         label={label ?? t('common.options.time')}
         value={range}
         topMenuItemOption={{ label: t('common.options.time'), value: 'null' }}
+        menuItemValueToKeepMenuOpen={['c']}
         options={[
           { label: t('common.options.last30d'), value: '30d' },
           { label: t('common.options.last90d'), value: '90d' },
