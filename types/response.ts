@@ -1,6 +1,7 @@
 export interface BaseApiResponse {
   error: boolean;
   message?: string;
+  message_code?: string;
 }
 
 export interface AttachmentApiResponse extends BaseApiResponse {
