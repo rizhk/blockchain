@@ -1,24 +1,31 @@
+import { MenuItem } from '@mui/material';
 import { Box } from '@mui/system';
+import { FormSelect } from 'components/form-single-select';
 import { SingleSelect } from 'components/single-select';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
+import { isUndefined } from 'util';
 import { primitivesUtils } from 'utils/primitives-utils';
 import { DatePicker } from './date-picker';
 
 export interface IDatePickerSelectProps {
+  isFormInput?: boolean;
   defaultStartDate?: Date;
   defaultEndDate?: Date;
   defaultRange?: string;
   label?: string;
+  small?: boolean;
   handleChangeDates: (fromDate: Date | undefined, toDate: Date | undefined) => void;
 }
 
 export const DatePickerSelect: React.FC<IDatePickerSelectProps> = ({
+  isFormInput = false,
   defaultStartDate,
   defaultEndDate,
   defaultRange,
   handleChangeDates,
   label,
+  small = true,
 }) => {
   const { t } = useTranslation();
   const [range, setRange] = React.useState<string | undefined>(defaultRange);
@@ -72,11 +79,52 @@ export const DatePickerSelect: React.FC<IDatePickerSelectProps> = ({
     handleChangeDates(dates.startDate, dates.endDate);
   }, [JSON.stringify(dates)]);
 
+  if (isFormInput) {
+    return (
+      <FormSelect<string>
+        small={small}
+        onChange={handleChangeRange}
+        label={label ?? t('common.options.time')}
+        value={range}
+        topMenuItemOption={{ label: t('common.options.time'), value: 'null' }}
+        options={[
+          { label: t('common.options.last30d'), value: '30d' },
+          { label: t('common.options.last90d'), value: '90d' },
+          { label: t('common.options.last6m'), value: '6m' },
+          { label: t('common.options.lastYr'), value: '1y' },
+          { label: t('common.options.custom'), value: 'c' },
+        ]}
+        additionalComponent={
+          range == 'c' ? (
+            <Box sx={{ px: 1, display: 'flex' }}>
+              <DatePicker
+                label={t('common.options.from').toUpperCase()}
+                value={dates.startDate}
+                handleDateChange={handleChangeFromDate}
+                handleClear={handleClearStartDate}
+              />
+              <DatePicker
+                label={t('common.options.to').toUpperCase()}
+                value={dates.endDate}
+                handleDateChange={handleChangeToDate}
+                handleClear={handleClearEndDate}
+              />
+            </Box>
+          ) : (
+            <Box></Box>
+          )
+        }
+      />
+    );
+  }
+
   return (
     <SingleSelect<string>
+      isFormInput={isFormInput}
       onChange={handleChangeRange}
       defaultSelectedLabel={displayLabel}
       label={t('common.options.time')}
+      labelValue={undefined}
       value={range}
       options={[
         { label: t('common.options.last30d'), value: '30d' },

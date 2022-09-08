@@ -23,6 +23,9 @@ import useFetch from 'hooks/use-fetch';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { saveAs } from 'file-saver';
+import { DatePickerSelect } from 'components/common/date-picker-select';
+import { primitivesUtils } from 'utils/primitives-utils';
+import { IExportTransactionFilters } from 'types/portfolio';
 
 export interface IExportTransactionHistoryModalProps {
   isShowing: boolean;
@@ -32,7 +35,12 @@ export interface IExportTransactionHistoryModalProps {
 const ExportTransactionHistoryModal = ({ isShowing, hide }: IExportTransactionHistoryModalProps): JSX.Element => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-  const [range, setRange] = useState<string>('last-30-days');
+  const defaultRange = '30d';
+  const { startDate: defaultStartDate, endDate: defaultEndDate } = primitivesUtils.getStartEndDateByRange(defaultRange);
+  const [filter, setFilter] = React.useState<IExportTransactionFilters>({
+    start_date: defaultStartDate,
+    end_date: defaultEndDate,
+  });
   const [fileType, setFileType] = useState<string>('csv');
 
   const handleClose = (event: React.ChangeEvent<HTMLButtonElement>, reason: string) => {
@@ -42,12 +50,14 @@ const ExportTransactionHistoryModal = ({ isShowing, hide }: IExportTransactionHi
 
   const { i18n, t } = useTranslation();
 
-  const handleOnChangeRange = (event: { target: { value: string } }) => {
-    setRange(event.target.value);
-  };
-
   const handleOnChangeFileType = (event: { target: { value: string } }) => {
     setFileType(event.target.value);
+  };
+
+  const handleChangeDates = (startDate: Date | undefined, endDate: Date | undefined) => {
+    setFilter((preFilter) => {
+      return { ...preFilter, start_date: startDate, end_date: endDate };
+    });
   };
 
   const handleOnClickExport = async () => {
@@ -55,7 +65,9 @@ const ExportTransactionHistoryModal = ({ isShowing, hide }: IExportTransactionHi
   };
 
   const { data, loading, error, resetError, trigger } = useFetch(() => {
-    return portfolioApi.exportTransactionHistory({}, { defaultErrorMessage: t('transaction.exportTransactionError') });
+    return portfolioApi.exportTransactionHistory(filter, {
+      defaultErrorMessage: t('transaction.exportTransactionError'),
+    });
   });
 
   useEffect(() => {
@@ -90,6 +102,16 @@ const ExportTransactionHistoryModal = ({ isShowing, hide }: IExportTransactionHi
             </FormControl>
           </Grid> */}
           <Grid container item xs={12}>
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <DatePickerSelect
+                isFormInput
+                label={t('portfolio.transHis.dataRange')}
+                handleChangeDates={handleChangeDates}
+                defaultStartDate={defaultStartDate}
+                defaultEndDate={defaultEndDate}
+                defaultRange={defaultRange}
+              />
+            </FormControl>
             <FormControl fullWidth>
               <TextField
                 id="data-range-fileType"
