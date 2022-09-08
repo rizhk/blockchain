@@ -14,6 +14,7 @@ export interface IDatePickerSelectProps {
   defaultEndDate?: Date;
   defaultRange?: string;
   label?: string;
+  small?: boolean;
   handleChangeDates: (fromDate: Date | undefined, toDate: Date | undefined) => void;
 }
 
@@ -24,6 +25,7 @@ export const DatePickerSelect: React.FC<IDatePickerSelectProps> = ({
   defaultRange,
   handleChangeDates,
   label,
+  small = true,
 }) => {
   const { t } = useTranslation();
   const [range, setRange] = React.useState<string | undefined>(defaultRange);
@@ -80,6 +82,7 @@ export const DatePickerSelect: React.FC<IDatePickerSelectProps> = ({
   if (isFormInput) {
     return (
       <FormSelect<string>
+        small={small}
         onChange={handleChangeRange}
         label={label ?? t('common.options.time')}
         value={range}
