@@ -7,6 +7,7 @@ import {
   GetUserTagsResponse,
   GetWalletActivitiesResponse,
   GetWalletSyncStatusResponse,
+  IExportTransactionFilters,
   ITransactionHistoryFilters,
   IWalletActivitiesFilters,
   TransactionHistory,
@@ -17,10 +18,18 @@ import {
 import { format } from 'date-fns-tz';
 
 class PortfolioApi extends BaseApi {
-  async exportTransactionHistory(body: {}, options: { defaultErrorMessage: string }): Promise<AttachmentApiResponse> {
+  async exportTransactionHistory(
+    filters: IExportTransactionFilters,
+    options: { defaultErrorMessage: string },
+  ): Promise<AttachmentApiResponse> {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
 
-    var result = await fetch(PortfolioApiEndPoints.ExportTransactionHistory, {
+    const filterParams = new URLSearchParams({
+      ...(filters?.start_date ? { start_date: format(filters.start_date, 'yyyy-MM-dd') } : {}),
+      ...(filters?.end_date ? { end_date: format(filters.end_date, 'yyyy-MM-dd') } : {}),
+    });
+
+    var result = await fetch(`${PortfolioApiEndPoints.ExportTransactionHistory}?${filterParams}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -35,9 +44,10 @@ class PortfolioApi extends BaseApi {
     return data;
   }
   async getAllTransactionHistory(
-    options: { defaultErrorMessage: string },
+    options: { defaultErrorMessage: string; limit: string },
     filters: ITransactionHistoryFilters = { sort: 'DESC' },
   ): Promise<TransactionHistoryResponse> {
+    const limit = options.limit;
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
     const filterParams = new URLSearchParams({
       sort: filters.sort,
@@ -61,6 +71,11 @@ class PortfolioApi extends BaseApi {
         filterParams.append('tag[]', '');
       }
     }
+
+    if (limit?.length > 0) {
+      filterParams.append('limit', limit);
+    }
+
     var result = await fetch(`${PortfolioApiEndPoints.GetAllTransactionHistory}?${filterParams}`, {
       method: 'GET',
       headers: {
@@ -77,9 +92,12 @@ class PortfolioApi extends BaseApi {
   }
   async getLatestNTranscationHistory(
     body: { latestN?: number },
-    options: { defaultErrorMessage: string },
+    options: { defaultErrorMessage: string; limit: string },
   ): Promise<TransactionHistoryResponse> {
-    const data = await this.getAllTransactionHistory({ defaultErrorMessage: options?.defaultErrorMessage });
+    const data = await this.getAllTransactionHistory({
+      defaultErrorMessage: options?.defaultErrorMessage,
+      limit: options?.limit,
+    });
     if (data?.items) data.items = data.items.slice(0, body.latestN);
     return data;
   }
@@ -167,10 +185,18 @@ class PortfolioApi extends BaseApi {
     if (data?.items) data.items = data.items.slice(0, body.latestN);
     return data;
   }
-  async getUserAssets(options: { defaultErrorMessage: string }): Promise<AssetsResponse> {
+  async getUserAssets(
+    options: { defaultErrorMessage: string },
+    filters: IWalletActivitiesFilters | undefined,
+  ): Promise<AssetsResponse> {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
-
-    var result = await fetch(PortfolioApiEndPoints.GetUserAssets, {
+    const filterParams = new URLSearchParams();
+    if (filters?.wallet) {
+      filters.wallet?.forEach((w) => {
+        filterParams.append('wallet[]', w);
+      });
+    }
+    var result = await fetch(`${PortfolioApiEndPoints.GetUserAssets}?${filterParams}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

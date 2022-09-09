@@ -25,25 +25,28 @@ import { Divider } from 'components/common/divider';
 import { MultiSelect } from 'components/multi-select';
 import { SingleSelect } from 'components/single-select';
 import useFetch from 'hooks/use-fetch';
-import { filter } from 'lodash';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { IAssetFilters } from 'types/portfolio';
+import { IAssetFilters, IAssetsFilters, Wallet } from 'types/portfolio';
 import { primitivesUtils } from 'utils/primitives-utils';
 import { AssetsChart } from './assets-chart';
 import Image from 'next/image';
 import { Dot } from 'icons/dot';
 import Link from 'next/link';
 import { TokenSymbolDisplay } from 'components/common/wallet-name-display';
+import { useMemo } from 'react';
 
 export interface IAssetsProps {
   updatedSince: string | null;
   loading: boolean;
   noWallet: boolean;
+  wallets: Wallet[] | undefined;
 }
 
-export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet }) => {
+export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet, wallets }) => {
   const { t } = useTranslation();
+
+  const [filter, setFilter] = React.useState<IAssetsFilters>({ desc: true });
 
   const {
     data,
@@ -51,44 +54,27 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
     error,
     trigger,
   } = useFetch(() => {
-    return portfolioApi.getUserAssets({
-      defaultErrorMessage: t('portfolio.dashboard.getAssetsError'),
-    });
-  }, [updatedSince]);
+    return portfolioApi.getUserAssets(
+      {
+        defaultErrorMessage: t('portfolio.dashboard.getAssetsError'),
+      },
+      filter,
+    );
+  }, [updatedSince, JSON.stringify(filter)]);
 
-  const [filter, setFilter] = React.useState<IAssetFilters>({ desc: true });
-
-  const handleChangeWallet = (value: string | undefined) => {
+  const handleChangeWallet = (value: any | undefined) => {
     setFilter((preFilter) => {
       return { ...preFilter, wallet: value };
     });
   };
-  const handleChangeStatus = (value: string | undefined) => {
-    setFilter((preFilter) => {
-      return { ...preFilter, status: value };
-    });
-  };
-  const handleChangeSorting = (value: boolean | undefined) => {
-    setFilter((preFilter) => {
-      return { ...preFilter, desc: value === undefined ? true : value };
-    });
-  };
-  const filteredData = React.useMemo(() => {
-    if (!data?.items) return data;
-    var items = data.items.filter(({ name }) => {
-      return !filter?.wallet || name === filter.wallet;
-    });
-    return { ...data, items };
-  }, [JSON.stringify(data), JSON.stringify(filter)]);
-
   const tableDisplayData = React.useMemo(() => {
-    if (!filteredData?.items) return filteredData;
-    var tempItems = filteredData.items.filter(({ fiat_value }) => {
+    if (!data?.items) return data;
+    var tempItems = data.items.filter(({ fiat_value }) => {
       return fiat_value > 0;
     });
     var top7Items = tempItems.slice(0, 7);
     return { ...data, items: top7Items };
-  }, [JSON.stringify(filteredData)]);
+  }, [JSON.stringify(data), JSON.stringify(filter)]);
 
   const theme = useTheme();
 
@@ -135,20 +121,28 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
     alpha(theme.palette.secondary.dark, 0.1),
   ];
 
-  const chartDataSeries = (filteredData?.items || []).map(
-    ({ name, balance, fiat_value, fiat_currency, symbol }, index) => {
-      return {
-        color: chartBaseColors[index],
-        data: primitivesUtils.roundDownToTwo(fiat_value),
-        name,
-        symbol: symbol + ' ' + fiat_currency + ' ' + primitivesUtils.convertCurrencyDisplay(balance),
-      };
-    },
-  );
+  const chartDataSeries = (data?.items || []).map(({ name, balance, fiat_value, fiat_currency, symbol }, index) => {
+    return {
+      color: chartBaseColors[index],
+      data: fiat_value,
+      name,
+      symbol: symbol + ' ' + primitivesUtils.convertFiatAmountDisplay(balance),
+    };
+  });
 
   const chartData = {
     series: chartDataSeries,
   };
+
+  const walletOption = useMemo(() => {
+    if (!wallets) return [];
+    return wallets.map((w) => {
+      return {
+        label: w.name,
+        value: w.id,
+      };
+    });
+  }, [JSON.stringify(wallets)]);
 
   return (
     <>
@@ -156,67 +150,37 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
         <Grid item>
           <Typography sx={{ mb: 3 }} variant="h6"></Typography>
         </Grid>
-        <DataDisplay
-          isLoading={getUserAssetsLoading || loading}
-          error={error}
-          defaultLoaderOptions={{ height: '400px', width: '100%' }}
-        >
-          <Grid item flex="1 1 100%">
-            <Card>
-              <CardContent sx={{ p: 0 }}>
-                <Grid container justifyContent="space-between" alignItems="center">
-                  <Typography sx={{ pl: 3, pt: 1.5, pb: 1.2 }} variant="overline">{`${t(
-                    'portfolio.dashboard.assets',
-                  )}`}</Typography>
-                  <Box
-                    sx={{
-                      position: 'relative',
-                      alignItems: 'center',
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      pr: 4,
-                      py: 2,
-                    }}
-                  >
-                    {/* <SingleSelect
-                      small
-                      shouldShowClearButton
-                      onChange={handleChangeWallet}
-                      label={t('portfolio.dashboard.allWallets')}
-                      value={filter?.wallet as string}
-                      options={
-                        data?.items?.map(({ name }) => {
-                          return {
-                            value: name,
-                            label: name,
-                          };
-                        }) || []
-                      }
-                      labelProps={{ variant: 'overline', textTransform: 'none' }}
-                    />
-                    <SingleSelect
-                      small
-                      shouldShowClearButton
-                      onChange={handleChangeStatus}
-                      label={t('portfolio.dashboard.status')}
-                      value={filter?.status as string}
-                      options={[{ value: 'Completed', label: 'Completed' }]}
-                      labelProps={{ variant: 'overline', textTransform: 'none' }}
-                    />
-                    <SingleSelect
-                      small
-                      onChange={handleChangeSorting}
-                      label={t('portfolio.dashboard.mostRecent')}
-                      value={filter.desc}
-                      options={[
-                        { value: true, label: t('portfolio.dashboard.mostRecent') },
-                        { value: false, label: t('portfolio.dashboard.earliest') },
-                      ]}
-                      labelProps={{ variant: 'overline', textTransform: 'none' }}
-                    /> */}
-                  </Box>
-                </Grid>
-                <Divider sx={{ m: 0, p: 0 }} />
+        <Grid item flex="1 1 100%">
+          <Card>
+            <CardContent sx={{ p: 0 }}>
+              <Grid container justifyContent="space-between" alignItems="center">
+                <Typography sx={{ pl: 3, pt: 1.5, pb: 1.2 }} variant="overline">{`${t(
+                  'portfolio.dashboard.assets',
+                )}`}</Typography>
+                <Box
+                  sx={{
+                    position: 'relative',
+                    alignItems: 'center',
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    pr: 2,
+                    py: 2,
+                  }}
+                >
+                  <MultiSelect
+                    label={t('portfolio.transHis.all')}
+                    onChange={handleChangeWallet}
+                    options={walletOption}
+                    value={filter?.wallet}
+                  />
+                </Box>
+              </Grid>
+              <Divider sx={{ m: 0, p: 0 }} />
+              <DataDisplay
+                isLoading={getUserAssetsLoading || loading}
+                error={error}
+                defaultLoaderOptions={{ height: '400px', width: '100%' }}
+              >
                 {/* no wallet or assets have no data */}
                 {noWallet ||
                 (!noWallet && data?.items === undefined) ||
@@ -257,14 +221,12 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
                           flexWrap="nowrap"
                           sx={{ py: 1 }}
                         >
-                          <Grid item flex="1 1 45%">
+                          <Grid item flex="1 1 45%" sx={{ justifyContent: 'space-between' }}>
                             <Typography variant="overline" sx={{ textTransform: 'none', lineHeight: 0.25 }}>
-                              Total
+                              Total:{' '}
                             </Typography>
-                            <br />
                             <Typography variant="overline" display="inline-block" color="secondary.main">
-                              {data?.total_bal_symbol}{' '}
-                              {primitivesUtils.convertCurrencyDisplay(filteredData?.total_bal || 0)}
+                              {primitivesUtils.convertFiatAmountDisplay(data?.total_bal || 0)}
                             </Typography>
                           </Grid>
                           <Grid item flex="1 1 27.5%">
@@ -307,12 +269,12 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
                                   </Typography>
                                 </Grid>
                               </Grid>
-                              <Grid item flex="1 1 27.5%">
+                              <Grid item flex="1 1 27.5%" sx={{ mr: 3.5 }} textAlign="right">
                                 <TokenSymbolDisplay amt={item.balance} name={item.symbol} variant="caption" />
                               </Grid>
-                              <Grid item flex="1 1 27.5%">
+                              <Grid item flex="1 1 27.5%" sx={{ mr: 3.5 }} textAlign="right">
                                 <Typography variant="caption">
-                                  {item.fiat_currency} {primitivesUtils.convertCurrencyDisplay(item.fiat_value)}
+                                  {primitivesUtils.convertFiatAmountDisplay(item.fiat_value)}
                                 </Typography>
                               </Grid>
                             </Grid>
@@ -341,10 +303,10 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
                     </Grid>
                   </>
                 ) : null}
-              </CardContent>
-            </Card>
-          </Grid>
-        </DataDisplay>
+              </DataDisplay>
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
     </>
   );

@@ -132,9 +132,9 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
             </TableCell>
             <TableCell>{t('portfolio.transHis.from')}</TableCell>
             <TableCell>{t('portfolio.transHis.to')}</TableCell>
-            <TableCell>{t('portfolio.transHis.amount')}</TableCell>
+            <TableCell align="center">{t('portfolio.transHis.amount')}</TableCell>
             {/* <TableCell>{t('portfolio.transHis.fees')}</TableCell> */}
-            <TableCell>{t('portfolio.transHis.total')}</TableCell>
+            <TableCell align="center">{t('portfolio.transHis.total')}</TableCell>
             <TableCell>{t('portfolio.transHis.tag')}</TableCell>
             <TableCell>{t('portfolio.transHis.note')}</TableCell>
             <TableCell>{t('portfolio.transHis.status')}</TableCell>
@@ -196,7 +196,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                       {primitivesUtils.getShortTxnId(transaction.to)}
                     </Typography>
                   </TableCell>
-                  <TableCell sx={{ maxWidth: '150px' }}>
+                  <TableCell sx={{ maxWidth: '150px' }} align="right">
                     <Typography display="block" variant="subtitle2">
                       <TokenSymbolDisplay
                         amt={transaction.crypto_amount}
@@ -207,8 +207,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                     </Typography>
                     {parseFloat(transaction.crypto_amount_fiat) > 0 && (
                       <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                        {'USD '}
-                        {primitivesUtils.convertCurrencyDisplay(transaction.crypto_amount_fiat)}
+                        {primitivesUtils.convertFiatAmountDisplay(transaction.crypto_amount_fiat)}
                       </Typography>
                     )}
                   </TableCell>
@@ -223,12 +222,11 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                   {/* {primitivesUtils.convertCurrencyDisplay(transaction.gas_fiat)} */}
                   {/* </Typography> */}
                   {/* </TableCell> */}
-                  <TableCell sx={{ maxWidth: '150px' }}>
+                  <TableCell sx={{ maxWidth: '150px' }} align="right">
                     <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                      {'USD '}
-                      {primitivesUtils.convertCurrencyDisplay(
+                      {primitivesUtils.convertFiatAmountDisplay(
                         parseFloat(transaction.crypto_amount_fiat) + parseFloat(transaction.gas_fiat),
-                        true,
+                        false,
                       )}
                     </Typography>
                   </TableCell>

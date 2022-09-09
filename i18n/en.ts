@@ -49,7 +49,7 @@ export const en = {
         connectedWithNoAssets: `Once your wallets have been connected, you will see the asset allocation across all of your wallets here.`,
       },
       dashboard: {
-        portfolioNetWorth: 'Your portfolio net worth',
+        portfolioNetWorth: 'Your portfolio net worth: ',
         updateDataNow: 'Update data now',
         dataLastUpdated: 'Data last updated',
         recentTrans: 'Recent transactions',
@@ -160,9 +160,9 @@ export const en = {
         last6m: 'Last 6 months',
         lastYr: 'Last Year',
         custom: 'Custom Date Range',
-        allTagUntag: 'all tagged & untagged',
-        allTagged: 'all tagged',
-        allUntagged: 'all untagged',
+        allTagUntag: 'All Tagged & Untagged',
+        allTagged: 'All Tagged',
+        allUntagged: 'All Untagged',
       },
       walletList: {
         myWallets: 'My Wallets',

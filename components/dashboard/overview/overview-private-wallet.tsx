@@ -54,7 +54,7 @@ export const OverviewPrivateWallet: FC = (props) => {
         </Typography>
 
         <Typography textAlign="left" variant="h6" sx={{ mb: 2 }}>
-          {`$ ${primitivesUtils.convertCurrencyDisplay(5343.33)}`}
+          {`${primitivesUtils.convertFiatAmountDisplay(5343.33)}`}
         </Typography>
 
         <Divider sx={{ mb: 2 }} />
@@ -73,7 +73,7 @@ export const OverviewPrivateWallet: FC = (props) => {
           </Grid>
           <Grid item md xs>
             <Typography textAlign="right" variant="h6">
-              USD 3981.81
+              $3981.81
             </Typography>
             <Typography textAlign="right" color="success.main" variant="body2">
               Primary
@@ -91,7 +91,7 @@ export const OverviewPrivateWallet: FC = (props) => {
           </Grid>
           <Grid item md xs>
             <Typography textAlign="right" variant="h6">
-              USD 343.33
+              $343.33
             </Typography>
           </Grid>
         </Grid>

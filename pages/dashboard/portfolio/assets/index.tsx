@@ -49,9 +49,12 @@ const AssetsPage: NextPage = () => {
     error,
     trigger,
   } = useFetch(() => {
-    return portfolioApi.getUserAssets({
-      defaultErrorMessage: t('portfolio.assets.getAssetsError'),
-    });
+    return portfolioApi.getUserAssets(
+      {
+        defaultErrorMessage: t('portfolio.assets.getAssetsError'),
+      },
+      undefined,
+    );
   }, []);
 
   useEffect(() => {

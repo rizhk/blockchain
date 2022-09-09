@@ -139,7 +139,6 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
                 {transactionHistory?.from_name}
               </Typography>{' '}
               <Typography display="inline" variant="body2" color="text.secondary" sx={{ wordWrap: 'break-word' }}>
-                {/* ({primitivesUtils.getShortTxnId(transactionHistory?.from)}) */}
                 {transactionHistory?.from}
               </Typography>
             </Grid>
@@ -153,7 +152,6 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
                 {transactionHistory?.to_name}
               </Typography>{' '}
               <Typography display="inline" variant="body2" color="text.secondary" sx={{ wordWrap: 'break-word' }}>
-                {/* ({primitivesUtils.getShortTxnId(transactionHistory?.to)}) */}
                 {transactionHistory?.to}
               </Typography>{' '}
             </Grid>
@@ -175,12 +173,11 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
             </Grid>
             <Grid item xs={8}>
               <Typography display="inline" variant="subtitle2">
-                {primitivesUtils.convertCurrencyDisplay(parseFloat(transactionHistory?.crypto_amount))}{' '}
-                {transactionHistory?.token_symbol}
+                {transactionHistory?.crypto_amount + ' ' + transactionHistory?.token_symbol}
               </Typography>{' '}
-              {primitivesUtils.convertCurrencyDisplay(parseFloat(transactionHistory?.crypto_amount_fiat)) > 0 && (
+              {parseFloat(transactionHistory?.crypto_amount_fiat) > 0 && (
                 <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                  {primitivesUtils.convertCurrencyDisplay(parseFloat(transactionHistory?.crypto_amount_fiat))} USD
+                  {primitivesUtils.convertFiatAmountDisplay(parseFloat(transactionHistory?.crypto_amount_fiat))}
                 </Typography>
               )}
             </Grid>
@@ -211,7 +208,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
                 {transactionHistory?.gas_used} {'ETH'}
               </Typography>{' '}
               <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                {transactionHistory?.gas_fiat} USD
+                ${transactionHistory?.gas_fiat}
               </Typography>
             </Grid>
           </Grid>

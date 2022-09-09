@@ -11,30 +11,76 @@ class PrimitivesUtils {
     if (!str) return str;
     return `${this.getFirstNChars(str, 4)}...${this.getLastNChars(str, 4)}`;
   }
-  roundDownToTwo(number: number | string | undefined) {
-    if (!number) return 0;
+  numberRounding(number: number | string | undefined, shouldRoundUp: boolean = false) {
+    if (number == undefined) return number;
     var val: number = 0;
     if (typeof number === 'string') val = parseFloat(number);
     else val = number;
-    return Math.floor((val + Number.EPSILON) * 100) / 100;
+
+    var dpVal: number;
+    if (Math.abs(val) < 1.1) {
+      dpVal = 8;
+    } else {
+      dpVal = 2;
+      if (shouldRoundUp) {
+        val = Math.round(((val + Number.EPSILON) * Math.pow(10, dpVal)) / Math.pow(10, dpVal));
+      }
+    }
+
+    if (val == 0) {
+      return val.toFixed(2);
+    } else if (Math.abs(val) < 1.1) {
+      return val.toFixed(dpVal);
+    } else {
+      return val
+        .toFixed(dpVal)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
   }
-  roundUpToTwo(number: number | string | undefined) {
-    if (!number) return 0;
+  percentageRounding(number: number | string | undefined, shouldRoundUp: boolean = false) {
+    if (number == undefined) return number;
     var val: number = 0;
     if (typeof number === 'string') val = parseFloat(number);
     else val = number;
-    return Math.ceil((val + Number.EPSILON) * 100) / 100;
-  }
-  roundUpUpToSixPlace(number: number | undefined) {
-    if (!number) return number;
-    return Math.ceil((number + Number.EPSILON) * 100000) / 100000;
+
+    var dpVal: number;
+    if (Math.abs(val) < 1) {
+      dpVal = 4;
+    } else {
+      dpVal = 2;
+      if (shouldRoundUp) {
+        val = Math.round(((val + Number.EPSILON) * Math.pow(10, dpVal)) / Math.pow(10, dpVal));
+      }
+    }
+
+    if (val == 0) {
+      return val.toFixed(2);
+    } else if (Math.abs(val) < 1) {
+      return val.toFixed(dpVal);
+    } else {
+      return val
+        .toFixed(dpVal)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
   }
   thousandSeparator(number: number | undefined) {
-    if (!number) return number;
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    if (number == undefined) return number;
+    return number
+      .toFixed(2)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
-  convertCurrencyDisplay(value: string | number, shouldRoundUp: boolean = false): string {
-    return this.thousandSeparator(shouldRoundUp ? this.roundDownToTwo(value) : this.roundUpToTwo(value)) as string;
+  convertPercentageDisplay(value: string | number, shouldRoundUp: boolean = false): string {
+    return (this.percentageRounding(value, shouldRoundUp) + '%') as string;
+  }
+  convertCryptoAmountDisplay(value: string | number, tokenSymbol: string, shouldRoundUp: boolean = false): string {
+    return (this.numberRounding(value, shouldRoundUp) + ' ' + tokenSymbol) as string;
+  }
+  convertFiatAmountDisplay(value: string | number, shouldRoundUp: boolean = false): string {
+    //TODO variable on dollar sign when we support multiple currency
+    return ('$' + this.numberRounding(value, shouldRoundUp)) as string;
   }
   removeItemInArrayByIndex<TItem>(array: TItem[], index: number): TItem[] {
     return [...array.slice(0, index), ...array.slice(index + 1)];

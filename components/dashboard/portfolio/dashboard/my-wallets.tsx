@@ -34,9 +34,7 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({ updatedSince, loading, no
 
   const totalBalance = React.useMemo(() => {
     if (!data?.items) return 0;
-    return data.items
-      .map((item) => primitivesUtils.roundDownToTwo(parseFloat(item.fiat_value)) || 0)
-      .reduce((prev, curr) => prev + curr, 0);
+    return data.items.map((item) => item.fiat_value).reduce((prev, curr) => prev + curr, 0);
   }, [JSON.stringify(data)]);
 
   return (
@@ -79,10 +77,7 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({ updatedSince, loading, no
                               </Grid>
                             </Grid>
                             <Grid component={Typography} variant="body1" flex="0 0 auto">
-                              {fiat_currency}{' '}
-                              {primitivesUtils.thousandSeparator(
-                                primitivesUtils.roundDownToTwo(parseFloat(fiat_value)),
-                              )}
+                              {primitivesUtils.convertFiatAmountDisplay(fiat_value)}
                             </Grid>
                           </Grid>
                         </Grid>
@@ -103,7 +98,7 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({ updatedSince, loading, no
                       <Typography variant="body1">
                         {`${t('portfolio.dashboard.total')}: `}
                         <Typography display="inline" variant="body1" color="secondary.main">
-                          USD {primitivesUtils.convertCurrencyDisplay(totalBalance)}
+                          {primitivesUtils.convertFiatAmountDisplay(totalBalance)}
                         </Typography>
                       </Typography>
                     </Grid>
