@@ -119,8 +119,11 @@ const Account: NextPage = () => {
                       Upload photo
                     </Button>
                     <Typography variant="body2" color="textSecondary" sx={{ pt: 2 }}>
-                      Please upload JPG or PNG only. <br></br>Maximum size of 800KB<br></br>Minimum dimension of 200px x
-                      200px
+                      Please upload JPG or PNG only
+                      <br />
+                      Maximum size of 800KB
+                      <br />
+                      Minimum dimension of 200 x 200px
                     </Typography>
                   </Box>
                 </Box>
