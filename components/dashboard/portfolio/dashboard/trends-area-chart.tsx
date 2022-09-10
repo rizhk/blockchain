@@ -18,7 +18,7 @@ import {
   ResponsiveContainer,
   Rectangle,
 } from 'recharts';
-import { TooltipDataPoint, Trend } from 'types/portfolio';
+import { TooltipDataPoint, Trend, TrendChartData } from 'types/portfolio';
 import { primitivesUtils } from 'utils/primitives-utils';
 
 const CustomTooltip = ({ active, payload, label }: { active: boolean; payload: TooltipDataPoint[]; label: string }) => {
@@ -41,7 +41,7 @@ const CustomTooltip = ({ active, payload, label }: { active: boolean; payload: T
         </Typography>
         <Divider />
         <Grid container item sx={{ px: 2, pb: 1 }} flexDirection="column">
-          <TokenSymbolDisplay
+          {/* <TokenSymbolDisplay
             amt={data.crypto_amount}
             display="inline-block"
             variant="body2"
@@ -51,7 +51,7 @@ const CustomTooltip = ({ active, payload, label }: { active: boolean; payload: T
               fontSize: '14px',
               lineHeight: '157%',
             }}
-          />
+          /> */}
           <Typography
             variant="body2"
             sx={{
@@ -62,14 +62,14 @@ const CustomTooltip = ({ active, payload, label }: { active: boolean; payload: T
               color: 'text.secondary',
             }}
           >
-            {data.fiat_currency} {primitivesUtils.convertCurrencyDisplay(data.fiat_value)}
+            {data.fiat_currency} {primitivesUtils.convertFiatAmountDisplay(data.fiat_amount)}
           </Typography>
           <Typography
             variant="subtitle3"
             sx={{ fontSize: '10px', pt: 1.5, lineHeight: '100%', letterSpacing: '0.5px' }}
           >
-            {format(data.date, 'MM-dd-yy')}{' '}
-            {format(data.date, `hh:mm:ss aaaaa'm'`).replace('am', 'AM').replace('pm', 'PM')} +UTC
+            {format(new Date(data.date), 'MM-dd-yy')}{' '}
+            {format(new Date(data.date), `hh:mm:ss aaaaa'm'`).replace('am', 'AM').replace('pm', 'PM')} +UTC
           </Typography>
         </Grid>
       </Grid>
@@ -79,12 +79,8 @@ const CustomTooltip = ({ active, payload, label }: { active: boolean; payload: T
   return null;
 };
 
-const convertDate = (value: Date) => {
-  return format(value, 'MMM');
-};
-
 export interface ITrendsAreaChartProps {
-  trends: Trend[];
+  trends: TrendChartData[];
 }
 
 export const TrendsAreaChart: React.FC<ITrendsAreaChartProps> = ({ trends }) => {
@@ -92,7 +88,7 @@ export const TrendsAreaChart: React.FC<ITrendsAreaChartProps> = ({ trends }) => 
 
   return (
     <ResponsiveContainer width="100%" height="90%">
-      <ComposedChart width={690} height={380} data={trends} margin={{ top: 30, right: 30, left: 0, bottom: 5 }}>
+      <ComposedChart width={690} height={380} data={trends} margin={{ top: 30, right: 30, left: 30, bottom: 5 }}>
         <defs>
           <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#F34F1D" stopOpacity={0.2} />
@@ -100,8 +96,8 @@ export const TrendsAreaChart: React.FC<ITrendsAreaChartProps> = ({ trends }) => 
           </linearGradient>
         </defs>
         <XAxis
-          dataKey="date"
-          tickFormatter={convertDate}
+          xAxisId="0"
+          dataKey="day"
           tick={{
             fontFamily: 'Montserrat',
             fontWeight: 300,
@@ -109,7 +105,37 @@ export const TrendsAreaChart: React.FC<ITrendsAreaChartProps> = ({ trends }) => 
             color: '#6B7280',
           }}
         />
+        <XAxis
+          tickLine={false}
+          axisLine={false}
+          xAxisId="1"
+          dataKey="month"
+          tick={{
+            fontFamily: 'Montserrat',
+            fontWeight: 300,
+            fontSize: '8px',
+            color: '#6B7280',
+            spacing: 0,
+          }}
+          allowDuplicatedCategory={false}
+        />
+        <XAxis
+          tickLine={false}
+          axisLine={false}
+          xAxisId="2"
+          dataKey="year"
+          tick={{
+            fontFamily: 'Montserrat',
+            fontWeight: 300,
+            fontSize: '8px',
+            color: '#6B7280',
+            spacing: 0,
+          }}
+          allowDuplicatedCategory={false}
+        />
         <YAxis
+          dataKey="fiat_amount"
+          tickFormatter={(value: number) => primitivesUtils.convertFiatAmountDisplay(value)}
           tick={{
             fontFamily: 'Montserrat',
             fontWeight: 300,
@@ -121,13 +147,13 @@ export const TrendsAreaChart: React.FC<ITrendsAreaChartProps> = ({ trends }) => 
           content={<CustomTooltip />}
           cursor={{ stroke: theme.palette.secondary.main, strokeDasharray: `5 5`, strokeWidth: 1 }}
         />
-        <CartesianGrid verticalPoints={[60, 710]} stroke="#F0F0F0" />
+        {/* <CartesianGrid horizontal={false} stroke="#F0F0F0" /> */}
         <Line
           type="monotone"
           strokeLinecap="round"
           strokeWidth={3}
           style={{ strokeDasharray: `40% 60%` }}
-          dataKey="crypto_amount"
+          dataKey="fiat_amount"
           stroke="#006991"
           dot={false}
           legendType="none"
@@ -135,7 +161,7 @@ export const TrendsAreaChart: React.FC<ITrendsAreaChartProps> = ({ trends }) => 
         <Area
           activeDot={{ strokeWidth: 4, stroke: theme.palette.secondary.main }}
           type="monotone"
-          dataKey="crypto_amount"
+          dataKey="fiat_amount"
           stroke={theme.palette.secondary.main}
           strokeWidth={3}
           fillOpacity={1}

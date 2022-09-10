@@ -3,11 +3,16 @@ import { DataDisplay } from 'components/common/data-display';
 import * as React from 'react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GetTrendsResponse, Wallet } from 'types/portfolio';
+import { GetTrendsResponse, TrendChartData, Wallet } from 'types/portfolio';
 import { primitivesUtils } from 'utils/primitives-utils';
 import Link from 'next/link';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { TrendsAreaChart } from './trends-area-chart';
+import useFetch from 'hooks/use-fetch';
+import { portfolioApi } from 'api/portfolio-api';
+import { format } from 'date-fns-tz';
+import { useQuery } from 'react-query';
+import { useTrendsQuery } from './trends.queries';
 
 export interface ITrendsProps {
   updatedSince: string | null;
@@ -19,102 +24,30 @@ export interface ITrendsProps {
 export const Trends: React.FC<ITrendsProps> = ({ updatedSince, loading, noWallet, wallets }) => {
   const { t } = useTranslation();
 
-  const data: GetTrendsResponse = {
-    error: false,
-    items: [
-      {
-        fiat_value: 100,
-        fiat_currency: 'USD',
-        token_symbol: 'ETH',
-        crypto_amount: 100,
-        date: new Date('2022/01/01'),
-      },
-      {
-        fiat_value: 100,
-        fiat_currency: 'USD',
-        token_symbol: 'ETH',
-        crypto_amount: 20,
-        date: new Date('2022/02/01'),
-      },
-      {
-        fiat_value: 100,
-        fiat_currency: 'USD',
-        token_symbol: 'ETH',
-        crypto_amount: 100,
-        date: new Date('2022/03/01'),
-      },
-      {
-        fiat_value: 100,
-        fiat_currency: 'USD',
-        token_symbol: 'ETH',
-        crypto_amount: 242,
-        date: new Date('2022/04/01'),
-      },
-      {
-        fiat_value: 100,
-        fiat_currency: 'USD',
-        token_symbol: 'ETH',
-        crypto_amount: 290,
-        date: new Date('2022/05/01'),
-      },
-      {
-        fiat_value: 100,
-        fiat_currency: 'USD',
-        token_symbol: 'ETH',
-        crypto_amount: 100,
-        date: new Date('2022/06/01'),
-      },
-      {
-        fiat_value: 100,
-        fiat_currency: 'USD',
-        token_symbol: 'ETH',
-        crypto_amount: 52,
-        date: new Date('2022/07/01'),
-      },
-      {
-        fiat_value: 100,
-        fiat_currency: 'USD',
-        token_symbol: 'ETH',
-        crypto_amount: 100,
-        date: new Date('2022/08/01'),
-      },
-      {
-        fiat_value: 100,
-        fiat_currency: 'USD',
-        token_symbol: 'ETH',
-        crypto_amount: 70,
-        date: new Date('2022/09/01'),
-      },
-      {
-        fiat_value: 100,
-        fiat_currency: 'USD',
-        token_symbol: 'ETH',
-        crypto_amount: 100,
-        date: new Date('2022/10/01'),
-      },
-      {
-        fiat_value: 100,
-        fiat_currency: 'USD',
-        token_symbol: 'ETH',
-        crypto_amount: 43,
-        date: new Date('2022/11/01'),
-      },
-      {
-        fiat_value: 100,
-        fiat_currency: 'USD',
-        token_symbol: 'ETH',
-        crypto_amount: 100,
-        date: new Date('2022/12/01'),
-      },
-    ],
-  };
+  const { data, isLoading, error } = useTrendsQuery();
+
+  const trendChartData: TrendChartData[] = React.useMemo(() => {
+    if (!data?.items) return [];
+
+    return data.items.map(({ date, ...rest }) => {
+      const dateObj: Date = new Date(date);
+      return {
+        date: dateObj,
+        day: format(dateObj, 'dd'),
+        month: format(dateObj, 'MMM'),
+        year: format(dateObj, 'yyyy'),
+        ...rest,
+      };
+    });
+  }, [JSON.stringify(data?.items)]);
 
   return (
     <>
       <Grid container flexDirection="row" width="100%">
         <DataDisplay
-          isLoading={false || loading}
-          error={undefined}
+          data={data?.items}
+          isLoading={isLoading || loading}
+          error={error?.message}
           defaultLoaderOptions={{ height: '100px', width: '100%' }}
         >
           <Grid item flex="1 1 100%">
@@ -127,7 +60,7 @@ export const Trends: React.FC<ITrendsProps> = ({ updatedSince, loading, noWallet
                 </Grid>
                 <Divider sx={{ m: 0, p: 0 }} />
                 {!data?.error && !noWallet ? (
-                  <TrendsAreaChart trends={data?.items ?? []} />
+                  <TrendsAreaChart trends={trendChartData ?? []} />
                 ) : (
                   <Grid container alignItems="center" justifyContent="center">
                     <Grid

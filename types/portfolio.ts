@@ -162,13 +162,20 @@ export interface TooltipDataPointStyle {
 }
 
 export interface Trend {
-  fiat_value: number;
+  fiat_amount: number;
   fiat_currency: string;
-  token_symbol: string;
-  crypto_amount: number;
-  date: Date;
+  date: string;
+  UpdatedAt: string;
 }
-
+export interface TrendChartData {
+  fiat_amount: number;
+  fiat_currency: string;
+  date: Date;
+  day: string;
+  month: string;
+  year: string;
+  UpdatedAt: string;
+}
 export interface GetTrendsResponse extends BaseApiResponse {
   items: Trend[];
 }
