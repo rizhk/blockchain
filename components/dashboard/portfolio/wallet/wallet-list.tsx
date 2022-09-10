@@ -151,9 +151,13 @@ export const WalletList: FC<WalletListProps> = (props) => {
 
   return (
     <Grid maxWidth="xl">
-      <Grid container sx={{ maxWidth: 816 }}>
-        <Grid item sx={{ mb: 2, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Typography variant="h6">
+      <Grid container justifyContent="space-between" spacing={3} flexWrap="nowrap">
+        <Grid
+          item
+          minWidth="fit-content"
+          sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+        >
+          <Typography variant="h6" className="pageTitle">
             {t('portfolio.walletList.myWallets')} ({walletsCount | 0})
           </Typography>
           <Button color="info" variant="contained" onClick={handleAddClick}>

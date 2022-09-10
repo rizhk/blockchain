@@ -277,8 +277,7 @@ const TransactionHistoryPage: NextPage = () => {
       <Box
         component="main"
         sx={{
-          pt: 4,
-          pb: 4,
+          py: 6,
         }}
       >
         {!walletsData?.noWallet && count > 0 && walletSyncStatus.isInProgress && (
@@ -286,201 +285,202 @@ const TransactionHistoryPage: NextPage = () => {
             <Typography variant="body1">{t('portfolio.transHis.dataSyncInProgress')}</Typography>
           </Grid>
         )}
+
         <Container maxWidth="xl">
-          <Box sx={{ mb: 4 }}>
-            <Grid container justifyContent="space-between" spacing={3} flexWrap="nowrap">
-              <Grid item component={Typography} minWidth="fit-content" variant="h4">
+          <Grid container justifyContent="space-between" spacing={3} flexWrap="nowrap">
+            <Grid item minWidth="fit-content">
+              <Typography variant="h6" className="pageTitle">
                 {t('portfolio.transHis.head')}
-              </Grid>
-              <Grid flex="0 0 fit-content" container item flexWrap="nowrap" alignItems="center">
-                <Grid
-                  container
-                  item
-                  justifyContent="flex-end"
-                  component={WalletSync}
-                  walletSyncStatus={walletSyncStatus}
-                  walletsData={walletsData}
-                  requestWalletSync={requestWalletSync}
-                  getWalletSyncStatusData={getWalletSyncStatusData}
-                  getWalletSyncStatusIsLoading={getWalletSyncStatusIsLoading}
-                  requestWalletSyncIsLoading={requestWalletSyncIsLoading}
-                  updatedSince={updatedSince}
-                  requestWalletSyncError={requestWalletSyncError}
-                  getWalletSyncStatusError={getWalletSyncStatusError}
-                />
-                <Grid item minWidth="fit-content">
-                  <Button
-                    sx={{ ml: 2 }}
-                    color="info"
-                    variant="contained"
-                    onClick={() => toggleExportTransactionHistory()}
-                  >
-                    {t('portfolio.transHis.exportData')}
-                  </Button>
-                </Grid>
+              </Typography>
+            </Grid>
+            <Grid flex="0 0 fit-content" container item flexWrap="nowrap" alignItems="center">
+              <Grid
+                container
+                item
+                justifyContent="flex-end"
+                component={WalletSync}
+                walletSyncStatus={walletSyncStatus}
+                walletsData={walletsData}
+                requestWalletSync={requestWalletSync}
+                getWalletSyncStatusData={getWalletSyncStatusData}
+                getWalletSyncStatusIsLoading={getWalletSyncStatusIsLoading}
+                requestWalletSyncIsLoading={requestWalletSyncIsLoading}
+                updatedSince={updatedSince}
+                requestWalletSyncError={requestWalletSyncError}
+                getWalletSyncStatusError={getWalletSyncStatusError}
+              />
+              <Grid item minWidth="fit-content">
+                <Button
+                  sx={{ ml: 2 }}
+                  color="info"
+                  variant="contained"
+                  onClick={() => toggleExportTransactionHistory()}
+                >
+                  {t('portfolio.transHis.exportData')}
+                </Button>
               </Grid>
             </Grid>
-          </Box>
+          </Grid>
         </Container>
-      </Box>
-      <Card sx={{ mx: 3, mb: 3 }}>
-        {
-          <Box
-            sx={{
-              alignItems: 'center',
-              display: 'flex',
-              p: 1.5,
-            }}
-          >
-            <SearchIcon fontSize="small" />
+        <Card sx={{ mx: 3, my: 3 }}>
+          {
             <Box
               sx={{
-                flexGrow: 1,
-                ml: 3,
+                alignItems: 'center',
+                display: 'flex',
+                p: 1.5,
               }}
             >
-              <Input
-                sx={{ 'input::placeholder': { fontSize: '0.875rem', fontWeight: 400, lineHeight: 1.57 } }}
-                disableUnderline
-                fullWidth
-                onChange={handleQueryChange}
-                onKeyUp={handleQueryKeyup}
-                placeholder={t('portfolio.transHis.search')}
-                value={queryValue}
-              />
+              <SearchIcon fontSize="small" />
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  ml: 3,
+                }}
+              >
+                <Input
+                  sx={{ 'input::placeholder': { fontSize: '0.875rem', fontWeight: 400, lineHeight: 1.57 } }}
+                  disableUnderline
+                  fullWidth
+                  onChange={handleQueryChange}
+                  onKeyUp={handleQueryKeyup}
+                  placeholder={t('portfolio.transHis.search')}
+                  value={queryValue}
+                />
+              </Box>
             </Box>
-          </Box>
-        }
-        <Divider />
-        <Box
-          sx={{
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            display: 'flex',
-            pr: 4,
-          }}
-        >
+          }
+          <Divider />
           <Box
             sx={{
-              position: 'relative',
               alignItems: 'center',
+              justifyContent: 'space-between',
               display: 'flex',
-              flexWrap: 'wrap',
-              py: 3,
-              px: 1,
+              pr: 4,
             }}
           >
-            <MultiSelect
-              label={t('portfolio.transHis.all')}
-              onChange={handleChangeWallet}
-              options={wallets}
-              value={filter?.wallet}
-            />
-            <SingleSelect<string>
-              onChange={handleChangeType}
-              label={t('portfolio.transHis.types')}
-              value={filter?.type}
-              options={[
-                { label: t('portfolio.transHis.incoming'), value: 'in' },
-                { label: t('portfolio.transHis.outgoing'), value: 'out' },
-              ]}
-            />
-            <SingleSelect<string>
-              onChange={handleChangeStatus}
-              label={t('portfolio.transHis.statuses')}
-              value={filter?.status}
-              options={[
-                { label: t('portfolio.transHis.success'), value: '1' },
-                { label: t('portfolio.transHis.failed'), value: '0' },
-              ]}
-            />
-            <MultiSelect
-              label={t('portfolio.transHis.tags')}
-              onChange={handleChangeTag}
-              options={tags}
-              value={filter?.tag}
-              upperOptions={[
-                { label: t('portfolio.transHis.allTagUntag'), value: 'all' },
-                { label: t('portfolio.transHis.allTagged'), value: 'tagged' },
-                { label: t('portfolio.transHis.allUntagged'), value: 'untagged' },
-              ]}
-              onUpperChange={handleChangeTagOption}
-              upperValue={tagOption}
-            />
-            <SingleSelect<string>
-              onChange={handleChangeRange}
-              label={t('portfolio.transHis.time')}
-              value={range}
-              options={[
-                { label: t('portfolio.transHis.last30d'), value: '30d' },
-                { label: t('portfolio.transHis.last90d'), value: '90d' },
-                { label: t('portfolio.transHis.last6m'), value: '6m' },
-                { label: t('portfolio.transHis.lastYr'), value: '1y' },
-                { label: t('portfolio.transHis.custom'), value: 'c' },
-              ]}
-              additionalComponent={
-                range == 'c' ? (
-                  <Box>
-                    <Box sx={{ px: 1, display: 'flex' }}>
-                      <DatePicker
-                        label={t('portfolio.transHis.from').toUpperCase()}
-                        value={filter?.start_date}
-                        handleDateChange={handleChangeFromDate}
-                        handleClear={() => {
-                          setFilter((preFilter) => {
-                            return { ...preFilter, start_date: undefined };
-                          });
-                        }}
-                      />
-                      <DatePicker
-                        label={t('portfolio.transHis.to').toUpperCase()}
-                        value={filter?.end_date}
-                        handleDateChange={handleChangeToDate}
-                        handleClear={() => {
-                          setFilter((preFilter) => {
-                            return { ...preFilter, end_date: undefined };
-                          });
-                        }}
-                      />
+            <Box
+              sx={{
+                position: 'relative',
+                alignItems: 'center',
+                display: 'flex',
+                flexWrap: 'wrap',
+                py: 3,
+                px: 1,
+              }}
+            >
+              <MultiSelect
+                label={t('portfolio.transHis.all')}
+                onChange={handleChangeWallet}
+                options={wallets}
+                value={filter?.wallet}
+              />
+              <SingleSelect<string>
+                onChange={handleChangeType}
+                label={t('portfolio.transHis.types')}
+                value={filter?.type}
+                options={[
+                  { label: t('portfolio.transHis.incoming'), value: 'in' },
+                  { label: t('portfolio.transHis.outgoing'), value: 'out' },
+                ]}
+              />
+              <SingleSelect<string>
+                onChange={handleChangeStatus}
+                label={t('portfolio.transHis.statuses')}
+                value={filter?.status}
+                options={[
+                  { label: t('portfolio.transHis.success'), value: '1' },
+                  { label: t('portfolio.transHis.failed'), value: '0' },
+                ]}
+              />
+              <MultiSelect
+                label={t('portfolio.transHis.tags')}
+                onChange={handleChangeTag}
+                options={tags}
+                value={filter?.tag}
+                upperOptions={[
+                  { label: t('portfolio.transHis.allTagUntag'), value: 'all' },
+                  { label: t('portfolio.transHis.allTagged'), value: 'tagged' },
+                  { label: t('portfolio.transHis.allUntagged'), value: 'untagged' },
+                ]}
+                onUpperChange={handleChangeTagOption}
+                upperValue={tagOption}
+              />
+              <SingleSelect<string>
+                onChange={handleChangeRange}
+                label={t('portfolio.transHis.time')}
+                value={range}
+                options={[
+                  { label: t('portfolio.transHis.last30d'), value: '30d' },
+                  { label: t('portfolio.transHis.last90d'), value: '90d' },
+                  { label: t('portfolio.transHis.last6m'), value: '6m' },
+                  { label: t('portfolio.transHis.lastYr'), value: '1y' },
+                  { label: t('portfolio.transHis.custom'), value: 'c' },
+                ]}
+                additionalComponent={
+                  range == 'c' ? (
+                    <Box>
+                      <Box sx={{ px: 1, display: 'flex' }}>
+                        <DatePicker
+                          label={t('portfolio.transHis.from').toUpperCase()}
+                          value={filter?.start_date}
+                          handleDateChange={handleChangeFromDate}
+                          handleClear={() => {
+                            setFilter((preFilter) => {
+                              return { ...preFilter, start_date: undefined };
+                            });
+                          }}
+                        />
+                        <DatePicker
+                          label={t('portfolio.transHis.to').toUpperCase()}
+                          value={filter?.end_date}
+                          handleDateChange={handleChangeToDate}
+                          handleClear={() => {
+                            setFilter((preFilter) => {
+                              return { ...preFilter, end_date: undefined };
+                            });
+                          }}
+                        />
+                      </Box>
                     </Box>
-                  </Box>
-                ) : (
-                  <Box></Box>
-                )
-              }
+                  ) : (
+                    <Box></Box>
+                  )
+                }
+              />
+            </Box>
+            <SingleSelect<string>
+              onChange={handleChangeNewest}
+              label={t('portfolio.transHis.sortBy')}
+              value={filter?.sort ?? 'DESC'}
+              hideAll
+              options={[
+                { label: t('portfolio.transHis.newest'), value: 'DESC' },
+                { label: t('portfolio.transHis.oldest'), value: 'ASC' },
+              ]}
             />
           </Box>
-          <SingleSelect<string>
-            onChange={handleChangeNewest}
-            label={t('portfolio.transHis.sortBy')}
-            value={filter?.sort ?? 'DESC'}
-            hideAll
-            options={[
-              { label: t('portfolio.transHis.newest'), value: 'DESC' },
-              { label: t('portfolio.transHis.oldest'), value: 'ASC' },
-            ]}
-          />
-        </Box>
-        <DataDisplay
-          isLoading={loading || getAllWalletsIsLoading}
-          error={error}
-          defaultLoaderOptions={{ height: '80vh', width: '100%' }}
-        >
-          <TransactionHistoryTable
-            walletSyncStatus={walletSyncStatus}
-            noWallet={walletsData?.noWallet}
-            setTransactionHistoryTag={setTransactionHistoryTag}
-            setTransactionHistoryNote={setTransactionHistoryNote}
-            getTransactionHistory={() => trigger()}
-            transactionHistory={currentData}
-            count={count}
-            onPageChange={onPageChange}
-            onRowsPerPageChange={onRowsPerPageChange}
-            page={page}
-            rowsPerPage={rowsPerPage}
-          />
-        </DataDisplay>
-      </Card>
+          <DataDisplay
+            isLoading={loading || getAllWalletsIsLoading}
+            error={error}
+            defaultLoaderOptions={{ height: '80vh', width: '100%' }}
+          >
+            <TransactionHistoryTable
+              walletSyncStatus={walletSyncStatus}
+              noWallet={walletsData?.noWallet}
+              setTransactionHistoryTag={setTransactionHistoryTag}
+              setTransactionHistoryNote={setTransactionHistoryNote}
+              getTransactionHistory={() => trigger()}
+              transactionHistory={currentData}
+              count={count}
+              onPageChange={onPageChange}
+              onRowsPerPageChange={onRowsPerPageChange}
+              page={page}
+              rowsPerPage={rowsPerPage}
+            />
+          </DataDisplay>
+        </Card>
+      </Box>
     </>
   );
 };

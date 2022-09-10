@@ -56,14 +56,13 @@ const Portfolio: NextPage = () => {
       <Box
         component="main"
         sx={{
-          flexGrow: 1,
           py: 6,
         }}
       >
         <Container maxWidth="xl">
           <Grid container justifyContent="space-between" spacing={3} flexWrap="nowrap">
             <Grid item minWidth="fit-content">
-              <Typography variant="h6">
+              <Typography variant="h6" className="pageTitle">
                 {t('portfolio.dashboard.portfolioNetWorth')}
                 {primitivesUtils.convertFiatAmountDisplay(walletsData?.networth || 0)}
               </Typography>
