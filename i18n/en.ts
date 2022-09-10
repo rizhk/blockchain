@@ -9,6 +9,7 @@ export const en = {
     common: {
       notAvailable: 'N/A',
       options: {
+        allWallets: 'All Wallets',
         time: 'All time',
         last30d: 'Last 30 days',
         last90d: 'Last 90 days',
