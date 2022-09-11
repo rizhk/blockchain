@@ -56,7 +56,7 @@ export const AssetsTable: FC<AssetsTableProps> = ({
             <TableCell>
               <Grid container alignItems="center">
                 <span>{t('portfolio.assets.marketPrice')}</span>
-                <Tooltip title={t('portfolio.assets.marketPriceTooltip')}>
+                <Tooltip title={t('portfolio.assets.marketPriceTooltip')} placement="top-start" arrow>
                   <QuestionMarkCircle sx={{ mt: 1, ml: 0.5 }} />
                 </Tooltip>
               </Grid>
@@ -65,7 +65,7 @@ export const AssetsTable: FC<AssetsTableProps> = ({
             <TableCell>
               <Grid container alignItems="center">
                 <span>{t('portfolio.assets.volumeIn24')}</span>
-                <Tooltip title={t('portfolio.assets.volumeIn24Tooltip')}>
+                <Tooltip title={t('portfolio.assets.volumeIn24Tooltip')} placement="top-start">
                   <QuestionMarkCircle sx={{ mt: 1, ml: 0.5 }} />
                 </Tooltip>
               </Grid>
