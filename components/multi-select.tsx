@@ -68,6 +68,7 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
         onClick={handleOpenMenu}
         ref={anchorRef}
         {...other}
+        className="tabs"
       >
         {selectedLabel.length > 20 ? selectedLabel.substring(0, 20) + '...' : selectedLabel}
       </Button>
