@@ -1,4 +1,4 @@
-import { createRef, useEffect } from 'react';
+import { createRef, useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import NextLink from 'next/link';
@@ -16,12 +16,6 @@ import {
   Typography,
 } from '@mui/material';
 import { GuestGuard } from '../../components/authentication/guest-guard';
-import { AuthBanner } from '../../components/authentication/auth-banner';
-import { AmplifyRegister } from '../../components/authentication/amplify-register';
-import { Auth0Register } from '../../components/authentication/auth0-register';
-import { FirebaseRegister } from '../../components/authentication/firebase-register';
-import { JWTRegister } from '../../components/authentication/jwt-register';
-import { Logo } from '../../components/logo';
 import { useAuth } from '../../hooks/use-auth';
 import { gtm } from '../../lib/gtm';
 import * as Yup from 'yup';
@@ -33,6 +27,10 @@ import { RecaptchaField } from './recaptcha-field';
 import { recaptchaConfig } from 'config';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useTranslation } from 'react-i18next';
+import dynamic from 'next/dynamic';
+const PasswordChecklist = dynamic(() => import('react-password-checklist'), {
+  ssr: false,
+});
 
 const Register: NextPage = () => {
   const { t } = useTranslation();
@@ -41,6 +39,7 @@ const Register: NextPage = () => {
   const { register } = useAuth();
   const { disableGuard } = router.query;
   const recaptchaRef = createRef<ReCAPTCHA>();
+  const [isValid, setIsValid] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -57,6 +56,8 @@ const Register: NextPage = () => {
       confirmPassword: Yup.string()
         .min(8)
         .max(255)
+        .matches(/\d/g, 'At least 1 number')
+        .matches(/[~`¿¡!#$%\^&*€£@+÷=\-\[\]\\';,/{}\(\)|\\":<>\?\.\_]/g, 'At least 1 special character')
         .required('Confirm password is required')
         .oneOf([Yup.ref('password'), null], 'Passwords must match'),
     }),
@@ -65,6 +66,7 @@ const Register: NextPage = () => {
         recaptchaRef.current.reset();
         var recaptchaToken = await recaptchaRef.current.executeAsync();
       }
+      if (!isValid) return;
       try {
         await register(values.email, values.name, values.password);
 
@@ -150,6 +152,15 @@ const Register: NextPage = () => {
                         type="password"
                         value={formik.values.password}
                       />
+                      {formik.touched.password && (
+                        <PasswordChecklist
+                          rules={['minLength', 'specialChar', 'number', 'capital', 'lowercase', 'match']}
+                          minLength={8}
+                          value={formik.values.password}
+                          valueAgain={formik.values.confirmPassword}
+                          onChange={(isValid) => setIsValid(isValid)}
+                        />
+                      )}
                       <TextField
                         error={Boolean(formik.touched.confirmPassword && formik.errors.confirmPassword)}
                         fullWidth

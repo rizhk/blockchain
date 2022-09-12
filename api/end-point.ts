@@ -22,6 +22,9 @@ export const PicanteApi = {
   ResetPassword: PicanteApiHost + '/v1/user/password/reset',
   FetchWithdrawalPreview: PicanteApiHost + '/v1/market/transaction/sell/withdrawal/preview',
   WithdrawTransaction: PicanteApiHost + '/v1/market/transaction/sell/withdraw',
+
+  UploadAvatar: PicanteApiHost + '/v1/user/pic',
+  UpdateUser: PicanteApiHost + '/v1/user/edit',
 };
 
 export const PortfolioApiEndPoints = {

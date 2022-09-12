@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import type { FC } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { AppBar, Avatar, Badge, Box, ButtonBase, IconButton, Toolbar, Tooltip } from '@mui/material';
+import { AppBar, Avatar, Badge, Box, ButtonBase, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import type { AppBarProps } from '@mui/material';
 import { Menu as MenuIcon } from '../../icons/menu';
@@ -199,9 +199,12 @@ const AccountButton = () => {
             height: 40,
             width: 40,
           }}
-          src={user && user.avatar}
+          src={user && user.profile_pic_url}
         >
-          <UserCircleIcon fontSize="small" />
+          <Typography variant="h4">
+            {user.full_name.split(' ')[0][0]}
+            {user.full_name.split(' ')[1][0]}
+          </Typography>
         </Avatar>
       </Box>
       <AccountPopover anchorEl={anchorRef.current} onClose={handleClosePopover} open={openPopover} />

@@ -15,7 +15,12 @@ export interface AuthContextValue extends State {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   register: (email: string, name: string, password: string) => Promise<void>;
-  updateUser: (data: Partial<User>) => Promise<void>;
+  updateUser: (data: {
+    current_password: string;
+    new_password: string;
+    new_password_confirmation: string;
+    full_name: string;
+  }) => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -205,8 +210,14 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
     });
   };
 
-  const updateUser = async (data: Partial<User>): Promise<void> => {
+  const updateUser = async (data: {
+    current_password: string;
+    new_password: string;
+    new_password_confirmation: string;
+    full_name: string;
+  }): Promise<void> => {
     const accessToken = localStorage.getItem('accessToken') || '';
+    await authApi.updateUser(data);
     const user = await authApi.me(accessToken);
 
     console.log('update user', user);

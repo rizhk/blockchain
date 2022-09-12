@@ -24,7 +24,8 @@ import { Bank as BankIcon } from 'icons/bank';
 import { BankFilled as BankIconFilled } from 'icons/bank-filled';
 import { Settings as SettingsIcon } from '../../icons/settings';
 import { SettingsFilled as SettingsIconFilled } from '../../icons/settings-filled';
-import { UserCircle as UserCircleIcon } from '../../icons/user-circle';
+import { User as UserIcon } from '../../icons/user';
+import { UserFilled as UserFilledIcon } from '../../icons/user-filled';
 import { Invite as InviteIcon } from '../../icons/invite';
 import { InviteFilled as InviteIconFilled } from '../../icons/invite-filled';
 import { Reports as ReportsIcon } from '../../icons/reports';
@@ -100,6 +101,12 @@ const getSections = (t: TFunction): Section[] => [
         icon: <WalletIcon fontSize="small" />,
         path: '/dashboard/portfolio/wallet',
         iconFilled: <WalletIconFilled fontSize="small" />,
+      },
+      {
+        title: t('menu.account'),
+        icon: <UserIcon fontSize="small" />,
+        path: '/dashboard/account',
+        iconFilled: <UserFilledIcon fontSize="small" />,
       },
       // {
       //   title: t('menu.wallets'),

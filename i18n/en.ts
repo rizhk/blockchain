@@ -1,5 +1,16 @@
 export const en = {
   translation: {
+    error: {
+      ERROR_FORMAT_IS_NOT_ACCEPT_EITHER_JPG_OR_PNG: 'Please upload JPG or PNG only.',
+      ERROR_FILE_SIZE_TOO_LARGE: 'Maximum size of 800KB',
+      ERROR_USER_EDIT_NEW_PASSWORD_NOT_MATCH: 'New password and new password confirmation are not matched.',
+      ERROR_USER_EDIT_CURRENCT_PASSWORD_INCORRECT: 'Current password is incorrect.',
+      ERROR_USER_PASSWORD_AT_LEAST_ONE_LOWER: 'New password should has at least 1 lowercase letter',
+      ERROR_USER_PASSWORD_AT_LEAST_ONE_UPPER: 'New password should has at least 1 uppercase letter',
+      ERROR_USER_PASSWORD_AT_LEAST_8CHARS: 'New password should has at least 8 characters',
+      ERROR_USER_EDIT_NEW_PASSWORD_NEEDS_DIFF: 'New password needs to be different with current password',
+      ERROR_USER_PASSWORD_IS_COMMON: "New password can't be a commonly used password",
+    },
     components: {
       multiSelect: {
         selectAll: 'Select All',
@@ -223,6 +234,18 @@ export const en = {
       help: 'Help',
       knowledgebase: 'Knowledgebase',
       news: 'News',
+      account: 'My account',
+    },
+    account: {
+      photo: 'Profile Photo',
+      displayName: 'display name',
+      changeName: 'Change your display name',
+      updatePassword: 'Update password',
+      currentPassword: 'Enter current password',
+      newPassword: 'Enter new password',
+      passwordAgain: 'Enter new password again',
+      save: 'Save',
+      updateSuccess: 'Your account info has been updated successfully.',
     },
   },
 };

@@ -2,39 +2,132 @@ import { useState, useEffect } from 'react';
 import type { ChangeEvent } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { Box, Container, Divider, Tab, Tabs, Typography } from '@mui/material';
+import {
+  Alert,
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Collapse,
+  Container,
+  Divider,
+  FormHelperText,
+  Grid,
+  Switch,
+  Tab,
+  Tabs,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { AuthGuard } from '../../components/authentication/auth-guard';
 import { DashboardLayout } from '../../components/dashboard/dashboard-layout';
-import { AccountBillingSettings } from '../../components/dashboard/account/account-billing-settings';
-import { AccountGeneralSettings } from '../../components/dashboard/account/account-general-settings';
-import { AccountNotificationsSettings } from '../../components/dashboard/account/account-notifications-settings';
-import { AccountTeamSettings } from '../../components/dashboard/account/account-team-settings';
-import { AccountSecuritySettings } from '../../components/dashboard/account/account-security-settings';
 import { gtm } from '../../lib/gtm';
-
-const tabs = [
-  { label: 'General', value: 'general' },
-  { label: 'Billing', value: 'billing' },
-  { label: 'Team', value: 'team' },
-  { label: 'Notifications', value: 'notifications' },
-  { label: 'Security', value: 'security' },
-];
+import { useAuth } from 'hooks/use-auth';
+import { UserCircle as UserCircleIcon } from '../../icons/user-circle';
+import { useTranslation } from 'react-i18next';
+import { AvatarEditorDialog } from '../../components/dashboard/account/avatar-editor-modal';
+import { FormikProvider, useFormik } from 'formik';
+import { useMounted } from 'hooks/use-mounted';
+import * as Yup from 'yup';
+import { LoadingButton } from '@mui/lab';
+import dynamic from 'next/dynamic';
+import { authApi } from 'api/auth-api';
+const PasswordChecklist = dynamic(() => import('react-password-checklist'), {
+  ssr: false,
+});
 
 const Account: NextPage = () => {
-  const [currentTab, setCurrentTab] = useState<string>('general');
+  const { user } = useAuth();
+  const { t } = useTranslation();
+  const isMounted = useMounted();
+
+  const [open, setOpen] = useState(false);
+  const [image, setImage] = useState<File | undefined>(undefined);
+
+  const [isValid, setIsValid] = useState(false);
 
   useEffect(() => {
     gtm.push({ event: 'page_view' });
   }, []);
 
-  const handleTabsChange = (event: ChangeEvent<{}>, value: string): void => {
-    setCurrentTab(value);
+  const selectFile = () => {
+    const fileElem = document.getElementById('avatar');
+    if (fileElem) {
+      fileElem.click();
+    }
   };
+
+  const handleNewImage = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size / 1024 > 800) {
+        alert('File too big');
+        return;
+      }
+
+      var _URL = window.URL || window.webkitURL;
+
+      const image = new Image();
+      image.src = _URL.createObjectURL(file);
+      image.onload = () => {
+        const height = image.naturalHeight;
+        const width = image.naturalWidth;
+
+        if (height < 200 || width < 200) {
+          alert('Dimension too small');
+          return;
+        } else {
+          setImage(file);
+          setOpen(true);
+        }
+      };
+    }
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      full_name: user.full_name,
+      current_password: '',
+      new_password: '',
+      new_password_confirmation: '',
+      submit: null,
+      success: false,
+    },
+    validationSchema: Yup.object({
+      full_name: Yup.string().min(3).max(255).required('Name is required'),
+      current_password: Yup.string().required('Password is required'),
+    }),
+    onSubmit: async (values, helpers): Promise<void> => {
+      try {
+        if (!isValid) return;
+
+        const result = await authApi.updateUser({
+          current_password: values.current_password,
+          new_password: values.new_password,
+          new_password_confirmation: values.new_password_confirmation,
+          full_name: values.full_name,
+        });
+
+        if (isMounted()) {
+          helpers.setStatus({ success: true });
+        }
+      } catch (err) {
+        console.error(err);
+
+        if (isMounted()) {
+          helpers.setStatus({ success: false });
+          helpers.setErrors({ submit: t(`error.${err.message}`) });
+          helpers.setSubmitting(false);
+        }
+      }
+    },
+  });
 
   return (
     <>
       <Head>
-        <title>Dashboard: Account | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
+        <title>Dashboard: My account | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
       <Box
         component="main"
@@ -43,27 +136,181 @@ const Account: NextPage = () => {
           py: 8,
         }}
       >
-        <Container maxWidth="md">
-          <Typography variant="h4">Account</Typography>
-          <Tabs
-            indicatorColor="primary"
-            onChange={handleTabsChange}
-            scrollButtons="auto"
-            textColor="primary"
-            value={currentTab}
-            variant="scrollable"
-            sx={{ mt: 3 }}
-          >
-            {tabs.map((tab) => (
-              <Tab key={tab.value} label={tab.label} value={tab.value} />
-            ))}
-          </Tabs>
-          <Divider sx={{ mb: 3 }} />
-          {currentTab === 'general' && <AccountGeneralSettings />}
-          {currentTab === 'billing' && <AccountBillingSettings />}
-          {currentTab === 'team' && <AccountTeamSettings />}
-          {currentTab === 'notifications' && <AccountNotificationsSettings />}
-          {currentTab === 'security' && <AccountSecuritySettings />}
+        <Collapse in={open && !formik.values.success}>
+          <Alert icon={false} severity="success">
+            {t('account.updateSuccess')}
+          </Alert>
+        </Collapse>
+        <Container>
+          <Typography variant="h6">Manage your account</Typography>
+          <Box sx={{ mt: 4, maxWidth: '690px' }}>
+            <Card>
+              <CardContent sx={{ p: 0 }}>
+                <Box sx={{ pl: 3, py: 2 }}>
+                  <Typography variant="overline" color="textSecondary">{`${t('account.photo')}`}</Typography>
+                </Box>
+                <Box
+                  sx={{
+                    px: 3,
+                    pt: 1,
+                    pb: 2,
+                    alignItems: 'center',
+                    display: 'flex',
+                  }}
+                >
+                  <Avatar
+                    src={user.profile_pic_url}
+                    sx={{
+                      height: 100,
+                      mr: 2,
+                      width: 100,
+                      bgcolor: '#BDBDBD',
+                    }}
+                  >
+                    <Typography variant="h4">
+                      {user.full_name.split(' ')[0][0]}
+                      {user.full_name.split(' ')[1][0]}
+                    </Typography>
+                  </Avatar>
+                  <Box>
+                    <input type="file" hidden id="avatar" onChange={handleNewImage} accept="image/jpeg,image/png" />
+                    <Button variant="contained" color="info" onClick={selectFile}>
+                      Upload photo
+                    </Button>
+                    <Typography variant="body2" color="textSecondary" sx={{ pt: 2 }}>
+                      Please upload JPG or PNG only
+                      <br />
+                      Maximum size of 800KB
+                      <br />
+                      Minimum dimension of 200 x 200px
+                    </Typography>
+                  </Box>
+                </Box>
+                <Divider />
+                <FormikProvider value={formik}>
+                  <form noValidate onSubmit={formik.handleSubmit}>
+                    <Box sx={{ pl: 3, py: 2 }}>
+                      <Typography variant="overline" color="textSecondary">{`${t('account.displayName')}`}</Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        px: 3,
+                        pb: 4,
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <TextField
+                        error={Boolean(formik.touched.full_name && formik.errors.full_name)}
+                        helperText={formik.touched.full_name && formik.errors.full_name}
+                        label={t('account.changeName')}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        value={formik.values.full_name}
+                        sx={{
+                          flexGrow: 1,
+                        }}
+                      />
+                    </Box>
+                    <Divider />
+                    <Box sx={{ pl: 3, py: 2 }}>
+                      <Typography variant="overline" color="textSecondary">{`${t(
+                        'account.updatePassword',
+                      )}`}</Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        px: 3,
+                        pb: 4,
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <TextField
+                        label={t('account.currentPassword')}
+                        sx={{
+                          flexGrow: 1,
+                        }}
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        px: 3,
+                        pb: 4,
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <TextField
+                        label={t('account.newPassword')}
+                        sx={{
+                          flexGrow: 1,
+                        }}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        value={formik.values.new_password}
+                      />
+                    </Box>
+                    {formik.touched.new_password && (
+                      <Box
+                        sx={{
+                          px: 3,
+                          pb: 4,
+                          display: 'flex',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <PasswordChecklist
+                          rules={['minLength', 'specialChar', 'number', 'capital', 'lowercase', 'match']}
+                          minLength={8}
+                          value={formik.values.new_password}
+                          valueAgain={formik.values.new_password_confirmation}
+                          onChange={(isValid) => setIsValid(isValid)}
+                        />
+                      </Box>
+                    )}
+                    <Box
+                      sx={{
+                        px: 3,
+                        pb: 4,
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <TextField
+                        label={t('account.passwordAgain')}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        value={formik.values.new_password_confirmation}
+                        sx={{
+                          flexGrow: 1,
+                        }}
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        px: 3,
+                        pb: 4,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'flex-end',
+                      }}
+                    >
+                      <LoadingButton loading={formik.isSubmitting} type="submit" variant="contained" color="info">
+                        {t('account.save')}
+                      </LoadingButton>
+                    </Box>
+                    {formik.errors.submit && (
+                      <Box sx={{ mt: 3 }}>
+                        <FormHelperText error>{formik.errors.submit}</FormHelperText>
+                      </Box>
+                    )}
+                  </form>
+                </FormikProvider>
+              </CardContent>
+            </Card>
+          </Box>
+          <AvatarEditorDialog open={open} image={image} handleClose={() => setOpen(false)} />
         </Container>
       </Box>
     </>
