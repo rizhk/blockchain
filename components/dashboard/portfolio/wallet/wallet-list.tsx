@@ -151,7 +151,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
 
   return (
     <Grid maxWidth="xl">
-      <Grid container sx={{ maxWidth: 816 }}>
+      <Grid container>
         <Grid item sx={{ mb: 2, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Typography variant="h6">
             {t('portfolio.walletList.myWallets')} ({walletsCount | 0})
@@ -168,9 +168,9 @@ export const WalletList: FC<WalletListProps> = (props) => {
         onClose={() => setCopied(false)}
         message={t('portfolio.walletList.copied')}
       />
-      <Card sx={{ maxWidth: 816 }}>
+      <Card>
         <Scrollbar>
-          <Table sx={{ maxWidth: 816 }}>
+          <Table>
             <TableHead>
               <TableRow>
                 <TableCell width="15%">{t('portfolio.walletList.type')}</TableCell>
