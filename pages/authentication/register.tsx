@@ -94,7 +94,7 @@ const Register: NextPage = () => {
         <title>Register | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
       <Box sx={{ backgroundColor: 'white' }}>
-        <Container maxWidth="xxl">
+        <Container maxWidth="xxl" sx={{ padding: { md: '0px 0px 0px 0px' } }}>
           <Grid component="main" container spacing={0} sx={{ minHeight: '100vh' }}>
             <Grid item xs={12} md={6}>
               <Box
@@ -103,8 +103,8 @@ const Register: NextPage = () => {
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'center',
-                  alignItems: 'center',
                   height: '100%',
+                  alignItems: { xs: 'center', md: 'flex-end' },
                 }}
                 px={12}
               >
