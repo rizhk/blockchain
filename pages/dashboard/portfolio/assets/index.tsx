@@ -1,4 +1,4 @@
-import { ChangeEvent, createRef, useEffect, useState } from 'react';
+import { ChangeEvent, createRef, useEffect, useMemo, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
@@ -37,11 +37,30 @@ import { primitivesUtils } from 'utils/primitives-utils';
 import { AssetsTable } from 'components/dashboard/portfolio/assets/assets-table';
 import { useWalletData } from 'hooks/use-wallet-data';
 import React from 'react';
+import { IAssetsFilters } from 'types/portfolio';
 
 const AssetsPage: NextPage = () => {
   const { t } = useTranslation();
 
   const { walletsData, getAllWalletsIsLoading } = useWalletData();
+
+  const [filter, setFilter] = React.useState<IAssetsFilters>();
+
+  const walletOption = useMemo(() => {
+    if (!walletsData?.wallet) return [];
+    return walletsData?.wallet.map((w) => {
+      return {
+        label: w.name,
+        value: w.id,
+      };
+    });
+  }, [JSON.stringify(walletsData?.wallet)]);
+
+  const handleChangeWallet = (value: any | undefined) => {
+    setFilter((preFilter) => {
+      return { ...preFilter, wallet: value };
+    });
+  };
 
   const {
     data,
@@ -53,9 +72,9 @@ const AssetsPage: NextPage = () => {
       {
         defaultErrorMessage: t('portfolio.assets.getAssetsError'),
       },
-      undefined,
+      filter,
     );
-  }, []);
+  }, [JSON.stringify(filter)]);
 
   useEffect(() => {
     gtm.push({ event: 'page_view' });
@@ -110,6 +129,38 @@ const AssetsPage: NextPage = () => {
           </Box>
         </Container>
       </Box>
+
+      <Card sx={{ mx: 4, mb: 3 }}>
+        <Box
+          sx={{
+            justifyContent: 'flex-end',
+            display: 'flex',
+            p: 2,
+          }}
+        >
+          <MultiSelect
+            label={t('common.options.allWallets')}
+            onChange={handleChangeWallet}
+            options={walletOption}
+            value={filter?.wallet}
+          />
+        </Box>
+        <DataDisplay
+          isLoading={getUserAssetsLoading || getAllWalletsIsLoading}
+          error={error}
+          defaultLoaderOptions={{ height: '80vh', width: '100%' }}
+        >
+          <AssetsTable
+            noWallet={walletsData?.noWallet}
+            assets={currentData}
+            count={count}
+            onPageChange={onPageChange}
+            onRowsPerPageChange={onRowsPerPageChange}
+            page={page}
+            rowsPerPage={rowsPerPage}
+          />
+        </DataDisplay>
+      </Card>
     </>
   );
 };

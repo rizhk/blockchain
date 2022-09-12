@@ -113,6 +113,17 @@ const typography: ExtendedTypographyOptions = {
   },
 };
 
+declare module '@mui/material/styles' {
+  interface BreakpointOverrides {
+    xs: true; // removes the `xs` breakpoint
+    sm: true;
+    md: true;
+    lg: true;
+    xl: true;
+    xxl: true;
+  }
+}
+
 export const baseThemeOptions: ThemeOptions = {
   breakpoints: {
     values: {
@@ -121,6 +132,7 @@ export const baseThemeOptions: ThemeOptions = {
       md: 1000,
       lg: 1200,
       xl: 1440,
+      xxl: 1920,
     },
   },
   components: {
@@ -145,6 +157,44 @@ export const baseThemeOptions: ThemeOptions = {
         },
       },
     },
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          color: '#fff',
+          borderRadius: '4px',
+          padding: '7px 7px 9px 16px',
+          background: 'rgba(25, 25, 25, 0.9)',
+          fontWeight: 400,
+          fontSize: '0.625rem',
+          marginLeft: '-30px',
+          lineHeight: '157%',
+        },
+        arrow: {
+          overflow: 'visible',
+          color: 'transparent',
+          transform: 'rotate(-0deg) skewX(- 30deg) scale(1,.866)',
+          background: 'rgba(25, 25, 25, 0.9)',
+          width: '1em',
+          height: '1em',
+          '&::before': {
+            content: '" "',
+            width: '1em',
+            height: '1em',
+            borderTopRightRadius: '20%',
+            transform: 'rotate(-135deg) skewX(-45deg) scale(1.414,.707) translate(0,-50%)',
+            background: 'rgba(25, 25, 25, 0.9)',
+          },
+          '&::after': {
+            content: '" "',
+            width: '1em',
+            height: '1em',
+            borderTopRightRadius: '20%',
+            transform: 'rotate(135deg) skewY(-45deg) scale(.707,1.414) translate(50%)',
+            background: 'rgba(25, 25, 25, 0.9)',
+          },
+        },
+      },
+    },
     MuiButton: {
       defaultProps: {
         disableElevation: true,
@@ -152,6 +202,9 @@ export const baseThemeOptions: ThemeOptions = {
       styleOverrides: {
         root: {
           textTransform: 'none',
+          '&.tabs:hover': {
+            backgroundColor: 'transparent',
+          },
         },
         sizeSmall: {
           padding: '6px 16px',

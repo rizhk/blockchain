@@ -9,6 +9,7 @@ export const en = {
     common: {
       notAvailable: 'N/A',
       options: {
+        allWallets: 'All Wallets',
         time: 'All time',
         last30d: 'Last 30 days',
         last90d: 'Last 90 days',
@@ -62,6 +63,7 @@ export const en = {
         viewAllAssets: 'View all assets',
         addWallet: 'Add wallet',
         myWallets: 'MY WALLETS',
+        getWalletActivitiesError: 'Failed to get wallet activities',
         getRecentTransactionError: 'Failed to get recent transactions',
         getMyWalletsError: 'Failed to get my wallets',
         getAssetsError: 'Failed to get assets',
@@ -82,6 +84,8 @@ export const en = {
         fetchingLatestData: 'Fetching latest data',
         getNetWorthError: 'Failed to get wallet net worth',
         walletActivities: 'Wallet activities',
+        trends: 'Trends',
+        noTrendsCtaText: 'Connect a wallet to begin seeing data.',
       },
       transHis: {
         head: 'Transaction History',
@@ -138,6 +142,7 @@ export const en = {
           'The latest data is being fetched from the blockchain. You will be notified when your data has been updated.',
         connectWalletToSeeTxn: 'Connect a wallet to begin seeing your transactions.',
         connectedWithNoTransaction: `Your wallet doesn't seem to have any transactions. Please add another wallet.`,
+        noTransactionFound: `There are no results based on your filters, please try to broaden your search by selecting different filters.`,
         connectedLoadingTransaction:
           'You data is being loaded, this may take a few minutes. Please check back again later.',
         search: 'Search by wallet address or note',

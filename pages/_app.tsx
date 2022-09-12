@@ -27,6 +27,7 @@ import { createEmotionCache } from '../utils/create-emotion-cache';
 import { hotjar } from 'react-hotjar';
 import '../i18n/i18n';
 import 'styles/globals.scss';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 type EnhancedAppProps = AppProps & {
   Component: NextPage;
@@ -52,6 +53,8 @@ const App: FC<EnhancedAppProps> = (props) => {
     }
   }, []);
 
+  const queryClient = new QueryClient();
+
   return (
     <CacheProvider value={emotionCache}>
       <Head>
@@ -59,32 +62,34 @@ const App: FC<EnhancedAppProps> = (props) => {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <ReduxProvider store={store}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <AuthProvider>
-            <SettingsProvider>
-              <SettingsConsumer>
-                {({ settings }) => (
-                  <ThemeProvider
-                    theme={createTheme({
-                      direction: settings.direction,
-                      responsiveFontSizes: settings.responsiveFontSizes,
-                      mode: settings.theme,
-                    })}
-                  >
-                    <RTL direction={settings.direction}>
-                      <CssBaseline />
-                      <Toaster position="top-center" />
-                      {/* <SettingsButton /> */}
-                      <AuthConsumer>
-                        {(auth) => (!auth.isInitialized ? <SplashScreen /> : getLayout(<Component {...pageProps} />))}
-                      </AuthConsumer>
-                    </RTL>
-                  </ThemeProvider>
-                )}
-              </SettingsConsumer>
-            </SettingsProvider>
-          </AuthProvider>
-        </LocalizationProvider>
+        <QueryClientProvider client={queryClient}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <AuthProvider>
+              <SettingsProvider>
+                <SettingsConsumer>
+                  {({ settings }) => (
+                    <ThemeProvider
+                      theme={createTheme({
+                        direction: settings.direction,
+                        responsiveFontSizes: settings.responsiveFontSizes,
+                        mode: settings.theme,
+                      })}
+                    >
+                      <RTL direction={settings.direction}>
+                        <CssBaseline />
+                        <Toaster position="top-center" />
+                        {/* <SettingsButton /> */}
+                        <AuthConsumer>
+                          {(auth) => (!auth.isInitialized ? <SplashScreen /> : getLayout(<Component {...pageProps} />))}
+                        </AuthConsumer>
+                      </RTL>
+                    </ThemeProvider>
+                  )}
+                </SettingsConsumer>
+              </SettingsProvider>
+            </AuthProvider>
+          </LocalizationProvider>
+        </QueryClientProvider>
       </ReduxProvider>
     </CacheProvider>
   );

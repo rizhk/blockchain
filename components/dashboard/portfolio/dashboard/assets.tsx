@@ -78,52 +78,56 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
 
   const theme = useTheme();
 
-  const chartBaseColors = [
-    alpha(theme.palette.primary.main, 1),
-    alpha(theme.palette.primary.dark, 1),
-    alpha('#828DF8', 1),
-    alpha('#B9BDDF', 1),
-    alpha(theme.palette.primary.main, 0.8),
-    alpha(theme.palette.primary.dark, 0.8),
-    alpha('#828DF8', 0.8),
-    alpha('#B9BDDF', 0.8),
-    alpha(theme.palette.primary.main, 0.6),
-    alpha(theme.palette.primary.dark, 0.6),
-    alpha('#828DF8', 0.6),
-    alpha('#B9BDDF', 0.6),
-    alpha(theme.palette.primary.main, 0.4),
-    alpha(theme.palette.primary.dark, 0.4),
-    alpha('#828DF8', 0.4),
-    alpha('#B9BDDF', 0.4),
-    alpha(theme.palette.primary.main, 0.2),
-    alpha(theme.palette.primary.dark, 0.2),
-    alpha('#828DF8', 0.2),
-    alpha('#B9BDDF', 0.2),
-    alpha(theme.palette.secondary.main, 1),
-    alpha(theme.palette.secondary.dark, 1),
-    alpha(theme.palette.secondary.main, 0.9),
-    alpha(theme.palette.secondary.dark, 0.9),
-    alpha(theme.palette.secondary.main, 0.8),
-    alpha(theme.palette.secondary.dark, 0.8),
-    alpha(theme.palette.secondary.main, 0.7),
-    alpha(theme.palette.secondary.dark, 0.7),
-    alpha(theme.palette.secondary.main, 0.6),
-    alpha(theme.palette.secondary.dark, 0.6),
-    alpha(theme.palette.secondary.main, 0.5),
-    alpha(theme.palette.secondary.dark, 0.5),
-    alpha(theme.palette.secondary.main, 0.4),
-    alpha(theme.palette.secondary.dark, 0.4),
-    alpha(theme.palette.secondary.main, 0.3),
-    alpha(theme.palette.secondary.dark, 0.3),
-    alpha(theme.palette.secondary.main, 0.2),
-    alpha(theme.palette.secondary.dark, 0.2),
-    alpha(theme.palette.secondary.main, 0.1),
-    alpha(theme.palette.secondary.dark, 0.1),
-  ];
+  const getColorByIndex = (index: number): string => {
+    const randomColor = primitivesUtils.generateRgba();
+    const chartBaseColors = [
+      alpha(theme.palette.primary.main, 1),
+      alpha(theme.palette.primary.dark, 1),
+      alpha('#828DF8', 1),
+      alpha('#B9BDDF', 1),
+      alpha(theme.palette.primary.main, 0.8),
+      alpha(theme.palette.primary.dark, 0.8),
+      alpha('#828DF8', 0.8),
+      alpha('#B9BDDF', 0.8),
+      alpha(theme.palette.primary.main, 0.6),
+      alpha(theme.palette.primary.dark, 0.6),
+      alpha('#828DF8', 0.6),
+      alpha('#B9BDDF', 0.6),
+      alpha(theme.palette.primary.main, 0.4),
+      alpha(theme.palette.primary.dark, 0.4),
+      alpha('#828DF8', 0.4),
+      alpha('#B9BDDF', 0.4),
+      alpha(theme.palette.primary.main, 0.2),
+      alpha(theme.palette.primary.dark, 0.2),
+      alpha('#828DF8', 0.2),
+      alpha('#B9BDDF', 0.2),
+      alpha(theme.palette.secondary.main, 1),
+      alpha(theme.palette.secondary.dark, 1),
+      alpha(theme.palette.secondary.main, 0.9),
+      alpha(theme.palette.secondary.dark, 0.9),
+      alpha(theme.palette.secondary.main, 0.8),
+      alpha(theme.palette.secondary.dark, 0.8),
+      alpha(theme.palette.secondary.main, 0.7),
+      alpha(theme.palette.secondary.dark, 0.7),
+      alpha(theme.palette.secondary.main, 0.6),
+      alpha(theme.palette.secondary.dark, 0.6),
+      alpha(theme.palette.secondary.main, 0.5),
+      alpha(theme.palette.secondary.dark, 0.5),
+      alpha(theme.palette.secondary.main, 0.4),
+      alpha(theme.palette.secondary.dark, 0.4),
+      alpha(theme.palette.secondary.main, 0.3),
+      alpha(theme.palette.secondary.dark, 0.3),
+      alpha(theme.palette.secondary.main, 0.2),
+      alpha(theme.palette.secondary.dark, 0.2),
+      alpha(theme.palette.secondary.main, 0.1),
+      alpha(theme.palette.secondary.dark, 0.1),
+    ];
+    return chartBaseColors[index] ?? randomColor;
+  };
 
   const chartDataSeries = (data?.items || []).map(({ name, balance, fiat_value, fiat_currency, symbol }, index) => {
     return {
-      color: chartBaseColors[index],
+      color: getColorByIndex(index),
       data: fiat_value,
       name,
       symbol: symbol + ' ' + primitivesUtils.convertFiatAmountDisplay(balance),
@@ -249,7 +253,7 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
                               sx={{ borderTop: '1px solid #E6E8F0', py: 2 }}
                             >
                               <Grid container item flex="1 1 45%" alignItems="center">
-                                <Grid item component={Dot} sx={{ color: [chartBaseColors[index]] }} />
+                                <Grid item component={Dot} sx={{ color: getColorByIndex[index] }} />
                                 <Grid
                                   item
                                   component={() => {

@@ -141,3 +141,41 @@ export interface IExportTransactionFilters {
   start_date?: Date | undefined;
   end_date?: Date | undefined;
 }
+
+export interface TooltipDataPoint {
+  strokeLinecap?: string;
+  strokeWidth: number;
+  style?: TooltipDataPointStyle;
+  stroke: string;
+  fill: string;
+  points: any[];
+  dataKey: string;
+  name: string;
+  color: string;
+  value: number;
+  payload: Trend;
+  fillOpacity?: number;
+}
+
+export interface TooltipDataPointStyle {
+  strokeDasharray: string;
+}
+
+export interface Trend {
+  fiat_amount: number;
+  fiat_currency: string;
+  date: string;
+  UpdatedAt: string;
+}
+export interface TrendChartData {
+  fiat_amount: number;
+  fiat_currency: string;
+  date: Date;
+  day: string;
+  month: string;
+  year: string;
+  UpdatedAt: string;
+}
+export interface GetTrendsResponse extends BaseApiResponse {
+  items: Trend[];
+}

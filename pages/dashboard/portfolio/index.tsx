@@ -22,6 +22,7 @@ import { primitivesUtils } from 'utils/primitives-utils';
 import { useWalletData } from 'hooks/use-wallet-data';
 import { WalletSync } from 'components/dashboard/portfolio/wallet/wallet-sync';
 import { WalletActivities } from 'components/dashboard/portfolio/dashboard/wallet-activities';
+import { Trends } from 'components/dashboard/portfolio/dashboard/trends';
 
 const Portfolio: NextPage = () => {
   const isMounted = useMounted();
@@ -89,6 +90,13 @@ const Portfolio: NextPage = () => {
           <Grid container spacing={3} flexWrap="nowrap">
             <Grid container item flexDirection="column" flex="1 1 65%">
               <WalletActivities
+                updatedSince={updatedSince}
+                loading={getAllWalletsIsLoading}
+                noWallet={walletsData?.noWallet}
+                wallets={walletsData?.wallet}
+              />
+              <Box sx={{ mb: 6 }}></Box>
+              <Trends
                 updatedSince={updatedSince}
                 loading={getAllWalletsIsLoading}
                 noWallet={walletsData?.noWallet}

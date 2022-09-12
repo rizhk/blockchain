@@ -152,7 +152,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
           {!noWallet && count === 0 && (walletSyncStatus.isCompleted || walletSyncStatus.isNotTriggered) && (
             <TableRow>
               <TableCell colSpan={10} height="400px">
-                <Typography align="center">{t('portfolio.transHis.connectedWithNoTransaction')}</Typography>
+                <Typography align="center">{t('portfolio.transHis.noTransactionFound')}</Typography>
               </TableCell>
             </TableRow>
           )}
