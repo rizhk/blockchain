@@ -76,36 +76,40 @@ const AssetsPage: NextPage = () => {
       <Box
         component="main"
         sx={{
-          py: 10,
+          py: 6,
         }}
       >
         <Container maxWidth="xl">
-          <Grid container justifyContent="space-between" spacing={3} flexWrap="nowrap">
-            <Grid item minWidth="fit-content">
-              <Typography variant="h6" className="pageTitle">
-                {t('portfolio.assets.head')}
-              </Typography>
+          <Box sx={{ mb: 2 }}>
+            <Grid container justifyContent="space-between" spacing={3} flexWrap="nowrap">
+              <Grid item minWidth="fit-content">
+                <Typography variant="h6" className="pageTitle">
+                  {t('portfolio.assets.head')}
+                </Typography>
+              </Grid>
             </Grid>
-          </Grid>
+          </Box>
+          <Box sx={{ pt: 3 }}>
+            <Card sx={{ mx: 0 }}>
+              <DataDisplay
+                isLoading={getUserAssetsLoading || getAllWalletsIsLoading}
+                error={error}
+                defaultLoaderOptions={{ height: '80vh', width: '100%' }}
+              >
+                <AssetsTable
+                  noWallet={walletsData?.noWallet}
+                  assets={currentData}
+                  count={count}
+                  onPageChange={onPageChange}
+                  onRowsPerPageChange={onRowsPerPageChange}
+                  page={page}
+                  rowsPerPage={rowsPerPage}
+                />
+              </DataDisplay>
+            </Card>
+          </Box>
         </Container>
       </Box>
-      <Card sx={{ mx: 3 }}>
-        <DataDisplay
-          isLoading={getUserAssetsLoading || getAllWalletsIsLoading}
-          error={error}
-          defaultLoaderOptions={{ height: '80vh', width: '100%' }}
-        >
-          <AssetsTable
-            noWallet={walletsData?.noWallet}
-            assets={currentData}
-            count={count}
-            onPageChange={onPageChange}
-            onRowsPerPageChange={onRowsPerPageChange}
-            page={page}
-            rowsPerPage={rowsPerPage}
-          />
-        </DataDisplay>
-      </Card>
     </>
   );
 };
