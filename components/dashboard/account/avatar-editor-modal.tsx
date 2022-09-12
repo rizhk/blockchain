@@ -101,7 +101,7 @@ export const AvatarEditorDialog: React.FC = (props: any) => {
           }
         } catch (e) {
           console.log(e);
-          alert(t(`error.${e}`));
+          alert(t(`error.${e.message}`));
         }
       }
     }, 'image/png');
