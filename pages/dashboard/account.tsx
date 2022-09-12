@@ -3,13 +3,16 @@ import type { ChangeEvent } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import {
+  Alert,
   Avatar,
   Box,
   Button,
   Card,
   CardContent,
+  Collapse,
   Container,
   Divider,
+  FormHelperText,
   Grid,
   Switch,
   Tab,
@@ -24,13 +27,25 @@ import { useAuth } from 'hooks/use-auth';
 import { UserCircle as UserCircleIcon } from '../../icons/user-circle';
 import { useTranslation } from 'react-i18next';
 import { AvatarEditorDialog } from '../../components/dashboard/account/avatar-editor-modal';
+import { FormikProvider, useFormik } from 'formik';
+import { useMounted } from 'hooks/use-mounted';
+import * as Yup from 'yup';
+import { LoadingButton } from '@mui/lab';
+import dynamic from 'next/dynamic';
+import { authApi } from 'api/auth-api';
+const PasswordChecklist = dynamic(() => import('react-password-checklist'), {
+  ssr: false,
+});
 
 const Account: NextPage = () => {
   const { user } = useAuth();
   const { t } = useTranslation();
+  const isMounted = useMounted();
 
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState<File | undefined>(undefined);
+
+  const [isValid, setIsValid] = useState(false);
 
   useEffect(() => {
     gtm.push({ event: 'page_view' });
@@ -70,6 +85,45 @@ const Account: NextPage = () => {
     }
   };
 
+  const formik = useFormik({
+    initialValues: {
+      full_name: user.full_name,
+      current_password: '',
+      new_password: '',
+      new_password_confirmation: '',
+      submit: null,
+      success: false,
+    },
+    validationSchema: Yup.object({
+      full_name: Yup.string().min(3).max(255).required('Name is required'),
+      current_password: Yup.string().required('Password is required'),
+    }),
+    onSubmit: async (values, helpers): Promise<void> => {
+      try {
+        if (!isValid) return;
+
+        const result = await authApi.updateUser({
+          current_password: values.current_password,
+          new_password: values.new_password,
+          new_password_confirmation: values.new_password_confirmation,
+          full_name: values.full_name,
+        });
+
+        if (isMounted()) {
+          helpers.setStatus({ success: true });
+        }
+      } catch (err) {
+        console.error(err);
+
+        if (isMounted()) {
+          helpers.setStatus({ success: false });
+          helpers.setErrors({ submit: t(`error.${err.message}`) });
+          helpers.setSubmitting(false);
+        }
+      }
+    },
+  });
+
   return (
     <>
       <Head>
@@ -82,6 +136,11 @@ const Account: NextPage = () => {
           py: 8,
         }}
       >
+        <Collapse in={open && !formik.values.success}>
+          <Alert icon={false} severity="success">
+            {t('account.updateSuccess')}
+          </Alert>
+        </Collapse>
         <Container>
           <Typography variant="h6">Manage your account</Typography>
           <Box sx={{ mt: 4, maxWidth: '690px' }}>
@@ -128,87 +187,126 @@ const Account: NextPage = () => {
                   </Box>
                 </Box>
                 <Divider />
-                <Box sx={{ pl: 3, py: 2 }}>
-                  <Typography variant="overline" color="textSecondary">{`${t('account.displayName')}`}</Typography>
-                </Box>
-                <Box
-                  sx={{
-                    px: 3,
-                    pb: 4,
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  <TextField
-                    defaultValue={user.full_name}
-                    label={t('account.changeName')}
-                    sx={{
-                      flexGrow: 1,
-                    }}
-                  />
-                </Box>
-                <Divider />
-                <Box sx={{ pl: 3, py: 2 }}>
-                  <Typography variant="overline" color="textSecondary">{`${t('account.updatePassword')}`}</Typography>
-                </Box>
-                <Box
-                  sx={{
-                    px: 3,
-                    pb: 4,
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  <TextField
-                    label={t('account.currentPassword')}
-                    sx={{
-                      flexGrow: 1,
-                    }}
-                  />
-                </Box>
-                <Box
-                  sx={{
-                    px: 3,
-                    pb: 4,
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  <TextField
-                    label={t('account.newPassword')}
-                    sx={{
-                      flexGrow: 1,
-                    }}
-                  />
-                </Box>
-                <Box
-                  sx={{
-                    px: 3,
-                    pb: 4,
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  <TextField
-                    label={t('account.passwordAgain')}
-                    sx={{
-                      flexGrow: 1,
-                    }}
-                  />
-                </Box>
-                <Box
-                  sx={{
-                    px: 3,
-                    pb: 4,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-end',
-                  }}
-                >
-                  <Button variant="contained" color="info">
-                    {t('account.save')}
-                  </Button>
-                </Box>
+                <FormikProvider value={formik}>
+                  <form noValidate onSubmit={formik.handleSubmit}>
+                    <Box sx={{ pl: 3, py: 2 }}>
+                      <Typography variant="overline" color="textSecondary">{`${t('account.displayName')}`}</Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        px: 3,
+                        pb: 4,
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <TextField
+                        error={Boolean(formik.touched.full_name && formik.errors.full_name)}
+                        helperText={formik.touched.full_name && formik.errors.full_name}
+                        label={t('account.changeName')}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        value={formik.values.full_name}
+                        sx={{
+                          flexGrow: 1,
+                        }}
+                      />
+                    </Box>
+                    <Divider />
+                    <Box sx={{ pl: 3, py: 2 }}>
+                      <Typography variant="overline" color="textSecondary">{`${t(
+                        'account.updatePassword',
+                      )}`}</Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        px: 3,
+                        pb: 4,
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <TextField
+                        label={t('account.currentPassword')}
+                        sx={{
+                          flexGrow: 1,
+                        }}
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        px: 3,
+                        pb: 4,
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <TextField
+                        label={t('account.newPassword')}
+                        sx={{
+                          flexGrow: 1,
+                        }}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        value={formik.values.new_password}
+                      />
+                    </Box>
+                    {formik.touched.new_password && (
+                      <Box
+                        sx={{
+                          px: 3,
+                          pb: 4,
+                          display: 'flex',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <PasswordChecklist
+                          rules={['minLength', 'specialChar', 'number', 'capital', 'lowercase', 'match']}
+                          minLength={8}
+                          value={formik.values.new_password}
+                          valueAgain={formik.values.new_password_confirmation}
+                          onChange={(isValid) => setIsValid(isValid)}
+                        />
+                      </Box>
+                    )}
+                    <Box
+                      sx={{
+                        px: 3,
+                        pb: 4,
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <TextField
+                        label={t('account.passwordAgain')}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        value={formik.values.new_password_confirmation}
+                        sx={{
+                          flexGrow: 1,
+                        }}
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        px: 3,
+                        pb: 4,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'flex-end',
+                      }}
+                    >
+                      <LoadingButton loading={formik.isSubmitting} type="submit" variant="contained" color="info">
+                        {t('account.save')}
+                      </LoadingButton>
+                    </Box>
+                    {formik.errors.submit && (
+                      <Box sx={{ mt: 3 }}>
+                        <FormHelperText error>{formik.errors.submit}</FormHelperText>
+                      </Box>
+                    )}
+                  </form>
+                </FormikProvider>
               </CardContent>
             </Card>
           </Box>
