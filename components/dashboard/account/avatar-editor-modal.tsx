@@ -75,15 +75,19 @@ export const AvatarEditorDialog: React.FC = (props: any) => {
     setScale(parseFloat(e.target.value));
   };
 
-  const rotateLeft: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.preventDefault();
-    setRotate((rotate - 90) % 360);
+  const handleRotation = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRotate(parseFloat(e.target.value));
   };
 
-  const rotateRight: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.preventDefault();
-    setRotate((rotate + 90) % 360);
-  };
+  // const rotateLeft: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+  //   e.preventDefault();
+  //   setRotate((rotate - 90) % 360);
+  // };
+
+  // const rotateRight: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+  //   e.preventDefault();
+  //   setRotate((rotate + 90) % 360);
+  // };
 
   const handleUpload = () => {
     (editor.current?.getImage() as HTMLCanvasElement).toBlob(async (blob) => {
@@ -121,11 +125,10 @@ export const AvatarEditorDialog: React.FC = (props: any) => {
         />
         <br />
         Zoom:
-        <input name="scale" type="range" onChange={handleScale} min={1} max="2" step="0.01" defaultValue="1" />
+        <input name="scale" type="range" onChange={handleScale} min={1} max={2} step="0.01" defaultValue="1" />
         <br />
-        Rotate:
-        <button onClick={rotateLeft}>Left</button>
-        <button onClick={rotateRight}>Right</button>
+        Rotation:
+        <input name="rotation" type="range" onChange={handleRotation} min={-180} max={180} step="1" defaultValue="0" />
         <br />
       </DialogContent>
       <DialogActions>
