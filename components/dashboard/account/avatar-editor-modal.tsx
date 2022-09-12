@@ -61,9 +61,7 @@ const BootstrapDialogTitle = (props: DialogTitleProps) => {
   );
 };
 
-export const AvatarEditorDialog: React.FC = (
-  props: JSX.IntrinsicAttributes & React.ClassAttributes<HTMLFormElement> & React.FormHTMLAttributes<HTMLFormElement>,
-) => {
+export const AvatarEditorDialog: React.FC = (props: any) => {
   const { t } = useTranslation();
 
   const [scale, setScale] = useState(1);
@@ -93,11 +91,13 @@ export const AvatarEditorDialog: React.FC = (
         try {
           const result = await accountApi.uploadAvatar(blob, { defaultErrorMessage: 'fail to upload' });
           if (!result.error) {
+            alert('You have successfully updated your profile photo');
             await updateUser();
+            props.handleClose();
           }
         } catch (e) {
           console.log(e);
-          alert(e);
+          alert(t(`error.${e}`));
         }
       }
     }, 'image/png');

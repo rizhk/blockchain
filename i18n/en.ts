@@ -1,5 +1,9 @@
 export const en = {
   translation: {
+    error: {
+      ERROR_FORMAT_IS_NOT_ACCEPT_EITHER_JPG_OR_PNG: 'Please upload JPG or PNG only.',
+      ERROR_FILE_SIZE_TOO_LARGE: 'Maximum size of 800KB',
+    },
     components: {
       multiSelect: {
         selectAll: 'Select All',
