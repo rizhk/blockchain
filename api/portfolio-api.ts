@@ -4,6 +4,7 @@ import { AttachmentApiResponse, BaseApiResponse } from 'types/response';
 import {
   AssetsResponse,
   CreateUserTagResponse,
+  GetTrendsResponse,
   GetUserTagsResponse,
   GetWalletActivitiesResponse,
   GetWalletSyncStatusResponse,
@@ -273,6 +274,23 @@ class PortfolioApi extends BaseApi {
       throw new Error(options.defaultErrorMessage);
     });
     var data = await this.handleFetchResponse<GetWalletActivitiesResponse>(result, {
+      ...options,
+    });
+    return data;
+  }
+  async getTrends(options: { defaultErrorMessage: string }): Promise<GetTrendsResponse> {
+    const accessToken = globalThis.localStorage.getItem('accessToken') || '';
+
+    var result = await fetch(PortfolioApiEndPoints.GetWalletTrends, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authentication: accessToken,
+      },
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
+    });
+    var data = await this.handleFetchResponse<GetTrendsResponse>(result, {
       ...options,
     });
     return data;
