@@ -54,13 +54,16 @@ export const AccountPopover: FC<AccountPopoverProps> = (props) => {
         }}
       >
         <Avatar
-          src={user && user.avatar}
+          src={user && user.profile_pic_url}
           sx={{
             height: 40,
             width: 40,
           }}
         >
-          <UserCircleIcon fontSize="small" />
+          <Typography variant="h4">
+            {user.full_name.split(' ')[0][0]}
+            {user.full_name.split(' ')[1][0]}
+          </Typography>
         </Avatar>
         <Box
           sx={{
