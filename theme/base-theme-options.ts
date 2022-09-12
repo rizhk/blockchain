@@ -136,6 +136,18 @@ export const baseThemeOptions: ThemeOptions = {
     },
   },
   components: {
+    MuiTypography: {
+      styleOverrides: {
+        h6: {
+          '&.pageTitle': {
+            fontWeight: '500',
+            fontStyle: 'normal',
+            lineHeight: '137.5%',
+            fontSize: '1.125rem',
+          },
+        },
+      },
+    },
     MuiAvatar: {
       styleOverrides: {
         root: {

@@ -57,35 +57,36 @@ const Portfolio: NextPage = () => {
       <Box
         component="main"
         sx={{
-          flexGrow: 1,
           py: 6,
         }}
       >
         <Container maxWidth="xl">
-          <Grid container justifyContent="space-between" spacing={3} flexWrap="nowrap">
-            <Grid item minWidth="fit-content">
-              <Typography variant="h6">
-                {t('portfolio.dashboard.portfolioNetWorth')}
-                {primitivesUtils.convertFiatAmountDisplay(walletsData?.networth || 0)}
-              </Typography>
+          <Box sx={{ mb: 2 }}>
+            <Grid container justifyContent="space-between" spacing={3} flexWrap="nowrap">
+              <Grid item minWidth="fit-content">
+                <Typography variant="h6" className="pageTitle">
+                  {t('portfolio.dashboard.portfolioNetWorth')}
+                  {primitivesUtils.convertFiatAmountDisplay(walletsData?.networth || 0)}
+                </Typography>
+              </Grid>
+              <Grid
+                containerProps={{ flexBasis: 'fit-content' }}
+                container
+                item
+                justifyContent="flex-end"
+                component={WalletSync}
+                walletSyncStatus={walletSyncStatus}
+                walletsData={walletsData}
+                requestWalletSync={requestWalletSync}
+                getWalletSyncStatusData={getWalletSyncStatusData}
+                getWalletSyncStatusIsLoading={getWalletSyncStatusIsLoading}
+                requestWalletSyncIsLoading={requestWalletSyncIsLoading}
+                updatedSince={updatedSince}
+                requestWalletSyncError={requestWalletSyncError}
+                getWalletSyncStatusError={getWalletSyncStatusError}
+              />
             </Grid>
-            <Grid
-              containerProps={{ flexBasis: 'fit-content' }}
-              container
-              item
-              justifyContent="flex-end"
-              component={WalletSync}
-              walletSyncStatus={walletSyncStatus}
-              walletsData={walletsData}
-              requestWalletSync={requestWalletSync}
-              getWalletSyncStatusData={getWalletSyncStatusData}
-              getWalletSyncStatusIsLoading={getWalletSyncStatusIsLoading}
-              requestWalletSyncIsLoading={requestWalletSyncIsLoading}
-              updatedSince={updatedSince}
-              requestWalletSyncError={requestWalletSyncError}
-              getWalletSyncStatusError={getWalletSyncStatusError}
-            />
-          </Grid>
+          </Box>
           <Grid container spacing={3} flexWrap="nowrap">
             <Grid container item flexDirection="column" flex="1 1 65%">
               <WalletActivities

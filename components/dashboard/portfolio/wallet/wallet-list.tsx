@@ -151,110 +151,122 @@ export const WalletList: FC<WalletListProps> = (props) => {
 
   return (
     <Grid maxWidth="xl">
-      <Grid container>
-        <Grid item sx={{ mb: 2, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Typography variant="h6">
-            {t('portfolio.walletList.myWallets')} ({walletsCount | 0})
-          </Typography>
-          <Button color="info" variant="contained" onClick={handleAddClick}>
-            {t('portfolio.walletList.add')}
-          </Button>
+      <Box sx={{ mb: 1 }}>
+        <Grid container justifyContent="space-between" flexWrap="nowrap">
+          <Grid
+            item
+            minWidth="fit-content"
+            sx={{ mb: 1, pt: 2, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+          >
+            <Typography variant="h6" className="pageTitle">
+              {t('portfolio.walletList.myWallets')} ({walletsCount | 0})
+            </Typography>
+            <Button color="info" variant="contained" onClick={handleAddClick}>
+              {t('portfolio.walletList.add')}
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        open={copied}
-        autoHideDuration={2000}
-        onClose={() => setCopied(false)}
-        message={t('portfolio.walletList.copied')}
-      />
-      <Card>
-        <Scrollbar>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell width="15%">{t('portfolio.walletList.type')}</TableCell>
-                <TableCell width="30%">{t('portfolio.walletList.nickname')}</TableCell>
-                <TableCell width="22%">{t('portfolio.walletList.address')}</TableCell>
-                <TableCell width="23%" align="center">
-                  {t('portfolio.walletList.netWorth')}
-                </TableCell>
-                <TableCell width="10%" align="right"></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {walletsCount === 0 && (
-                <TableRow>
-                  <TableCell colSpan={5}>
-                    <Typography align="center">{t('portfolio.walletList.connectWalletToStart')}</Typography>
-                  </TableCell>
-                </TableRow>
-              )}
-              {wallets?.map((wallet) => {
-                return (
-                  <Fragment key={wallet.id}>
-                    <TableRow hover key={wallet.id}>
-                      <TableCell>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Image src={`/static/crypto/color/${wallet.icon_tag}.svg`} height="30" width="30" />{' '}
-                          <Typography sx={{ pl: 1 }}>{wallet.type}</Typography>
-                        </Box>
-                      </TableCell>
-                      <TableCell>
-                        <Typography>{wallet.name}</Typography>
-                      </TableCell>
-                      <TableCell>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Typography sx={{ pr: 0.5, minWidth: '120px' }}>
-                            {primitivesUtils.getShortTxnId(wallet.address)}
-                          </Typography>
-                          <Button
-                            onClick={() => {
-                              navigator.clipboard.writeText(wallet.address);
-                              setCopied(true);
-                            }}
-                            sx={{ p: 0.5, minWidth: '48px' }}
-                          >
-                            <ContentCopyIcon />
-                          </Button>
-                        </Box>
-                      </TableCell>
-                      <TableCell align="right">{primitivesUtils.convertFiatAmountDisplay(wallet.fiat_value)}</TableCell>
-                      <TableCell align="right">
-                        <MoreMenu
-                          onDelete={async () => {
-                            const success = await walletApi.remove(wallet.id);
 
-                            if (success) {
-                              const NewWallets = wallets.filter((item) => item.id !== wallet.id);
-                              props.parentCallback(NewWallets, ListAction.DELETE);
-                            }
-                          }}
-                          onEdit={() => handleEditClick(wallet)}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  </Fragment>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </Scrollbar>
-        <TablePagination
-          component="div"
-          count={wallets?.length | 0}
-          onPageChange={(): void => {}}
-          onRowsPerPageChange={(): void => {}}
-          page={0}
-          rowsPerPage={10}
-          rowsPerPageOptions={[5, 10, 25]}
+        <Snackbar
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          open={copied}
+          autoHideDuration={2000}
+          onClose={() => setCopied(false)}
+          message={t('portfolio.walletList.copied')}
         />
-      </Card>
-      <AddWalletDialog
-        open={addOpen}
-        handleClose={handleAddClose}
-        parentCallback={(wallet: Wallet[]) => props.parentCallback(wallet, ListAction.ADD)}
-      />
+      </Box>
+      <Box sx={{ pt: 2 }}>
+        <Card>
+          <Scrollbar>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell width="15%">{t('portfolio.walletList.type')}</TableCell>
+                  <TableCell width="30%">{t('portfolio.walletList.nickname')}</TableCell>
+                  <TableCell width="22%">{t('portfolio.walletList.address')}</TableCell>
+                  <TableCell width="23%" align="center">
+                    {t('portfolio.walletList.netWorth')}
+                  </TableCell>
+                  <TableCell width="10%" align="right"></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {walletsCount === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={5}>
+                      <Typography align="center">{t('portfolio.walletList.connectWalletToStart')}</Typography>
+                    </TableCell>
+                  </TableRow>
+                )}
+                {wallets?.map((wallet) => {
+                  return (
+                    <Fragment key={wallet.id}>
+                      <TableRow hover key={wallet.id}>
+                        <TableCell>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Image src={`/static/crypto/color/${wallet.icon_tag}.svg`} height="30" width="30" />{' '}
+                            <Typography sx={{ pl: 1 }}>{wallet.type}</Typography>
+                          </Box>
+                        </TableCell>
+                        <TableCell>
+                          <Typography>{wallet.name}</Typography>
+                        </TableCell>
+                        <TableCell>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Typography sx={{ pr: 0.5, minWidth: '120px' }}>
+                              {primitivesUtils.getShortTxnId(wallet.address)}
+                            </Typography>
+                            <Button
+                              onClick={() => {
+                                navigator.clipboard.writeText(wallet.address);
+                                setCopied(true);
+                              }}
+                              sx={{ p: 0.5, minWidth: '48px' }}
+                            >
+                              <ContentCopyIcon />
+                            </Button>
+                          </Box>
+                        </TableCell>
+                        <TableCell align="right">
+                          {primitivesUtils.convertFiatAmountDisplay(wallet.fiat_value)}
+                        </TableCell>
+                        <TableCell align="right">
+                          <MoreMenu
+                            onDelete={async () => {
+                              const success = await walletApi.remove(wallet.id);
+
+                              if (success) {
+                                const NewWallets = wallets.filter((item) => item.id !== wallet.id);
+                                props.parentCallback(NewWallets, ListAction.DELETE);
+                              }
+                            }}
+                            onEdit={() => handleEditClick(wallet)}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    </Fragment>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </Scrollbar>
+          <TablePagination
+            component="div"
+            count={wallets?.length | 0}
+            onPageChange={(): void => {}}
+            onRowsPerPageChange={(): void => {}}
+            page={0}
+            rowsPerPage={10}
+            rowsPerPageOptions={[5, 10, 25]}
+          />
+        </Card>
+        <AddWalletDialog
+          open={addOpen}
+          handleClose={handleAddClose}
+          parentCallback={(wallet: Wallet[]) => props.parentCallback(wallet, ListAction.ADD)}
+        />
+      </Box>
+
       {editWallet != null && (
         <EditWalletDialog
           wallet={editWallet}
