@@ -113,6 +113,17 @@ const typography: ExtendedTypographyOptions = {
   },
 };
 
+declare module '@mui/material/styles' {
+  interface BreakpointOverrides {
+    xs: true; // removes the `xs` breakpoint
+    sm: true;
+    md: true;
+    lg: true;
+    xl: true;
+    xxl: true;
+  }
+}
+
 export const baseThemeOptions: ThemeOptions = {
   breakpoints: {
     values: {
@@ -121,6 +132,7 @@ export const baseThemeOptions: ThemeOptions = {
       md: 1000,
       lg: 1200,
       xl: 1440,
+      xxl: 1920,
     },
   },
   components: {

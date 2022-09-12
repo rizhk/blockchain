@@ -66,7 +66,7 @@ const PasswordRecovery: NextPage = () => {
         <title>Forgot your password? | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
       <Box sx={{ backgroundColor: 'white' }}>
-        <Container maxWidth="xl">
+        <Container maxWidth="xxl" sx={{ padding: { md: '0px 0px 0px 0px' } }}>
           <Grid component="main" container spacing={0} sx={{ minHeight: '100vh' }}>
             {!submitted && (
               <Grid item xs={12} md={6}>
@@ -76,12 +76,12 @@ const PasswordRecovery: NextPage = () => {
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
-                    alignItems: 'center',
                     height: '100%',
+                    alignItems: { xs: 'center', md: 'flex-end' },
                   }}
                   px={12}
                 >
-                  <Box>
+                  <Box sx={{ maxWidth: '28rem' }}>
                     <img width={184} src={'/static/logo.png'} />
                     <Typography variant="h4" my={3}>
                       Forgot your password?
