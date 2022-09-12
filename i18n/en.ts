@@ -138,6 +138,7 @@ export const en = {
           'The latest data is being fetched from the blockchain. You will be notified when your data has been updated.',
         connectWalletToSeeTxn: 'Connect a wallet to begin seeing your transactions.',
         connectedWithNoTransaction: `Your wallet doesn't seem to have any transactions. Please add another wallet.`,
+        noTransactionFound: `There are no results based on your filters, please try to broaden your search by selecting different filters.`,
         connectedLoadingTransaction:
           'You data is being loaded, this may take a few minutes. Please check back again later.',
         search: 'Search by wallet address or note',

@@ -140,6 +140,9 @@ export const baseThemeOptions: ThemeOptions = {
       styleOverrides: {
         root: {
           textTransform: 'none',
+          '&.tabs:hover': {
+            backgroundColor: 'transparent',
+          },
         },
         sizeSmall: {
           padding: '6px 16px',
