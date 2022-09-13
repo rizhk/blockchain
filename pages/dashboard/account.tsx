@@ -87,7 +87,7 @@ const Account: NextPage = () => {
 
   const formik = useFormik({
     initialValues: {
-      full_name: user.full_name,
+      full_name: user?.full_name,
       current_password: '',
       new_password: '',
       new_password_confirmation: '',
@@ -167,7 +167,7 @@ const Account: NextPage = () => {
                       bgcolor: '#BDBDBD',
                     }}
                   >
-                    <Typography variant="h4">{user.full_name}</Typography>
+                    <Typography variant="h4">{user?.full_name}</Typography>
                   </Avatar>
                   <Box>
                     <input type="file" hidden id="avatar" onChange={handleNewImage} accept="image/jpeg,image/png" />
