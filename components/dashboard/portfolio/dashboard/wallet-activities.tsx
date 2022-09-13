@@ -96,7 +96,7 @@ export const WalletActivities: React.FC<IWalletActivitiesProps> = ({ updatedSinc
                 <Grid item component={Typography} variant="overline" sx={{ pl: 3, pt: 1.5, pb: 0.8 }}>
                   {t('portfolio.dashboard.walletActivities')}
                 </Grid>
-                <Grid container item flexWrap="nowrap" flexBasis="fit-content" sx={{ mr: 2 }}>
+                <Grid container item flexWrap="nowrap" flexBasis="fit-content" sx={{ width: 'fit-content', mr: 2 }}>
                   <MultiSelect
                     label={t('portfolio.transHis.all')}
                     onChange={handleChangeWallet}

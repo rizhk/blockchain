@@ -70,7 +70,7 @@ const Portfolio: NextPage = () => {
                 </Typography>
               </Grid>
               <Grid
-                containerProps={{ flexBasis: 'fit-content' }}
+                containerProps={{ flexBasis: 'fit-content', width: 'fit-content' }}
                 container
                 item
                 justifyContent="flex-end"
