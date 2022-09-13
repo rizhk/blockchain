@@ -167,10 +167,7 @@ const Account: NextPage = () => {
                       bgcolor: '#BDBDBD',
                     }}
                   >
-                    <Typography variant="h4">
-                      {user.full_name.split(' ')[0][0]}
-                      {user.full_name.split(' ')[1][0]}
-                    </Typography>
+                    <Typography variant="h4">{user.full_name}</Typography>
                   </Avatar>
                   <Box>
                     <input type="file" hidden id="avatar" onChange={handleNewImage} accept="image/jpeg,image/png" />

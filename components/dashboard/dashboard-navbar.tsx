@@ -201,10 +201,7 @@ const AccountButton = () => {
           }}
           src={user && user.profile_pic_url}
         >
-          <Typography variant="h4">
-            {user.full_name.split(' ')[0][0]}
-            {user.full_name.split(' ')[1][0]}
-          </Typography>
+          <Typography variant="h4">{user.full_name}</Typography>
         </Avatar>
       </Box>
       <AccountPopover anchorEl={anchorRef.current} onClose={handleClosePopover} open={openPopover} />
