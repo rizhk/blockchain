@@ -99,8 +99,8 @@ export const en = {
         noTrendsCtaText: 'Connect a wallet to begin seeing data.',
       },
       transHis: {
-        head: 'Transaction History',
-        title: 'Transaction History',
+        head: 'Transactions',
+        title: 'Transactions',
         type: 'Type',
         from: 'From',
         to: 'To',

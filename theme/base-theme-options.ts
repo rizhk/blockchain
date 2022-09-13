@@ -161,11 +161,11 @@ export const baseThemeOptions: ThemeOptions = {
       styleOverrides: {
         tooltip: {
           color: '#fff',
-          borderRadius: '4px',
-          padding: '7px 7px 9px 16px',
+          borderRadius: '0.25rem',
+          padding: '0.5rem 1rem',
           background: 'rgba(25, 25, 25, 0.9)',
           fontWeight: 400,
-          fontSize: '0.625rem',
+          fontSize: '0.75rem',
           marginLeft: '-30px',
           lineHeight: '157%',
         },
@@ -208,7 +208,7 @@ export const baseThemeOptions: ThemeOptions = {
       styleOverrides: {
         root: {
           textTransform: 'none',
-          '&.tabs:hover': {
+          '&.selector:hover': {
             backgroundColor: 'transparent',
           },
         },

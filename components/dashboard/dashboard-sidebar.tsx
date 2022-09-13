@@ -65,6 +65,7 @@ interface Section {
 
 const getSections = (t: TFunction): Section[] => [
   {
+    title: '',
     items: [
       // {
       //   title: t('menu.overview'),
@@ -108,6 +109,12 @@ const getSections = (t: TFunction): Section[] => [
         path: '/dashboard/account',
         iconFilled: <UserFilledIcon fontSize="small" />,
       },
+      // {
+      //   title: t('menu.account'),
+      //   icon: <UserIcon fontSize="small" />,
+      //   path: '/dashboard/account',
+      //   iconFilled: <UserFilledIcon fontSize="small" />,
+      // },
       // {
       //   title: t('menu.wallets'),
       //   icon: <WalletIcon fontSize="small" />,

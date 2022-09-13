@@ -110,6 +110,19 @@ const AssetsPage: NextPage = () => {
           </Box>
           <Box sx={{ pt: 3 }}>
             <Card sx={{ mx: 0 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  p: 2,
+                }}
+              >
+                <MultiSelect
+                  label={t('common.options.allWallets')}
+                  onChange={handleChangeWallet}
+                  options={walletOption}
+                  value={filter?.wallet}
+                />
+              </Box>
               <DataDisplay
                 isLoading={getUserAssetsLoading || getAllWalletsIsLoading}
                 error={error}
@@ -129,38 +142,6 @@ const AssetsPage: NextPage = () => {
           </Box>
         </Container>
       </Box>
-
-      <Card sx={{ mx: 4, mb: 3 }}>
-        <Box
-          sx={{
-            justifyContent: 'flex-end',
-            display: 'flex',
-            p: 2,
-          }}
-        >
-          <MultiSelect
-            label={t('common.options.allWallets')}
-            onChange={handleChangeWallet}
-            options={walletOption}
-            value={filter?.wallet}
-          />
-        </Box>
-        <DataDisplay
-          isLoading={getUserAssetsLoading || getAllWalletsIsLoading}
-          error={error}
-          defaultLoaderOptions={{ height: '80vh', width: '100%' }}
-        >
-          <AssetsTable
-            noWallet={walletsData?.noWallet}
-            assets={currentData}
-            count={count}
-            onPageChange={onPageChange}
-            onRowsPerPageChange={onRowsPerPageChange}
-            page={page}
-            rowsPerPage={rowsPerPage}
-          />
-        </DataDisplay>
-      </Card>
     </>
   );
 };

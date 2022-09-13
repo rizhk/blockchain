@@ -323,7 +323,7 @@ const TransactionHistoryPage: NextPage = () => {
               </Grid>
             </Grid>
           </Box>
-          <Card sx={{ py: 2 }}>
+          <Card>
             {
               <Box
                 sx={{
@@ -332,11 +332,16 @@ const TransactionHistoryPage: NextPage = () => {
                   p: 1.5,
                 }}
               >
-                <SearchIcon fontSize="small" />
+                <SearchIcon
+                  fontSize="small"
+                  sx={{
+                    ml: 1,
+                  }}
+                />
                 <Box
                   sx={{
                     flexGrow: 1,
-                    ml: 3,
+                    ml: 2,
                   }}
                 >
                   <Input
@@ -366,7 +371,7 @@ const TransactionHistoryPage: NextPage = () => {
                   alignItems: 'center',
                   display: 'flex',
                   flexWrap: 'wrap',
-                  py: 3,
+                  py: 2,
                   px: 1,
                 }}
               >
@@ -384,6 +389,7 @@ const TransactionHistoryPage: NextPage = () => {
                     { label: t('portfolio.transHis.incoming'), value: 'in' },
                     { label: t('portfolio.transHis.outgoing'), value: 'out' },
                   ]}
+                  defaultSelectedLabel={undefined}
                 />
                 <SingleSelect<string>
                   onChange={handleChangeStatus}
@@ -393,6 +399,7 @@ const TransactionHistoryPage: NextPage = () => {
                     { label: t('portfolio.transHis.success'), value: '1' },
                     { label: t('portfolio.transHis.failed'), value: '0' },
                   ]}
+                  defaultSelectedLabel={undefined}
                 />
                 <MultiSelect
                   label={t('portfolio.transHis.tags')}

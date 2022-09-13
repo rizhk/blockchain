@@ -163,7 +163,7 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
         ref={anchorRef}
         sx={[small && { py: 0 }]}
         {...other}
-        className="tabs"
+        className="selector"
       >
         {selectedLabel}
       </Button>

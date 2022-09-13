@@ -20,13 +20,13 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { AuthGuard } from '../../components/authentication/auth-guard';
-import { DashboardLayout } from '../../components/dashboard/dashboard-layout';
-import { gtm } from '../../lib/gtm';
+import { AuthGuard } from 'components/authentication/auth-guard';
+import { DashboardLayout } from 'components/dashboard/dashboard-layout';
+import { gtm } from 'lib/gtm';
 import { useAuth } from 'hooks/use-auth';
 import { UserCircle as UserCircleIcon } from '../../icons/user-circle';
 import { useTranslation } from 'react-i18next';
-import { AvatarEditorDialog } from '../../components/dashboard/account/avatar-editor-modal';
+import { AvatarEditorDialog } from 'components/dashboard/account/avatar-editor-modal';
 import { FormikProvider, useFormik } from 'formik';
 import { useMounted } from 'hooks/use-mounted';
 import * as Yup from 'yup';
