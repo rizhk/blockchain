@@ -96,7 +96,7 @@ export const en = {
         getNetWorthError: 'Failed to get wallet net worth',
         walletActivities: 'Wallet activities',
         trends: 'Trends',
-        noTrendsCtaText: 'Connect a wallet to begin seeing data.',
+        noTrendsCtaText: 'Once your wallets have been connected, you will see trends of your total holdings over time.',
       },
       transHis: {
         head: 'Transactions',
