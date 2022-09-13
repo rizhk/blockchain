@@ -113,6 +113,17 @@ const typography: ExtendedTypographyOptions = {
   },
 };
 
+declare module '@mui/material/styles' {
+  interface BreakpointOverrides {
+    xs: true; // removes the `xs` breakpoint
+    sm: true;
+    md: true;
+    lg: true;
+    xl: true;
+    xxl: true;
+  }
+}
+
 export const baseThemeOptions: ThemeOptions = {
   breakpoints: {
     values: {
@@ -121,15 +132,72 @@ export const baseThemeOptions: ThemeOptions = {
       md: 1000,
       lg: 1200,
       xl: 1440,
+      xxl: 1920,
     },
   },
   components: {
+    MuiTypography: {
+      styleOverrides: {
+        h6: {
+          '&.pageTitle': {
+            fontWeight: '500',
+            fontStyle: 'normal',
+            lineHeight: '137.5%',
+            fontSize: '1.125rem',
+          },
+        },
+      },
+    },
     MuiAvatar: {
       styleOverrides: {
         root: {
           fontSize: 14,
           fontWeight: 600,
           letterSpacing: 0,
+        },
+      },
+    },
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          color: '#fff',
+          borderRadius: '0.25rem',
+          padding: '0.5rem 1rem',
+          background: 'rgba(25, 25, 25, 0.9)',
+          fontWeight: 400,
+          fontSize: '0.75rem',
+          marginLeft: '-30px',
+          lineHeight: '157%',
+        },
+        arrow: {
+          position: 'relative',
+          overflow: 'visible',
+          backgroundColor: '#2f2f2f',
+          width: '1em',
+          height: '1em',
+          textAlign: 'left',
+          borderTopRightRadius: '20%',
+          margin: '0px 0px -12px 33px',
+          transform: 'rotate(135deg) !important',
+          '&::before': {
+            content: '" "',
+            width: '1em',
+            height: '1em',
+            borderTopRightRadius: '20%',
+            transform: 'rotate(-135deg) skewX(-45deg) scale(1.414,.707) translate(0,-50%)',
+            background: 'inherit',
+            position: 'absolute',
+            transformOrigin: 'unset !important',
+          },
+          '&::after': {
+            content: '" "',
+            width: '1em',
+            height: '1em',
+            borderTopRightRadius: '20%',
+            transform: 'rotate(135deg) skewY(-45deg) scale(.707,1.414) translate(50%)',
+            background: 'inherit',
+            position: 'absolute',
+          },
         },
       },
     },
@@ -140,6 +208,9 @@ export const baseThemeOptions: ThemeOptions = {
       styleOverrides: {
         root: {
           textTransform: 'none',
+          '&.selector:hover': {
+            backgroundColor: 'transparent',
+          },
         },
         sizeSmall: {
           padding: '6px 16px',

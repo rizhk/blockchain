@@ -311,6 +311,41 @@ class AuthApi {
       }
     });
   }
+
+  updateUser(data: {
+    current_password: string;
+    new_password: string;
+    new_password_confirmation: string;
+    full_name: string;
+  }): Promise<string> {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    return new Promise((resolve, reject) => {
+      try {
+        fetch(PicanteApi.UpdateUser, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authentication: accessToken },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then(
+            (data) => {
+              console.log(data);
+              if (!data.error) {
+                resolve(data.message);
+              } else {
+                reject(new Error('error'));
+              }
+            },
+            (error) => {
+              reject(new Error(error.message));
+            },
+          );
+      } catch (err) {
+        console.error('[Auth Api]: ', err);
+        reject(new Error('Internal server error'));
+      }
+    });
+  }
 }
 
 export const authApi = new AuthApi();

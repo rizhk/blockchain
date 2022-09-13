@@ -1,7 +1,8 @@
 import { Alert, Button, Grid, Skeleton, Typography } from '@mui/material';
 import * as React from 'react';
 
-export interface IDataDisplayProps {
+export interface IDataDisplayProps<T> {
+  data?: T;
   isLoading: boolean;
   error: string | undefined;
   loadingComponent?: React.ReactElement;
@@ -9,9 +10,11 @@ export interface IDataDisplayProps {
   errorComponent?: React.ReactElement;
   shouldShowRetryOnError?: boolean;
   onClickRetry?: () => void;
+  children?: React.ReactChild;
 }
 
-export const DataDisplay: React.FC<IDataDisplayProps> = ({
+export const DataDisplay: <T>(props: IDataDisplayProps<T>) => React.ReactElement = ({
+  data,
   isLoading,
   error,
   loadingComponent,
@@ -41,7 +44,8 @@ export const DataDisplay: React.FC<IDataDisplayProps> = ({
     </>
   );
   let content = children;
-  if (isLoading) content = loadingComponent || defaultLoadingComponent;
+  if (data) return <>{content}</>;
   if (!isLoading && !!error) content = errorComponent || defaultErrorComponent;
+  if (isLoading) content = loadingComponent || defaultLoadingComponent;
   return <>{content}</>;
 };

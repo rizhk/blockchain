@@ -22,6 +22,9 @@ export const PicanteApi = {
   ResetPassword: PicanteApiHost + '/v1/user/password/reset',
   FetchWithdrawalPreview: PicanteApiHost + '/v1/market/transaction/sell/withdrawal/preview',
   WithdrawTransaction: PicanteApiHost + '/v1/market/transaction/sell/withdraw',
+
+  UploadAvatar: PicanteApiHost + '/v1/user/pic',
+  UpdateUser: PicanteApiHost + '/v1/user/edit',
 };
 
 export const PortfolioApiEndPoints = {
@@ -36,4 +39,5 @@ export const PortfolioApiEndPoints = {
   GetWalletSyncStatus: PicanteApiHost + '/v1/portfolio/wallet/sync/status',
   RequestWalletSync: PicanteApiHost + '/v1/portfolio/wallet/sync/request',
   GetUserWalletActivities: PicanteApiHost + '/v1/portfolio/wallet/activity',
+  GetWalletTrends: PicanteApiHost + '/v1/portfolio/trends',
 };

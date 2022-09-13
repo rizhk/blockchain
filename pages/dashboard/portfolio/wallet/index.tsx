@@ -78,7 +78,7 @@ const Wallets: NextPage = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          py: 4,
+          py: 6,
         }}
       >
         <Collapse in={open && recentAction != null}>
@@ -86,7 +86,7 @@ const Wallets: NextPage = () => {
             {t(listActionAlertTranslationKey(recentAction!))}
           </Alert>
         </Collapse>
-        <Box sx={{ py: 4, px: 3 }}>
+        <Box sx={{ py: 0, px: 3 }}>
           <DataDisplay isLoading={loading} error={error} defaultLoaderOptions={{ height: '400px', width: '100%' }}>
             <WalletList wallets={wallets} walletsCount={wallets?.length | 0} parentCallback={updateWallets} />
           </DataDisplay>

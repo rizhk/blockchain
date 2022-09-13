@@ -1,4 +1,4 @@
-import { ChangeEvent, createRef, useEffect, useState } from 'react';
+import { ChangeEvent, createRef, useEffect, useMemo, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
@@ -37,11 +37,30 @@ import { primitivesUtils } from 'utils/primitives-utils';
 import { AssetsTable } from 'components/dashboard/portfolio/assets/assets-table';
 import { useWalletData } from 'hooks/use-wallet-data';
 import React from 'react';
+import { IAssetsFilters } from 'types/portfolio';
 
 const AssetsPage: NextPage = () => {
   const { t } = useTranslation();
 
   const { walletsData, getAllWalletsIsLoading } = useWalletData();
+
+  const [filter, setFilter] = React.useState<IAssetsFilters>();
+
+  const walletOption = useMemo(() => {
+    if (!walletsData?.wallet) return [];
+    return walletsData?.wallet.map((w) => {
+      return {
+        label: w.name,
+        value: w.id,
+      };
+    });
+  }, [JSON.stringify(walletsData?.wallet)]);
+
+  const handleChangeWallet = (value: any | undefined) => {
+    setFilter((preFilter) => {
+      return { ...preFilter, wallet: value };
+    });
+  };
 
   const {
     data,
@@ -53,9 +72,9 @@ const AssetsPage: NextPage = () => {
       {
         defaultErrorMessage: t('portfolio.assets.getAssetsError'),
       },
-      undefined,
+      filter,
     );
-  }, []);
+  }, [JSON.stringify(filter)]);
 
   useEffect(() => {
     gtm.push({ event: 'page_view' });
@@ -76,45 +95,53 @@ const AssetsPage: NextPage = () => {
       <Box
         component="main"
         sx={{
-          pt: 8,
-          pb: 2,
+          py: 6,
         }}
       >
-        <Grid maxWidth="xl">
-          <Box sx={{ mb: 4 }}>
-            <Grid container justifyContent="space-between" flexWrap="nowrap">
-              <Grid item component={Typography} minWidth="fit-content" variant="h4" sx={{ px: 4 }}>
-                {t('portfolio.assets.head')}
+        <Container maxWidth="xl">
+          <Box sx={{ mb: 2 }}>
+            <Grid container justifyContent="space-between" spacing={3} flexWrap="nowrap">
+              <Grid item minWidth="fit-content">
+                <Typography variant="h6" className="pageTitle">
+                  {t('portfolio.assets.head')}
+                </Typography>
               </Grid>
-              {/* TODO Export assets */}
-              {/* <Grid flex="0 0 fit-content" container item flexWrap="nowrap" alignItems="center">
-                <Grid item minWidth="fit-content">
-                  <Button sx={{ ml: 2 }} color="info" variant="contained">
-                    {t('portfolio.assets.exportData')}
-                  </Button>
-                </Grid>
-              </Grid> */}
             </Grid>
           </Box>
-        </Grid>
+          <Box sx={{ pt: 3 }}>
+            <Card sx={{ mx: 0 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  p: 2,
+                }}
+              >
+                <MultiSelect
+                  label={t('common.options.allWallets')}
+                  onChange={handleChangeWallet}
+                  options={walletOption}
+                  value={filter?.wallet}
+                />
+              </Box>
+              <DataDisplay
+                isLoading={getUserAssetsLoading || getAllWalletsIsLoading}
+                error={error}
+                defaultLoaderOptions={{ height: '80vh', width: '100%' }}
+              >
+                <AssetsTable
+                  noWallet={walletsData?.noWallet}
+                  assets={currentData}
+                  count={count}
+                  onPageChange={onPageChange}
+                  onRowsPerPageChange={onRowsPerPageChange}
+                  page={page}
+                  rowsPerPage={rowsPerPage}
+                />
+              </DataDisplay>
+            </Card>
+          </Box>
+        </Container>
       </Box>
-      <Card sx={{ mx: 4, mb: 3 }}>
-        <DataDisplay
-          isLoading={getUserAssetsLoading || getAllWalletsIsLoading}
-          error={error}
-          defaultLoaderOptions={{ height: '80vh', width: '100%' }}
-        >
-          <AssetsTable
-            noWallet={walletsData?.noWallet}
-            assets={currentData}
-            count={count}
-            onPageChange={onPageChange}
-            onRowsPerPageChange={onRowsPerPageChange}
-            page={page}
-            rowsPerPage={rowsPerPage}
-          />
-        </DataDisplay>
-      </Card>
     </>
   );
 };

@@ -15,8 +15,8 @@ export class BaseApi {
       throw new Error(defaultErrorMessage);
     }
     if (!body) throw new Error(defaultErrorMessage);
-    var { error, message } = body;
-    if (error) throw new Error(message);
+    var { error, message, message_code } = body;
+    if (error) throw new Error(message || message_code);
     return body;
   }
   async handleFetchAttachmentResponse(
@@ -42,8 +42,8 @@ export class BaseApi {
       throw new Error(defaultErrorMessage);
     }
     if (!body) throw new Error(defaultErrorMessage);
-    var { error, message } = body;
-    if (error) throw new Error(message);
+    var { error, message, message_code } = body;
+    if (error) throw new Error(message || message_code);
     return body;
   }
 }
