@@ -16,6 +16,7 @@ import { ContentSearchDialog } from './content-search-dialog';
 import { NotificationsPopover } from './notifications-popover';
 import { LanguagePopover } from './language-popover';
 import { useAuth } from 'hooks/use-auth';
+import { nameInitials } from 'utils/profile';
 
 interface DashboardNavbarProps extends AppBarProps {
   onOpenSidebar?: () => void;
@@ -201,7 +202,7 @@ const AccountButton = () => {
           }}
           src={user && user.profile_pic_url}
         >
-          <Typography variant="h4">{user?.full_name}</Typography>
+          <Typography variant="h4">{nameInitials(user)}</Typography>
         </Avatar>
       </Box>
       <AccountPopover anchorEl={anchorRef.current} onClose={handleClosePopover} open={openPopover} />
