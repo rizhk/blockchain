@@ -9,6 +9,7 @@ import { useAuth } from '../../hooks/use-auth';
 import { Cog as CogIcon } from '../../icons/cog';
 import { UserCircle as UserCircleIcon } from '../../icons/user-circle';
 import { SwitchHorizontalOutlined as SwitchHorizontalOutlinedIcon } from '../../icons/switch-horizontal-outlined';
+import { nameInitials } from 'utils/profile';
 
 interface AccountPopoverProps {
   anchorEl: null | Element;
@@ -60,7 +61,7 @@ export const AccountPopover: FC<AccountPopoverProps> = (props) => {
             width: 40,
           }}
         >
-          <Typography variant="h4">{user?.full_name}</Typography>
+          <Typography variant="h4">{nameInitials(user)}</Typography>
         </Avatar>
         <Box
           sx={{
