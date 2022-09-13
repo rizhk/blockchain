@@ -34,6 +34,7 @@ import { LoadingButton } from '@mui/lab';
 import dynamic from 'next/dynamic';
 import { authApi } from 'api/auth-api';
 import { nameInitials } from 'utils/profile';
+import { PasswordCheck } from 'components/authentication/password-check';
 
 const PasswordChecklist = dynamic(() => import('react-password-checklist'), {
   ssr: false,
@@ -91,14 +92,20 @@ const Account: NextPage = () => {
     initialValues: {
       full_name: user?.full_name,
       current_password: '',
-      new_password: '',
-      new_password_confirmation: '',
+      password: '',
+      confirmPassword: '',
       submit: null,
       success: false,
     },
     validationSchema: Yup.object({
       full_name: Yup.string().min(3).max(255).required('Name is required'),
       current_password: Yup.string().required('Password is required'),
+      password: Yup.string().min(8).max(255).required('Password is required'),
+      confirmPassword: Yup.string()
+        .min(8)
+        .max(255)
+        .required('Confirm password is required')
+        .oneOf([Yup.ref('password'), null]),
     }),
     onSubmit: async (values, helpers): Promise<void> => {
       try {
@@ -106,8 +113,8 @@ const Account: NextPage = () => {
 
         const result = await authApi.updateUser({
           current_password: values.current_password,
-          new_password: values.new_password,
-          new_password_confirmation: values.new_password_confirmation,
+          new_password: values.password,
+          new_password_confirmation: values.confirmPassword,
           full_name: values.full_name,
         });
 
@@ -232,58 +239,12 @@ const Account: NextPage = () => {
                         }}
                       />
                     </Box>
-                    <Box
-                      sx={{
-                        px: 3,
-                        pb: 4,
-                        display: 'flex',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <TextField
-                        label={t('account.newPassword')}
-                        sx={{
-                          flexGrow: 1,
-                        }}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        value={formik.values.new_password}
-                      />
-                    </Box>
-                    {formik.touched.new_password && (
-                      <Box
-                        sx={{
-                          px: 3,
-                          pb: 4,
-                          display: 'flex',
-                          alignItems: 'center',
-                        }}
-                      >
-                        <PasswordChecklist
-                          rules={['minLength', 'specialChar', 'number', 'capital', 'lowercase', 'match']}
-                          minLength={8}
-                          value={formik.values.new_password}
-                          valueAgain={formik.values.new_password_confirmation}
-                          onChange={(isValid) => setIsValid(isValid)}
-                        />
-                      </Box>
-                    )}
-                    <Box
-                      sx={{
-                        px: 3,
-                        pb: 4,
-                        display: 'flex',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <TextField
-                        label={t('account.passwordAgain')}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        value={formik.values.new_password_confirmation}
-                        sx={{
-                          flexGrow: 1,
-                        }}
+                    <Box sx={{ px: 3 }}>
+                      <PasswordCheck
+                        formik={formik}
+                        setValid={setIsValid}
+                        passwordLabel={t('account.newPassword')}
+                        confirmPasswordLabel={t('account.passwordAgain')}
                       />
                     </Box>
                     <Box
