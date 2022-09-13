@@ -92,7 +92,7 @@ export const AssetsTable: FC<AssetsTableProps> = ({
             return (
               <Fragment key={asset.name}>
                 <TableRow hover key={asset.name}>
-                  <TableCell sx={{ maxWidth: '140px' }}>
+                  <TableCell sx={{ maxWidth: '180px' }}>
                     <Grid sx={{ ml: 2 }} container item flex="1 1 45%" alignItems="center">
                       <Grid
                         item
@@ -108,7 +108,7 @@ export const AssetsTable: FC<AssetsTableProps> = ({
                         }}
                       />
                       <Grid item>
-                        <Typography sx={{ pl: 1 }} variant="caption">
+                        <Typography sx={{ pl: 1 }} variant="subtitle2">
                           {asset.name}
                         </Typography>
                       </Grid>

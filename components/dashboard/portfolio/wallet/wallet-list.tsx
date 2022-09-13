@@ -205,15 +205,17 @@ export const WalletList: FC<WalletListProps> = (props) => {
                         <TableCell>
                           <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <Image src={`/static/crypto/color/${wallet.icon_tag}.svg`} height="30" width="30" />{' '}
-                            <Typography sx={{ pl: 1 }}>{wallet.type}</Typography>
+                            <Typography sx={{ pl: 1 }} variant="subtitle2">
+                              {wallet.type}
+                            </Typography>
                           </Box>
                         </TableCell>
                         <TableCell>
-                          <Typography>{wallet.name}</Typography>
+                          <Typography variant="subtitle2">{wallet.name}</Typography>
                         </TableCell>
                         <TableCell>
                           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <Typography sx={{ pr: 0.5, minWidth: '120px' }}>
+                            <Typography sx={{ pr: 0.5, minWidth: '120px' }} variant="subtitle2">
                               {primitivesUtils.getShortTxnId(wallet.address)}
                             </Typography>
                             <Button
@@ -228,7 +230,9 @@ export const WalletList: FC<WalletListProps> = (props) => {
                           </Box>
                         </TableCell>
                         <TableCell align="right">
-                          {primitivesUtils.convertFiatAmountDisplay(wallet.fiat_value)}
+                          <Typography variant="subtitle2">
+                            {primitivesUtils.convertFiatAmountDisplay(wallet.fiat_value)}
+                          </Typography>
                         </TableCell>
                         <TableCell align="right">
                           <MoreMenu
