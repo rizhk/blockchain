@@ -60,7 +60,7 @@ export const AccountPopover: FC<AccountPopoverProps> = (props) => {
             width: 40,
           }}
         >
-          <Typography variant="h4">{user.full_name}</Typography>
+          <Typography variant="h4">{user?.full_name}</Typography>
         </Avatar>
         <Box
           sx={{
