@@ -103,12 +103,12 @@ const getSections = (t: TFunction): Section[] => [
         path: '/dashboard/portfolio/wallet',
         iconFilled: <WalletIconFilled fontSize="small" />,
       },
-      {
-        title: t('menu.account'),
-        icon: <UserIcon fontSize="small" />,
-        path: '/dashboard/account',
-        iconFilled: <UserFilledIcon fontSize="small" />,
-      },
+      // {
+      //   title: t('menu.account'),
+      //   icon: <UserIcon fontSize="small" />,
+      //   path: '/dashboard/account',
+      //   iconFilled: <UserFilledIcon fontSize="small" />,
+      // },
       // {
       //   title: t('menu.account'),
       //   icon: <UserIcon fontSize="small" />,
