@@ -200,7 +200,7 @@ const AccountButton = () => {
             height: 40,
             width: 40,
           }}
-          src={user && user.profile_pic_url}
+          src={user && user?.profile_pic_url}
         >
           <Typography variant="h4">{nameInitials(user)}</Typography>
         </Avatar>

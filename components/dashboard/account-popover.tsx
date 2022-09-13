@@ -55,7 +55,7 @@ export const AccountPopover: FC<AccountPopoverProps> = (props) => {
         }}
       >
         <Avatar
-          src={user && user.profile_pic_url}
+          src={user && user?.profile_pic_url}
           sx={{
             height: 40,
             width: 40,
