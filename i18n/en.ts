@@ -246,6 +246,11 @@ export const en = {
       passwordAgain: 'Enter new password again',
       save: 'Save',
       updateSuccess: 'Your account info has been updated successfully.',
+      passwordMatch: 'The two password fields must match',
+      passwordMinLength: 'Passwords must not have less than 8 characters',
+      passwordNumber: 'Passwords must contain at least one number',
+      passwordCapital: 'Passwords must contain at least one upper case letter',
+      passwordLowercase: 'Passwords must contain at least one lower case letter',
     },
   },
 };

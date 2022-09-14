@@ -27,10 +27,7 @@ import { RecaptchaField } from './recaptcha-field';
 import { recaptchaConfig } from 'config';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useTranslation } from 'react-i18next';
-import dynamic from 'next/dynamic';
-const PasswordChecklist = dynamic(() => import('react-password-checklist'), {
-  ssr: false,
-});
+import { PasswordCheck } from 'components/authentication/password-check';
 
 const Register: NextPage = () => {
   const { t } = useTranslation();
@@ -56,10 +53,8 @@ const Register: NextPage = () => {
       confirmPassword: Yup.string()
         .min(8)
         .max(255)
-        .matches(/\d/g, 'At least 1 number')
-        .matches(/[~`¿¡!#$%\^&*€£@+÷=\-\[\]\\';,/{}\(\)|\\":<>\?\.\_]/g, 'At least 1 special character')
         .required('Confirm password is required')
-        .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+        .oneOf([Yup.ref('password'), null]),
     }),
     onSubmit: async (values, helpers): Promise<void> => {
       if (recaptchaRef.current) {
@@ -140,38 +135,11 @@ const Register: NextPage = () => {
                         type="email"
                         value={formik.values.email}
                       />
-                      <TextField
-                        error={Boolean(formik.touched.password && formik.errors.password)}
-                        fullWidth
-                        helperText={formik.touched.password && formik.errors.password}
-                        label="Password"
-                        margin="normal"
-                        name="password"
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        type="password"
-                        value={formik.values.password}
-                      />
-                      {formik.touched.password && (
-                        <PasswordChecklist
-                          rules={['minLength', 'specialChar', 'number', 'capital', 'lowercase', 'match']}
-                          minLength={8}
-                          value={formik.values.password}
-                          valueAgain={formik.values.confirmPassword}
-                          onChange={(isValid) => setIsValid(isValid)}
-                        />
-                      )}
-                      <TextField
-                        error={Boolean(formik.touched.confirmPassword && formik.errors.confirmPassword)}
-                        fullWidth
-                        helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
-                        label="Confirm password"
-                        margin="normal"
-                        name="confirmPassword"
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        type="password"
-                        value={formik.values.confirmPassword}
+                      <PasswordCheck
+                        formik={formik}
+                        setValid={setIsValid}
+                        passwordLabel={'Password'}
+                        confirmPasswordLabel={'Confirm Password'}
                       />
                       <Field
                         recaptchaRef={recaptchaRef}
