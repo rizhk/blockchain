@@ -43,7 +43,7 @@ const Login: NextPage = () => {
           : '',
       password:
         process.env.NEXT_PUBLIC_URL?.includes('dev') || process.env.NEXT_PUBLIC_URL?.includes('localhost')
-          ? 'password'
+          ? 'j&gwQwtG15x4'
           : '',
       submit: null,
     },

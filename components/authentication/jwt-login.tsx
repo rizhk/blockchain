@@ -13,7 +13,7 @@ export const JWTLogin: FC = (props) => {
   const formik = useFormik({
     initialValues: {
       email: 'demo@picante.io',
-      password: 'j&gwQwtG15x4',
+      password: 'password',
       submit: null,
     },
     validationSchema: Yup.object({
@@ -76,6 +76,13 @@ export const JWTLogin: FC = (props) => {
         <Button disabled={formik.isSubmitting} fullWidth size="large" type="submit" variant="contained">
           Log In
         </Button>
+      </Box>
+      <Box sx={{ mt: 2 }}>
+        <Alert severity="info">
+          <div>
+            Use <b>demo@picante.io</b> and password <b>Password123!</b>
+          </div>
+        </Alert>
       </Box>
     </form>
   );
