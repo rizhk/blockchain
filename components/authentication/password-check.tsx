@@ -36,7 +36,7 @@ export const PasswordCheck = (props: PasswordCheckProps) => {
         type="password"
         value={formik.values.password}
       />
-      {formik.touched.password && (
+      {formik.values.password != '' && (
         <PasswordChecklist
           rules={['minLength', 'number', 'capital', 'lowercase']}
           minLength={8}
@@ -68,13 +68,13 @@ export const PasswordCheck = (props: PasswordCheckProps) => {
         value={formik.values.confirmPassword}
       />
       <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '14px', color: '#6B7280' }}>
-        {formik.values.password == formik.values.confirmPassword && (
+        {formik.values.password == formik.values.confirmPassword && formik.values.password != '' && (
           <CheckCircle sx={{ mr: 1, my: 0.5, width: '20px' }} />
         )}
-        {formik.values.password != formik.values.confirmPassword && (
+        {formik.values.password != formik.values.confirmPassword && formik.values.password != '' && (
           <ErrorOutline sx={{ mr: 1, my: 0.5, width: '20px' }} />
         )}
-        {t('account.passwordMatch')}
+        {formik.values.password != '' && t('account.passwordMatch')}
       </Box>
     </FormikProvider>
   );
