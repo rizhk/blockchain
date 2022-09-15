@@ -5,8 +5,10 @@ import { useFormik } from 'formik';
 import { Box, Button, Checkbox, FormHelperText, TextField, Typography, Link } from '@mui/material';
 import { useAuth } from '../../hooks/use-auth';
 import { useMounted } from '../../hooks/use-mounted';
+import { useTranslation } from 'react-i18next';
 
 export const JWTRegister: FC = (props) => {
+  const { t } = useTranslation();
   const isMounted = useMounted();
   const router = useRouter();
   const { register } = useAuth();
@@ -37,7 +39,7 @@ export const JWTRegister: FC = (props) => {
 
         if (isMounted()) {
           helpers.setStatus({ success: false });
-          helpers.setErrors({ submit: err.message });
+          helpers.setErrors({ submit: t(`error.${err.message}`) });
           helpers.setSubmitting(false);
         }
       }

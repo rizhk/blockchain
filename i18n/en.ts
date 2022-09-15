@@ -9,7 +9,7 @@ export const en = {
       ERROR_USER_PASSWORD_AT_LEAST_ONE_UPPER: 'New password should has at least 1 uppercase letter',
       ERROR_USER_PASSWORD_AT_LEAST_8CHARS: 'New password should has at least 8 characters',
       ERROR_USER_EDIT_NEW_PASSWORD_NEEDS_DIFF: 'New password needs to be different with current password',
-      ERROR_USER_PASSWORD_IS_COMMON: "New password can't be a commonly used password",
+      ERROR_USER_IS_ALREADY_EXIST: 'User is already exist',
     },
     components: {
       multiSelect: {
@@ -96,7 +96,7 @@ export const en = {
         getNetWorthError: 'Failed to get wallet net worth',
         walletActivities: 'Wallet activities',
         trends: 'Trends',
-        noTrendsCtaText: 'Connect a wallet to begin seeing data.',
+        noTrendsCtaText: 'Once your wallets have been connected, you will see trends of your total holdings over time.',
       },
       transHis: {
         head: 'Transactions',
@@ -246,6 +246,11 @@ export const en = {
       passwordAgain: 'Enter new password again',
       save: 'Save',
       updateSuccess: 'Your account info has been updated successfully.',
+      passwordMatch: 'The two password fields must match',
+      passwordMinLength: 'Passwords must not have less than 8 characters',
+      passwordNumber: 'Passwords must contain at least one number',
+      passwordCapital: 'Passwords must contain at least one upper case letter',
+      passwordLowercase: 'Passwords must contain at least one lower case letter',
     },
   },
 };

@@ -59,9 +59,10 @@ export const AccountPopover: FC<AccountPopoverProps> = (props) => {
           sx={{
             height: 40,
             width: 40,
+            backgroundColor: '#5048E5',
           }}
         >
-          <Typography variant="h4">{nameInitials(user)}</Typography>
+          <Typography variant="h6">{nameInitials(user)}</Typography>
         </Avatar>
         <Box
           sx={{

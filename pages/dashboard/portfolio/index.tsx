@@ -70,7 +70,7 @@ const Portfolio: NextPage = () => {
                 </Typography>
               </Grid>
               <Grid
-                containerProps={{ flexBasis: 'fit-content' }}
+                containerProps={{ flexBasis: 'fit-content', width: 'fit-content' }}
                 container
                 item
                 justifyContent="flex-end"
@@ -96,13 +96,13 @@ const Portfolio: NextPage = () => {
                 wallets={walletsData?.wallet}
               />
               <Box sx={{ mb: 6 }}></Box>
-              {/* <Trends
+              <Trends
                 updatedSince={updatedSince}
                 loading={getAllWalletsIsLoading}
                 noWallet={walletsData?.noWallet}
                 wallets={walletsData?.wallet}
-              /> */}
-              {/* <Box sx={{ mb: 6 }}></Box> */}
+              />
+              <Box sx={{ mb: 6 }}></Box>
               <Assets
                 updatedSince={updatedSince}
                 loading={getAllWalletsIsLoading}

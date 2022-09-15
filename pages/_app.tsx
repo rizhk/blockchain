@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import type { FC } from 'react';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
@@ -53,7 +53,7 @@ const App: FC<EnhancedAppProps> = (props) => {
     }
   }, []);
 
-  const queryClient = new QueryClient();
+  const [queryClient] = useState(() => new QueryClient());
 
   return (
     <CacheProvider value={emotionCache}>

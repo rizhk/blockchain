@@ -199,10 +199,11 @@ const AccountButton = () => {
           sx={{
             height: 40,
             width: 40,
+            backgroundColor: '#5048E5',
           }}
           src={user && user?.profile_pic_url}
         >
-          <Typography variant="h4">{nameInitials(user)}</Typography>
+          <Typography variant="h6">{nameInitials(user)}</Typography>
         </Avatar>
       </Box>
       <AccountPopover anchorEl={anchorRef.current} onClose={handleClosePopover} open={openPopover} />

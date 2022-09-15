@@ -294,7 +294,7 @@ const TransactionHistoryPage: NextPage = () => {
                   {t('portfolio.transHis.head')}
                 </Typography>
               </Grid>
-              <Grid flex="0 0 fit-content" container item flexWrap="nowrap" alignItems="center">
+              <Grid flex="0 0 fit-content" width={'fit-content'} container item flexWrap="nowrap" alignItems="center">
                 <Grid
                   container
                   item
