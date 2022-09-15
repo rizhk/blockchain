@@ -1,5 +1,6 @@
-import { Alert, Button, Grid, Skeleton, Typography } from '@mui/material';
+import { Alert, Button, CircularProgress, Grid, Skeleton, Typography } from '@mui/material';
 import * as React from 'react';
+import { CircularLoader } from './circular-loader';
 
 interface NoDataComponentProps {
   predicate?: () => boolean;
@@ -30,7 +31,9 @@ export const DataDisplay: <T>(props: IDataDisplayProps<T>) => React.ReactElement
   onClickRetry,
 }) => {
   const defaultLoadingComponent = (
-    <Skeleton sx={{ bgcolor: 'neutral.200', transform: 'unset' }} animation="pulse" {...defaultLoaderOptions} />
+    <Grid container justifyContent="center">
+      <CircularLoader sx={[{ m: 4 }]} />
+    </Grid>
   );
   const defaultErrorComponent = (
     <>

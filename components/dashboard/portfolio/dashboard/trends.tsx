@@ -54,7 +54,7 @@ export const Trends: React.FC<ITrendsProps> = ({ updatedSince, loading, noWallet
               </Grid>
               <Divider sx={{ m: 0, p: 0 }} />
               <DataDisplay
-                data={data?.items}
+                data={!!data?.items && !noWallet}
                 isLoading={isLoading || loading}
                 error={error?.message}
                 defaultLoaderOptions={{ height: '100px', width: '100%' }}
