@@ -38,6 +38,7 @@ import { ChevronDown as ChevronDownIcon } from 'icons/chevron-down';
 import { relative } from 'path';
 import ExportTransactionHistoryModal from 'components/dashboard/portfolio/transaction-history/export-transaction-history-modal';
 import { DataDisplay } from 'components/common/data-display';
+import { SortBy } from 'components/sort-by';
 import { SingleSelect } from 'components/single-select';
 import { DatePicker } from 'components/common/date-picker';
 import { primitivesUtils } from 'utils/primitives-utils';
@@ -457,7 +458,7 @@ const TransactionHistoryPage: NextPage = () => {
                   }
                 />
               </Box>
-              <SingleSelect<string>
+              <SortBy<string>
                 onChange={handleChangeNewest}
                 label={t('portfolio.transHis.sortBy')}
                 value={filter?.sort ?? 'DESC'}
