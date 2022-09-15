@@ -196,17 +196,29 @@ const AccountButton = () => {
         }}
       >
         <Avatar
+          src={user && user?.profile_pic_url}
           sx={{
             height: 40,
             width: 40,
             backgroundColor: '#5048E5',
           }}
-          src={user && user?.profile_pic_url}
+        ></Avatar>
+        <Typography variant="h6">{user?.full_name}</Typography>
+        <Box
+          sx={{
+            ml: 1,
+          }}
         >
-          <Typography variant="h6">{nameInitials(user)}</Typography>
-        </Avatar>
+          <Typography variant="body1" sx={{ color: '#9CA3AF' }}>
+            {user?.full_name}
+          </Typography>
+          {/* <Typography color="textSecondary" variant="body2">
+						Acme Inc
+					</Typography> */}
+        </Box>
       </Box>
-      <AccountPopover anchorEl={anchorRef.current} onClose={handleClosePopover} open={openPopover} />
+
+      {/* <AccountPopover anchorEl={anchorRef.current} onClose={handleClosePopover} open={openPopover} /> */}
     </>
   );
 };
