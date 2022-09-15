@@ -170,8 +170,8 @@ const Account: NextPage = () => {
                   <Avatar
                     src={user?.profile_pic_url}
                     sx={{
-                      height: 100,
                       mr: 2,
+                      height: 100,
                       width: 100,
                       bgcolor: '#BDBDBD',
                     }}

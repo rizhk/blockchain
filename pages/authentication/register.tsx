@@ -74,7 +74,7 @@ const Register: NextPage = () => {
 
         if (isMounted()) {
           helpers.setStatus({ success: false });
-          helpers.setErrors({ submit: err.message });
+          helpers.setErrors({ submit: t(`error.${err.message}`) });
           helpers.setSubmitting(false);
         }
       }

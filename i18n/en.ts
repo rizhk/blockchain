@@ -9,7 +9,7 @@ export const en = {
       ERROR_USER_PASSWORD_AT_LEAST_ONE_UPPER: 'New password should has at least 1 uppercase letter',
       ERROR_USER_PASSWORD_AT_LEAST_8CHARS: 'New password should has at least 8 characters',
       ERROR_USER_EDIT_NEW_PASSWORD_NEEDS_DIFF: 'New password needs to be different with current password',
-      ERROR_USER_PASSWORD_IS_COMMON: "New password can't be a commonly used password",
+      ERROR_USER_IS_ALREADY_EXIST: 'User is already exist',
     },
     components: {
       multiSelect: {

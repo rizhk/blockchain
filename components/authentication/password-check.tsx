@@ -68,13 +68,13 @@ export const PasswordCheck = (props: PasswordCheckProps) => {
         value={formik.values.confirmPassword}
       />
       <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '14px', color: '#6B7280' }}>
-        {formik.values.password == formik.values.confirmPassword && formik.values.password != '' && (
+        {formik.values.password == formik.values.confirmPassword && formik.values.confirmPassword != '' && (
           <CheckCircle sx={{ mr: 1, my: 0.5, width: '20px' }} />
         )}
-        {formik.values.password != formik.values.confirmPassword && formik.values.password != '' && (
+        {formik.values.password != formik.values.confirmPassword && formik.values.confirmPassword != '' && (
           <ErrorOutline sx={{ mr: 1, my: 0.5, width: '20px' }} />
         )}
-        {formik.values.password != '' && t('account.passwordMatch')}
+        {formik.values.confirmPassword != '' && t('account.passwordMatch')}
       </Box>
     </FormikProvider>
   );
