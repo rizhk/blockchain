@@ -27,7 +27,7 @@ import { SingleSelect } from 'components/single-select';
 import useFetch from 'hooks/use-fetch';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { IAssetFilters, IAssetsFilters, Wallet } from 'types/portfolio';
+import { AssetsChartData, IAssetFilters, IAssetsFilters, Wallet } from 'types/portfolio';
 import { primitivesUtils } from 'utils/primitives-utils';
 import { AssetsChart } from './assets-chart';
 import Image from 'next/image';
@@ -45,36 +45,6 @@ export interface IAssetsProps {
 
 export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet, wallets }) => {
   const { t } = useTranslation();
-
-  const [filter, setFilter] = React.useState<IAssetsFilters>({ desc: true });
-
-  const {
-    data,
-    loading: getUserAssetsLoading,
-    error,
-    trigger,
-  } = useFetch(() => {
-    return portfolioApi.getUserAssets(
-      {
-        defaultErrorMessage: t('portfolio.dashboard.getAssetsError'),
-      },
-      filter,
-    );
-  }, [updatedSince, JSON.stringify(filter)]);
-
-  const handleChangeWallet = (value: any | undefined) => {
-    setFilter((preFilter) => {
-      return { ...preFilter, wallet: value };
-    });
-  };
-  const tableDisplayData = React.useMemo(() => {
-    if (!data?.items) return data;
-    var tempItems = data.items.filter(({ fiat_value }) => {
-      return fiat_value > 0;
-    });
-    var top7Items = tempItems.slice(0, 7);
-    return { ...data, items: top7Items };
-  }, [JSON.stringify(data), JSON.stringify(filter)]);
 
   const theme = useTheme();
 
@@ -125,14 +95,53 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
     return chartBaseColors[index] ?? randomColor;
   };
 
-  const chartDataSeries = (data?.items || []).map(({ name, balance, fiat_value, fiat_currency, symbol }, index) => {
-    return {
-      color: getColorByIndex(index),
-      data: fiat_value,
-      name,
-      symbol: symbol + ' ' + primitivesUtils.convertFiatAmountDisplay(balance),
-    };
-  });
+  const [filter, setFilter] = React.useState<IAssetsFilters>({ desc: true });
+
+  const {
+    data,
+    loading: getUserAssetsLoading,
+    error,
+    trigger,
+  } = useFetch(() => {
+    return portfolioApi.getUserAssets(
+      {
+        defaultErrorMessage: t('portfolio.dashboard.getAssetsError'),
+      },
+      filter,
+    );
+  }, [updatedSince, JSON.stringify(filter)]);
+
+  const handleChangeWallet = (value: any | undefined) => {
+    setFilter((preFilter) => {
+      return { ...preFilter, wallet: value };
+    });
+  };
+  const assetsChartData = React.useMemo(() => {
+    if (!data?.items) return undefined;
+    const newItems = data?.items?.map((item, index) => {
+      return { ...item, color: getColorByIndex(index) };
+    });
+    return { ...data, items: newItems } as AssetsChartData;
+  }, [JSON.stringify(data)]);
+  const tableDisplayData = React.useMemo(() => {
+    if (!assetsChartData?.items) return assetsChartData;
+    var tempItems = assetsChartData.items.filter(({ fiat_value }) => {
+      return fiat_value > 0;
+    });
+    var top7Items = tempItems.slice(0, 7);
+    return { ...assetsChartData, items: top7Items };
+  }, [JSON.stringify(assetsChartData), JSON.stringify(filter)]);
+
+  const chartDataSeries = (assetsChartData?.items || []).map(
+    ({ name, balance, fiat_value, fiat_currency, symbol, color }, index) => {
+      return {
+        color,
+        data: fiat_value,
+        name,
+        symbol: symbol + ' ' + primitivesUtils.convertFiatAmountDisplay(balance),
+      };
+    },
+  );
 
   const chartData = {
     series: chartDataSeries,
@@ -187,8 +196,8 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
               >
                 {/* no wallet or assets have no data */}
                 {noWallet ||
-                (!noWallet && data?.items === undefined) ||
-                (!noWallet && data?.items && data?.items.length === 0) ? (
+                (!noWallet && assetsChartData?.items === undefined) ||
+                (!noWallet && assetsChartData?.items && assetsChartData?.items.length === 0) ? (
                   <Grid container alignItems="center" justifyContent="center">
                     <Grid
                       item
@@ -211,7 +220,7 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
                   </Grid>
                 ) : null}
                 {/* has wallet and assets have data */}
-                {!noWallet && data?.items && data?.items.length > 0 ? (
+                {!noWallet && assetsChartData?.items && assetsChartData?.items.length > 0 ? (
                   <>
                     <Grid container columnSpacing={2} flexWrap="nowrap" sx={{ px: 4, py: 2 }} alignItems="flex-start">
                       <Grid item flex="0 1 auto" component={AssetsChart} data={chartData} />
@@ -230,7 +239,7 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
                               Total:{' '}
                             </Typography>
                             <Typography variant="overline" display="inline-block" color="secondary.main">
-                              {primitivesUtils.convertFiatAmountDisplay(data?.total_bal || 0)}
+                              {primitivesUtils.convertFiatAmountDisplay(assetsChartData?.total_bal || 0)}
                             </Typography>
                           </Grid>
                           <Grid item flex="1 1 27.5%">
@@ -253,7 +262,7 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
                               sx={{ borderTop: '1px solid #E6E8F0', py: 2 }}
                             >
                               <Grid container item flex="1 1 45%" alignItems="center">
-                                <Grid item component={Dot} sx={{ color: getColorByIndex[index] }} />
+                                <Grid item component={Dot} sx={{ color: item.color }} />
                                 <Grid
                                   item
                                   component={() => {
@@ -301,7 +310,7 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
                       <Typography variant="body1">
                         {`${t('portfolio.dashboard.totalAssets')}: `}
                         <Typography display="inline" variant="body1" color="secondary.main">
-                          {data?.item_count}
+                          {assetsChartData?.item_count}
                         </Typography>
                       </Typography>
                     </Grid>

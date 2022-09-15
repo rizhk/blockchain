@@ -58,35 +58,31 @@ export const Trends: React.FC<ITrendsProps> = ({ updatedSince, loading, noWallet
                 isLoading={isLoading || loading}
                 error={error?.message}
                 defaultLoaderOptions={{ height: '100px', width: '100%' }}
-                renderNoDataComponent={{
-                  predicate: () => {
-                    return (noWallet && !data?.items) || (noWallet && !data?.items?.length === 0);
-                  },
-                  noDataComponent: (
-                    <Grid container alignItems="center" justifyContent="center">
-                      <Grid
-                        item
-                        component={Typography}
-                        flex="1 1 100%"
-                        sx={{ mx: 4, mt: 8, mb: 4, maxWidth: '400px' }}
-                        display="block"
-                        textAlign="center"
-                        variant="ctaText1"
-                      >
-                        {t('portfolio.dashboard.noTrendsCtaText')}
-                      </Grid>
-                      <Grid container item flex="1 1 100%" justifyContent="center">
-                        <Link href="/dashboard/portfolio/wallet/" passHref>
-                          <Button type="button" variant="contained" color="primary" sx={{ mb: 8 }}>
-                            {t('portfolio.dashboard.addWalletNow')}
-                          </Button>
-                        </Link>
-                      </Grid>
-                    </Grid>
-                  ),
-                }}
               >
-                <TrendsAreaChart trends={trendChartData ?? []} />
+                {noWallet && !loading && !isLoading ? (
+                  <Grid container alignItems="center" justifyContent="center">
+                    <Grid
+                      item
+                      component={Typography}
+                      flex="1 1 100%"
+                      sx={{ mx: 4, mt: 8, mb: 4, maxWidth: '400px' }}
+                      display="block"
+                      textAlign="center"
+                      variant="ctaText1"
+                    >
+                      {t('portfolio.dashboard.noTrendsCtaText')}
+                    </Grid>
+                    <Grid container item flex="1 1 100%" justifyContent="center">
+                      <Link href="/dashboard/portfolio/wallet/" passHref>
+                        <Button type="button" variant="contained" color="primary" sx={{ mb: 8 }}>
+                          {t('portfolio.dashboard.addWalletNow')}
+                        </Button>
+                      </Link>
+                    </Grid>
+                  </Grid>
+                ) : (
+                  <TrendsAreaChart trends={trendChartData ?? []} />
+                )}
               </DataDisplay>
             </CardContent>
           </Card>
