@@ -87,6 +87,16 @@ export interface Wallet {
   updated_at: string;
 }
 
+export interface AssetsChartItem extends Asset {
+  color: string;
+}
+export interface AssetsChartData extends BaseApiResponse {
+  item_count: number;
+  total_bal: number;
+  total_bal_symbol: string;
+  items: AssetsChartItem[];
+}
+
 export interface AssetsResponse extends BaseApiResponse {
   item_count: number;
   total_bal: number;
