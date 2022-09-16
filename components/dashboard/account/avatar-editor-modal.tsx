@@ -95,13 +95,11 @@ export const AvatarEditorDialog: React.FC = (props: any) => {
         try {
           const result = await accountApi.uploadAvatar(blob, { defaultErrorMessage: 'fail to upload' });
           if (!result.error) {
-            alert('You have successfully updated your profile photo');
             await updateUser({});
-            props.handleClose();
+            props.handleClose(true);
           }
         } catch (e) {
-          console.log(e);
-          alert(t(`error.${e.message}`));
+          props.handleClose(false);
         }
       }
     }, 'image/png');
