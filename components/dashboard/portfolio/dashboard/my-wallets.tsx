@@ -47,7 +47,7 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({ updatedSince, loading, no
                 <Grid item component={Typography} variant="overline" sx={{ pl: 3, pt: 1.5, pb: 0.8 }}>
                   {t('portfolio.dashboard.myWallets')}
                 </Grid>
-                <Typography sx={{ pr: 4, py: 2 }} variant="textLink1" color="secondary.main">
+                <Typography sx={{ pr: 4 }} variant="textLink1" color="secondary.main">
                   <Link href="/dashboard/portfolio/wallet" passHref>
                     {t('portfolio.dashboard.addWallet')}
                   </Link>

@@ -275,27 +275,22 @@ const TransactionHistoryPage: NextPage = () => {
         </title>
       </Head>
 
-      <Box
-        component="main"
-        sx={{
-          py: 6,
-        }}
-      >
+      <Box component="main">
         {!walletsData?.noWallet && count > 0 && walletSyncStatus.isInProgress && (
           <Grid sx={{ px: 3, py: 2, mb: 4, color: 'primary.main', backgroundColor: 'rgba(80, 72, 229, 0.1)' }}>
             <Typography variant="body1">{t('portfolio.transHis.dataSyncInProgress')}</Typography>
           </Grid>
         )}
 
-        <Container maxWidth="xl">
-          <Box sx={{ mb: 3 }}>
-            <Grid container justifyContent="space-between" spacing={3} flexWrap="nowrap">
-              <Grid item minWidth="fit-content">
+        <Container maxWidth="lg">
+          <Box sx={{ my: 3 }}>
+            <Grid container justifyContent="space-between" flexWrap="nowrap" alignItems="center">
+              <Grid container item minWidth="fit-content">
                 <Typography variant="h6" className="pageTitle">
                   {t('portfolio.transHis.head')}
                 </Typography>
               </Grid>
-              <Grid flex="0 0 fit-content" width={'fit-content'} container item flexWrap="nowrap" alignItems="center">
+              <Grid container item flex="0 0 fit-content" width={'fit-content'} flexWrap="nowrap" alignItems="center">
                 <Grid
                   container
                   item
@@ -456,6 +451,7 @@ const TransactionHistoryPage: NextPage = () => {
                       <Box></Box>
                     )
                   }
+                  defaultSelectedLabel={undefined}
                 />
               </Box>
               <SortBy<string>
@@ -467,6 +463,7 @@ const TransactionHistoryPage: NextPage = () => {
                   { label: t('portfolio.transHis.newest'), value: 'DESC' },
                   { label: t('portfolio.transHis.oldest'), value: 'ASC' },
                 ]}
+                defaultSelectedLabel={undefined}
               />
             </Box>
             <DataDisplay

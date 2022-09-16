@@ -29,7 +29,7 @@ const AuthorizationRequired: NextPage = () => {
           py: '80px',
         }}
       >
-        <Container maxWidth="lg">
+        <Container maxWidth="xl">
           <Typography align="center" variant={mobileDevice ? 'h4' : 'h1'}>
             401: Authorization required
           </Typography>

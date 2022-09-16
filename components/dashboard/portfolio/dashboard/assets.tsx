@@ -160,9 +160,6 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
   return (
     <>
       <Grid container flexDirection="row" width="100%">
-        <Grid item>
-          <Typography sx={{ mb: 3 }} variant="h6"></Typography>
-        </Grid>
         <Grid item flex="1 1 100%">
           <Card>
             <CardContent sx={{ p: 0 }}>
@@ -177,7 +174,6 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
                     display: 'flex',
                     flexWrap: 'wrap',
                     pr: 2,
-                    py: 2,
                   }}
                 >
                   <MultiSelect
@@ -222,20 +218,15 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
                 {/* has wallet and assets have data */}
                 {!noWallet && assetsChartData?.items && assetsChartData?.items.length > 0 ? (
                   <>
-                    <Grid container columnSpacing={2} flexWrap="nowrap" sx={{ px: 4, py: 2 }} alignItems="flex-start">
+                    <Grid container columnSpacing={2} flexWrap="nowrap" sx={{ px: 2, py: 2 }} alignItems="flex-start">
                       <Grid item flex="0 1 auto" component={AssetsChart} data={chartData} />
                       <Grid item container>
-                        <Grid
-                          columnSpacing={0.5}
-                          container
-                          item
-                          flex="1 1 auto"
-                          alignItems="flex-end"
-                          flexWrap="nowrap"
-                          sx={{ py: 1 }}
-                        >
+                        <Grid container item flex="1 1 auto" alignItems="flex-end" flexWrap="nowrap" sx={{ py: 1 }}>
                           <Grid item flex="1 1 45%" sx={{ justifyContent: 'space-between' }}>
-                            <Typography variant="overline" sx={{ textTransform: 'none', lineHeight: 0.25 }}>
+                            <Typography
+                              variant="overline"
+                              sx={{ textTransform: 'none', lineHeight: 0.25, color: '#6B7280' }}
+                            >
                               Total:{' '}
                             </Typography>
                             <Typography variant="overline" display="inline-block" color="secondary.main">
@@ -243,10 +234,14 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
                             </Typography>
                           </Grid>
                           <Grid item flex="1 1 27.5%">
-                            <Typography variant="overline">BALANCE</Typography>
+                            <Typography variant="overline" sx={{ color: '#6B7280' }}>
+                              BALANCE
+                            </Typography>
                           </Grid>
-                          <Grid item flex="1 1 27.5%">
-                            <Typography variant="overline">USD AMOUNT</Typography>
+                          <Grid item flex="1 1 27.5%" sx={{ mr: 2 }} textAlign="right">
+                            <Typography variant="overline" sx={{ color: '#6B7280' }}>
+                              USD AMOUNT
+                            </Typography>
                           </Grid>
                         </Grid>
                         {tableDisplayData?.items?.map((item, index) => {
@@ -277,16 +272,16 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
                                   }}
                                 />
                                 <Grid item>
-                                  <Typography sx={{ pl: 1 }} variant="caption">
+                                  <Typography sx={{ pl: 1 }} variant="subtitle2">
                                     {item.name}
                                   </Typography>
                                 </Grid>
                               </Grid>
-                              <Grid item flex="1 1 27.5%" sx={{ mr: 3.5 }} textAlign="right">
-                                <TokenSymbolDisplay amt={item.balance} name={item.symbol} variant="caption" />
+                              <Grid item flex="1 1 27.5%" textAlign="left">
+                                <TokenSymbolDisplay amt={item.balance} name={item.symbol} variant="subtitle2" />
                               </Grid>
-                              <Grid item flex="1 1 27.5%" sx={{ mr: 3.5 }} textAlign="right">
-                                <Typography variant="caption">
+                              <Grid item flex="1 1 27.5%" sx={{ mr: 2 }} textAlign="right">
+                                <Typography variant="subtitle2">
                                   {primitivesUtils.convertFiatAmountDisplay(item.fiat_value)}
                                 </Typography>
                               </Grid>
@@ -307,7 +302,7 @@ export const Assets: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet
                           {t('portfolio.dashboard.viewAllAssets')}
                         </Typography>
                       </Link>
-                      <Typography variant="body1">
+                      <Typography variant="body2">
                         {`${t('portfolio.dashboard.totalAssets')}: `}
                         <Typography display="inline" variant="body1" color="secondary.main">
                           {assetsChartData?.item_count}

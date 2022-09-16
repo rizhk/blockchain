@@ -29,7 +29,7 @@ const NotFound: NextPage = () => {
           py: '80px',
         }}
       >
-        <Container maxWidth="lg">
+        <Container maxWidth="xl">
           <Typography align="center" variant={mobileDevice ? 'h4' : 'h1'}>
             404: The page you are looking for isn’t here
           </Typography>

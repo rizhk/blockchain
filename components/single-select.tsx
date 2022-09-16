@@ -88,7 +88,7 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
 
   const MenuItems = (
     <>
-      <MenuItem sx={{ py: 0 }} value={'abc' as any}>
+      <MenuItem value={'abc' as any}>
         <FormControlLabel
           control={
             !hideAll ? (
@@ -97,7 +97,7 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
               <Box sx={{ px: 1 }}></Box>
             )
           }
-          label={label}
+          label={<Typography variant="subtitle2">{label}</Typography>}
           sx={{
             flexGrow: 1,
             mr: 0,
@@ -116,7 +116,7 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
                 onChange={(_) => handleChange(option.label, option.value)}
               />
             }
-            label={option.label}
+            label={<Typography variant="subtitle2">{option.label}</Typography>}
             sx={{
               flexGrow: 1,
               mr: 0,
