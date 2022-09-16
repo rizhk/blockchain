@@ -246,6 +246,8 @@ export const en = {
       passwordAgain: 'Enter new password again',
       save: 'Save',
       updateSuccess: 'Your account info has been updated successfully.',
+      avatarUpdateSuccess: 'You have successfully updated your profile photo.',
+      tooLarge: 'The file size of the photo you uploaded is too large, please try another photo.',
       passwordMatch: 'The two password fields must match',
       passwordMinLength: 'Passwords must not have less than 8 characters',
       passwordNumber: 'Passwords must contain at least one number',
