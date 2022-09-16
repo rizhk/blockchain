@@ -24,10 +24,9 @@ export const BrowseLayout: FC = (props) => {
       <Box
         sx={{
           backgroundColor: 'background.default',
-          py: 6,
         }}
       >
-        <Container maxWidth="lg">
+        <Container maxWidth="xl">
           <Grid alignItems="center" container spacing={3}>
             <Grid item md={6} xs={12}>
               {!isBase && (

@@ -48,7 +48,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
   };
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="lg">
       <Grid container spacing={4}>
         <Grid item>
           <Typography sx={{ mb: 2 }} variant="h6">

@@ -40,25 +40,25 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({ updatedSince, loading, no
   return (
     <>
       <Grid container flexDirection="row" width="100%">
-        <DataDisplay
-          isLoading={getFirstNWalletsLoading || loading}
-          error={error}
-          defaultLoaderOptions={{ height: '400px', width: '100%' }}
-        >
-          <Grid item flex="1 1 100%">
-            <Card>
-              <CardContent sx={{ p: 0 }}>
-                <Grid container justifyContent="space-between" alignItems="center">
-                  <Grid item component={Typography} variant="overline" sx={{ pl: 3, pt: 1.5, pb: 0.8 }}>
-                    {t('portfolio.dashboard.myWallets')}
-                  </Grid>
-                  <Typography sx={{ pr: 4, py: 2 }} variant="textLink1" color="secondary.main">
-                    <Link href="/dashboard/portfolio/wallet" passHref>
-                      {t('portfolio.dashboard.addWallet')}
-                    </Link>
-                  </Typography>
+        <Grid item flex="1 1 100%">
+          <Card>
+            <CardContent sx={{ p: 0 }}>
+              <Grid container justifyContent="space-between" alignItems="center">
+                <Grid item component={Typography} variant="overline" sx={{ pl: 3, pt: 1.5, pb: 0.8 }}>
+                  {t('portfolio.dashboard.myWallets')}
                 </Grid>
-                <Divider sx={{ m: 0, p: 0 }} />
+                <Typography sx={{ pr: 4 }} variant="textLink1" color="secondary.main">
+                  <Link href="/dashboard/portfolio/wallet" passHref>
+                    {t('portfolio.dashboard.addWallet')}
+                  </Link>
+                </Typography>
+              </Grid>
+              <Divider sx={{ m: 0, p: 0 }} />
+              <DataDisplay
+                isLoading={getFirstNWalletsLoading || loading}
+                error={error}
+                defaultLoaderOptions={{ height: '400px', width: '100%' }}
+              >
                 {data?.items && data.items.length > 0 && !noWallet ? (
                   <>
                     {data?.items?.map(({ id, type, name, icon_tag, address, fiat_value, fiat_currency }) => {
@@ -125,10 +125,10 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({ updatedSince, loading, no
                     </Grid>
                   </Grid>
                 )}
-              </CardContent>
-            </Card>
-          </Grid>
-        </DataDisplay>
+              </DataDisplay>
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
     </>
   );

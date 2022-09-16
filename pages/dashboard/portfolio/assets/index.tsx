@@ -92,23 +92,18 @@ const AssetsPage: NextPage = () => {
         </title>
       </Head>
 
-      <Box
-        component="main"
-        sx={{
-          py: 6,
-        }}
-      >
-        <Container maxWidth="xl">
-          <Box sx={{ mb: 2 }}>
-            <Grid container justifyContent="space-between" spacing={3} flexWrap="nowrap">
-              <Grid item minWidth="fit-content">
+      <Box component="main">
+        <Container maxWidth="lg">
+          <Box sx={{ my: 3 }}>
+            <Grid container justifyContent="space-between" flexWrap="nowrap" alignItems="center">
+              <Grid container item minWidth="fit-content">
                 <Typography variant="h6" className="pageTitle">
                   {t('portfolio.assets.head')}
                 </Typography>
               </Grid>
             </Grid>
           </Box>
-          <Box sx={{ pt: 3 }}>
+          <Box>
             <Card sx={{ mx: 0 }}>
               <Box
                 sx={{

@@ -74,27 +74,23 @@ const Wallets: NextPage = () => {
       <Head>
         <title>Portfolio: Wallets | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          py: 6,
-        }}
-      >
-        <Collapse in={open && recentAction != null}>
-          <Alert icon={false} severity="success">
-            {t(listActionAlertTranslationKey(recentAction!))}
-          </Alert>
-        </Collapse>
-        <Box sx={{ py: 0, px: 3 }}>
-          <DataDisplay isLoading={loading} error={error} defaultLoaderOptions={{ height: '400px', width: '100%' }}>
-            <WalletList wallets={wallets} walletsCount={wallets?.length | 0} parentCallback={updateWallets} />
-          </DataDisplay>
-        </Box>
-        <Container>
-          <Grid container>
-            <AddWalletDialog parentCallback={updateWallets} />
-          </Grid>
+      <Box component="main">
+        <Container maxWidth="lg">
+          <Collapse in={open && recentAction != null}>
+            <Alert icon={false} severity="success">
+              {t(listActionAlertTranslationKey(recentAction!))}
+            </Alert>
+          </Collapse>
+          <Box>
+            <DataDisplay isLoading={loading} error={error} defaultLoaderOptions={{ height: '400px', width: '100%' }}>
+              <WalletList wallets={wallets} walletsCount={wallets?.length | 0} parentCallback={updateWallets} />
+            </DataDisplay>
+          </Box>
+          <Container>
+            <Grid container>
+              <AddWalletDialog parentCallback={updateWallets} />
+            </Grid>
+          </Container>
         </Container>
       </Box>
     </>

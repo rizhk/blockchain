@@ -29,7 +29,7 @@ const Logout: NextPage = () => {
           py: '80px',
         }}
       >
-        <Container maxWidth="lg">
+        <Container maxWidth="xxl">
           <Typography align="center" variant={mobileDevice ? 'h4' : 'h1'}>
             You&apos;ve been logout
           </Typography>

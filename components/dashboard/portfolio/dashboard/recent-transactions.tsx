@@ -35,25 +35,25 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({ updated
   return (
     <>
       <Grid container flexDirection="row" width="100%">
-        <DataDisplay
-          isLoading={getLatestNTranscationHistoryLoading || loading}
-          error={error}
-          defaultLoaderOptions={{ height: '100px', width: '100%' }}
-        >
-          <Grid item flex="1 1 100%">
-            <Card>
-              <CardContent sx={{ p: 0 }}>
-                <Grid container justifyContent="space-between" alignItems="center">
-                  <Grid item component={Typography} variant="overline" sx={{ px: 3, pt: 1.2, pb: 1 }}>
-                    {t('portfolio.dashboard.recentTrans')}
-                  </Grid>
-                  <Typography sx={{ pr: 4, py: 2 }} variant="textLink1" color="secondary.main">
-                    <Link href="/dashboard/portfolio/wallet" passHref>
-                      {t('portfolio.dashboard.addWallet')}
-                    </Link>
-                  </Typography>
+        <Grid item flex="1 1 100%">
+          <Card>
+            <CardContent sx={{ p: 0 }}>
+              <Grid container justifyContent="space-between" alignItems="center">
+                <Grid item component={Typography} variant="overline" sx={{ px: 3, pt: 1.2, pb: 1 }}>
+                  {t('portfolio.dashboard.recentTrans')}
                 </Grid>
-                <Divider sx={{ m: 0, p: 0 }} />
+                <Typography sx={{ pr: 4 }} variant="textLink1" color="secondary.main">
+                  <Link href="/dashboard/portfolio/wallet" passHref>
+                    {t('portfolio.dashboard.addWallet')}
+                  </Link>
+                </Typography>
+              </Grid>
+              <Divider sx={{ m: 0, p: 0 }} />
+              <DataDisplay
+                isLoading={getLatestNTranscationHistoryLoading || loading}
+                error={error}
+                defaultLoaderOptions={{ height: '100px', width: '100%' }}
+              >
                 {/* no wallet or transaction have no data */}
                 {noWallet ||
                 (!noWallet && data?.items === undefined) ||
@@ -88,28 +88,28 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({ updated
                       return (
                         <Grid sx={{ px: 3, pt: 1.2, pb: 0.8 }} container key={id}>
                           <Grid container item>
-                            <Grid component={Typography} variant="body1" flex="1 1 auto">
+                            <Grid component={Typography} variant="subtitle2" flex="1 1 auto">
                               <Typography>{wallet_name}</Typography>
                             </Grid>
-                            <Grid component={Typography} variant="subtitle1" flex="0 1 50%" textAlign="right">
+                            <Grid component={Typography} variant="subtitle2" flex="0 1 50%" textAlign="right">
                               <TokenSymbolDisplay amt={crypto_amount} display="inline" name={token_symbol} />
                             </Grid>
                           </Grid>
                           <Grid container item>
                             <Grid flex="1 1 auto">
                               {type.toLowerCase() === 'in' ? (
-                                <Typography variant="body1" color="success.main">
+                                <Typography variant="subtitle2" color="success.main">
                                   {t('portfolio.dashboard.incoming')}
                                 </Typography>
                               ) : (
-                                <Typography variant="body1" color="error.main">
+                                <Typography variant="subtitle2" color="error.main">
                                   {t('portfolio.dashboard.outgoing')}
                                 </Typography>
                               )}{' '}
                             </Grid>
                             <Grid
                               component={Typography}
-                              variant="subtitle1"
+                              variant="subtitle2"
                               flex="0 1 50%"
                               color="text.secondary"
                               textAlign="right"
@@ -133,10 +133,10 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({ updated
                     </Link>
                   </>
                 ) : null}
-              </CardContent>
-            </Card>
-          </Grid>
-        </DataDisplay>
+              </DataDisplay>
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
     </>
   );

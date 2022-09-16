@@ -1,6 +1,15 @@
 import { ReactNode, useRef, useState } from 'react';
 import type { ChangeEvent, FC } from 'react';
-import { Box, Divider, FormControlLabel, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import {
+  Box,
+  Divider,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Typography,
+} from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 interface FormSelectProps<T> {
@@ -45,7 +54,7 @@ export const FormSelect: <T>(props: FormSelectProps<T>) => React.ReactElement = 
         multiple={multiple}
         id={id?.toString()}
         value={selected}
-        label={label}
+        label={<Typography variant="subtitle2">{label}</Typography>}
         onChange={(e) => {
           handleChange(e.target.value as typeof value);
         }}
@@ -54,7 +63,7 @@ export const FormSelect: <T>(props: FormSelectProps<T>) => React.ReactElement = 
           <MenuItem sx={{ py: 0 }} key={JSON.stringify(topMenuItemOption.value)} value={topMenuItemOption.value as any}>
             <FormControlLabel
               control={<Box sx={{ py: 3, px: 1 }}></Box>}
-              label={topMenuItemOption.label}
+              label={<Typography variant="subtitle2">{topMenuItemOption.label}</Typography>}
               sx={{
                 flexGrow: 1,
                 mr: 0,
@@ -72,13 +81,12 @@ export const FormSelect: <T>(props: FormSelectProps<T>) => React.ReactElement = 
                 e.stopPropagation();
               }
             }}
-            sx={{ py: 0 }}
             key={JSON.stringify(option.value)}
             value={option.value as typeof value}
           >
             <FormControlLabel
               control={<Box sx={{ py: 3, px: 1 }}></Box>}
-              label={option.label}
+              label={<Typography variant="subtitle2">{option.label}</Typography>}
               sx={{
                 flexGrow: 1,
                 mr: 0,

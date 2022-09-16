@@ -14,7 +14,7 @@ const DashboardLayoutRoot = styled('div')(({ theme }) => ({
   display: 'flex',
   flex: '1 1 auto',
   maxWidth: '100%',
-  paddingTop: 32,
+  padding: '64px 0',
   [theme.breakpoints.up('lg')]: {
     paddingLeft: 240,
   },
@@ -33,7 +33,7 @@ export const DashboardLayout: FC<DashboardLayoutProps> = (props) => {
             flex: '1 1 auto',
             flexDirection: 'column',
             width: '100%',
-            maxWidth: '1200px',
+            // maxWidth: '1200px',
           }}
         >
           {children}

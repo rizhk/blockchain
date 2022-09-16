@@ -89,11 +89,7 @@ export const SortBy: <T>(props: SortByProps<T>) => React.ReactElement = (props) 
   const MenuItems = (
     <>
       {options.map((option) => (
-        <MenuItem
-          sx={{ py: 0, mb: '8px', '&:hover': { backgroundColor: '#F8F8FF' } }}
-          key={JSON.stringify(option.value)}
-          value={option.value as any}
-        >
+        <MenuItem key={JSON.stringify(option.value)} value={option.value as any}>
           <FormControlLabel
             control={
               <Checkbox
@@ -103,19 +99,7 @@ export const SortBy: <T>(props: SortByProps<T>) => React.ReactElement = (props) 
                 sx={{ display: 'none' }}
               />
             }
-            label={
-              <Typography
-                sx={{
-                  color: '#111827',
-                  fontStyle: 'normal',
-                  fontSize: '0.75rem',
-                  fontWeight: 500,
-                  lineHeight: '24px',
-                }}
-              >
-                {option.label}
-              </Typography>
-            }
+            label={<Typography variant="subtitle2">{option.label}</Typography>}
             sx={{
               flexGrow: 1,
               m: 0,

@@ -58,7 +58,7 @@ const VerifyCode: NextPage = () => {
         <title>Verify Email Address | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
       <Box sx={{ backgroundColor: 'white' }}>
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <Grid component="main" container spacing={0} sx={{ minHeight: '100vh' }}>
             <Grid item xs={12} md={6}>
               <Box

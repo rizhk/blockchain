@@ -5,6 +5,6 @@ export const nameInitials = (user: { full_name: string }) => {
   if (displayName?.length > 1) {
     return (displayName[0].slice(0, 1) + displayName[1].slice(0, 1)) as string;
   } else {
-    return displayName?.slice(0, 2);
+    return user?.full_name?.slice(0, 1);
   }
 };
