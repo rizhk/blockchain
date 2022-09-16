@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
-import { Box, DialogActions, FormHelperText, Grid, MenuItem, TextField } from '@mui/material';
+import { Box, DialogActions, FormHelperText, Grid, MenuItem, Slider, TextField } from '@mui/material';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { NetworkSelector } from 'components/dashboard/network/network-selector';
@@ -71,23 +71,13 @@ export const AvatarEditorDialog: React.FC = (props: any) => {
 
   const { updateUser } = useAuth();
 
-  const handleScale = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setScale(parseFloat(e.target.value));
+  const handleScale = (_: any, value: number | number[], __: any) => {
+    setScale(parseFloat(value));
   };
 
-  const handleRotation = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRotate(parseFloat(e.target.value));
+  const handleRotation = (_: any, value: number | number[], __: any) => {
+    setRotate(parseFloat(value));
   };
-
-  // const rotateLeft: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-  //   e.preventDefault();
-  //   setRotate((rotate - 90) % 360);
-  // };
-
-  // const rotateRight: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-  //   e.preventDefault();
-  //   setRotate((rotate + 90) % 360);
-  // };
 
   const handleUpload = () => {
     (editor.current?.getImage() as HTMLCanvasElement).toBlob(async (blob) => {
@@ -108,31 +98,45 @@ export const AvatarEditorDialog: React.FC = (props: any) => {
   React.useEffect(() => {}, []);
 
   return (
-    <BootstrapDialog onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.open}>
-      <BootstrapDialogTitle id="customized-dialog-title" onClose={props.handleClose}></BootstrapDialogTitle>
-      <DialogContent>
-        <AvatarEditor
-          ref={editor}
-          image={props.image}
-          width={200}
-          height={200}
-          border={50}
-          color={[255, 255, 255, 0.6]} // RGBA
-          scale={scale}
-          rotate={rotate}
-        />
-        <br />
-        Zoom:
-        <input name="scale" type="range" onChange={handleScale} min={1} max={2} step="0.01" defaultValue="1" />
-        <br />
-        Rotation:
-        <input name="rotation" type="range" onChange={handleRotation} min={-180} max={180} step="1" defaultValue="0" />
-        <br />
-      </DialogContent>
+    <BootstrapDialog onClose={() => props.handleClose()} aria-labelledby="customized-dialog-title" open={props.open}>
+      <Box sx={{ px: 3, py: 2 }}>Crop and rotate image</Box>
+      <AvatarEditor
+        ref={editor}
+        image={props.image}
+        width={250}
+        height={250}
+        border={[88, 33]}
+        borderRadius={250}
+        color={[0, 0, 0, 0.6]} // RGBA
+        scale={scale}
+        rotate={rotate}
+        disableBoundaryChecks
+      />
+      <Box sx={{ display: 'flex', py: 3 }}>
+        <Box sx={{ flex: 1, pl: 4, pr: 2 }}>
+          <Typography variant="overline">Zoom</Typography>
+          <Slider defaultValue={1} min={1} max={2} step={0.01} onChange={handleScale} />
+        </Box>
+        <Box sx={{ flex: 1, pl: 2, pr: 4 }}>
+          <Typography variant="overline">Rotation</Typography>
+          <Slider defaultValue={0} min={-180} max={180} step={1} onChange={handleRotation} />
+        </Box>
+      </Box>
       <DialogActions>
-        <LoadingButton onClick={handleUpload} loading={false} color="info" type="submit" variant="contained">
-          Upload
-        </LoadingButton>
+        <Box sx={{ mb: 2, mx: 2, display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'space-between' }}>
+          <Typography
+            onClick={() => {
+              props.handleClose();
+            }}
+            variant="caption2"
+            sx={{ textDecoration: 'underline', cursor: 'pointer' }}
+          >
+            {t('portfolio.transHis.cancel')}
+          </Typography>
+          <LoadingButton onClick={handleUpload} loading={false} color="info" type="submit" variant="contained">
+            Upload profile photo
+          </LoadingButton>
+        </Box>
       </DialogActions>
     </BootstrapDialog>
   );

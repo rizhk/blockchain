@@ -103,11 +103,11 @@ const Account: NextPage = () => {
     }
   };
 
-  const handleClose = (success: boolean) => {
+  const handleClose = (success?: boolean) => {
     setOpen(false);
     if (success) {
       setRecentAction(AccountAction.AVATAR_UPDATE_SUCCESS);
-    } else {
+    } else if (success == false) {
       setRecentAction(AccountAction.AVATAR_FILE_TOO_LARGE);
     }
   };
@@ -163,7 +163,7 @@ const Account: NextPage = () => {
       <Head>
         <title>Dashboard: My account | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
-      <Collapse in={open || recentAction != null}>
+      <Collapse in={recentAction != null}>
         <Alert icon={false} severity={recentAction != AccountAction.AVATAR_FILE_TOO_LARGE ? 'success' : 'error'}>
           {t(actionTranslationKey(recentAction!))}
         </Alert>
