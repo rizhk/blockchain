@@ -45,7 +45,7 @@ class PortfolioApi extends BaseApi {
     return data;
   }
   async getAllTransactionHistory(
-    options: { defaultErrorMessage: string; limit: string },
+    options: { defaultErrorMessage: string },
     filters: ITransactionHistoryFilters = { sort: 'DESC' },
   ): Promise<TransactionHistoryResponse> {
     const limit = options.limit;
@@ -73,8 +73,11 @@ class PortfolioApi extends BaseApi {
       }
     }
 
-    if (limit?.length > 0) {
-      filterParams.append('limit', limit);
+    if (filters.limit) {
+      filterParams.append('limit', filters.limit.toString());
+    }
+    if (filters.page) {
+      filterParams.append('p', filters.page.toString());
     }
 
     var result = await fetch(`${PortfolioApiEndPoints.GetAllTransactionHistory}?${filterParams}`, {

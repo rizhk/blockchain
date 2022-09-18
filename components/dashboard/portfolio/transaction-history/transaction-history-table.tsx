@@ -351,7 +351,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
         count={count}
         onPageChange={onPageChange}
         onRowsPerPageChange={onRowsPerPageChange}
-        page={page}
+        page={page - 1}
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={[10, 25, 50]}
       />

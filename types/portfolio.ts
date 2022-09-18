@@ -9,9 +9,13 @@ export interface ITransactionHistoryFilters {
   tag?: string[];
   type?: string;
   status?: string;
+  limit: number;
+  page: number;
 }
 
 export interface TransactionHistoryResponse extends BaseApiResponse {
+  total_count: number;
+  item_count: number;
   items: TransactionHistory[];
 }
 
