@@ -46,6 +46,8 @@ export interface TransactionHistory {
   status: string;
   CreatedAt: string;
   UpdatedAt: string;
+  transaction_fee: string;
+  transaction_fee_fiat: string;
 }
 
 export interface GetUserTagsResponse extends BaseApiResponse {
