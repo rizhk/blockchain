@@ -42,7 +42,16 @@ export const en = {
       pageTitle1: 'Sign up and start tracking your crypto assets today.',
       heroTitle1:
         'Stay on top of all your crypto assets,\n transactions, P/L and net worth all in\n one easy to use dashboard.',
-    },
+      accountInit: {
+        title: 'Account Init',
+        cta: 'Who is this account for?',
+        selectOne: 'Please select one',
+        business: 'Business',
+        forBusiness: 'For assets of a business',
+        personal: 'Personal',
+        forPersonal: 'For my personal assets',
+        skip: 'Skip for now. Don’t worry you can always add a business later.',
+      },
     verify: {
       heroTitle1: 'Keep track of all your assets and where\n your funds are being spent.',
     },
