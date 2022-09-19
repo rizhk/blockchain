@@ -1,4 +1,4 @@
-import { PicanteApi } from './end-point';
+import { PicanteApi } from '../end-point';
 
 type CreateSellOfferRequest = {
   wallet_addr: string; ////TODO: https://picante.atlassian.net/jira/software/projects/PP/boards/2?selectedIssue=PP-160

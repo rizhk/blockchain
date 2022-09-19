@@ -88,10 +88,10 @@ export const RecentTransactions: React.FC<IRecentTransactionsProps> = ({ updated
                       return (
                         <Grid sx={{ px: 3, pt: 1.2, pb: 0.8 }} container key={id}>
                           <Grid container item>
-                            <Grid component={Typography} variant="subtitle2" flex="1 1 auto">
-                              <Typography>{wallet_name}</Typography>
+                            <Grid component={Typography} flex="1 1 auto">
+                              <Typography variant="subtitle1">{wallet_name}</Typography>
                             </Grid>
-                            <Grid component={Typography} variant="subtitle2" flex="0 1 50%" textAlign="right">
+                            <Grid component={Typography} flex="0 1 50%" textAlign="right">
                               <TokenSymbolDisplay amt={crypto_amount} display="inline" name={token_symbol} />
                             </Grid>
                           </Grid>

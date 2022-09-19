@@ -1,4 +1,4 @@
-import { ChangeEvent, createRef, useEffect, useState } from 'react';
+import { ChangeEvent, createRef, useEffect, useState, MouseEvent } from 'react';
 import type { KeyboardEvent } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
@@ -64,7 +64,7 @@ const TransactionHistoryPage: NextPage = () => {
   } = useWalletData();
 
   const [transactionHistory, setTransactionHistory] = useState<{ items: TransactionHistory[]; shouldRefresh: boolean }>(
-    { items: [], shouldRefresh: true },
+    { items: [], shouldRefresh: true, total_count: 0, item_count: 0 },
   );
   const [wallets, setWallets] = useState<{ label: string; value: string }[]>([]);
 
@@ -77,8 +77,10 @@ const TransactionHistoryPage: NextPage = () => {
     start_date: undefined,
     end_date: undefined,
     keyword: undefined,
-    tag: [],
-    wallet: [],
+    tag: undefined,
+    wallet: undefined,
+    limit: 10,
+    page: 1,
   });
 
   const { data, loading, error, trigger } = useFetch(() => {
@@ -92,37 +94,37 @@ const TransactionHistoryPage: NextPage = () => {
 
   const handleChangeWallet = (value: any | undefined) => {
     setFilter((preFilter) => {
-      return { ...preFilter, wallet: value };
+      return { ...preFilter, wallet: value, page: 1 };
     });
   };
   const handleChangeNewest = (value: any | undefined) => {
     setFilter((preFilter) => {
-      return { ...preFilter, sort: value };
+      return { ...preFilter, sort: value, page: 1 };
     });
   };
   const handleChangeFromDate = (newValue?: Date) => {
     setFilter((preFilter) => {
-      return { ...preFilter, start_date: newValue };
+      return { ...preFilter, start_date: newValue, page: 1 };
     });
   };
   const handleChangeToDate = (newValue?: Date) => {
     setFilter((preFilter) => {
-      return { ...preFilter, end_date: newValue };
+      return { ...preFilter, end_date: newValue, page: 1 };
     });
   };
   const handleChangeTag = (value: any | undefined) => {
     setFilter((preFilter) => {
-      return { ...preFilter, tag: value };
+      return { ...preFilter, tag: value, page: 1 };
     });
   };
   const handleChangeType = (value: any | undefined) => {
     setFilter((preFilter) => {
-      return { ...preFilter, type: value };
+      return { ...preFilter, type: value, page: 1 };
     });
   };
   const handleChangeStatus = (value: any | undefined) => {
     setFilter((preFilter) => {
-      return { ...preFilter, status: value };
+      return { ...preFilter, status: value, page: 1 };
     });
   };
 
@@ -150,12 +152,17 @@ const TransactionHistoryPage: NextPage = () => {
           label: r.name,
           value: r.id,
         };
-      }) ?? [],
+      }) ?? null,
     );
   };
 
   useEffect(() => {
-    setTransactionHistory({ shouldRefresh: true, items: data?.items || [] });
+    setTransactionHistory({
+      shouldRefresh: true,
+      items: data?.items,
+      item_count: data?.item_count,
+      total_count: data?.total_count || [],
+    });
     getWallets();
     getTags();
   }, [JSON.stringify(data)]);
@@ -163,28 +170,35 @@ const TransactionHistoryPage: NextPage = () => {
   const setTransactionHistoryTag = (txnId: string, tag_name: string) => {
     getTags();
     setTransactionHistory((previous) => {
-      const { items, shouldRefresh } = previous;
+      const { items, ...rest } = previous;
       const { item, index } = primitivesUtils.getItemInArrayByKey(items, 'id', txnId);
       if (item === undefined || index === undefined) return previous;
       const updatedItem = { ...item, tag_name };
-      return { shouldRefresh: false, items: primitivesUtils.replaceItemInArrayByIndex(items, index, updatedItem) };
+      return { items: primitivesUtils.replaceItemInArrayByIndex(items, index, updatedItem), ...rest };
     });
   };
 
   const setTransactionHistoryNote = (txnId: string, note: string) => {
     setTransactionHistory((previous) => {
-      const { items, shouldRefresh } = previous;
+      const { items, ...rest } = previous;
       const { item, index } = primitivesUtils.getItemInArrayByKey(items, 'id', txnId);
       if (item === undefined || index === undefined) return previous;
       const updatedItem = { ...item, note };
-      return { shouldRefresh: false, items: primitivesUtils.replaceItemInArrayByIndex(items, index, updatedItem) };
+      return { items: primitivesUtils.replaceItemInArrayByIndex(items, index, updatedItem), ...rest };
     });
   };
 
-  const { currentData, count, onPageChange, onRowsPerPageChange, page, rowsPerPage } = useClientPagination(
-    transactionHistory.items,
-    transactionHistory.shouldRefresh,
-  );
+  const onPageChange = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+    setFilter((preFilter) => {
+      return { ...preFilter, page: newPage + 1 };
+    });
+  };
+
+  const onRowsPerPageChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    setFilter((preFilter) => {
+      return { ...preFilter, limit: parseInt(event.target.value, 10) };
+    });
+  };
 
   useEffect(() => {
     gtm.push({ event: 'page_view' });
@@ -197,6 +211,10 @@ const TransactionHistoryPage: NextPage = () => {
     if (event.target.value.length >= 3) {
       setFilter((preFilter) => {
         return { ...preFilter, keyword: event.target.value };
+      });
+    } else {
+      setFilter((preFilter) => {
+        return { ...preFilter, keyword: undefined };
       });
     }
   };
@@ -276,7 +294,7 @@ const TransactionHistoryPage: NextPage = () => {
       </Head>
 
       <Box component="main">
-        {!walletsData?.noWallet && count > 0 && walletSyncStatus.isInProgress && (
+        {!walletsData?.noWallet && transactionHistory?.total_count > 0 && walletSyncStatus.isInProgress && (
           <Grid sx={{ px: 3, py: 2, mb: 4, color: 'primary.main', backgroundColor: 'rgba(80, 72, 229, 0.1)' }}>
             <Typography variant="body1">{t('portfolio.transHis.dataSyncInProgress')}</Typography>
           </Grid>
@@ -477,12 +495,12 @@ const TransactionHistoryPage: NextPage = () => {
                 setTransactionHistoryTag={setTransactionHistoryTag}
                 setTransactionHistoryNote={setTransactionHistoryNote}
                 getTransactionHistory={() => trigger()}
-                transactionHistory={currentData}
-                count={count}
+                transactionHistory={transactionHistory?.items || []}
+                count={transactionHistory?.total_count || 0}
                 onPageChange={onPageChange}
                 onRowsPerPageChange={onRowsPerPageChange}
-                page={page}
-                rowsPerPage={rowsPerPage}
+                page={filter.page}
+                rowsPerPage={filter.limit}
               />
             </DataDisplay>
           </Card>

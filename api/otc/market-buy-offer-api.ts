@@ -1,6 +1,6 @@
-import { PicanteApi } from './end-point';
-import type { CreateBuyOfferRequest, XRateResponse } from '../types/buy-offer';
-import { BaseApi } from './base-api';
+import { PicanteApi } from '../end-point';
+import type { CreateBuyOfferRequest, XRateResponse } from '../../types/buy-offer';
+import { BaseApi } from '../base-api';
 import { BaseApiResponse } from 'types/response';
 
 class BuyOfferApi extends BaseApi {

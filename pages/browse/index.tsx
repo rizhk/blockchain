@@ -165,9 +165,7 @@ const Browse: NextPage = () => {
               }}
             >
               <Grid item lg={3} xs={12}>
-                <Typography sx={{ fontWeight: 600 }} variant="h5">
-                  {section.title}
-                </Typography>
+                <Typography variant="h5">{section.title}</Typography>
               </Grid>
               <Grid container item lg={9} spacing={3} xs={12}>
                 {section.items.map((item) => (
