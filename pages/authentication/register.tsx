@@ -202,7 +202,7 @@ const Register: NextPage = () => {
                 }}
               >
                 <img
-                  style={{ marginLeft: 10, marginRight: 10, objectFit: 'contain', maxHeight: '50vh' }}
+                  style={{ marginLeft: 10, marginRight: 10, objectFit: 'contain', maxHeight: '45vh' }}
                   src={'/static/auth/register-hero-1.png'}
                 />
                 <Typography color="primary.contrastText" variant="h5" mt={3}>

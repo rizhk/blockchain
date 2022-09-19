@@ -103,7 +103,7 @@ const typography: ExtendedTypographyOptions = {
     lineHeight: 1.375,
   },
   h5: {
-    fontWeight: 600,
+    fontWeight: 500,
     fontSize: '1.5rem',
     lineHeight: 1.375,
   },

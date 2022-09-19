@@ -36,15 +36,15 @@ export const en = {
     },
     login: {
       heroTitle1:
-        'Synced directly from the blockchain network, generate comprehensive data of all your transactions for your reporting needs.',
+        'Synced directly from the blockchain network,\n generate comprehensive data of all your\n transactions for your reporting needs.',
     },
     signup: {
       pageTitle1: 'Sign up and start tracking your crypto assets today.',
       heroTitle1:
-        'Stay on top of all your crypto assets, transactions, P/L and net worth all in one easy to use dashboard.',
+        'Stay on top of all your crypto assets,\n transactions, P/L and net worth all in\n one easy to use dashboard.',
     },
     verify: {
-      heroTitle1: 'Keep track of all your assets and where your funds are being spent.',
+      heroTitle1: 'Keep track of all your assets and where\n your funds are being spent.',
     },
     portfolio: {
       head: 'Portfolio',

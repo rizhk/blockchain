@@ -71,6 +71,7 @@ const VerifyCode: NextPage = () => {
                   justifyContent: 'center',
                   alignItems: 'center',
                   height: '100%',
+                  alignItems: { xs: 'center', md: 'flex-end' },
                 }}
                 px={12}
               >
@@ -79,7 +80,7 @@ const VerifyCode: NextPage = () => {
                   <Typography variant="h4" my={3}>
                     Check your email
                   </Typography>
-                  <Typography mb={3}>
+                  <Typography mb={3} variant="subtitle1">
                     In order complete your registration and to secure your account, we have sent you a code via email.
                     Enter the code below to verify your email address.
                   </Typography>
@@ -146,7 +147,7 @@ const VerifyCode: NextPage = () => {
                 }}
               >
                 <img
-                  style={{ marginLeft: 20, marginRight: 20, objectFit: 'contain', maxHeight: '45vh' }}
+                  style={{ marginLeft: 20, marginRight: 20, objectFit: 'contain', maxHeight: '40vh' }}
                   src={'/static/auth/verify-hero-1.png'}
                 />
                 <Typography color="primary.contrastText" variant="h5" mt={3}>
