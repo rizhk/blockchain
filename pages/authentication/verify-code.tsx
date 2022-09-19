@@ -69,7 +69,6 @@ const VerifyCode: NextPage = () => {
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'center',
-                  alignItems: 'center',
                   height: '100%',
                   alignItems: { xs: 'center', md: 'flex-end' },
                 }}
@@ -138,7 +137,7 @@ const VerifyCode: NextPage = () => {
                 sx={{
                   textAlign: 'center',
                   justifyContent: 'center',
-                  background: 'url("/static/auth/auth-bg.png"), linear-gradient(90deg, #BC043D 0%, #FF5A04 100%)',
+                  background: 'url("/static/auth/verify-bg.png"), linear-gradient(90deg, #BC043D 0%, #FF5A04 100%)',
                   backgroundSize: 'cover, auto',
                   backgroundRepeat: 'no-repeat',
                   display: 'flex',

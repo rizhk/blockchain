@@ -65,18 +65,18 @@ export const MyWallets: React.FC<IMyWalletsProps> = ({ updatedSince, loading, no
                       return (
                         <Grid sx={{ px: 3, py: 2 }} container key={id}>
                           <Grid container item flexWrap="nowrap" alignItems="center">
-                            <Grid component={Typography} variant="body1" flex="0 0 auto" sx={{ mr: 2 }}>
+                            <Grid component={Typography} variant="subtitle1" flex="0 0 auto" sx={{ mr: 2 }}>
                               <Image src={`/static/crypto/color/${icon_tag}.svg`} height="30" width="30" />{' '}
                             </Grid>
                             <Grid flexDirection="column" container flex="1 1 auto">
-                              <Grid component={Typography} variant="body1" sx={{ pb: 0.25 }}>
+                              <Grid component={Typography} variant="subtitle1" sx={{ pb: 0.2 }}>
                                 {name}
                               </Grid>
-                              <Grid component={Typography} variant="body2" color="text.secondary">
+                              <Grid component={Typography} variant="subtitle2" color="text.secondary">
                                 {primitivesUtils.getShortTxnId(address)}
                               </Grid>
                             </Grid>
-                            <Grid component={Typography} variant="body1" flex="0 0 auto">
+                            <Grid component={Typography} variant="subtitle1" flex="0 0 auto">
                               {primitivesUtils.convertFiatAmountDisplay(fiat_value)}
                             </Grid>
                           </Grid>

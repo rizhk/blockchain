@@ -197,7 +197,7 @@ const Login: NextPage = () => {
                 sx={{
                   textAlign: 'center',
                   justifyContent: 'center',
-                  background: 'url("/static/auth/auth-bg.png"), linear-gradient(90deg, #BC043D 0%, #FF5A04 100%)',
+                  background: 'url("/static/auth/login-bg.png"), linear-gradient(90deg, #BC043D 0%, #FF5A04 100%)',
                   backgroundSize: 'cover, auto',
                   backgroundRepeat: 'no-repeat',
                   display: 'flex',

@@ -212,6 +212,10 @@ const TransactionHistoryPage: NextPage = () => {
       setFilter((preFilter) => {
         return { ...preFilter, keyword: event.target.value };
       });
+    } else {
+      setFilter((preFilter) => {
+        return { ...preFilter, keyword: undefined };
+      });
     }
   };
 

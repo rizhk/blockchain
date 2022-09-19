@@ -192,7 +192,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
                 {transactionHistory?.transaction_fee} {'ETH'}
               </Typography>{' '}
               <Typography display="inline" variant="subtitle2" sx={{ color: 'text.secondary' }}>
-                {transactionHistory?.transaction_fee_fiat} USD
+                {primitivesUtils.convertFiatAmountDisplay(parseFloat(transactionHistory?.transaction_fee_fiat))}
               </Typography>
             </Grid>
           </Grid>
@@ -203,9 +203,10 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
             </Grid>
             <Grid item xs={8}>
               <Typography display="inline" variant="subtitle2" sx={{ color: 'text.secondary' }}>
-                {parseFloat(transactionHistory?.crypto_amount_fiat) +
-                  parseFloat(transactionHistory?.transaction_fee_fiat)}{' '}
-                {'USD'}
+                {primitivesUtils.convertFiatAmountDisplay(
+                  parseFloat(transactionHistory?.crypto_amount_fiat) +
+                    parseFloat(transactionHistory?.transaction_fee_fiat),
+                )}
               </Typography>
             </Grid>
           </Grid>

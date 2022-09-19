@@ -27,10 +27,14 @@ export const TokenSymbolDisplay: React.FC<ITokenSymbolDisplayProps> = ({ amt, na
     <>
       {trimmed ? (
         <Tooltip title={name}>
-          <Typography {...rest}>{primitivesUtils.convertCryptoAmountDisplay(amt, tokenSymbol)}...</Typography>
+          <Typography variant="subtitle2" {...rest}>
+            {primitivesUtils.convertCryptoAmountDisplay(amt, tokenSymbol)}...
+          </Typography>
         </Tooltip>
       ) : (
-        <Typography {...rest}>{primitivesUtils.convertCryptoAmountDisplay(amt, tokenSymbol)}</Typography>
+        <Typography variant="subtitle2" {...rest}>
+          {primitivesUtils.convertCryptoAmountDisplay(amt, tokenSymbol)}
+        </Typography>
       )}
     </>
   );

@@ -162,7 +162,7 @@ export const en = {
         noTransactionFound: `There are no results based on your filters, please try to broaden your search by selecting different filters.`,
         connectedLoadingTransaction:
           'You data is being loaded, this may take a few minutes. Please check back again later.',
-        search: 'Search by wallet address or note',
+        search: 'Search by Wallet Address / Token / Note',
         all: 'All Wallets',
         types: 'All Types',
         statuses: 'All Statuses',
