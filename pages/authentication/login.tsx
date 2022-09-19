@@ -206,10 +206,10 @@ const Login: NextPage = () => {
                 }}
               >
                 <img
-                  style={{ marginLeft: 20, marginRight: 20, objectFit: 'contain', maxHeight: '50vh' }}
-                  src={'/static/auth/login-banner.png'}
+                  style={{ marginLeft: 10, marginRight: 10, objectFit: 'contain', maxHeight: '50vh' }}
+                  src={'/static/auth/login-hero-1.png'}
                 />
-                <Typography color="primary.contrastText" variant="h5" mt={7}>
+                <Typography color="primary.contrastText" variant="h5" mt={3}>
                   {t('login.heroTitle1')}
                 </Typography>
               </Box>
