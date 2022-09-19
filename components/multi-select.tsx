@@ -23,7 +23,7 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
   const [selectedLabel, setSelectedLabel] = useState(label);
 
   useEffect(() => {
-    if (value && value.length != newVal.length) {
+    if (value && value.length != newVal?.length) {
       setNewVal(value);
     }
   }, [JSON.stringify(value), value?.length]);
@@ -84,10 +84,10 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
               control={
                 <Checkbox
                   color="primary"
-                  checked={newVal.length == options.length}
+                  checked={newVal?.length == options.length}
                   onChange={handleChange}
                   value={options.map((o) => o.value)}
-                  indeterminate={newVal.length > 0 && newVal.length < options.length}
+                  indeterminate={newVal?.length > 0 && newVal.length < options.length}
                 />
               }
               label={<Typography variant="subtitle2">{label}</Typography>}

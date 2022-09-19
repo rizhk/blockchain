@@ -88,11 +88,11 @@ export const SingleSelect: <T>(props: SingleSelectProps<T>) => React.ReactElemen
 
   const MenuItems = (
     <>
-      <MenuItem value={'abc' as any}>
+      <MenuItem value={'' as any}>
         <FormControlLabel
           control={
             !hideAll ? (
-              <Checkbox color="primary" checked={!value} onChange={() => handleClear(label, 'abc' as any)} />
+              <Checkbox color="primary" checked={!value} onChange={() => handleClear(label, '' as any)} />
             ) : (
               <Box sx={{ px: 1 }}></Box>
             )

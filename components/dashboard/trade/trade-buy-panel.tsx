@@ -26,7 +26,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { walletApi } from 'api/wallet-api';
 import { useMounted } from 'hooks/use-mounted';
 import { Wallet } from 'types/wallet';
-import { buyOfferApi } from 'api/market-buy-offer-api';
+import { buyOfferApi } from 'api/otc/market-buy-offer-api';
 import { CreateBuyOfferRequest } from 'types/buy-offer';
 import { transactionApi } from 'api/transaction-api';
 import { TransferRequest, VeriftyTokenTransferRequest } from 'types/transaction';

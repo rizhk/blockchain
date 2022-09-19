@@ -77,8 +77,8 @@ const TransactionHistoryPage: NextPage = () => {
     start_date: undefined,
     end_date: undefined,
     keyword: undefined,
-    tag: [],
-    wallet: [],
+    tag: undefined,
+    wallet: undefined,
     limit: 10,
     page: 1,
   });
@@ -152,7 +152,7 @@ const TransactionHistoryPage: NextPage = () => {
           label: r.name,
           value: r.id,
         };
-      }) ?? [],
+      }) ?? null,
     );
   };
 
