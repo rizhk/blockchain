@@ -163,7 +163,7 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
               </TableCell>
             </TableRow>
           )}
-          {transactionHistory?.map((transaction, index) => {
+          {transactionHistory?.map((transaction: TransactionHistory, index: any) => {
             const typeIcon = transaction.type.toLowerCase() === 'in' ? <MoneyReceive /> : <MoneySend />;
             return (
               <Fragment key={transaction.id}>
@@ -225,7 +225,8 @@ export const TransactionHistoryTable: FC<TransactionHistoryTableProps> = ({
                   <TableCell sx={{ maxWidth: '150px' }} align="right">
                     <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
                       {primitivesUtils.convertFiatAmountDisplay(
-                        parseFloat(transaction.crypto_amount_fiat) + parseFloat(transaction.transaction_fee_fiat),
+                        (parseFloat(transaction?.crypto_amount_fiat) +
+                          transaction?.transaction_fee_fiat) as unknown as string,
                         false,
                       )}
                     </Typography>
