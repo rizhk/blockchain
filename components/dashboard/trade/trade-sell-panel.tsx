@@ -21,12 +21,12 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { bankAccountApi } from 'api/bank-account-api';
 import { useMounted } from 'hooks/use-mounted';
 import { BankAccount } from 'types/bank-account';
-import { sellOfferApi } from 'api/market-sell-offer-api';
+import { sellOfferApi } from 'api/otc/market-sell-offer-api';
 import { transactionApi } from 'api/transaction-api';
 import { ConsoleLogger } from '@aws-amplify/core';
 import { useTranslation } from 'react-i18next';
 import useFetch from 'hooks/use-fetch';
-import { buyOfferApi } from 'api/market-buy-offer-api';
+import { buyOfferApi } from 'api/otc/market-buy-offer-api';
 import { DataDisplay } from 'components/common/data-display';
 import { primitivesUtils } from 'utils/primitives-utils';
 

@@ -202,10 +202,10 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
               <Typography variant="subtitle2">{`${t('portfolio.transHis.transactionTotal')}:`}</Typography>
             </Grid>
             <Grid item xs={8}>
-              <Typography display="inline" variant="subtitle2">
+              <Typography display="inline" variant="subtitle2" sx={{ color: 'text.secondary' }}>
                 {parseFloat(transactionHistory?.crypto_amount_fiat) +
                   parseFloat(transactionHistory?.transaction_fee_fiat)}{' '}
-                {'ETH'}
+                {'USD'}
               </Typography>
             </Grid>
           </Grid>
@@ -218,7 +218,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
             </Grid>
             <Grid item xs={8}>
               <Typography display="inline" variant="subtitle2">
-                {transactionHistory?.gas_used} {'ETH'}
+                {transactionHistory?.gas_used}
               </Typography>
             </Grid>
           </Grid>
