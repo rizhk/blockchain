@@ -35,12 +35,16 @@ export const en = {
       xRateError: 'Failed to get exchange rate.',
     },
     login: {
-      heroTitle1: 'Track and monitor your crypto across all your wallets in one place.',
+      heroTitle1:
+        'Synced directly from the blockchain network, generate comprehensive data of all your transactions for your reporting needs.',
     },
     signup: {
       pageTitle1: 'Sign up and start tracking your crypto assets today.',
       heroTitle1:
-        'Easiest way to make sense of your businesses or personal crypto holdings + export the data to make your accountants job 10X faster.',
+        'Stay on top of all your crypto assets, transactions, P/L and net worth all in one easy to use dashboard.',
+    },
+    verify: {
+      heroTitle1: 'Keep track of all your assets and where your funds are being spent.',
     },
     portfolio: {
       head: 'Portfolio',
