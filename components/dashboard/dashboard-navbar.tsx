@@ -2,7 +2,22 @@ import { useRef, useState } from 'react';
 import type { FC } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { AppBar, Avatar, Badge, Box, ButtonBase, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
+import { useRouter } from 'next/router';
+import toast from 'react-hot-toast';
+import {
+  AppBar,
+  Avatar,
+  Badge,
+  Box,
+  ButtonBase,
+  IconButton,
+  Toolbar,
+  Tooltip,
+  Typography,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import type { AppBarProps } from '@mui/material';
 import { Menu as MenuIcon } from '../../icons/menu';
@@ -17,6 +32,7 @@ import { NotificationsPopover } from './notifications-popover';
 import { LanguagePopover } from './language-popover';
 import { useAuth } from 'hooks/use-auth';
 import { nameInitials } from 'utils/profile';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 interface DashboardNavbarProps extends AppBarProps {
   onOpenSidebar?: () => void;
@@ -168,26 +184,28 @@ const AccountButton = () => {
   const anchorRef = useRef<HTMLButtonElement | null>(null);
   const [openPopover, setOpenPopover] = useState<boolean>(false);
   // To get the user from the authContext, you can use
-  const { user } = useAuth();
+  const { logout, user } = useAuth();
+  const router = useRouter();
+
   // const user = {
   // 	avatar: "",
   // 	// avatar: '/static/mock-images/avatars/avatar-anika_visser.png',
   // 	name: "Anika Visser",
   // };
 
-  const handleOpenPopover = (): void => {
-    setOpenPopover(true);
-  };
-
-  const handleClosePopover = (): void => {
-    setOpenPopover(false);
+  const handleLogout = async (): Promise<void> => {
+    try {
+      await logout();
+      router.push('/logout').catch(console.error);
+    } catch (err) {
+      console.error(err);
+      toast.error('Unable to logout.');
+    }
   };
 
   return (
     <>
       <Box
-        component={ButtonBase}
-        onClick={handleOpenPopover}
         ref={anchorRef}
         sx={{
           alignItems: 'center',
@@ -203,18 +221,38 @@ const AccountButton = () => {
             backgroundColor: '#5048E5',
           }}
         ></Avatar>
-        <Typography variant="h6">{user?.full_name}</Typography>
         <Box
           sx={{
-            ml: 1,
+            ml: 3,
           }}
         >
-          <Typography variant="body1" sx={{ color: '#9CA3AF' }}>
+          <Typography sx={{ color: '#9CA3AF', fontStyle: 'normal', fontWeight: 400, fontSize: '0.75rem' }}>
             {user?.full_name}
           </Typography>
-          {/* <Typography color="textSecondary" variant="body2">
-						Acme Inc
-					</Typography> */}
+        </Box>
+
+        <Box
+          sx={{
+            ml: 3,
+          }}
+        >
+          <ListItemText
+            onClick={handleLogout}
+            primary={
+              <Typography
+                sx={{
+                  color: '#F34F1D',
+                  fontStyle: 'normal',
+                  fontWeight: 400,
+                  fontSize: '0.75rem',
+                  my: '0px',
+                  cursor: 'pointer',
+                }}
+              >
+                Logout
+              </Typography>
+            }
+          />
         </Box>
       </Box>
 
@@ -225,6 +263,19 @@ const AccountButton = () => {
 
 export const DashboardNavbar: FC<DashboardNavbarProps> = (props) => {
   const { onOpenSidebar, ...other } = props;
+
+  const { user, logout } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = async (): Promise<void> => {
+    try {
+      await logout();
+      router.push('/logout').catch(console.error);
+    } catch (err) {
+      console.error(err);
+      toast.error('Unable to logout.');
+    }
+  };
 
   return (
     <>
@@ -259,11 +310,19 @@ export const DashboardNavbar: FC<DashboardNavbarProps> = (props) => {
             <MenuIcon fontSize="small" />
           </IconButton>
           <Box sx={{ flexGrow: 1 }} />
+
           {/* <LanguageButton /> */}
           {/* <ContentSearchButton /> */}
           {/* <ContactsButton /> */}
-          {/* <NotificationsButton /> */}
           <AccountButton />
+          <Box
+            sx={{
+              display: 'none',
+              ml: 1,
+            }}
+          >
+            <NotificationsButton />
+          </Box>
         </Toolbar>
       </DashboardNavbarRoot>
     </>
