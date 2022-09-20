@@ -167,7 +167,9 @@ const Account: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Dashboard: My account | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
+        <title>
+          Dashboard: {`${t('menu.account')}`} | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
+        </title>
       </Head>
       <Collapse in={recentAction != null || (formik.errors.submit != undefined && formik.errors.submit.length > 0)}>
         <Alert
@@ -181,17 +183,18 @@ const Account: NextPage = () => {
           {formik.errors.submit ? formik.errors.submit : t(actionTranslationKey(recentAction!))}
         </Alert>
       </Collapse>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          py: 5,
-          px: 1,
-        }}
-      >
-        <Container>
-          <Typography variant="h6">Manage your account</Typography>
-          <Box sx={{ mt: 4, maxWidth: '690px' }}>
+      <Box component="main">
+        <Container maxWidth="lg">
+          <Box sx={{ my: 3 }}>
+            <Grid container justifyContent="space-between" flexWrap="nowrap" alignItems="center">
+              <Grid container item minWidth="fit-content">
+                <Typography variant="h6" className="pageTitle">
+                  {t('account.title')}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Box>
+          <Box sx={{ mt: 4, maxWidth: '600px' }}>
             <Card>
               <CardContent sx={{ p: 0 }}>
                 <Box sx={{ pl: 3, py: 2 }}>
@@ -201,7 +204,7 @@ const Account: NextPage = () => {
                   sx={{
                     px: 3,
                     pt: 1,
-                    pb: 2,
+                    pb: 3,
                     alignItems: 'center',
                     display: 'flex',
                   }}
@@ -224,16 +227,16 @@ const Account: NextPage = () => {
                         <Button variant="contained" color="info" onClick={selectFile} sx={{ mr: 1 }}>
                           Change photo
                         </Button>
-                        <Button variant="contained" color="inherit">
+                        {/* <Button variant="contained" color="inherit">
                           Remove
-                        </Button>
+                        </Button> */}
                       </Box>
                     ) : (
                       <Button variant="contained" color="info" onClick={selectFile}>
                         Upload photo
                       </Button>
                     )}
-                    <Typography variant="body2" color="textSecondary" sx={{ pt: 2 }}>
+                    <Typography variant="body2" color="textSecondary" sx={{ pt: 2, fontSize: 12 }}>
                       Please upload JPG or PNG only. Maximum size of 2MB, minimum dimension of 200 x 200px
                     </Typography>
                   </Box>
@@ -247,7 +250,7 @@ const Account: NextPage = () => {
                     <Box
                       sx={{
                         px: 3,
-                        pb: 4,
+                        pb: 3,
                         display: 'flex',
                         alignItems: 'center',
                       }}
@@ -273,7 +276,6 @@ const Account: NextPage = () => {
                     <Box
                       sx={{
                         px: 3,
-                        pb: 1,
                         display: 'flex',
                         alignItems: 'center',
                       }}
@@ -302,7 +304,7 @@ const Account: NextPage = () => {
                     <Box
                       sx={{
                         px: 3,
-                        py: 4,
+                        py: 2,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'flex-end',
