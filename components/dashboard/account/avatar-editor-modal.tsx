@@ -82,7 +82,8 @@ export const AvatarEditorDialog: React.FC = (props: any) => {
   };
 
   const handleUpload = () => {
-    (editor.current?.getImage() as HTMLCanvasElement).toBlob(async (blob) => {
+    const canvasScaled = editor.current?.getImageScaledToCanvas();
+    canvasScaled?.toBlob(async (blob) => {
       if (blob) {
         setLoading(true);
         try {
@@ -116,6 +117,7 @@ export const AvatarEditorDialog: React.FC = (props: any) => {
         scale={scale}
         rotate={rotate}
         disableBoundaryChecks
+        disableHiDPIScaling
       />
       <Box sx={{ display: 'flex', py: 3 }}>
         <Box sx={{ flex: 1, pl: 4, pr: 2 }}>
