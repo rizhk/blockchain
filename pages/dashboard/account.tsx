@@ -54,7 +54,7 @@ const actionTranslationKey = (action: AccountAction) => {
 };
 
 const Account: NextPage = () => {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const { t } = useTranslation();
   const isMounted = useMounted();
 
@@ -151,6 +151,7 @@ const Account: NextPage = () => {
         if (isMounted()) {
           helpers.setStatus({ success: true });
           setRecentAction(AccountAction.INFO_UPDATE_SUCCESS);
+          await updateUser({});
         }
       } catch (err) {
         console.error(err);
