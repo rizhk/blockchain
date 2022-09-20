@@ -123,17 +123,23 @@ const Account: NextPage = () => {
     },
     validationSchema: Yup.object({
       full_name: Yup.string().min(3).max(255).required('Name is required'),
-      current_password: Yup.string().required('Password is required'),
-      password: Yup.string().min(8).max(255).required('Password is required'),
+      current_password: Yup.string().when('password', {
+        is: (value: string) => value && value.length > 0,
+        then: Yup.string().required('Curent password is required'),
+      }),
+      password: Yup.string().min(8).max(255),
       confirmPassword: Yup.string()
         .min(8)
         .max(255)
-        .required('Confirm password is required')
+        .when('password', {
+          is: (value: string) => value && value.length > 0,
+          then: Yup.string().required('Confirm password is required'),
+        })
         .oneOf([Yup.ref('password'), null]),
     }),
     onSubmit: async (values, helpers): Promise<void> => {
       try {
-        if (!isValid) return;
+        if (values.current_password && !isValid) return;
 
         const result = await authApi.updateUser({
           current_password: values.current_password,
@@ -161,24 +167,34 @@ const Account: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Dashboard: My account | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
+        <title>
+          Dashboard: {`${t('menu.account')}`} | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
+        </title>
       </Head>
-      <Collapse in={recentAction != null}>
-        <Alert icon={false} severity={recentAction != AccountAction.AVATAR_FILE_TOO_LARGE ? 'success' : 'error'}>
-          {t(actionTranslationKey(recentAction!))}
+      <Collapse in={recentAction != null || (formik.errors.submit != undefined && formik.errors.submit.length > 0)}>
+        <Alert
+          icon={false}
+          severity={
+            recentAction != AccountAction.AVATAR_FILE_TOO_LARGE && formik.errors.submit == undefined
+              ? 'success'
+              : 'error'
+          }
+        >
+          {formik.errors.submit ? formik.errors.submit : t(actionTranslationKey(recentAction!))}
         </Alert>
       </Collapse>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          py: 5,
-          px: 1,
-        }}
-      >
-        <Container>
-          <Typography variant="h6">Manage your account</Typography>
-          <Box sx={{ mt: 4, maxWidth: '690px' }}>
+      <Box component="main">
+        <Container maxWidth="lg">
+          <Box sx={{ my: 3 }}>
+            <Grid container justifyContent="space-between" flexWrap="nowrap" alignItems="center">
+              <Grid container item minWidth="fit-content">
+                <Typography variant="h6" className="pageTitle">
+                  {t('account.title')}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Box>
+          <Box sx={{ mt: 4, maxWidth: '600px' }}>
             <Card>
               <CardContent sx={{ p: 0 }}>
                 <Box sx={{ pl: 3, py: 2 }}>
@@ -188,7 +204,7 @@ const Account: NextPage = () => {
                   sx={{
                     px: 3,
                     pt: 1,
-                    pb: 2,
+                    pb: 3,
                     alignItems: 'center',
                     display: 'flex',
                   }}
@@ -211,17 +227,17 @@ const Account: NextPage = () => {
                         <Button variant="contained" color="info" onClick={selectFile} sx={{ mr: 1 }}>
                           Change photo
                         </Button>
-                        <Button variant="contained" color="inherit">
+                        {/* <Button variant="contained" color="inherit">
                           Remove
-                        </Button>
+                        </Button> */}
                       </Box>
                     ) : (
                       <Button variant="contained" color="info" onClick={selectFile}>
                         Upload photo
                       </Button>
                     )}
-                    <Typography variant="body2" color="textSecondary" sx={{ pt: 2 }}>
-                      Please upload JPG or PNG only. Maximum size of 800KB, minimum dimension of 200 x 200px
+                    <Typography variant="body2" color="textSecondary" sx={{ pt: 2, fontSize: 12 }}>
+                      Please upload JPG or PNG only. Maximum size of 2MB, minimum dimension of 200 x 200px
                     </Typography>
                   </Box>
                 </Box>
@@ -234,7 +250,7 @@ const Account: NextPage = () => {
                     <Box
                       sx={{
                         px: 3,
-                        pb: 4,
+                        pb: 3,
                         display: 'flex',
                         alignItems: 'center',
                       }}
@@ -260,12 +276,13 @@ const Account: NextPage = () => {
                     <Box
                       sx={{
                         px: 3,
-                        pb: 1,
                         display: 'flex',
                         alignItems: 'center',
                       }}
                     >
                       <TextField
+                        error={Boolean(formik.touched.current_password && formik.errors.current_password)}
+                        helperText={formik.touched.current_password && formik.errors.current_password}
                         label={t('account.currentPassword')}
                         type="password"
                         onBlur={formik.handleBlur}
@@ -287,7 +304,7 @@ const Account: NextPage = () => {
                     <Box
                       sx={{
                         px: 3,
-                        py: 4,
+                        py: 2,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'flex-end',
@@ -303,11 +320,6 @@ const Account: NextPage = () => {
                         {t('account.save')}
                       </LoadingButton>
                     </Box>
-                    {formik.errors.submit && (
-                      <Box sx={{ mt: 3 }}>
-                        <FormHelperText error>{formik.errors.submit}</FormHelperText>
-                      </Box>
-                    )}
                   </form>
                 </FormikProvider>
               </CardContent>
