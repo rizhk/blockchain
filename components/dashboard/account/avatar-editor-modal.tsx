@@ -67,6 +67,8 @@ export const AvatarEditorDialog: React.FC = (props: any) => {
   const [scale, setScale] = useState(1);
   const [rotate, setRotate] = useState(0);
 
+  const [loading, setLoading] = useState(false);
+
   const editor = useRef<AvatarEditor>();
 
   const { updateUser } = useAuth();
@@ -82,6 +84,7 @@ export const AvatarEditorDialog: React.FC = (props: any) => {
   const handleUpload = () => {
     (editor.current?.getImage() as HTMLCanvasElement).toBlob(async (blob) => {
       if (blob) {
+        setLoading(true);
         try {
           const result = await accountApi.uploadAvatar(blob, { defaultErrorMessage: 'fail to upload' });
           if (!result.error) {
@@ -90,6 +93,8 @@ export const AvatarEditorDialog: React.FC = (props: any) => {
           }
         } catch (e) {
           props.handleClose(false);
+        } finally {
+          setLoading(false);
         }
       }
     }, 'image/png');
@@ -115,7 +120,7 @@ export const AvatarEditorDialog: React.FC = (props: any) => {
       <Box sx={{ display: 'flex', py: 3 }}>
         <Box sx={{ flex: 1, pl: 4, pr: 2 }}>
           <Typography variant="overline">Zoom</Typography>
-          <Slider defaultValue={1} min={1} max={2} step={0.01} onChange={handleScale} />
+          <Slider defaultValue={1} min={0.5} max={1.5} step={0.01} onChange={handleScale} />
         </Box>
         <Box sx={{ flex: 1, pl: 2, pr: 4 }}>
           <Typography variant="overline">Rotation</Typography>
@@ -133,7 +138,7 @@ export const AvatarEditorDialog: React.FC = (props: any) => {
           >
             {t('portfolio.transHis.cancel')}
           </Typography>
-          <LoadingButton onClick={handleUpload} loading={false} color="info" type="submit" variant="contained">
+          <LoadingButton onClick={handleUpload} loading={loading} color="info" type="submit" variant="contained">
             Upload profile photo
           </LoadingButton>
         </Box>

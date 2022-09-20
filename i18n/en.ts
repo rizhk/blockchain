@@ -240,9 +240,10 @@ export const en = {
       help: 'Help',
       knowledgebase: 'Knowledgebase',
       news: 'News',
-      account: 'My account',
+      account: 'My Account',
     },
     account: {
+      title: 'Manage your account',
       photo: 'Profile Photo',
       displayName: 'display name',
       changeName: 'Change your display name',
