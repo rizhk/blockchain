@@ -123,17 +123,23 @@ const Account: NextPage = () => {
     },
     validationSchema: Yup.object({
       full_name: Yup.string().min(3).max(255).required('Name is required'),
-      current_password: Yup.string().required('Password is required'),
-      password: Yup.string().min(8).max(255).required('Password is required'),
+      current_password: Yup.string().when('password', {
+        is: (value: string) => value && value.length > 0,
+        then: Yup.string().required('Curent password is required'),
+      }),
+      password: Yup.string().min(8).max(255),
       confirmPassword: Yup.string()
         .min(8)
         .max(255)
-        .required('Confirm password is required')
+        .when('password', {
+          is: (value: string) => value && value.length > 0,
+          then: Yup.string().required('Confirm password is required'),
+        })
         .oneOf([Yup.ref('password'), null]),
     }),
     onSubmit: async (values, helpers): Promise<void> => {
       try {
-        if (!isValid) return;
+        if (values.current_password && !isValid) return;
 
         const result = await authApi.updateUser({
           current_password: values.current_password,
@@ -163,9 +169,16 @@ const Account: NextPage = () => {
       <Head>
         <title>Dashboard: My account | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
-      <Collapse in={recentAction != null}>
-        <Alert icon={false} severity={recentAction != AccountAction.AVATAR_FILE_TOO_LARGE ? 'success' : 'error'}>
-          {t(actionTranslationKey(recentAction!))}
+      <Collapse in={recentAction != null || (formik.errors.submit != undefined && formik.errors.submit.length > 0)}>
+        <Alert
+          icon={false}
+          severity={
+            recentAction != AccountAction.AVATAR_FILE_TOO_LARGE && formik.errors.submit == undefined
+              ? 'success'
+              : 'error'
+          }
+        >
+          {formik.errors.submit ? formik.errors.submit : t(actionTranslationKey(recentAction!))}
         </Alert>
       </Collapse>
       <Box
@@ -221,7 +234,7 @@ const Account: NextPage = () => {
                       </Button>
                     )}
                     <Typography variant="body2" color="textSecondary" sx={{ pt: 2 }}>
-                      Please upload JPG or PNG only. Maximum size of 800KB, minimum dimension of 200 x 200px
+                      Please upload JPG or PNG only. Maximum size of 2MB, minimum dimension of 200 x 200px
                     </Typography>
                   </Box>
                 </Box>
@@ -266,6 +279,8 @@ const Account: NextPage = () => {
                       }}
                     >
                       <TextField
+                        error={Boolean(formik.touched.current_password && formik.errors.current_password)}
+                        helperText={formik.touched.current_password && formik.errors.current_password}
                         label={t('account.currentPassword')}
                         type="password"
                         onBlur={formik.handleBlur}
@@ -303,11 +318,6 @@ const Account: NextPage = () => {
                         {t('account.save')}
                       </LoadingButton>
                     </Box>
-                    {formik.errors.submit && (
-                      <Box sx={{ mt: 3 }}>
-                        <FormHelperText error>{formik.errors.submit}</FormHelperText>
-                      </Box>
-                    )}
                   </form>
                 </FormikProvider>
               </CardContent>
