@@ -243,7 +243,7 @@ const AccountButton = () => {
                 sx={{
                   color: '#F34F1D',
                   fontStyle: 'normal',
-                  fontWeight: 400,
+                  fontWeight: 500,
                   fontSize: '0.75rem',
                   my: '0px',
                   cursor: 'pointer',
