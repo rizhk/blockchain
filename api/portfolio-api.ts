@@ -4,6 +4,7 @@ import { AttachmentApiResponse, BaseApiResponse } from 'types/response';
 import {
   AssetsResponse,
   CreateUserTagResponse,
+  GetTransactionBreakdownResponse,
   GetTrendsResponse,
   GetUserTagsResponse,
   GetWalletActivitiesResponse,
@@ -291,6 +292,30 @@ class PortfolioApi extends BaseApi {
       ...options,
     });
     return data;
+  }
+  async getUserTransactionBreakdown(
+    options: { defaultErrorMessage: string },
+    filters: IWalletActivitiesFilters | undefined,
+  ): Promise<GetTransactionBreakdownResponse> {
+    // todo connect api
+    // todo api utils?
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    const testData = {
+      total: 86_394_298.22,
+      item_count: 86,
+      items: [
+        { name: 'Payroll', currency_iso3: 'USD', currency_symbol: '$', percentage: 40, value: 2_385_289 },
+        { name: 'Equipment', currency_iso3: 'USD', currency_symbol: '$', percentage: 40, value: 2_385_289 },
+        { name: 'Consultancy services', currency_iso3: 'USD', currency_symbol: '$', percentage: 20, value: 1_134_632 },
+        { name: 'Rent', currency_iso3: 'USD', currency_symbol: '$', percentage: 15, value: 781_289 },
+        { name: 'Entertainment', currency_iso3: 'USD', currency_symbol: '$', percentage: 5, value: 65_291 },
+        { name: 'Others', currency_iso3: 'USD', currency_symbol: '$', percentage: 2, value: 65_291 },
+      ],
+    };
+    return {
+      error: false,
+      ...testData,
+    };
   }
   async getTrends(options: { defaultErrorMessage: string }): Promise<GetTrendsResponse> {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
