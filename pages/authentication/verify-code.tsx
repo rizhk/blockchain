@@ -35,7 +35,7 @@ const VerifyCode: NextPage = () => {
         await updateUser({});
 
         if (isMounted()) {
-          const returnUrl = (router.query.returnUrl as string | undefined) || '/authentication/account-init';
+          const returnUrl = (router.query.returnUrl as string | undefined) || '/dashboard';
           router.push(returnUrl).catch(console.error);
         }
       } catch (err) {

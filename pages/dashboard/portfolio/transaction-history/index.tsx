@@ -87,6 +87,7 @@ const TransactionHistoryPage: NextPage = () => {
     return portfolioApi.getAllTransactionHistory(
       {
         defaultErrorMessage: t('portfolio.transHis.getTransactionsError'),
+        limit: undefined,
       },
       filter,
     );
@@ -137,7 +138,7 @@ const TransactionHistoryPage: NextPage = () => {
       walletResult?.items?.map((w) => {
         return {
           label: w.name,
-          value: w.address,
+          value: w.id,
         };
       }) ?? [],
     );

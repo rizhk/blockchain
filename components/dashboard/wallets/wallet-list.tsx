@@ -87,7 +87,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
                         },
                       }}
                       onClick={() => {
-                        handleDelete(wallet.address);
+                        handleDelete(wallet.id);
                       }}
                     >
                       Remove
