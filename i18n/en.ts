@@ -2,7 +2,7 @@ export const en = {
   translation: {
     error: {
       ERROR_FORMAT_IS_NOT_ACCEPT_EITHER_JPG_OR_PNG: 'Please upload JPG or PNG only.',
-      ERROR_FILE_SIZE_TOO_LARGE: 'Maximum size of 800KB',
+      ERROR_FILE_SIZE_TOO_LARGE: 'Maximum size of 2Mb',
       ERROR_USER_EDIT_NEW_PASSWORD_NOT_MATCH: 'New password and new password confirmation are not matched.',
       ERROR_USER_EDIT_CURRENCT_PASSWORD_INCORRECT: 'Current password is incorrect.',
       ERROR_USER_PASSWORD_AT_LEAST_ONE_LOWER: 'New password should has at least 1 lowercase letter',
@@ -42,37 +42,27 @@ export const en = {
       pageTitle1: 'Sign up and start tracking your crypto assets today.',
       heroTitle1:
         'Stay on top of all your crypto assets,\n transactions, P/L and net worth all in\n one easy to use dashboard.',
-      accountInit: {
-        title: 'Account Init',
-        cta: 'Who is this account for?',
-        selectOne: 'Please select one',
-        business: 'Business',
-        forBusiness: 'For assets of a business',
-        personal: 'Personal',
-        forPersonal: 'For my personal assets',
-        skip: 'Skip for now. Don’t worry you can always add a business later.',
-      },
-      verify: {
-        heroTitle1: 'Keep track of all your assets and where\n your funds are being spent.',
-      },
-      portfolio: {
+    },
+    verify: {
+      heroTitle1: 'Keep track of all your assets and where\n your funds are being spent.',
+    },
+    portfolio: {
+      head: 'Portfolio',
+      title: 'Portfolio',
+      assets: {
+        token: 'Token',
+        marketPrice: 'Market price',
+        marketPriceTooltip: 'The current market price of your tokens.',
+        getAssetsError: 'Failed to get assets',
+        rateNotAvailable: 'Rate not available',
         head: 'Portfolio',
-        title: 'Portfolio',
-        assets: {
-          token: 'Token',
-          marketPrice: 'Market price',
-          marketPriceTooltip: 'The current market price of your tokens.',
-          getAssetsError: 'Failed to get assets',
-          rateNotAvailable: 'Rate not available',
-          head: 'Portfolio',
-          exportData: 'Export data',
-          changeIn24: '24H Change',
-          volumeIn24: '24H Volume',
-          volumeIn24Tooltip: 'DEX volume. Does not include CEX trades.',
-          yourBalance: 'Your balance',
-          connectWalletToSeeAssets: 'Connect a wallet to begin tracking your assets.',
-          connectedWithNoAssets: `Once your wallets have been connected, you will see the asset allocation across all of your wallets here.`,
-        },
+        exportData: 'Export data',
+        changeIn24: '24H Change',
+        volumeIn24: '24H Volume',
+        volumeIn24Tooltip: 'DEX volume. Does not include CEX trades.',
+        yourBalance: 'Your balance',
+        connectWalletToSeeAssets: 'Connect a wallet to begin tracking your assets.',
+        connectedWithNoAssets: `Once your wallets have been connected, you will see the asset allocation across all of your wallets here.`,
       },
       dashboard: {
         portfolioNetWorth: 'Your portfolio net worth: ',
