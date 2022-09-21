@@ -2,7 +2,7 @@ export const en = {
   translation: {
     error: {
       ERROR_FORMAT_IS_NOT_ACCEPT_EITHER_JPG_OR_PNG: 'Please upload JPG or PNG only.',
-      ERROR_FILE_SIZE_TOO_LARGE: 'Maximum size of 800KB',
+      ERROR_FILE_SIZE_TOO_LARGE: 'Maximum size of 2Mb',
       ERROR_USER_EDIT_NEW_PASSWORD_NOT_MATCH: 'New password and new password confirmation are not matched.',
       ERROR_USER_EDIT_CURRENCT_PASSWORD_INCORRECT: 'Current password is incorrect.',
       ERROR_USER_PASSWORD_AT_LEAST_ONE_LOWER: 'New password should has at least 1 lowercase letter',
