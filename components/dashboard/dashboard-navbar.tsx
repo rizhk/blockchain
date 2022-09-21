@@ -226,8 +226,8 @@ const AccountButton = () => {
             ml: 3,
           }}
         >
-          <Typography sx={{ color: '#9CA3AF', fontStyle: 'normal', fontWeight: 400, fontSize: '0.75rem' }}>
-            {user?.full_name}
+          <Typography sx={{ color: '#9CA3AF', fontStyle: 'normal', fontWeight: 500, fontSize: '0.75rem' }}>
+            {user?.email}
           </Typography>
         </Box>
 

@@ -2,7 +2,7 @@ export const en = {
   translation: {
     error: {
       ERROR_FORMAT_IS_NOT_ACCEPT_EITHER_JPG_OR_PNG: 'Please upload JPG or PNG only.',
-      ERROR_FILE_SIZE_TOO_LARGE: 'Maximum size of 800KB',
+      ERROR_FILE_SIZE_TOO_LARGE: 'Maximum size of 2Mb',
       ERROR_USER_EDIT_NEW_PASSWORD_NOT_MATCH: 'New password and new password confirmation are not matched.',
       ERROR_USER_EDIT_CURRENCT_PASSWORD_INCORRECT: 'Current password is incorrect.',
       ERROR_USER_PASSWORD_AT_LEAST_ONE_LOWER: 'New password should has at least 1 lowercase letter',
@@ -35,12 +35,16 @@ export const en = {
       xRateError: 'Failed to get exchange rate.',
     },
     login: {
-      heroTitle1: 'Track and monitor your crypto across all your wallets in one place.',
+      heroTitle1:
+        'Synced directly from the blockchain network,\n generate comprehensive data of all your\n transactions for your reporting needs.',
     },
     signup: {
       pageTitle1: 'Sign up and start tracking your crypto assets today.',
       heroTitle1:
-        'Easiest way to make sense of your businesses or personal crypto holdings + export the data to make your accountants job 10X faster.',
+        'Stay on top of all your crypto assets,\n transactions, P/L and net worth all in\n one easy to use dashboard.',
+    },
+    verify: {
+      heroTitle1: 'Keep track of all your assets and where\n your funds are being spent.',
     },
     portfolio: {
       head: 'Portfolio',
@@ -116,7 +120,9 @@ export const en = {
         blockchain: 'Blockchain',
         value: 'Value',
         transactionFee: 'Transaction Fee',
+        transactionTotal: 'Total',
         gasPrice: 'Gas Price',
+        gasUsed: 'Gas Used',
         transactionHash: 'Transaction Hash',
         status: 'Status',
         block: 'Block',
@@ -156,7 +162,7 @@ export const en = {
         noTransactionFound: `There are no results based on your filters, please try to broaden your search by selecting different filters.`,
         connectedLoadingTransaction:
           'You data is being loaded, this may take a few minutes. Please check back again later.',
-        search: 'Search by wallet address or note',
+        search: 'Search by Wallet Address / Token / Note',
         all: 'All Wallets',
         types: 'All Types',
         statuses: 'All Statuses',
@@ -234,9 +240,10 @@ export const en = {
       help: 'Help',
       knowledgebase: 'Knowledgebase',
       news: 'News',
-      account: 'My account',
+      account: 'My Account',
     },
     account: {
+      title: 'Manage your account',
       photo: 'Profile Photo',
       displayName: 'display name',
       changeName: 'Change your display name',
@@ -246,6 +253,8 @@ export const en = {
       passwordAgain: 'Enter new password again',
       save: 'Save',
       updateSuccess: 'Your account info has been updated successfully.',
+      avatarUpdateSuccess: 'You have successfully updated your profile photo.',
+      tooLarge: 'The file size of the photo you uploaded is too large, please try another photo.',
       passwordMatch: 'The two password fields must match',
       passwordMinLength: 'Passwords must not have less than 8 characters',
       passwordNumber: 'Passwords must contain at least one number',
