@@ -114,16 +114,16 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
           </Grid>
           <Grid container item>
             <Grid item xs={4}>
-              <Typography variant="body2">{`${t('portfolio.transHis.orderType')}:`}</Typography>
+              <Typography variant="subtitle2">{`${t('portfolio.transHis.orderType')}:`}</Typography>
             </Grid>
             <Grid item xs={8}>
-              <Typography variant="body2">
+              <Typography variant="subtitle2">
                 {transactionHistory?.type.toLowerCase() === 'in' ? (
-                  <Typography variant="body2" color="success.main">
+                  <Typography variant="subtitle2" color="success.main">
                     {t('portfolio.transHis.incoming')}
                   </Typography>
                 ) : (
-                  <Typography variant="body2" color="error.main">
+                  <Typography variant="subtitle2" color="error.main">
                     {t('portfolio.transHis.outgoing')}
                   </Typography>
                 )}
@@ -132,26 +132,26 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
           </Grid>
           <Grid container item>
             <Grid item xs={4}>
-              <Typography variant="body2">{`${t('portfolio.transHis.from')}:`}</Typography>
+              <Typography variant="subtitle2">{`${t('portfolio.transHis.from')}:`}</Typography>
             </Grid>
             <Grid item xs={8}>
-              <Typography display="inline" variant="body2">
+              <Typography display="inline" variant="subtitle2">
                 {transactionHistory?.from_name}
               </Typography>{' '}
-              <Typography display="inline" variant="body2" color="text.secondary" sx={{ wordWrap: 'break-word' }}>
+              <Typography display="inline" variant="subtitle2" color="text.secondary" sx={{ wordWrap: 'break-word' }}>
                 {transactionHistory?.from}
               </Typography>
             </Grid>
           </Grid>
           <Grid container item>
             <Grid item xs={4}>
-              <Typography variant="body2">{`${t('portfolio.transHis.to')}:`}</Typography>
+              <Typography variant="subtitle2">{`${t('portfolio.transHis.to')}:`}</Typography>
             </Grid>
             <Grid item xs={8}>
-              <Typography display="inline" variant="body2">
+              <Typography display="inline" variant="subtitle2">
                 {transactionHistory?.to_name}
               </Typography>{' '}
-              <Typography display="inline" variant="body2" color="text.secondary" sx={{ wordWrap: 'break-word' }}>
+              <Typography display="inline" variant="subtitle2" color="text.secondary" sx={{ wordWrap: 'break-word' }}>
                 {transactionHistory?.to}
               </Typography>{' '}
             </Grid>
@@ -161,54 +161,52 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
         <Grid sx={{ px: 3, pb: 3 }} rowSpacing={3} container item flexDirection="row">
           <Grid container item>
             <Grid item xs={4}>
-              <Typography variant="body2">{`${t('portfolio.transHis.blockchain')}:`}</Typography>
+              <Typography variant="subtitle2">{`${t('portfolio.transHis.blockchain')}:`}</Typography>
             </Grid>
             <Grid item xs={8}>
-              <Typography variant="body2">{transactionHistory?.blockchain_network}</Typography>
+              <Typography variant="subtitle2">{transactionHistory?.blockchain_network}</Typography>
             </Grid>
           </Grid>
           <Grid container item>
             <Grid item xs={4}>
-              <Typography variant="body2">{`${t('portfolio.transHis.value')}:`}</Typography>
+              <Typography variant="subtitle2">{`${t('portfolio.transHis.value')}:`}</Typography>
             </Grid>
             <Grid item xs={8}>
               <Typography display="inline" variant="subtitle2">
                 {transactionHistory?.crypto_amount + ' ' + transactionHistory?.token_symbol}
               </Typography>{' '}
               {parseFloat(transactionHistory?.crypto_amount_fiat) > 0 && (
-                <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
+                <Typography display="inline" variant="subtitle2" sx={{ color: 'text.secondary' }}>
                   {primitivesUtils.convertFiatAmountDisplay(parseFloat(transactionHistory?.crypto_amount_fiat))}
                 </Typography>
               )}
             </Grid>
           </Grid>
           {/* TODO: alchemy api have no info about transaction fee */}
-          {/* <Grid container item>
-            <Grid item xs={4}>
-              <Typography variant="body2">{`${t('portfolio.transHis.transactionFee')}:`}</Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <Typography display="inline" variant="subtitle2">
-                {transactionHistory?.gas_used} {'ETH'}
-              </Typography>{' '}
-              <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                {transactionHistory?.gas_fiat} USD
-              </Typography>
-            </Grid>
-          </Grid> */}
-        </Grid>
-        <Divider sx={{ width: '95%', m: '0 auto' }} />
-        <Grid sx={{ px: 3, pb: 3 }} rowSpacing={3} container item flexDirection="row">
           <Grid container item>
             <Grid item xs={4}>
-              <Typography variant="body2">{`${t('portfolio.transHis.gasPrice')}:`}</Typography>
+              <Typography variant="subtitle2">{`${t('portfolio.transHis.transactionFee')}:`}</Typography>
             </Grid>
             <Grid item xs={8}>
               <Typography display="inline" variant="subtitle2">
-                {transactionHistory?.gas_used} {'ETH'}
+                {transactionHistory?.transaction_fee} {'ETH'}
               </Typography>{' '}
-              <Typography display="inline" variant="body2" sx={{ color: 'text.secondary' }}>
-                ${transactionHistory?.gas_fiat}
+              <Typography display="inline" variant="subtitle2" sx={{ color: 'text.secondary' }}>
+                {primitivesUtils.convertFiatAmountDisplay(parseFloat(transactionHistory?.transaction_fee_fiat))}
+              </Typography>
+            </Grid>
+          </Grid>
+
+          <Grid container item>
+            <Grid item xs={4}>
+              <Typography variant="subtitle2">{`${t('portfolio.transHis.transactionTotal')}:`}</Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <Typography display="inline" variant="subtitle2" sx={{ color: 'text.secondary' }}>
+                {primitivesUtils.convertFiatAmountDisplay(
+                  parseFloat(transactionHistory?.crypto_amount_fiat) +
+                    parseFloat(transactionHistory?.transaction_fee_fiat),
+                )}
               </Typography>
             </Grid>
           </Grid>
@@ -217,22 +215,45 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
         <Grid sx={{ px: 3, pb: 3 }} rowSpacing={3} container item flexDirection="row">
           <Grid container item>
             <Grid item xs={4}>
-              <Typography variant="body2">{`${t('portfolio.transHis.transactionHash')}:`}</Typography>
+              <Typography variant="subtitle2">{`${t('portfolio.transHis.gasUsed')}:`}</Typography>
             </Grid>
             <Grid item xs={8}>
-              <Typography variant="body2" sx={{ wordWrap: 'break-word' }}>
+              <Typography display="inline" variant="subtitle2">
+                {transactionHistory?.gas_used}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid container item>
+            <Grid item xs={4}>
+              <Typography variant="subtitle2">{`${t('portfolio.transHis.gasPrice')}:`}</Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <Typography display="inline" variant="subtitle2">
+                {transactionHistory?.gas_price} {'ETH'}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Divider sx={{ width: '95%', m: '0 auto' }} />
+        <Grid sx={{ px: 3, pb: 3 }} rowSpacing={3} container item flexDirection="row">
+          <Grid container item>
+            <Grid item xs={4}>
+              <Typography variant="subtitle2">{`${t('portfolio.transHis.transactionHash')}:`}</Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <Typography variant="subtitle2" sx={{ wordWrap: 'break-word' }}>
                 {transactionHistory?.hash}
               </Typography>
             </Grid>
           </Grid>
           <Grid container item alignItems="center">
             <Grid item xs={4}>
-              <Typography variant="body2">{`${t('portfolio.transHis.status')}:`}</Typography>
+              <Typography variant="subtitle2">{`${t('portfolio.transHis.status')}:`}</Typography>
             </Grid>
             <Grid item xs={8}>
               {transactionHistory?.status == '1' && (
                 <Typography
-                  variant="body2"
+                  variant="subtitle2"
                   display="flex"
                   width="min-content"
                   alignItems="center"
@@ -251,7 +272,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
               )}
               {transactionHistory?.status == '0' && (
                 <Typography
-                  variant="body2"
+                  variant="subtitle2"
                   display="flex"
                   width="min-content"
                   alignItems="center"
@@ -272,29 +293,29 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
           </Grid>
           <Grid container item>
             <Grid item xs={4}>
-              <Typography variant="body2">{`${t('portfolio.transHis.block')}:`}</Typography>
+              <Typography variant="subtitle2">{`${t('portfolio.transHis.block')}:`}</Typography>
             </Grid>
             <Grid item xs={8}>
-              <Typography variant="body2" display="inline">
+              <Typography variant="subtitle2" display="inline">
                 {transactionHistory?.block_num}
               </Typography>{' '}
-              <Typography variant="body2" display="inline" sx={{ color: 'text.secondary' }}>
+              <Typography variant="subtitle2" display="inline" sx={{ color: 'text.secondary' }}>
                 {/* ({39} {t('portfolio.transHis.blockConfirmation')}) */}
               </Typography>
             </Grid>
           </Grid>
           <Grid container item>
             <Grid item xs={4}>
-              <Typography variant="body2">{`${t('portfolio.transHis.timestamp')}:`}</Typography>
+              <Typography variant="subtitle2">{`${t('portfolio.transHis.timestamp')}:`}</Typography>
             </Grid>
             <Grid item xs={8}>
-              <Typography variant="body2" display="inline">
+              <Typography variant="subtitle2" display="inline">
                 {transactionHistory?.transaction_date
                   ? formatDistance(new Date(), new Date(transactionHistory.transaction_date), { includeSeconds: true })
                   : null}{' '}
                 {t('portfolio.transHis.ago')}
               </Typography>{' '}
-              <Typography variant="body2" display="inline" sx={{ color: 'text.secondary' }}>
+              <Typography variant="subtitle2" display="inline" sx={{ color: 'text.secondary' }}>
                 (
                 {transactionHistory?.transaction_date
                   ? format(new Date(transactionHistory.transaction_date), `MMM-dd-yyyy hh:mm:ss aaaaa'm' z`)
@@ -307,16 +328,16 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
         <Divider sx={{ width: '95%', m: '0 auto' }} />
         <Grid sx={{ px: 3, pb: 3 }} rowSpacing={3} container item alignItems="center">
           <Grid item xs={4}>
-            <Typography variant="body2">{`${t('portfolio.transHis.tag')}:`}</Typography>
+            <Typography variant="subtitle2">{`${t('portfolio.transHis.tag')}:`}</Typography>
           </Grid>
-          <Typography component={Grid} display="flex" justifyContent="space-between" item xs={8} variant="body2">
+          <Typography component={Grid} display="flex" justifyContent="space-between" item xs={8} variant="subtitle2">
             {transactionHistory?.tag_name ? (
               <>
                 <Chip label={transactionHistory.tag_name} variant="outlined" size="small" />
                 <Box display="flex">
                   {/* <Typography
                     onClick={() => handleRemoveTag(transactionHistory.id)}
-                    variant="body2"
+                    variant="subtitle2"
                     color="text.secondary"
                     sx={{
                       pr: 2,
@@ -331,7 +352,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
                   </Typography> */}
                   <Typography
                     onClick={toggleAddTag}
-                    variant="body2"
+                    variant="subtitle2"
                     color="info.main"
                     sx={{
                       textDecoration: 'underline',
@@ -355,17 +376,17 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
         <Divider sx={{ width: '95%', m: '0 auto' }} />
         <Grid sx={{ px: 3, pb: 3 }} rowSpacing={3} container item alignItems="flex-start">
           <Grid item xs={4}>
-            <Typography variant="body2">{`${t('portfolio.transHis.note')}:`}</Typography>
+            <Typography variant="subtitle2">{`${t('portfolio.transHis.note')}:`}</Typography>
           </Grid>
           <Grid item xs={8} alignItems="flex-start">
-            <Typography variant="body2">
+            <Typography variant="subtitle2">
               {transactionHistory?.note ? (
                 <>
                   {transactionHistory.note}
                   <Box display="flex" justifyContent="flex-end">
                     {/* <Typography
                       onClick={() => handleRemoveTag(transactionHistory.id)}
-                      variant="body2"
+                      variant="subtitle2"
                       color="text.secondary"
                       sx={{
                         pr: 2,
@@ -380,7 +401,7 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
                     </Typography> */}
                     <Typography
                       onClick={toggleAddNote}
-                      variant="body2"
+                      variant="subtitle2"
                       color="info.main"
                       sx={{
                         textDecoration: 'underline',
@@ -405,12 +426,12 @@ export const TransactionHistoryDetails: React.FC<ITransactionHistoryDetailsProps
         </Grid>
         <Divider sx={{ width: '95%', m: '0 auto' }} />
         <Grid sx={{ pt: 2, pb: 2, px: 2 }} rowSpacing={3} flexWrap="nowrap" container item flexDirection="row">
-          <Typography flex="0 1 max-content" sx={{ pr: 1 }} variant="body2" display="inline">
+          <Typography flex="0 1 max-content" sx={{ pr: 1 }} variant="subtitle2" display="inline">
             {`${t('portfolio.transHis.viewOn')} Etherscan: `}
           </Typography>
           <Typography
             component="a"
-            variant="body2"
+            variant="subtitle2"
             color="info.main"
             sx={{ verticalAlign: 'center', display: 'flex', alignItems: 'center' }}
             rel="noreferrer"

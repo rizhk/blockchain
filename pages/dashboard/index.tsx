@@ -75,14 +75,8 @@ const Overview: NextPage = () => {
       <Head>
         <title>Dashboard: Overview | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          py: 8,
-        }}
-      >
-        <Container maxWidth="xl">
+      <Box component="main">
+        <Container maxWidth="lg">
           {/* <Box sx={{ mb: 4 }}>
             <Grid
               container

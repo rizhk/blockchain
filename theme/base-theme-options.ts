@@ -78,8 +78,9 @@ const typography: ExtendedTypographyOptions = {
   textLink1: {
     fontSize: '0.75rem',
     fontWeight: 400,
-    lineHeight: 1.66,
+    lineHeight: '250%',
     textDecoration: 'underline',
+    letterSpacing: '0.5px',
   },
   h1: {
     fontWeight: 700,
@@ -102,7 +103,7 @@ const typography: ExtendedTypographyOptions = {
     lineHeight: 1.375,
   },
   h5: {
-    fontWeight: 600,
+    fontWeight: 500,
     fontSize: '1.5rem',
     lineHeight: 1.375,
   },
@@ -136,6 +137,24 @@ export const baseThemeOptions: ThemeOptions = {
     },
   },
   components: {
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          marginLeft: 0,
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          py: 0.5,
+          mb: '8px',
+          '&:hover': {
+            backgroundColor: '#F8F8FF',
+          },
+        },
+      },
+    },
     MuiTypography: {
       styleOverrides: {
         h6: {
@@ -235,6 +254,13 @@ export const baseThemeOptions: ThemeOptions = {
     MuiButtonBase: {
       defaultProps: {
         disableRipple: true,
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          boxShadow: '0px 9px 15px 0px #64748B1F',
+        },
       },
     },
     MuiCardActions: {

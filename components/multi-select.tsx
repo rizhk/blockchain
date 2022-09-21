@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { ChangeEvent, FC } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Checkbox, Divider, FormControlLabel, Menu, MenuItem } from '@mui/material';
+import { Button, Checkbox, Divider, FormControlLabel, Menu, MenuItem, Typography } from '@mui/material';
 import { ChevronDown as ChevronDownIcon } from '../icons/chevron-down';
 import { useTranslation } from 'react-i18next';
 
@@ -23,7 +23,7 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
   const [selectedLabel, setSelectedLabel] = useState(label);
 
   useEffect(() => {
-    if (value && value.length != newVal.length) {
+    if (value && value.length != newVal?.length) {
       setNewVal(value);
     }
   }, [JSON.stringify(value), value?.length]);
@@ -79,18 +79,18 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
         PaperProps={{ style: { width: 250 } }}
       >
         {!upperOptions && (
-          <MenuItem sx={{ py: 0 }}>
+          <MenuItem>
             <FormControlLabel
               control={
                 <Checkbox
                   color="primary"
-                  checked={newVal.length == options.length}
+                  checked={newVal?.length == options.length}
                   onChange={handleChange}
                   value={options.map((o) => o.value)}
-                  indeterminate={newVal.length > 0 && newVal.length < options.length}
+                  indeterminate={newVal?.length > 0 && newVal.length < options.length}
                 />
               }
-              label={label}
+              label={<Typography variant="subtitle2">{label}</Typography>}
               sx={{
                 flexGrow: 1,
                 mr: 0,
@@ -101,7 +101,7 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
         )}
         {upperOptions &&
           upperOptions.map((option) => (
-            <MenuItem sx={{ py: 0 }} key={option.label}>
+            <MenuItem key={option.label}>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -116,7 +116,7 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
                     value={option.value}
                   />
                 }
-                label={option.label}
+                label={<Typography variant="subtitle2">{option.label}</Typography>}
                 sx={{
                   flexGrow: 1,
                   mr: 0,
@@ -132,7 +132,7 @@ export const MultiSelect: FC<MultiSelectProps> = (props) => {
               control={
                 <Checkbox checked={newVal?.includes(option.value)} onChange={handleChange} value={option.value} />
               }
-              label={option.label}
+              label={<Typography variant="subtitle2">{option.label}</Typography>}
               sx={{
                 flexGrow: 1,
                 mr: 0,

@@ -1,5 +1,6 @@
-import { Alert, Button, Grid, Skeleton, Typography } from '@mui/material';
+import { Alert, Button, CircularProgress, Grid, Skeleton, Typography } from '@mui/material';
 import * as React from 'react';
+import { CircularLoader } from './circular-loader';
 
 interface NoDataComponentProps {
   predicate?: () => boolean;
@@ -16,7 +17,6 @@ export interface IDataDisplayProps<T> {
   shouldShowRetryOnError?: boolean;
   onClickRetry?: () => void;
   children?: React.ReactChild;
-  renderNoDataComponent?: NoDataComponentProps;
 }
 
 export const DataDisplay: <T>(props: IDataDisplayProps<T>) => React.ReactElement = ({
@@ -28,11 +28,12 @@ export const DataDisplay: <T>(props: IDataDisplayProps<T>) => React.ReactElement
   children,
   defaultLoaderOptions,
   shouldShowRetryOnError = false,
-  renderNoDataComponent,
   onClickRetry,
 }) => {
   const defaultLoadingComponent = (
-    <Skeleton sx={{ bgcolor: 'neutral.200', transform: 'unset' }} animation="pulse" {...defaultLoaderOptions} />
+    <Grid container justifyContent="center">
+      <CircularLoader sx={[{ m: 4 }]} />
+    </Grid>
   );
   const defaultErrorComponent = (
     <>
@@ -52,13 +53,7 @@ export const DataDisplay: <T>(props: IDataDisplayProps<T>) => React.ReactElement
   );
   let content = children;
   // If data is available and no need to display no data found, display children
-  if (data && !renderNoDataComponent) return <>{content}</>;
-  if (data && renderNoDataComponent) {
-    if (renderNoDataComponent.predicate && typeof renderNoDataComponent.predicate === 'function')
-      return renderNoDataComponent.predicate() ? <>{renderNoDataComponent.noDataComponent}</> : <>{content}</>;
-    if (Array.isArray(data) && data.length === 0) return <>{renderNoDataComponent.noDataComponent}</>;
-    else return <>{content}</>;
-  }
+  if (data) return <>{content}</>;
   if (!isLoading && !!error) content = errorComponent || defaultErrorComponent;
   if (isLoading) content = loadingComponent || defaultLoadingComponent;
   return <>{content}</>;

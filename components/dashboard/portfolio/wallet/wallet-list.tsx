@@ -150,17 +150,15 @@ export const WalletList: FC<WalletListProps> = (props) => {
   };
 
   return (
-    <Grid maxWidth="xl">
-      <Box sx={{ mb: 1 }}>
+    <Grid maxWidth="lg" sx={{ maxWidth: '800px' }}>
+      <Box sx={{ my: 3 }}>
         <Grid container justifyContent="space-between" flexWrap="nowrap">
-          <Grid
-            item
-            minWidth="fit-content"
-            sx={{ mb: 1, pt: 2, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-          >
+          <Grid container item minWidth="fit-content" alignItems="center">
             <Typography variant="h6" className="pageTitle">
               {t('portfolio.walletList.myWallets')} ({walletsCount | 0})
             </Typography>
+          </Grid>
+          <Grid container item flex="0 0 fit-content" width={'fit-content'} flexWrap="nowrap" alignItems="center">
             <Button color="info" variant="contained" onClick={handleAddClick}>
               {t('portfolio.walletList.add')}
             </Button>
@@ -175,7 +173,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
           message={t('portfolio.walletList.copied')}
         />
       </Box>
-      <Box sx={{ pt: 2 }}>
+      <Box>
         <Card>
           <Scrollbar>
             <Table>
@@ -184,7 +182,7 @@ export const WalletList: FC<WalletListProps> = (props) => {
                   <TableCell width="15%">{t('portfolio.walletList.type')}</TableCell>
                   <TableCell width="30%">{t('portfolio.walletList.nickname')}</TableCell>
                   <TableCell width="22%">{t('portfolio.walletList.address')}</TableCell>
-                  <TableCell width="23%" align="center">
+                  <TableCell width="23%" align="right">
                     {t('portfolio.walletList.netWorth')}
                   </TableCell>
                   <TableCell width="10%" align="right"></TableCell>

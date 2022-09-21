@@ -27,10 +27,10 @@ class PrimitivesUtils {
       }
     }
 
-    if (val == 0) {
-      return val.toFixed(2);
+    if (val == 0 || val == 1) {
+      return val.toFixed(2); //0.00 or 1.00
     } else if (Math.abs(val) < 1.1) {
-      return val.toFixed(dpVal);
+      return parseFloat(val.toFixed(dpVal));
     } else {
       return val
         .toFixed(dpVal)
@@ -54,10 +54,10 @@ class PrimitivesUtils {
       }
     }
 
-    if (val == 0) {
-      return val.toFixed(2);
+    if (val == 0 || val == 1) {
+      return val.toFixed(2); //0.00 or 1.00
     } else if (Math.abs(val) < 1) {
-      return val.toFixed(dpVal);
+      return parseFloat(val.toFixed(dpVal));
     } else {
       return val
         .toFixed(dpVal)

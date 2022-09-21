@@ -45,8 +45,15 @@ class PortfolioApi extends BaseApi {
     return data;
   }
   async getAllTransactionHistory(
-    options: { defaultErrorMessage: string; limit: string },
-    filters: ITransactionHistoryFilters = { sort: 'DESC' },
+    options: {
+      limit: any;
+      defaultErrorMessage: string;
+    },
+    filters: ITransactionHistoryFilters = {
+      sort: 'DESC',
+      limit: 0,
+      page: 0,
+    },
   ): Promise<TransactionHistoryResponse> {
     const limit = options.limit;
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
@@ -56,25 +63,32 @@ class PortfolioApi extends BaseApi {
       ...(filters.end_date ? { end_date: format(filters.end_date, 'yyyy-MM-dd') } : {}),
       ...(filters.keyword ? { keyword: filters.keyword } : {}),
       ...(filters.type ? { type: filters.type } : {}),
-      ...(filters.status != undefined ? { status: filters.status } : {}),
+      ...(filters.status ? { status: filters.status } : {}),
     });
     if (filters.wallet) {
       filters.wallet?.forEach((w) => {
         filterParams.append('wallet[]', w);
       });
     }
+
+    console.log(filters);
+    console.log(filters.tag);
+
     if (filters.tag) {
       filters.tag?.forEach((w) => {
         filterParams.append('tag[]', w);
       });
 
-      if (!filters.tag.length) {
+      if (!filters.tag.length && Array.isArray(filters.tag)) {
         filterParams.append('tag[]', '');
       }
     }
 
-    if (limit?.length > 0) {
-      filterParams.append('limit', limit);
+    if (filters.limit) {
+      filterParams.append('limit', filters.limit.toString());
+    }
+    if (filters.page) {
+      filterParams.append('p', filters.page.toString());
     }
 
     var result = await fetch(`${PortfolioApiEndPoints.GetAllTransactionHistory}?${filterParams}`, {

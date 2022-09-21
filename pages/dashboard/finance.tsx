@@ -32,7 +32,7 @@ const Finance: NextPage = () => {
           py: 8,
         }}
       >
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <Box sx={{ mb: 4 }}>
             <Grid container justifyContent="space-between" spacing={3}>
               <Grid item>

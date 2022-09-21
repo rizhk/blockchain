@@ -12,8 +12,10 @@ import { LoadingButton } from '@mui/lab';
 import { useFormik } from 'formik';
 import { useMounted } from 'hooks/use-mounted';
 import { authApi } from 'api/auth-api';
+import { useTranslation } from 'react-i18next';
 
 const VerifyCode: NextPage = () => {
+  const { t } = useTranslation();
   const isMounted = useMounted();
   const router = useRouter();
   const { updateUser } = useAuth();
@@ -33,7 +35,7 @@ const VerifyCode: NextPage = () => {
         await updateUser({});
 
         if (isMounted()) {
-          const returnUrl = (router.query.returnUrl as string | undefined) || '/dashboard';
+          const returnUrl = (router.query.returnUrl as string | undefined) || '/authentication/account-init';
           router.push(returnUrl).catch(console.error);
         }
       } catch (err) {
@@ -58,7 +60,7 @@ const VerifyCode: NextPage = () => {
         <title>Verify Email Address | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}</title>
       </Head>
       <Box sx={{ backgroundColor: 'white' }}>
-        <Container maxWidth="xl">
+        <Container maxWidth="xxl" sx={{ padding: { md: '0px 0px 0px 0px' } }}>
           <Grid component="main" container spacing={0} sx={{ minHeight: '100vh' }}>
             <Grid item xs={12} md={6}>
               <Box
@@ -67,17 +69,17 @@ const VerifyCode: NextPage = () => {
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'center',
-                  alignItems: 'center',
                   height: '100%',
+                  alignItems: { xs: 'center', md: 'flex-end' },
                 }}
                 px={12}
               >
-                <Box>
+                <Box sx={{ maxWidth: '28rem' }}>
                   <img width={184} src={'/static/logo.png'} />
                   <Typography variant="h4" my={3}>
                     Check your email
                   </Typography>
-                  <Typography mb={3}>
+                  <Typography mb={3} variant="subtitle1">
                     In order complete your registration and to secure your account, we have sent you a code via email.
                     Enter the code below to verify your email address.
                   </Typography>
@@ -135,7 +137,7 @@ const VerifyCode: NextPage = () => {
                 sx={{
                   textAlign: 'center',
                   justifyContent: 'center',
-                  background: 'url("/static/auth/auth-bg.png"), linear-gradient(90deg, #BC043D 0%, #FF5A04 100%)',
+                  background: 'url("/static/auth/verify-bg.png"), linear-gradient(90deg, #BC043D 0%, #FF5A04 100%)',
                   backgroundSize: 'cover, auto',
                   backgroundRepeat: 'no-repeat',
                   display: 'flex',
@@ -144,11 +146,11 @@ const VerifyCode: NextPage = () => {
                 }}
               >
                 <img
-                  style={{ marginLeft: 20, marginRight: 20, objectFit: 'contain', maxHeight: '50vh' }}
-                  src={'/static/auth/verify-banner.png'}
+                  style={{ marginLeft: 20, marginRight: 20, objectFit: 'contain', maxHeight: '40vh' }}
+                  src={'/static/auth/verify-hero-1.png'}
                 />
-                <Typography color="primary.contrastText" variant="h5" mt={7}>
-                  Manage your accounts and convert your fiat or crypto currency in a few steps.
+                <Typography color="primary.contrastText" variant="h5" mt={3}>
+                  {t('verify.heroTitle1')}
                 </Typography>
               </Box>
             </Grid>

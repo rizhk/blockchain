@@ -333,7 +333,7 @@ class AuthApi {
               if (!data.error) {
                 resolve(data.message);
               } else {
-                reject(new Error('error'));
+                reject(new Error(data.message_code));
               }
             },
             (error) => {

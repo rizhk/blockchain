@@ -193,7 +193,7 @@ const Register: NextPage = () => {
                 sx={{
                   textAlign: 'center',
                   justifyContent: 'center',
-                  background: 'url("/static/auth/auth-bg.png"), linear-gradient(90deg, #BC043D 0%, #FF5A04 100%)',
+                  background: 'url("/static/auth/register-bg.png"), linear-gradient(90deg, #BC043D 0%, #FF5A04 100%)',
                   backgroundSize: 'cover, auto',
                   backgroundRepeat: 'no-repeat',
                   display: 'flex',
@@ -202,10 +202,10 @@ const Register: NextPage = () => {
                 }}
               >
                 <img
-                  style={{ marginLeft: 20, marginRight: 20, objectFit: 'contain', maxHeight: '50vh' }}
-                  src={'/static/auth/register-banner.png'}
+                  style={{ marginLeft: 10, marginRight: 10, objectFit: 'contain', maxHeight: '45vh' }}
+                  src={'/static/auth/register-hero-1.png'}
                 />
-                <Typography color="primary.contrastText" variant="h5" mt={7}>
+                <Typography color="primary.contrastText" variant="h5" mt={3}>
                   {t('signup.heroTitle1')}
                 </Typography>
               </Box>
