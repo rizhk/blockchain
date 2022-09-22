@@ -110,6 +110,11 @@ export const en = {
         totalAccounts: 'Total Accounts',
         totalActivity: 'Total activity',
         fetchError: 'Failed to get transaction breakdown',
+        allTypes: 'All Types',
+        type: {
+          in: 'Incoming',
+          out: 'Outgoing',
+        },
       },
       transHis: {
         head: 'Transactions',

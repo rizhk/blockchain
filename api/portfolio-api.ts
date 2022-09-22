@@ -10,6 +10,7 @@ import {
   GetWalletActivitiesResponse,
   GetWalletSyncStatusResponse,
   IExportTransactionFilters,
+  ITransactionBreakdownFilters,
   ITransactionHistoryFilters,
   IWalletActivitiesFilters,
   TransactionHistory,
@@ -295,7 +296,7 @@ class PortfolioApi extends BaseApi {
   }
   async getUserTransactionBreakdown(
     options: { defaultErrorMessage: string },
-    filters: IWalletActivitiesFilters | undefined,
+    filters?: ITransactionBreakdownFilters,
   ): Promise<GetTransactionBreakdownResponse> {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
     const filterParams = new URLSearchParams({
@@ -306,6 +307,10 @@ class PortfolioApi extends BaseApi {
       filters.wallet?.forEach((w) => {
         filterParams.append('wallet[]', w);
       });
+    }
+    // only apply type filter when one of them is selected
+    if (filters?.types && filters.types.length == 1) {
+      filterParams.append('type', filters.types[0]);
     }
     var result = await fetch(`${PortfolioApiEndPoints.GetUserTransactionBreakdown}?${filterParams}`, {
       method: 'GET',

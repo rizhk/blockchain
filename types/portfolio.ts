@@ -150,6 +150,9 @@ export interface TransactionBreakdownItem {
   currency_symbol: string;
   value: number;
 }
+export interface ITransactionBreakdownFilters extends IWalletActivitiesFilters {
+  types?: ('in' | 'out')[];
+}
 export interface GetTransactionBreakdownResponse extends BaseApiResponse {
   total: number;
   item_count: number;
