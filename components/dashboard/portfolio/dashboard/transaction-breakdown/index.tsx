@@ -98,16 +98,6 @@ export const TransactionBreakdown: React.FC<IAssetsProps> = ({ updatedSince, loa
     [data?.items],
   );
 
-  const chartData = useMemo(
-    () =>
-      coloredItems.map((item) => ({
-        name: item.percentage.toFixed(0) + '%',
-        value: item.percentage,
-        color: item.color,
-      })),
-    [coloredItems],
-  );
-
   const tableData = useMemo(() => take(coloredItems, 7), [coloredItems]);
   // #endregion memoized
 
@@ -149,7 +139,7 @@ export const TransactionBreakdown: React.FC<IAssetsProps> = ({ updatedSince, loa
                     <Grid container columnSpacing={2} flexWrap="nowrap" sx={{ px: 2, py: 2 }} alignItems="flex-start">
                       <Grid item flex="0 1 auto">
                         <BreakdownChart
-                          items={chartData}
+                          items={coloredItems}
                           total={primitivesUtils.convertFiatAmountDisplay(data?.total ?? 0)}
                         />
                       </Grid>
