@@ -297,8 +297,30 @@ class PortfolioApi extends BaseApi {
     options: { defaultErrorMessage: string },
     filters: IWalletActivitiesFilters | undefined,
   ): Promise<GetTransactionBreakdownResponse> {
-    // todo connect api
-    // todo api utils?
+    const accessToken = globalThis.localStorage.getItem('accessToken') || '';
+    const filterParams = new URLSearchParams({
+      ...(filters?.start_date ? { start_date: format(filters.start_date, 'yyyy-MM-dd') } : {}),
+      ...(filters?.end_date ? { end_date: format(filters.end_date, 'yyyy-MM-dd') } : {}),
+    });
+    if (filters?.wallet) {
+      filters.wallet?.forEach((w) => {
+        filterParams.append('wallet[]', w);
+      });
+    }
+    var result = await fetch(`${PortfolioApiEndPoints.GetUserTransactionBreakdown}?${filterParams}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authentication: accessToken,
+      },
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
+    });
+    var data = await this.handleFetchResponse<GetTransactionBreakdownResponse>(result, {
+      ...options,
+    });
+    return data;
+
     await new Promise((resolve) => setTimeout(resolve, 500));
     const testData = {
       total: 86_394_298.22,
