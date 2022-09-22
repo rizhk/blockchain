@@ -49,6 +49,12 @@ export const en = {
     portfolio: {
       head: 'Portfolio',
       title: 'Portfolio',
+      add: 'Add a portfolio',
+      photo: 'Portfolio photo',
+      name: 'Portfolio name',
+      enterName: 'Enter the name of your portfolio',
+      currency: 'Currency',
+      preferCurrency: 'Preferred currency of your portfolio',
       assets: {
         token: 'Token',
         marketPrice: 'Market price',
