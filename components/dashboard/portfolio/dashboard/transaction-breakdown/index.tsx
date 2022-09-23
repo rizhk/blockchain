@@ -11,7 +11,7 @@ import Link from 'next/link';
 import * as React from 'react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IWalletActivitiesFilters, Wallet } from 'types/portfolio';
+import { ITransactionBreakdownFilters, IWalletActivitiesFilters, Wallet } from 'types/portfolio';
 import { primitivesUtils } from 'utils/primitives-utils';
 import { NoWalletCTA } from '../no-wallet-cta';
 import { BreakdownChart } from './chart';
@@ -56,20 +56,29 @@ export const TransactionBreakdown: React.FC<IAssetsProps> = ({ updatedSince, loa
       return { ...preFilter, wallet: value };
     });
   };
+
+  const defaultRange = '30d';
+  const { startDate: defaultStartDate, endDate: defaultEndDate } = primitivesUtils.getStartEndDateByRange(defaultRange);
   const handleChangeDates = (startDate: Date | undefined, endDate: Date | undefined) => {
     setFilter((preFilter) => {
       return { ...preFilter, start_date: startDate, end_date: endDate };
     });
   };
 
-  const defaultRange = '30d';
-  const { startDate: defaultStartDate, endDate: defaultEndDate } = primitivesUtils.getStartEndDateByRange(defaultRange);
+  const typeOptions = ['in', 'out'].map((value) => ({
+    value,
+    label: t(`portfolio.breakdown.type.${value}`),
+  }));
+  const handleChangeType = (value: ITransactionBreakdownFilters['types']) => {
+    setFilter((preFilter) => {
+      return { ...preFilter, types: value };
+    });
+  };
 
   // todo: change interface name?
-  const [filter, setFilter] = React.useState<IWalletActivitiesFilters>({
+  const [filter, setFilter] = React.useState<ITransactionBreakdownFilters>({
     start_date: defaultStartDate,
     end_date: defaultEndDate,
-    wallet: undefined,
   });
   // #endregion filters
 
@@ -98,16 +107,6 @@ export const TransactionBreakdown: React.FC<IAssetsProps> = ({ updatedSince, loa
     [data?.items],
   );
 
-  const chartData = useMemo(
-    () =>
-      coloredItems.map((item) => ({
-        name: item.percentage.toFixed(0) + '%',
-        value: item.percentage,
-        color: item.color,
-      })),
-    [coloredItems],
-  );
-
   const tableData = useMemo(() => take(coloredItems, 7), [coloredItems]);
   // #endregion memoized
 
@@ -130,6 +129,12 @@ export const TransactionBreakdown: React.FC<IAssetsProps> = ({ updatedSince, loa
                     options={walletOption}
                     value={filter?.wallet}
                   />
+                  <MultiSelect
+                    label={t('portfolio.breakdown.allTypes')}
+                    onChange={handleChangeType}
+                    options={typeOptions}
+                    value={filter?.types}
+                  />
                   <DatePickerSelect
                     handleChangeDates={handleChangeDates}
                     defaultStartDate={defaultStartDate}
@@ -149,7 +154,7 @@ export const TransactionBreakdown: React.FC<IAssetsProps> = ({ updatedSince, loa
                     <Grid container columnSpacing={2} flexWrap="nowrap" sx={{ px: 2, py: 2 }} alignItems="flex-start">
                       <Grid item flex="0 1 auto">
                         <BreakdownChart
-                          items={chartData}
+                          items={coloredItems}
                           total={primitivesUtils.convertFiatAmountDisplay(data?.total ?? 0)}
                         />
                       </Grid>
