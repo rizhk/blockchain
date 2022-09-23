@@ -32,6 +32,7 @@ import * as Yup from 'yup';
 import { LoadingButton } from '@mui/lab';
 import { authApi } from 'api/auth-api';
 import { PhotoEditorDialog } from 'components/dashboard/portfolio/photo-edit-dialog';
+import { CurrencySelector } from 'components/dashboard/portfolio/currency-selector';
 
 enum AccountAction {
   INFO_UPDATE_SUCCESS,
@@ -266,17 +267,7 @@ const CreatePortfolio: NextPage = () => {
                         alignItems: 'center',
                       }}
                     >
-                      <TextField
-                        error={Boolean(formik.touched.current_password && formik.errors.current_password)}
-                        helperText={formik.touched.current_password && formik.errors.current_password}
-                        label={t('portfolio.preferCurrency')}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        margin="normal"
-                        name="current_password"
-                        value={formik.values.current_password}
-                        fullWidth
-                      />
+                      <CurrencySelector />
                     </Box>
                     <Box
                       sx={{
