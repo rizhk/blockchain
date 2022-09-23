@@ -195,3 +195,14 @@ export interface TrendChartData {
 export interface GetTrendsResponse extends BaseApiResponse {
   items: Trend[];
 }
+
+export interface Portfolio {
+  PK: string;
+  FullName: string;
+  ProfilePicUrl: string;
+  BaseCurrency: string;
+}
+
+export interface CreatePortfolioResponse extends BaseApiResponse {
+  portfolio: Portfolio;
+}
