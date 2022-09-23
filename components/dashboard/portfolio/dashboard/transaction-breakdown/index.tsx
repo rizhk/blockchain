@@ -190,7 +190,7 @@ export const TransactionBreakdown: React.FC<IAssetsProps> = ({ updatedSince, loa
                                 </Typography>
                               </Grid>
                             </Grid>
-                            <Grid container item flex="1 1 50%" sx={{ mr: 2 }}>
+                            <Grid container item flex="1 1 50%">
                               <Typography variant="subtitle2">
                                 {primitivesUtils.convertPercentageDisplay(item.percentage)}
                               </Typography>
