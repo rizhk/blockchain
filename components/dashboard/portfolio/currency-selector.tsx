@@ -20,7 +20,7 @@ export const CurrencySelector: FC = (props) => {
   return (
     <FormControl fullWidth>
       <InputLabel id="curreny-select-label">{t('portfolio.preferCurrency')}</InputLabel>
-      <Select disabled id="currency-select" value="USD" label="Currency" onChange={handleChange} disabled>
+      <Select id="currency-select" value="USD" label="Currency" onChange={handleChange} disabled>
         <MenuItem value={'USD'}>
           <span
             style={{
