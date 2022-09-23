@@ -194,8 +194,7 @@ export const TransactionBreakdown: React.FC<IAssetsProps> = ({ updatedSince, loa
                               <Typography variant="subtitle2">
                                 {primitivesUtils.convertPercentageDisplay(item.percentage)}
                               </Typography>
-                              &nbsp;
-                              <Typography variant="body2" sx={{ color: '#6B7280', fontWeight: 500 }}>
+                              <Typography variant="body2" sx={{ color: '#6B7280', fontWeight: 500, ml: 2 }}>
                                 {primitivesUtils.convertFiatAmountDisplay(item.value)}
                               </Typography>
                             </Grid>
