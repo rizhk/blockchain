@@ -30,8 +30,16 @@ export const AssetsChart: React.FC<IAssetsChartProps> = ({ data }) => {
     plotOptions: {
       pie: {
         customScale: 1,
+        dataLabels: {
+          offset: -20,
+        },
       },
     },
+    stroke: {
+      width: 0,
+      colors: ['#fff'],
+    },
+
     tooltip: {
       enabled: true,
       custom: function ({ series, seriesIndex, dataPointIndex, w }) {
