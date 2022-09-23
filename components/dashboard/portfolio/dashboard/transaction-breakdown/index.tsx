@@ -129,12 +129,12 @@ export const TransactionBreakdown: React.FC<IAssetsProps> = ({ updatedSince, loa
                     options={walletOption}
                     value={filter?.wallet}
                   />
-                  <MultiSelect
+                  {/* <MultiSelect
                     label={t('portfolio.breakdown.allTypes')}
                     onChange={handleChangeType}
                     options={typeOptions}
                     value={filter?.types}
-                  />
+                  /> */}
                   <DatePickerSelect
                     handleChangeDates={handleChangeDates}
                     defaultStartDate={defaultStartDate}
@@ -158,7 +158,7 @@ export const TransactionBreakdown: React.FC<IAssetsProps> = ({ updatedSince, loa
                           total={primitivesUtils.convertFiatAmountDisplay(data?.total ?? 0)}
                         />
                       </Grid>
-                      <Grid item container>
+                      <Grid item container sx={{ mx: 4 }}>
                         <Grid container item flex="1 1 auto" alignItems="flex-end" flexWrap="nowrap" sx={{ py: 1 }}>
                           <Grid item flex="1 1 50%">
                             <Typography variant="overline" sx={{ color: '#6B7280' }}>
@@ -195,7 +195,7 @@ export const TransactionBreakdown: React.FC<IAssetsProps> = ({ updatedSince, loa
                                 {primitivesUtils.convertPercentageDisplay(item.percentage)}
                               </Typography>
                               &nbsp;
-                              <Typography variant="body2">
+                              <Typography variant="body2" sx={{ color: '#6B7280', fontWeight: 500 }}>
                                 {primitivesUtils.convertFiatAmountDisplay(item.value)}
                               </Typography>
                             </Grid>
@@ -203,8 +203,8 @@ export const TransactionBreakdown: React.FC<IAssetsProps> = ({ updatedSince, loa
                         ))}
                       </Grid>
                     </Grid>
-                    <Grid sx={{ px: 3, py: 2 }} container justifyContent="space-between" alignItems="center">
-                      {/* TODO: no breakdown page yet */}
+                    {/* <Grid sx={{ px: 3, py: 2 }} container justifyContent="space-between" alignItems="center">
+                      { TODO: no breakdown page yet }
                       <Link href="/dashboard/portfolio/breakdown/" passHref>
                         <Typography
                           sx={{ cursor: 'pointer' }}
@@ -222,7 +222,7 @@ export const TransactionBreakdown: React.FC<IAssetsProps> = ({ updatedSince, loa
                           {data?.item_count}
                         </Typography>
                       </Typography>
-                    </Grid>
+                    </Grid> */}
                   </>
                 ) : (
                   <NoWalletCTA />

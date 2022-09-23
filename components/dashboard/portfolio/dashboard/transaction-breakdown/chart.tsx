@@ -20,14 +20,14 @@ export const BreakdownChart: FC<BreakdownChartProps> = ({ items, total }) => {
   );
   return (
     <Box sx={{ position: 'relative' }}>
-      <PieChart width={180} height={180}>
+      <PieChart width={200} height={200}>
         <Pie
           data={itemsWithFormattedPercentage}
           dataKey="percentage"
           startAngle={90}
           endAngle={-270}
-          outerRadius={90}
-          innerRadius={60}
+          outerRadius={95}
+          innerRadius={65}
         >
           {items.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={entry.color} strokeWidth={0} />
