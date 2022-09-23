@@ -99,14 +99,14 @@ const Portfolio: NextPage = () => {
                 wallets={walletsData?.wallet}
               />
               <Box sx={{ mb: 4 }}></Box>
-              <Trends
+              <TransactionBreakdown
                 updatedSince={updatedSince}
                 loading={getAllWalletsIsLoading}
                 noWallet={walletsData?.noWallet}
                 wallets={walletsData?.wallet}
               />
               <Box sx={{ mb: 4 }}></Box>
-              <TransactionBreakdown
+              <Trends
                 updatedSince={updatedSince}
                 loading={getAllWalletsIsLoading}
                 noWallet={walletsData?.noWallet}
