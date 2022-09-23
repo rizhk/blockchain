@@ -33,23 +33,7 @@ import { LoadingButton } from '@mui/lab';
 import { authApi } from 'api/auth-api';
 import { PhotoEditorDialog } from 'components/dashboard/portfolio/photo-edit-dialog';
 import { CurrencySelector } from 'components/dashboard/portfolio/currency-selector';
-
-enum AccountAction {
-  INFO_UPDATE_SUCCESS,
-  AVATAR_FILE_TOO_LARGE,
-  AVATAR_UPDATE_SUCCESS,
-}
-
-const actionTranslationKey = (action: AccountAction) => {
-  switch (action) {
-    case AccountAction.INFO_UPDATE_SUCCESS:
-      return 'account.updateSuccess';
-    case AccountAction.AVATAR_FILE_TOO_LARGE:
-      return 'account.tooLarge';
-    case AccountAction.AVATAR_UPDATE_SUCCESS:
-      return 'account.avatarUpdateSuccess';
-  }
-};
+import { portfolioApi } from 'api/portfolio-api';
 
 const CreatePortfolio: NextPage = () => {
   const { user, updateUser } = useAuth();
@@ -58,10 +42,8 @@ const CreatePortfolio: NextPage = () => {
 
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState<File | undefined>(undefined);
-
-  const [isValid, setIsValid] = useState(false);
-
-  const [recentAction, setRecentAction] = useState<AccountAction>();
+  const [newImage, setNewImage] = useState<string>('');
+  const [file, setFile] = useState<Blob | null>(null);
 
   useEffect(() => {
     gtm.push({ event: 'page_view' });
@@ -78,7 +60,7 @@ const CreatePortfolio: NextPage = () => {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size / 1024 > 800) {
-        setRecentAction(AccountAction.AVATAR_FILE_TOO_LARGE);
+        formik.setErrors({ submit: t('account.tooLarge') });
         return;
       }
 
@@ -91,7 +73,7 @@ const CreatePortfolio: NextPage = () => {
         const width = image.naturalWidth;
 
         if (height < 200 || width < 200) {
-          setRecentAction(AccountAction.AVATAR_FILE_TOO_LARGE);
+          formik.setErrors({ submit: t('account.tooLarge') });
           return;
         } else {
           setImage(file);
@@ -101,54 +83,36 @@ const CreatePortfolio: NextPage = () => {
     }
   };
 
-  const handleClose = (success?: boolean) => {
+  const handleClose = (url: string, file: Blob) => {
     setOpen(false);
-    if (success) {
-      setRecentAction(AccountAction.AVATAR_UPDATE_SUCCESS);
-    } else if (success == false) {
-      setRecentAction(AccountAction.AVATAR_FILE_TOO_LARGE);
-    }
+    setFile(file);
+    setNewImage(url);
   };
 
   const formik = useFormik({
     initialValues: {
-      full_name: user?.full_name,
-      current_password: '',
-      password: '',
-      confirmPassword: '',
+      full_name: '',
+      currency: 'USD',
       submit: null,
       success: false,
     },
     validationSchema: Yup.object({
       full_name: Yup.string().min(3).max(255).required('Name is required'),
-      current_password: Yup.string().when('password', {
-        is: (value: string) => value && value.length > 0,
-        then: Yup.string().required('Curent password is required'),
-      }),
-      password: Yup.string().min(8).max(255),
-      confirmPassword: Yup.string()
-        .min(8)
-        .max(255)
-        .when('password', {
-          is: (value: string) => value && value.length > 0,
-          then: Yup.string().required('Confirm password is required'),
-        })
-        .oneOf([Yup.ref('password'), null]),
     }),
     onSubmit: async (values, helpers): Promise<void> => {
       try {
-        if (values.current_password && !isValid) return;
-
-        const result = await authApi.updateUser({
-          current_password: values.current_password,
-          new_password: values.password,
-          new_password_confirmation: values.confirmPassword,
-          full_name: values.full_name,
-        });
+        await portfolioApi.createPortfolio(
+          {
+            full_name: values.full_name,
+            base_currency: values.currency,
+            profile_pic: file,
+          },
+          { defaultErrorMessage: '' },
+        );
 
         if (isMounted()) {
           helpers.setStatus({ success: true });
-          setRecentAction(AccountAction.INFO_UPDATE_SUCCESS);
+          formik.setErrors({ submit: undefined });
           await updateUser({});
         }
       } catch (err) {
@@ -167,19 +131,12 @@ const CreatePortfolio: NextPage = () => {
     <>
       <Head>
         <title>
-          Dashboard: {`${t('menu.account')}`} | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
+          Dashboard: {`${t('portfolio.add')}`} | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
         </title>
       </Head>
-      <Collapse in={recentAction != null || (formik.errors.submit != undefined && formik.errors.submit.length > 0)}>
-        <Alert
-          icon={false}
-          severity={
-            recentAction != AccountAction.AVATAR_FILE_TOO_LARGE && formik.errors.submit == undefined
-              ? 'success'
-              : 'error'
-          }
-        >
-          {formik.errors.submit ? formik.errors.submit : t(actionTranslationKey(recentAction!))}
+      <Collapse in={formik.values.success || (formik.errors.submit != undefined && formik.errors.submit.length > 0)}>
+        <Alert icon={false} severity={formik.errors.submit == undefined ? 'success' : 'error'}>
+          {formik.errors.submit ? formik.errors.submit : t('portfolio.addSuccess')}
         </Alert>
       </Collapse>
       <Box component="main">
@@ -208,23 +165,18 @@ const CreatePortfolio: NextPage = () => {
                     display: 'flex',
                   }}
                 >
-                  <img alt="" src={user?.profile_pic_url} width={100} height={100} style={{ borderRadius: 16 }} />
+                  <img
+                    alt=""
+                    src={newImage != '' ? newImage : '/static/portfolio/avatar_placeholder.png'}
+                    width={100}
+                    height={100}
+                    style={{ borderRadius: 16 }}
+                  />
                   <Box sx={{ mx: 4 }}>
                     <input type="file" hidden id="avatar" onChange={handleNewImage} accept="image/jpeg,image/png" />
-                    {user?.profile_pic_url != '' ? (
-                      <Box>
-                        <Button variant="contained" color="info" onClick={selectFile} sx={{ mr: 1 }}>
-                          Change photo
-                        </Button>
-                        {/* <Button variant="contained" color="inherit">
-                          Remove
-                        </Button> */}
-                      </Box>
-                    ) : (
-                      <Button variant="contained" color="info" onClick={selectFile}>
-                        Upload photo
-                      </Button>
-                    )}
+                    <Button variant="contained" color="info" onClick={selectFile}>
+                      Upload photo
+                    </Button>
                     <Typography variant="body2" color="textSecondary" sx={{ pt: 2, fontSize: 12 }}>
                       Please upload JPG or PNG only. Maximum size of 2MB, minimum dimension of 200 x 200px
                     </Typography>

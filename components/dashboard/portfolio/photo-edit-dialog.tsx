@@ -85,18 +85,7 @@ export const PhotoEditorDialog: React.FC = (props: any) => {
     const canvasScaled = editor.current?.getImageScaledToCanvas();
     canvasScaled?.toBlob(async (blob) => {
       if (blob) {
-        setLoading(true);
-        try {
-          //   const result = await accountApi.uploadPhoto(blob, { defaultErrorMessage: 'fail to upload' });
-          //   if (!result.error) {
-          //     await updateUser({});
-          //     props.handleClose(true);
-          //   }
-        } catch (e) {
-          props.handleClose(false);
-        } finally {
-          setLoading(false);
-        }
+        props.handleClose(canvasScaled?.toDataURL(), blob);
       }
     }, 'image/png');
   };
@@ -141,7 +130,7 @@ export const PhotoEditorDialog: React.FC = (props: any) => {
             {t('portfolio.transHis.cancel')}
           </Typography>
           <LoadingButton onClick={handleUpload} loading={loading} color="info" type="submit" variant="contained">
-            Upload profile photo
+            OK
           </LoadingButton>
         </Box>
       </DialogActions>

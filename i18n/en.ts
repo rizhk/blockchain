@@ -50,6 +50,7 @@ export const en = {
       head: 'Portfolio',
       title: 'Portfolio',
       add: 'Add a portfolio',
+      addSuccess: 'Portfolio created successfully',
       photo: 'Portfolio photo',
       name: 'Portfolio name',
       enterName: 'Enter the name of your portfolio',
