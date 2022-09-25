@@ -101,6 +101,7 @@ export const en = {
         walletActivities: 'Wallet activities',
         trends: 'Trends',
         noTrendsCtaText: 'Once your wallets have been connected, you will see trends of your total holdings over time.',
+        blackPink: 'Blankpink',
       },
       transHis: {
         head: 'Transactions',
