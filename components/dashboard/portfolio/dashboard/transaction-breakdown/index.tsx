@@ -6,15 +6,15 @@ import { Divider } from 'components/common/divider';
 import { MultiSelect } from 'components/multi-select';
 import useFetch from 'hooks/use-fetch';
 import { Dot } from 'icons/dot';
-import { take } from 'lodash';
-import Link from 'next/link';
+import { random, sum, take } from 'lodash';
 import * as React from 'react';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ITransactionBreakdownFilters, IWalletActivitiesFilters, Wallet } from 'types/portfolio';
+import { neutral } from 'theme/colors';
+import { ITransactionBreakdownFilters, TransactionBreakdownItem, Wallet } from 'types/portfolio';
 import { primitivesUtils } from 'utils/primitives-utils';
 import { NoWalletCTA } from '../no-wallet-cta';
-import { BreakdownChart } from './chart';
+import { BreakdownChart, BreakdownChartProps } from './chart';
 
 export interface IAssetsProps {
   updatedSince: string | null;
@@ -23,22 +23,30 @@ export interface IAssetsProps {
   wallets: Wallet[] | undefined;
 }
 
+const chartBaseColors = [
+  alpha('#5173B8', 1),
+  alpha('#0BB39C', 1),
+  alpha('#F09739', 1),
+  alpha('#F06549', 1),
+  alpha('#A267AD', 1),
+  alpha('#DBD42D', 1),
+];
+
+const UNASSIGNED = 'unassigned';
+const SUCCESS_NO_ITEMS = 'SUCCESS_NO_ITEMS';
+
 export const TransactionBreakdown: React.FC<IAssetsProps> = ({ updatedSince, loading, noWallet, wallets }) => {
   const { t } = useTranslation();
 
   const theme = useTheme();
 
-  const getColorByIndex = (index: number): string => {
-    const chartBaseColors = [
-      alpha('#5173B8', 1),
-      alpha('#0BB39C', 1),
-      alpha('#F09739', 1),
-      alpha('#F06549', 1),
-      alpha('#A267AD', 1),
-      alpha('#6B7280', 1),
-    ];
-    return chartBaseColors[index] ?? primitivesUtils.generateRgba();
-  };
+  const getItemColor = useCallback(
+    (item: TransactionBreakdownItem, index: number): string => {
+      if (item.name.toLowerCase() === UNASSIGNED) return theme.palette.neutral?.[400] ?? neutral[400]; // just in case
+      return chartBaseColors[index] ?? primitivesUtils.generateRgba();
+    },
+    [theme.palette.neutral],
+  );
 
   // #region filter
   const walletOption = useMemo(() => {
@@ -97,17 +105,33 @@ export const TransactionBreakdown: React.FC<IAssetsProps> = ({ updatedSince, loa
   }, [updatedSince, JSON.stringify(filter)]);
 
   // #region memoized
-  const hasData = useMemo(
-    () => !noWallet && data?.item_count != null && data?.item_count > 0,
-    [noWallet, data?.item_count],
-  );
-
   const coloredItems = useMemo(
-    () => data?.items?.map((item, index) => ({ ...item, color: getColorByIndex(index) })) ?? [],
-    [data?.items],
+    () => data?.items?.map((item, index) => ({ ...item, color: getItemColor(item, index) })) ?? [],
+    [data?.items, getItemColor],
   );
 
-  const tableData = useMemo(() => take(coloredItems, 7), [coloredItems]);
+  const isEmptyData = useMemo(
+    () => data?.item_count == 0 && data?.message == SUCCESS_NO_ITEMS,
+    [data?.item_count, data?.message],
+  );
+
+  const chartItems: BreakdownChartProps['items'] = useMemo(() => {
+    if (isFetching) {
+      return []; // don't generate chart data yet
+    }
+    if (isEmptyData) {
+      const ratios = new Array(6).fill(0).map(() => random(true));
+      const total = sum(ratios);
+      return ratios.map((ratio, index) => {
+        const percentage = (ratio / total) * 70 + 5;
+        return {
+          percentage,
+          color: chartBaseColors[index],
+        };
+      });
+    }
+    return coloredItems;
+  }, [isFetching, isEmptyData, coloredItems]);
   // #endregion memoized
 
   return (
@@ -149,17 +173,26 @@ export const TransactionBreakdown: React.FC<IAssetsProps> = ({ updatedSince, loa
                 error={error}
                 defaultLoaderOptions={{ height: '400px', width: '100%' }}
               >
-                {hasData ? (
+                {!noWallet ? (
                   <>
-                    <Grid container columnSpacing={2} flexWrap="nowrap" sx={{ px: 2, py: 2 }} alignItems="flex-start">
-                      <Grid item flex="0 1 auto">
+                    <Grid container columnSpacing={2} flexWrap="nowrap" sx={{ px: 2, py: 2 }} alignItems="center">
+                      <Grid item flex="0" sx={{ opacity: isEmptyData ? 0.4 : 1 }}>
                         <BreakdownChart
-                          items={coloredItems}
-                          total={primitivesUtils.convertFiatAmountDisplay(data?.total ?? 0)}
+                          items={chartItems}
+                          total={isEmptyData ? '$10.00' : primitivesUtils.convertFiatAmountDisplay(data?.total ?? 0)}
+                          showLabels={!isEmptyData}
                         />
                       </Grid>
-                      <Grid item container sx={{ mx: 4 }}>
-                        <Grid container item flex="1 1 auto" alignItems="flex-end" flexWrap="nowrap" sx={{ py: 1 }}>
+                      <Grid item container flexDirection="column" sx={{ mx: 4 }} minHeight={274}>
+                        {/* Header */}
+                        <Grid
+                          container
+                          item
+                          flex="0 1 auto"
+                          alignItems="flex-end"
+                          flexWrap="nowrap"
+                          sx={{ py: 1, borderBottom: '1px solid #E6E8F0' }}
+                        >
                           <Grid item flex="1 1 50%">
                             <Typography variant="overline" sx={{ color: '#6B7280' }}>
                               {capitalize(t('portfolio.breakdown.account'))}
@@ -171,16 +204,17 @@ export const TransactionBreakdown: React.FC<IAssetsProps> = ({ updatedSince, loa
                             </Typography>
                           </Grid>
                         </Grid>
-                        {tableData.map((item) => (
+                        {/* Rows */}
+                        {coloredItems.map((item, index) => (
                           <Grid
                             columnSpacing={0.5}
                             key={item.name}
                             container
                             item
-                            flex="1 1 auto"
                             alignItems="center"
                             flexWrap="nowrap"
-                            sx={{ borderTop: '1px solid #E6E8F0', py: 2 }}
+                            py={1.5}
+                            borderBottom={index != coloredItems.length - 1 ? '1px solid #E6E8F0' : ''}
                           >
                             <Grid container item flex="1 1 50%" alignItems="center">
                               <Grid item component={Dot} sx={{ color: item.color }} />
@@ -200,6 +234,13 @@ export const TransactionBreakdown: React.FC<IAssetsProps> = ({ updatedSince, loa
                             </Grid>
                           </Grid>
                         ))}
+                        {coloredItems.length < 5 && (
+                          <Grid container item flex="1 1 auto" alignItems="center" flexWrap="nowrap">
+                            <Typography variant="body2" textAlign="center">
+                              {t(`portfolio.breakdown.${coloredItems.length == 0 ? 'hintEmpty' : 'hintLT5'}`)}
+                            </Typography>
+                          </Grid>
+                        )}
                       </Grid>
                     </Grid>
                     {/* <Grid sx={{ px: 3, py: 2 }} container justifyContent="space-between" alignItems="center">
