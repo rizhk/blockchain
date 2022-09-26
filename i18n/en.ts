@@ -102,6 +102,20 @@ export const en = {
         trends: 'Trends',
         noTrendsCtaText: 'Once your wallets have been connected, you will see trends of your total holdings over time.',
       },
+      breakdown: {
+        $: 'Transaction Breakdown',
+        viewCompleteBreakdown: 'View complete breakdown',
+        account: 'Account',
+        expenditures: 'Expenditures',
+        totalAccounts: 'Total Accounts',
+        totalActivity: 'Total activity',
+        fetchError: 'Failed to get transaction breakdown',
+        allTypes: 'All Types',
+        type: {
+          in: 'Incoming',
+          out: 'Outgoing',
+        },
+      },
       transHis: {
         head: 'Transactions',
         title: 'Transactions',

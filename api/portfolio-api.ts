@@ -4,11 +4,13 @@ import { AttachmentApiResponse, BaseApiResponse } from 'types/response';
 import {
   AssetsResponse,
   CreateUserTagResponse,
+  GetTransactionBreakdownResponse,
   GetTrendsResponse,
   GetUserTagsResponse,
   GetWalletActivitiesResponse,
   GetWalletSyncStatusResponse,
   IExportTransactionFilters,
+  ITransactionBreakdownFilters,
   ITransactionHistoryFilters,
   IWalletActivitiesFilters,
   TransactionHistory,
@@ -291,6 +293,56 @@ class PortfolioApi extends BaseApi {
       ...options,
     });
     return data;
+  }
+  async getUserTransactionBreakdown(
+    options: { defaultErrorMessage: string },
+    filters?: ITransactionBreakdownFilters,
+  ): Promise<GetTransactionBreakdownResponse> {
+    const accessToken = globalThis.localStorage.getItem('accessToken') || '';
+    const filterParams = new URLSearchParams({
+      ...(filters?.start_date ? { start_date: format(filters.start_date, 'yyyy-MM-dd') } : {}),
+      ...(filters?.end_date ? { end_date: format(filters.end_date, 'yyyy-MM-dd') } : {}),
+    });
+    if (filters?.wallet) {
+      filters.wallet?.forEach((w) => {
+        filterParams.append('wallet[]', w);
+      });
+    }
+    // only apply type filter when one of them is selected
+    if (filters?.types && filters.types.length == 1) {
+      filterParams.append('type', filters.types[0]);
+    }
+    var result = await fetch(`${PortfolioApiEndPoints.GetUserTransactionBreakdown}?${filterParams}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authentication: accessToken,
+      },
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
+    });
+    var data = await this.handleFetchResponse<GetTransactionBreakdownResponse>(result, {
+      ...options,
+    });
+    return data;
+
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    const testData = {
+      total: 86_394_298.22,
+      item_count: 86,
+      items: [
+        { name: 'Payroll', currency_iso3: 'USD', currency_symbol: '$', percentage: 40, value: 2_385_289 },
+        { name: 'Equipment', currency_iso3: 'USD', currency_symbol: '$', percentage: 40, value: 2_385_289 },
+        { name: 'Consultancy services', currency_iso3: 'USD', currency_symbol: '$', percentage: 20, value: 1_134_632 },
+        { name: 'Rent', currency_iso3: 'USD', currency_symbol: '$', percentage: 15, value: 781_289 },
+        { name: 'Entertainment', currency_iso3: 'USD', currency_symbol: '$', percentage: 5, value: 65_291 },
+        { name: 'Others', currency_iso3: 'USD', currency_symbol: '$', percentage: 2, value: 65_291 },
+      ],
+    };
+    return {
+      error: false,
+      ...testData,
+    };
   }
   async getTrends(options: { defaultErrorMessage: string }): Promise<GetTrendsResponse> {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
