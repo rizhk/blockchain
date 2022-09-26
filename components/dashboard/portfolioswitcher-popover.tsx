@@ -1,13 +1,20 @@
 import type { FC } from 'react';
+import { useState } from 'react';
+
 import PropTypes from 'prop-types';
 import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { Box, ListItemIcon, ListItemText, MenuItem, Popover, Typography } from '@mui/material';
 
-interface BlackPinkPopoverProps {
+import { portfolioApi } from 'api/portfolio-api';
+
+import useFetch from 'hooks/use-fetch';
+
+interface PortfolioSwitcherProps {
   anchorEl: null | Element;
   onClose?: () => void;
   open?: boolean;
+  setOption?: (name: any) => void;
 }
 
 interface Items {
@@ -58,14 +65,13 @@ const data: Data = {
   ],
 };
 
-export const BlackPinkPopover: FC<BlackPinkPopoverProps> = (props) => {
-  const { anchorEl, onClose, open, ...other } = props;
+export const PortfolioSwitcherPopover: FC<PortfolioSwitcherProps> = (props) => {
+  const { anchorEl, onClose, open, setOption, ...other } = props;
   const { i18n, t } = useTranslation();
 
-  const handleChange = async (language: Language): Promise<void> => {
+  const handleChange = async (item: any): Promise<void> => {
     onClose?.();
-    await i18n.changeLanguage(language);
-    toast.success(t('Language changed') as string);
+    setOption(item.name);
   };
 
   return (
@@ -103,8 +109,9 @@ export const BlackPinkPopover: FC<BlackPinkPopoverProps> = (props) => {
   );
 };
 
-BlackPinkPopover.propTypes = {
+PortfolioSwitcherPopover.propTypes = {
   anchorEl: PropTypes.any,
   onClose: PropTypes.func,
   open: PropTypes.bool,
+  setOption: PropTypes.func,
 };

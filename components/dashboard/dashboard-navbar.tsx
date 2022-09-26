@@ -31,7 +31,7 @@ import { ContactsPopover } from './contacts-popover';
 import { ContentSearchDialog } from './content-search-dialog';
 import { NotificationsPopover } from './notifications-popover';
 import { LanguagePopover } from './language-popover';
-import { BlackPinkPopover } from './blackpink-popover';
+import { PortfolioSwitcherPopover } from './portfolioswitcher-popover';
 import { useAuth } from 'hooks/use-auth';
 import { nameInitials } from 'utils/profile';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -98,11 +98,13 @@ const LanguageButton = () => {
   );
 };
 
-const BlackPinkButton = () => {
+const PortfolioSwitcherButton = () => {
   const { t } = useTranslation();
   const anchorRef = useRef<HTMLButtonElement | null>(null);
+  const popoverRef = useRef<HTMLButtonElement | null>(null);
   const { i18n } = useTranslation();
   const [openPopover, setOpenPopover] = useState<boolean>(false);
+  const [selectedOption, setSelectedOption] = useState<string>('');
 
   const handleOpenPopover = (): void => {
     setOpenPopover(true);
@@ -110,6 +112,10 @@ const BlackPinkButton = () => {
 
   const handleClosePopover = (): void => {
     setOpenPopover(false);
+  };
+
+  const setOption = (name: string): void => {
+    setSelectedOption(name);
   };
 
   return (
@@ -130,12 +136,17 @@ const BlackPinkButton = () => {
               pr: '10px',
             }}
           >
-            {t('portfolio.dashboard.blackPink')}
+            {selectedOption}
           </Typography>
           <ArrowDropDownIcon />
         </Box>
       </IconButton>
-      <BlackPinkPopover anchorEl={anchorRef.current} onClose={handleClosePopover} open={openPopover} />
+      <PortfolioSwitcherPopover
+        anchorEl={anchorRef.current}
+        onClose={handleClosePopover}
+        open={openPopover}
+        setOption={setOption}
+      />
     </>
   );
 };
@@ -354,7 +365,7 @@ export const DashboardNavbar: FC<DashboardNavbarProps> = (props) => {
           >
             <MenuIcon fontSize="small" />
           </IconButton>
-          <BlackPinkButton />
+          <PortfolioSwitcherButton />
           <Box sx={{ flexGrow: 1 }} />
           {/* <LanguageButton /> */}
           {/* <ContentSearchButton /> */}
