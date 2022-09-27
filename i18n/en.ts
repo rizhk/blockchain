@@ -123,10 +123,8 @@ export const en = {
           in: 'Incoming',
           out: 'Outgoing',
         },
-        hintEmpty:
-          'You can assign accounts to each of your\n transactions once you have them. The breakdown\n of the top 5 of your accounts will be shown here.',
-        hintLT5:
-          'Assign accounts to more of your\n transactions. The breakdown of the top 5 of\n your accounts will be shown here.',
+        hintEmpty: 'Assign accounts to your transactions\n to see your spending breakdown.',
+        hintLT5: 'Assign accounts to your transactions\n to see your spending breakdown.',
       },
       transHis: {
         head: 'Transactions',
@@ -192,7 +190,7 @@ export const en = {
         all: 'All Wallets',
         types: 'All Types',
         statuses: 'All Statuses',
-        tags: 'All Assigned',
+        tags: 'All Accounts',
         success: 'Success',
         failed: 'Failed',
         sortBy: 'Sort by',
@@ -205,9 +203,9 @@ export const en = {
         last6m: 'Last 6 months',
         lastYr: 'Last Year',
         custom: 'Custom Date Range',
-        allTagUntag: 'All Assigned & Unassigned',
-        allTagged: 'All Assigned',
-        allUntagged: 'All Unassigned',
+        allTagUntag: 'All',
+        allTagged: 'Assigned',
+        allUntagged: 'Unassigned',
       },
       walletList: {
         myWallets: 'My Wallets',
