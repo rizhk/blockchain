@@ -44,10 +44,10 @@ export const BreakdownChart: FC<BreakdownChartProps> = ({ items, total, showLabe
         </Pie>
       </PieChart>
       <Stack sx={{ inset: '30px' }} position="absolute" justifyContent="center" alignItems="center">
-        <Typography variant="overline" lineHeight={1.125}>
+        <Typography variant="subtitle2" lineHeight={1.125}>
           {total}
         </Typography>
-        <Typography variant="caption" color="#9CA3AF">
+        <Typography variant="subtitle2" color="#9CA3AF">
           {t('portfolio.breakdown.totalActivity')}
         </Typography>
       </Stack>

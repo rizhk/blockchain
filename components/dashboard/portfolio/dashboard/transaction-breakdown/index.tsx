@@ -175,7 +175,7 @@ export const TransactionBreakdown: React.FC<IAssetsProps> = ({ updatedSince, loa
               >
                 {!noWallet ? (
                   <>
-                    <Grid container columnSpacing={2} flexWrap="nowrap" sx={{ px: 2, py: 2 }} alignItems="center">
+                    <Grid container columnSpacing={2} flexWrap="nowrap" sx={{ px: 2, py: 2 }} alignItems="flex-start">
                       <Grid item flex="0" sx={{ opacity: isEmptyData ? 0.4 : 1 }}>
                         <BreakdownChart
                           items={chartItems}
@@ -235,8 +235,20 @@ export const TransactionBreakdown: React.FC<IAssetsProps> = ({ updatedSince, loa
                           </Grid>
                         ))}
                         {coloredItems.length < 5 && (
-                          <Grid container item flex="1 1 auto" alignItems="center" flexWrap="nowrap">
-                            <Typography variant="body2" textAlign="center">
+                          <Grid
+                            container
+                            item
+                            flex="1 1 auto"
+                            alignItems="center"
+                            flexWrap="nowrap"
+                            borderTop={'1px solid #E6E8F0'}
+                          >
+                            <Typography
+                              variant="subtitle2"
+                              textAlign="center"
+                              color="#9CA3AF"
+                              sx={{ mt: 3, mx: 'auto' }}
+                            >
                               {t(`portfolio.breakdown.${coloredItems.length == 0 ? 'hintEmpty' : 'hintLT5'}`)}
                             </Typography>
                           </Grid>
