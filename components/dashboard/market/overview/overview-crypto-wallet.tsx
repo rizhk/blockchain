@@ -2,9 +2,9 @@ import type { FC } from 'react';
 import type { ApexOptions } from 'apexcharts';
 import { Avatar, Box, Button, Card, CardActions, Divider, Typography, CardContent, Grid } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
-import { ArrowRight as ArrowRightIcon } from '../../../icons/arrow-right';
-import { ChevronUp as ChevronUpIcon } from '../../../icons/chevron-up';
-import { Chart } from '../../chart';
+import { ArrowRight as ArrowRightIcon } from '../../../../icons/arrow-right';
+import { ChevronUp as ChevronUpIcon } from '../../../../icons/chevron-up';
+import { Chart } from '../../../chart';
 import { Metamask as MetamaskIcon } from '../../../icons/metamask';
 import { primitivesUtils } from 'utils/primitives-utils';
 

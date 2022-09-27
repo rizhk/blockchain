@@ -2,9 +2,9 @@ import type { FC } from 'react';
 import type { ApexOptions } from 'apexcharts';
 import { Avatar, Box, Button, Card, CardActions, Divider, Typography, CardContent, Grid } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
-import { ArrowRight as ArrowRightIcon } from '../../../icons/arrow-right';
+import { ArrowRight as ArrowRightIcon } from '../../../../icons/arrow-right';
 
-import { Picante as PicanteIcon } from '../../../icons/picante';
+import { Picante as PicanteIcon } from '../../../../icons/picante';
 
 export const OverviewPicanteBalance: FC = (props) => {
   const theme = useTheme();

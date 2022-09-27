@@ -7,9 +7,9 @@ import { gtm } from '../../lib/gtm';
 import { useMounted } from 'hooks/use-mounted';
 import { walletApi } from 'api/wallet-api';
 import { Wallet } from 'types/wallet';
-import { WalletList } from 'components/dashboard/wallets/wallet-list';
+import { WalletList } from 'components/dashboard/market/wallets/wallet-list';
 import { Box, Button, Container, Grid, Modal, Typography } from '@mui/material';
-import { CreateWalletDialogs } from 'components/dashboard/wallets/create-wallet-modal';
+import { CreateWalletDialogs } from 'components/dashboard/market/wallets/create-wallet-modal';
 
 const Wallets: NextPage = () => {
   const isMounted = useMounted();
