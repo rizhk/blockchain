@@ -23,6 +23,7 @@ import { useWalletData } from 'hooks/use-wallet-data';
 import { WalletSync } from 'components/dashboard/portfolio/wallet/wallet-sync';
 import { WalletActivities } from 'components/dashboard/portfolio/dashboard/wallet-activities';
 import { Trends } from 'components/dashboard/portfolio/dashboard/trends';
+import { TransactionBreakdown } from 'components/dashboard/portfolio/dashboard/transaction-breakdown';
 
 const Portfolio: NextPage = () => {
   const isMounted = useMounted();
@@ -92,6 +93,13 @@ const Portfolio: NextPage = () => {
               />
               <Box sx={{ mb: 4 }}></Box>
               <Assets
+                updatedSince={updatedSince}
+                loading={getAllWalletsIsLoading}
+                noWallet={walletsData?.noWallet}
+                wallets={walletsData?.wallet}
+              />
+              <Box sx={{ mb: 4 }}></Box>
+              <TransactionBreakdown
                 updatedSince={updatedSince}
                 loading={getAllWalletsIsLoading}
                 noWallet={walletsData?.noWallet}

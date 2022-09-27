@@ -7,9 +7,9 @@ import { gtm } from '../../lib/gtm';
 import { useMounted } from 'hooks/use-mounted';
 import { bankAccountApi } from 'api/bank-account-api';
 import { BankAccount } from 'types/bank-account';
-import { BankAccountList } from 'components/dashboard/bank-account/bank-account-list';
+import { BankAccountList } from 'components/dashboard/market/bank-account/bank-account-list';
 import { Box, Button, Container, Grid, Modal, Typography } from '@mui/material';
-import { CreateBankAccountDialogs } from 'components/dashboard/bank-account/create-bank-account-modal';
+import { CreateBankAccountDialogs } from 'components/dashboard/market/bank-account/create-bank-account-modal';
 
 const BankAccounts: NextPage = () => {
   const isMounted = useMounted();
