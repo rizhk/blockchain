@@ -205,40 +205,41 @@ export const TransactionBreakdown: React.FC<IAssetsProps> = ({ updatedSince, loa
                           </Grid>
                         </Grid>
                         {/* Rows */}
-                        {coloredItems.map((item, index) => (
-                          <Grid
-                            columnSpacing={0.5}
-                            key={item.name}
-                            container
-                            item
-                            alignItems="center"
-                            flexWrap="nowrap"
-                            py={1.5}
-                            borderBottom={index != coloredItems.length - 1 ? '1px solid #E6E8F0' : ''}
-                          >
-                            <Grid container item flex="1 1 50%" alignItems="center">
-                              <Grid item component={Dot} sx={{ color: item.color }} />
-                              <Grid item>
-                                <Typography sx={{ pl: 1 }} variant="subtitle2">
-                                  {item.name}
+                        {coloredItems.length > 0 &&
+                          coloredItems.map((item, index) => (
+                            <Grid
+                              columnSpacing={0.5}
+                              key={item.name}
+                              container
+                              item
+                              alignItems="center"
+                              flexWrap="nowrap"
+                              py={1.5}
+                              borderBottom={index != coloredItems.length - 1 ? '1px solid #E6E8F0' : ''}
+                            >
+                              <Grid container item flex="1 1 50%" alignItems="center">
+                                <Grid item component={Dot} sx={{ color: item.color }} />
+                                <Grid item>
+                                  <Typography sx={{ pl: 1 }} variant="subtitle2">
+                                    {item.name}
+                                  </Typography>
+                                </Grid>
+                              </Grid>
+                              <Grid container item flex="1 1 50%">
+                                <Typography variant="subtitle2">
+                                  {primitivesUtils.convertPercentageDisplay(item.percentage)}
+                                </Typography>
+                                <Typography variant="body2" sx={{ color: '#6B7280', fontWeight: 500, ml: 2 }}>
+                                  {primitivesUtils.convertFiatAmountDisplay(item.value)}
                                 </Typography>
                               </Grid>
                             </Grid>
-                            <Grid container item flex="1 1 50%">
-                              <Typography variant="subtitle2">
-                                {primitivesUtils.convertPercentageDisplay(item.percentage)}
-                              </Typography>
-                              <Typography variant="body2" sx={{ color: '#6B7280', fontWeight: 500, ml: 2 }}>
-                                {primitivesUtils.convertFiatAmountDisplay(item.value)}
-                              </Typography>
-                            </Grid>
-                          </Grid>
-                        ))}
+                          ))}
                         {coloredItems.length < 5 && (
                           <Grid
                             container
                             item
-                            flex="1 1 auto"
+                            flex="0.5 1 auto"
                             alignItems="center"
                             flexWrap="nowrap"
                             borderTop={'1px solid #E6E8F0'}

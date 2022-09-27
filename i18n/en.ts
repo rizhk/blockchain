@@ -21,7 +21,7 @@ export const en = {
       notAvailable: 'N/A',
       options: {
         allWallets: 'All Wallets',
-        time: 'All time',
+        time: 'All Time',
         last30d: 'Last 30 days',
         last90d: 'Last 90 days',
         last6m: 'Last 6 months',
