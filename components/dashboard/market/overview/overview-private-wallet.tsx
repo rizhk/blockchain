@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import type { ApexOptions } from 'apexcharts';
 import { Avatar, Box, Button, Card, CardActions, Divider, Typography, CardContent, Grid } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
-import { ArrowRight as ArrowRightIcon } from '../../../icons/arrow-right';
+import { ArrowRight as ArrowRightIcon } from '../../../../icons/arrow-right';
 import { primitivesUtils } from 'utils/primitives-utils';
 
 const bankIcons = {

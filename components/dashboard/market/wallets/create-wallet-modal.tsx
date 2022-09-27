@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import { Box, FormHelperText, TextField } from '@mui/material';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { NetworkSelector } from '../network/network-selector';
+import { NetworkSelector } from '../../network/network-selector';
 import { walletApi } from 'api/wallet-api';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
