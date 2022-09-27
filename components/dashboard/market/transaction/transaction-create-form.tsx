@@ -17,9 +17,9 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { FileDropzone } from '../../file-dropzone';
-import type { File } from '../../file-dropzone';
-import { QuillEditor } from '../../quill-editor';
+import { FileDropzone } from '../../../file-dropzone';
+import type { File } from '../../../file-dropzone';
+import { QuillEditor } from '../../../quill-editor';
 
 const categoryOptions = [
   {
