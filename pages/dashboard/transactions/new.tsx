@@ -5,7 +5,7 @@ import Head from 'next/head';
 import { Box, Breadcrumbs, Container, Link, Typography } from '@mui/material';
 import { AuthGuard } from '../../../components/authentication/auth-guard';
 import { DashboardLayout } from '../../../components/dashboard/dashboard-layout';
-import { TransactionCreateForm } from '../../../components/dashboard/transaction/transaction-create-form';
+import { TransactionCreateForm } from '../../../components/dashboard/market/transaction/transaction-create-form';
 import { gtm } from '../../../lib/gtm';
 
 const TransactionCreate: NextPage = () => {

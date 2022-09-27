@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import numeral from 'numeral';
 import { Box, Button, Card, CardContent, Divider, List, ListItem, ListItemText, Typography } from '@mui/material';
-import { ArrowRight as ArrowRightIcon } from '../../../icons/arrow-right';
+import { ArrowRight as ArrowRightIcon } from '../../../../icons/arrow-right';
 
 interface Currency {
   amount: number;
