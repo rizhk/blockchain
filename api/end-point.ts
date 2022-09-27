@@ -40,5 +40,6 @@ export const PortfolioApiEndPoints = {
   RequestWalletSync: PicanteApiHost + '/v1/portfolio/wallet/sync/request',
   GetUserWalletActivities: PicanteApiHost + '/v1/portfolio/wallet/activity',
   GetWalletTrends: PicanteApiHost + '/v1/portfolio/trends',
+  GetUserTransactionBreakdown: PicanteApiHost + '/v1/portfolio/transaction-breakdown',
   CreatePortfolio: PicanteApiHost + '/v1/portfolio/',
 };

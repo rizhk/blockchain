@@ -110,6 +110,24 @@ export const en = {
         noTrendsCtaText: 'Once your wallets have been connected, you will see trends of your total holdings over time.',
         blackPink: 'Blankpink',
       },
+      breakdown: {
+        $: 'Transaction Breakdown',
+        viewCompleteBreakdown: 'View complete breakdown',
+        account: 'Account',
+        expenditures: 'Expenditures',
+        totalAccounts: 'Total Accounts',
+        totalActivity: 'Total activity',
+        fetchError: 'Failed to get transaction breakdown',
+        allTypes: 'All Types',
+        type: {
+          in: 'Incoming',
+          out: 'Outgoing',
+        },
+        hintEmpty:
+          'You can assign accounts to each of your\n transactions once you have them. The breakdown\n of the top 5 of your accounts will be shown here.',
+        hintLT5:
+          'Assign accounts to more of your\n transactions. The breakdown of the top 5 of\n your accounts will be shown here.',
+      },
       transHis: {
         head: 'Transactions',
         title: 'Transactions',

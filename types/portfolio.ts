@@ -143,6 +143,22 @@ export interface GetWalletActivitiesResponse extends BaseApiResponse {
   profit_and_loss: string;
 }
 
+export interface TransactionBreakdownItem {
+  name: string;
+  percentage: number;
+  currency_iso3: string;
+  currency_symbol: string;
+  value: number;
+}
+export interface ITransactionBreakdownFilters extends IWalletActivitiesFilters {
+  types?: ('in' | 'out')[];
+}
+export interface GetTransactionBreakdownResponse extends BaseApiResponse {
+  total: number;
+  item_count: number;
+  items: TransactionBreakdownItem[];
+}
+
 export interface WalletSyncStatus {
   isInProgress: boolean;
   isCompleted: boolean;
