@@ -115,6 +115,10 @@ export const en = {
           in: 'Incoming',
           out: 'Outgoing',
         },
+        hintEmpty:
+          'You can assign accounts to each of your\n transactions once you have them. The breakdown\n of the top 5 of your accounts will be shown here.',
+        hintLT5:
+          'Assign accounts to more of your\n transactions. The breakdown of the top 5 of\n your accounts will be shown here.',
       },
       transHis: {
         head: 'Transactions',
