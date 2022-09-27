@@ -23,13 +23,13 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { ChevronDown as ChevronDownIcon } from '../../../icons/chevron-down';
-import { ChevronRight as ChevronRightIcon } from '../../../icons/chevron-right';
-import { DotsHorizontal as DotsHorizontalIcon } from '../../../icons/dots-horizontal';
-import { Image as ImageIcon } from '../../../icons/image';
-import type { Transaction } from '../../../types/transaction';
-import { Scrollbar } from '../../scrollbar';
-import { SeverityPill } from '../../severity-pill';
+import { ChevronDown as ChevronDownIcon } from '../../../../icons/chevron-down';
+import { ChevronRight as ChevronRightIcon } from '../../../../icons/chevron-right';
+import { DotsHorizontal as DotsHorizontalIcon } from '../../../../icons/dots-horizontal';
+import { Image as ImageIcon } from '../../../../icons/image';
+import type { Transaction } from '../../../../types/transaction';
+import { Scrollbar } from '../../../scrollbar';
+import { SeverityPill } from '../../../severity-pill';
 import { TransactionsListDetails } from './transactions-list-details';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 

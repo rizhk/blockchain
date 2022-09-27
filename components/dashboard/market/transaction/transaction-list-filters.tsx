@@ -2,9 +2,9 @@ import { useMemo, useState } from 'react';
 import type { ChangeEvent, FC, KeyboardEvent } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Chip, Divider, Input, Typography } from '@mui/material';
-import { useUpdateEffect } from '../../../hooks/use-update-effect';
-import { Search as SearchIcon } from '../../../icons/search';
-import { MultiSelect } from '../../multi-select';
+import { useUpdateEffect } from 'hooks/use-update-effect';
+import { Search as SearchIcon } from 'icons/search';
+import { MultiSelect } from 'components/multi-select';
 import { transactionTypeOptions, transactionStatusOptions, transactionRecentOptions } from 'types/transaction';
 
 export interface Filters {
