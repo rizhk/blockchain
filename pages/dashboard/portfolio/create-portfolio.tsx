@@ -134,7 +134,7 @@ const CreatePortfolio: NextPage = () => {
           Dashboard: {`${t('portfolio.add')}`} | {process.env.NEXT_PUBLIC_PAGE_TITLE_SUFFEX}
         </title>
       </Head>
-      <Collapse in={formik.values.success || (formik.errors.submit != undefined && formik.errors.submit.length > 0)}>
+      <Collapse in={!formik.values.success || (formik.errors.submit != undefined && formik.errors.submit.length > 0)}>
         <Alert icon={false} severity={formik.errors.submit == undefined ? 'success' : 'error'}>
           {formik.errors.submit ? formik.errors.submit : t('portfolio.addSuccess')}
         </Alert>

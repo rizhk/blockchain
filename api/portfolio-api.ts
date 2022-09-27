@@ -312,13 +312,15 @@ class PortfolioApi extends BaseApi {
   }
 
   async createPortfolio(
-    body: { full_name: string; profile_pic: Blob; base_currency: string },
+    body: { full_name: string; profile_pic?: Blob; base_currency: string },
     options: { defaultErrorMessage: string },
   ): Promise<CreatePortfolioResponse> {
     const accessToken = globalThis.localStorage.getItem('accessToken') || '';
 
     const req = new FormData();
-    req.append('profile_pic', body.profile_pic, 'avatar.png');
+    if (body.profile_pic) {
+      req.append('profile_pic', body.profile_pic, 'avatar.png');
+    }
     req.append('full_name', body.full_name);
     req.append('base_currency', body.base_currency);
 
