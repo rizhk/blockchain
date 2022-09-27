@@ -1,9 +1,10 @@
 import { useRef, useState } from 'react';
 import type { FC } from 'react';
 import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
+
 import {
   AppBar,
   Avatar,
@@ -30,9 +31,11 @@ import { ContactsPopover } from './contacts-popover';
 import { ContentSearchDialog } from './content-search-dialog';
 import { NotificationsPopover } from './notifications-popover';
 import { LanguagePopover } from './language-popover';
+import { BlackPinkPopover } from './blackpink-popover';
 import { useAuth } from 'hooks/use-auth';
 import { nameInitials } from 'utils/profile';
 import LogoutIcon from '@mui/icons-material/Logout';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 interface DashboardNavbarProps extends AppBarProps {
   onOpenSidebar?: () => void;
@@ -91,6 +94,48 @@ const LanguageButton = () => {
         </Box>
       </IconButton>
       <LanguagePopover anchorEl={anchorRef.current} onClose={handleClosePopover} open={openPopover} />
+    </>
+  );
+};
+
+const BlackPinkButton = () => {
+  const { t } = useTranslation();
+  const anchorRef = useRef<HTMLButtonElement | null>(null);
+  const { i18n } = useTranslation();
+  const [openPopover, setOpenPopover] = useState<boolean>(false);
+
+  const handleOpenPopover = (): void => {
+    setOpenPopover(true);
+  };
+
+  const handleClosePopover = (): void => {
+    setOpenPopover(false);
+  };
+
+  return (
+    <>
+      <IconButton onClick={handleOpenPopover} ref={anchorRef} sx={{ ml: 1 }}>
+        <Box
+          sx={{
+            display: 'flex',
+          }}
+        >
+          <Typography
+            sx={{
+              color: '#111827',
+              fontStyle: 'normal',
+              fontWeight: 500,
+              fontSize: '0.875rem',
+              pl: '10px',
+              pr: '10px',
+            }}
+          >
+            {t('portfolio.dashboard.blackPink')}
+          </Typography>
+          <ArrowDropDownIcon />
+        </Box>
+      </IconButton>
+      <BlackPinkPopover anchorEl={anchorRef.current} onClose={handleClosePopover} open={openPopover} />
     </>
   );
 };
@@ -309,8 +354,8 @@ export const DashboardNavbar: FC<DashboardNavbarProps> = (props) => {
           >
             <MenuIcon fontSize="small" />
           </IconButton>
+          <BlackPinkButton />
           <Box sx={{ flexGrow: 1 }} />
-
           {/* <LanguageButton /> */}
           {/* <ContentSearchButton /> */}
           {/* <ContactsButton /> */}

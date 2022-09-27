@@ -3,6 +3,7 @@ import { BaseApi } from './base-api';
 import { AttachmentApiResponse, BaseApiResponse } from 'types/response';
 import {
   AssetsResponse,
+  CreatePortfolioResponse,
   CreateUserTagResponse,
   GetTransactionBreakdownResponse,
   GetTrendsResponse,
@@ -357,6 +358,34 @@ class PortfolioApi extends BaseApi {
       throw new Error(options.defaultErrorMessage);
     });
     var data = await this.handleFetchResponse<GetTrendsResponse>(result, {
+      ...options,
+    });
+    return data;
+  }
+
+  async createPortfolio(
+    body: { full_name: string; profile_pic?: Blob; base_currency: string },
+    options: { defaultErrorMessage: string },
+  ): Promise<CreatePortfolioResponse> {
+    const accessToken = globalThis.localStorage.getItem('accessToken') || '';
+
+    const req = new FormData();
+    if (body.profile_pic) {
+      req.append('profile_pic', body.profile_pic, 'avatar.png');
+    }
+    req.append('full_name', body.full_name);
+    req.append('base_currency', body.base_currency);
+
+    var result = await fetch(PortfolioApiEndPoints.CreatePortfolio, {
+      method: 'POST',
+      headers: {
+        Authentication: accessToken,
+      },
+      body: req,
+    }).catch(() => {
+      throw new Error(options.defaultErrorMessage);
+    });
+    var data = await this.handleFetchResponse<CreatePortfolioResponse>(result, {
       ...options,
     });
     return data;
