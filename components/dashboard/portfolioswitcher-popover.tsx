@@ -17,57 +17,21 @@ interface PortfolioSwitcherProps {
   setOption?: (name: any) => void;
 }
 
-interface Items {
-  id: string;
-  name?: string;
-  profile_pic_url?: string;
-  base_currency: string;
-  created_at?: string;
-  updated_at: string;
-}
-interface Data {
-  selected?: string;
-  count?: number;
-  items: Items[];
-}
-
-const data: Data = {
-  selected: 'c9f0d8286d189de6ee4d614f6176c6e0ba5abb09d08c5151ff1f5dd4de228156',
-  count: 3,
-  items: [
-    {
-      id: 'c9f0d8286d189de6ee4d614f6176c6e0ba5abb09d08c5151ff1f5dd4de228156',
-      name: 'Personal',
-      profile_pic_url:
-        'https://d2b5do6l860fxo.cloudfront.net/dev_c9f0d8286d189de6ee4d614f6176c6e0ba5abb09d08c5151ff1f5dd4de228156/profile.png',
-      base_currency: 'USD',
-      created_at: '2022-08-31T06:16:42.343242342',
-      updated_at: '2022-08-31T06:16:42.343242342',
-    },
-    {
-      id: '01GDNT8WFN19F7J3PMYWG12M2Q',
-      name: 'Sanity',
-      profile_pic_url:
-        'https://d2b5do6l860fxo.cloudfront.net/dev_01GDNT8WFN19F7J3PMYWG12M2Q/01GDNT8WFN41SDK9S085XJQYC2.jpg',
-      base_currency: 'USD',
-      created_at: '2022-08-31T06:16:42.343242342',
-      updated_at: '2022-08-31T06:16:42.343242342',
-    },
-    {
-      id: '01GDNM223VVD1QYRSZ9RKNXXR6',
-      name: 'Jie Yang Song',
-      profile_pic_url:
-        'https://d2b5do6l860fxo.cloudfront.net/dev_01GDNM223VVD1QYRSZ9RKNXXR6/01GDNM223VJG70Z7D0P073G4WG.png',
-      base_currency: 'USD',
-      created_at: '2022-08-31T06:16:42.343242342',
-      updated_at: '2022-08-31T06:16:42.343242342',
-    },
-  ],
-};
-
 export const PortfolioSwitcherPopover: FC<PortfolioSwitcherProps> = (props) => {
   const { anchorEl, onClose, open, setOption, ...other } = props;
   const { i18n, t } = useTranslation();
+
+  const { data } = useFetch(async () => {
+    let data = await portfolioApi.Authme();
+    let portfolio = data?.me?.portfolio;
+    let selected = portfolio?.selected;
+    for (var item of portfolio.items) {
+      if (item.id == selected) {
+        setOption(item.name);
+      }
+    }
+    return data;
+  }, []);
 
   const handleChange = async (item: any): Promise<void> => {
     onClose?.();
@@ -88,7 +52,7 @@ export const PortfolioSwitcherPopover: FC<PortfolioSwitcherProps> = (props) => {
       transitionDuration={0}
       {...other}
     >
-      {data.items.map((item) => (
+      {data?.me?.portfolio?.items?.map((item) => (
         <MenuItem onClick={() => handleChange(item)} key={item}>
           <ListItemIcon>
             <Box

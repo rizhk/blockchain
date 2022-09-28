@@ -1,4 +1,5 @@
 import { PortfolioApiEndPoints } from './end-point';
+import { PicanteApi } from './end-point';
 import { BaseApi } from './base-api';
 import { AttachmentApiResponse, BaseApiResponse } from 'types/response';
 import {
@@ -18,6 +19,7 @@ import {
   TransactionHistoryResponse,
   UpdateTransactionHistoryResponse,
   WalletResponse,
+  AuthmeResponse,
 } from 'types/portfolio';
 import { format } from 'date-fns-tz';
 
@@ -387,6 +389,24 @@ class PortfolioApi extends BaseApi {
     });
     var data = await this.handleFetchResponse<CreatePortfolioResponse>(result, {
       ...options,
+    });
+    return data;
+  }
+
+  async Authme(): Promise<AuthmeResponse> {
+    const accessToken = globalThis.localStorage.getItem('accessToken') || '';
+    console.log('accessToken' + accessToken);
+
+    var result = await fetch(PicanteApi.AuthMe, {
+      method: 'POST',
+      headers: {
+        Authentication: accessToken,
+      },
+    }).catch((e: any) => {
+      throw new Error(e.message);
+    });
+    var data = await this.handleFetchResponse<AuthmeResponse>(result, {
+      defaultErrorMessage: 'Error Authme',
     });
     return data;
   }

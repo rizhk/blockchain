@@ -222,3 +222,29 @@ export interface Portfolio {
 export interface CreatePortfolioResponse extends BaseApiResponse {
   portfolio: Portfolio;
 }
+
+interface AuthmeItem {
+  id: string;
+  name?: string;
+  profile_pic_url?: string;
+  base_currency: string;
+  created_at?: string;
+  updated_at: string;
+}
+interface AuthmePortfolio {
+  selected?: string;
+  count?: number;
+  items: AuthmeItem[];
+}
+
+export interface AuthmeResponse extends BaseApiResponse {
+  error: boolean;
+  me: {
+    email: string;
+    full_name: string;
+    skip_tutorial: boolean;
+    email_is_verified: boolean;
+    profile_pic_url: string;
+    portfolio: AuthmePortfolio;
+  };
+}
